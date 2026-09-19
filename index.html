@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -24,25 +23,168 @@
       font: inherit;
     }
 
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
     .app {
       max-width: 720px;
       margin: 0 auto;
-      padding: 20px 16px 50px;
+      padding: 14px 16px 50px;
     }
 
-    header {
-      margin-bottom: 24px;
+    /* =====================================================
+       TOPBAR
+    ===================================================== */
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      position: relative;
     }
 
-    h1 {
-      margin: 0 0 6px;
-      font-size: 30px;
+    .brand {
+      font-size: 19px;
+      font-weight: 700;
+      color: #303238;
     }
 
-    .subtitle {
-      color: #6b7280;
+    .menu-button {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      cursor: pointer;
+      font-size: 23px;
+      line-height: 1;
+    }
+
+    .menu-dropdown {
+      position: absolute;
+      top: 50px;
+      right: 0;
+      width: 210px;
+      background: white;
+      border-radius: 15px;
+      padding: 7px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+      z-index: 900;
+      display: none;
+    }
+
+    .menu-dropdown.show {
+      display: block;
+    }
+
+    .menu-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 12px 13px;
+      border-radius: 10px;
+      cursor: pointer;
       font-size: 15px;
     }
+
+    .menu-item:hover,
+    .menu-item:active {
+      background: #f1f2f4;
+    }
+
+    /* =====================================================
+       TABS
+    ===================================================== */
+
+    .tabs-wrapper {
+      margin-bottom: 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tabs-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 7px;
+      min-width: max-content;
+      background: #e9ebee;
+      padding: 5px;
+      border-radius: 14px;
+    }
+
+    .tab {
+      border: 0;
+      background: transparent;
+      color: #666b73;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      background: white;
+      color: #202124;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+    }
+
+    /* =====================================================
+       VIEWS
+    ===================================================== */
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .task-tab {
+      display: none;
+    }
+
+    .task-tab.active {
+      display: block;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .page-header h1 {
+      margin: 0;
+      font-size: 25px;
+    }
+
+    .back-button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      margin-bottom: 18px;
+      font-size: 15px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    /* =====================================================
+       SECTIONS
+    ===================================================== */
 
     .section {
       margin-bottom: 26px;
@@ -53,17 +195,30 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
     }
 
     .section-title {
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 700;
     }
 
     .section-count {
       color: #6b7280;
-      font-size: 14px;
+      font-size: 13px;
+    }
+
+    .section-add {
+      border: 0;
+      background: white;
+      color: #4d647d;
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      white-space: nowrap;
     }
 
     .add-button {
@@ -72,12 +227,16 @@
       background: white;
       border-radius: 14px;
       padding: 14px 16px;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 1px 3px rgba(0,0,0,0.07);
     }
+
+    /* =====================================================
+       TASKS
+    ===================================================== */
 
     .task-list {
       display: flex;
@@ -93,12 +252,19 @@
       align-items: center;
       gap: 12px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-      cursor: pointer;
-      transition: transform 0.1s;
+      transition: transform 0.1s, opacity 0.15s;
     }
 
-    .task:active {
+    .task.clickable {
+      cursor: pointer;
+    }
+
+    .task.clickable:active {
       transform: scale(0.99);
+    }
+
+    .task.completed {
+      opacity: 0.72;
     }
 
     .status-dot {
@@ -106,7 +272,7 @@
       height: 11px;
       border-radius: 50%;
       flex-shrink: 0;
-      background: #d1d5db;
+      background: #c7cbd1;
     }
 
     .status-dot.green {
@@ -162,27 +328,25 @@
       height: 34px;
       border-radius: 10px;
       cursor: pointer;
+      font-size: 18px;
     }
 
-    .nav {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 28px;
-    }
+    /* =====================================================
+       EMPTY
+    ===================================================== */
 
-    .nav-button {
-      border: 0;
+    .empty {
+      color: #777;
       background: white;
+      padding: 18px;
       border-radius: 14px;
-      padding: 15px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+      text-align: center;
+      line-height: 1.45;
     }
 
-    /* PUNTEN */
+    /* =====================================================
+       PUNTEN
+    ===================================================== */
 
     .points-card {
       margin-top: 12px;
@@ -262,7 +426,9 @@
       font-size: 13px;
     }
 
-    /* GESCHIEDENIS */
+    /* =====================================================
+       GESCHIEDENIS
+    ===================================================== */
 
     .history {
       margin-top: 14px;
@@ -308,7 +474,9 @@
       font-size: 13px;
     }
 
-    /* INSTELLINGEN */
+    /* =====================================================
+       INSTELLINGEN
+    ===================================================== */
 
     .settings-card {
       background: white;
@@ -364,10 +532,21 @@
       padding: 13px;
       font-weight: 700;
       cursor: pointer;
-      margin-top: 15px;
+      margin-top: 3px;
     }
 
-    /* MODAL */
+    .info-box {
+      background: #f0f1f3;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.45;
+    }
+
+    /* =====================================================
+       MODALS
+    ===================================================== */
 
     .modal-backdrop {
       position: fixed;
@@ -478,49 +657,6 @@
       cursor: pointer;
     }
 
-    .empty {
-      color: #777;
-      background: white;
-      padding: 18px;
-      border-radius: 14px;
-      text-align: center;
-      line-height: 1.45;
-    }
-
-    .info-box {
-      background: #f0f1f3;
-      border-radius: 12px;
-      padding: 12px;
-      font-size: 13px;
-      color: #666;
-      line-height: 1.45;
-    }
-
-    .view {
-      display: none;
-    }
-
-    .view.active {
-      display: block;
-    }
-
-    .back-button {
-      border: 0;
-      background: transparent;
-      padding: 0;
-      margin-bottom: 20px;
-      font-size: 15px;
-      cursor: pointer;
-      color: #555;
-    }
-
-    .section-description {
-      color: #777;
-      font-size: 13px;
-      margin: -3px 0 12px;
-      line-height: 1.4;
-    }
-
     @media (min-width: 700px) {
       .modal-backdrop {
         align-items: center;
@@ -537,106 +673,188 @@
 
 <div class="app">
 
-  <!-- REPETEREND -->
-  <div id="recurringView" class="view active">
+  <!-- =====================================================
+       TOPBAR
+  ====================================================== -->
 
-    <header>
-      <h1>🔄 Repeterend</h1>
-      <div class="subtitle">
-        Taken die volgens een vast ritme terugkomen
-      </div>
-    </header>
+  <div class="topbar">
+
+    <div class="brand">
+      🏠 Huishouden
+    </div>
 
     <button
-      class="add-button"
-      onclick="openTaskEditor('recurring')"
+      class="menu-button"
+      onclick="toggleMenu(event)"
+      aria-label="Menu"
     >
-      ＋ Repeterende taak toevoegen
+      ☰
     </button>
 
-    <div id="recurringSections"></div>
+    <div
+      id="menuDropdown"
+      class="menu-dropdown"
+    >
 
-    <div class="nav">
-      <button class="nav-button" onclick="showView('whenNeededView')">
-        ⚡ Wanneer nodig
-      </button>
-
-      <button class="nav-button" onclick="showView('laterView')">
-        📌 Later
-      </button>
-
-      <button class="nav-button" onclick="showView('pointsView')">
+      <button
+        class="menu-item"
+        onclick="openMenuView('pointsView')"
+      >
         📊 Punten
       </button>
 
-      <button class="nav-button" onclick="showView('historyView')">
+      <button
+        class="menu-item"
+        onclick="openMenuView('historyView')"
+      >
         📖 Geschiedenis
       </button>
 
-      <button class="nav-button" onclick="showView('settingsView')">
+      <button
+        class="menu-item"
+        onclick="openMenuView('settingsView')"
+      >
         ⚙️ Instellingen
       </button>
+
     </div>
 
   </div>
 
 
-  <!-- WANNEER NODIG -->
-  <div id="whenNeededView" class="view">
+  <!-- =====================================================
+       HOOFDWEERGAVE
+  ====================================================== -->
 
-    <button class="back-button" onclick="showView('recurringView')">
-      ← Terug
-    </button>
+  <div
+    id="mainView"
+    class="view active"
+  >
 
-    <header>
-      <h1>⚡ Wanneer nodig</h1>
-      <div class="subtitle">
-        Taken zonder vast tijdschema
+    <!-- TABS -->
+
+    <div class="tabs-wrapper">
+
+      <div class="tabs">
+
+        <button
+          class="tab active"
+          id="tabRecurring"
+          onclick="showTaskTab('recurring')"
+        >
+          Repeterend
+        </button>
+
+        <button
+          class="tab"
+          id="tabWhenNeeded"
+          onclick="showTaskTab('when_needed')"
+        >
+          Wanneer nodig
+        </button>
+
+        <button
+          class="tab"
+          id="tabLater"
+          onclick="showTaskTab('later')"
+        >
+          Later
+        </button>
+
       </div>
-    </header>
 
-    <button
-      class="add-button"
-      onclick="openTaskEditor('when_needed')"
+    </div>
+
+
+    <!-- ===================================================
+         REPETEREND
+    ==================================================== -->
+
+    <div
+      id="recurringTab"
+      class="task-tab active"
     >
-      ＋ Taak toevoegen
-    </button>
 
-    <div id="whenNeededList" class="task-list"></div>
+      <div id="recurringSections"></div>
+
+    </div>
+
+
+    <!-- ===================================================
+         WANNEER NODIG
+    ==================================================== -->
+
+    <div
+      id="whenNeededTab"
+      class="task-tab"
+    >
+
+      <div class="page-header">
+
+        <h1>Wanneer nodig</h1>
+
+      </div>
+
+      <button
+        class="add-button"
+        onclick="openTaskEditor('when_needed')"
+      >
+        ＋ Taak toevoegen
+      </button>
+
+      <div
+        id="whenNeededList"
+        class="task-list"
+      ></div>
+
+    </div>
+
+
+    <!-- ===================================================
+         LATER
+    ==================================================== -->
+
+    <div
+      id="laterTab"
+      class="task-tab"
+    >
+
+      <div class="page-header">
+
+        <h1>Later</h1>
+
+      </div>
+
+      <button
+        class="add-button"
+        onclick="openTaskEditor('later')"
+      >
+        ＋ Taak toevoegen
+      </button>
+
+      <div
+        id="laterList"
+        class="task-list"
+      ></div>
+
+    </div>
 
   </div>
 
 
-  <!-- LATER -->
-  <div id="laterView" class="view">
+  <!-- =====================================================
+       PUNTEN
+  ====================================================== -->
 
-    <button class="back-button" onclick="showView('recurringView')">
-      ← Terug
-    </button>
-
-    <header>
-      <h1>📌 Later</h1>
-      <div class="subtitle">
-        Dingen die je hebt opgemerkt maar nu nog niet kunt uitvoeren
-      </div>
-    </header>
+  <div
+    id="pointsView"
+    class="view"
+  >
 
     <button
-      class="add-button"
-      onclick="openTaskEditor('later')"
+      class="back-button"
+      onclick="showView('mainView')"
     >
-      ＋ Taak toevoegen
-    </button>
-
-    <div id="laterList" class="task-list"></div>
-
-  </div>
-
-
-  <!-- PUNTEN -->
-  <div id="pointsView" class="view">
-
-    <button class="back-button" onclick="showView('recurringView')">
       ← Terug
     </button>
 
@@ -647,13 +865,39 @@
       <div class="points-names">
 
         <div class="person-score">
-          <div class="person-name" id="youNameLabel">Jij</div>
-          <div class="person-number" id="youPoints">0</div>
+
+          <div
+            class="person-name"
+            id="youNameLabel"
+          >
+            Jij
+          </div>
+
+          <div
+            class="person-number"
+            id="youPoints"
+          >
+            0
+          </div>
+
         </div>
 
         <div class="person-score right">
-          <div class="person-name" id="partnerNameLabel">Partner</div>
-          <div class="person-number" id="partnerPoints">0</div>
+
+          <div
+            class="person-name"
+            id="partnerNameLabel"
+          >
+            Partner
+          </div>
+
+          <div
+            class="person-number"
+            id="partnerPoints"
+          >
+            0
+          </div>
+
         </div>
 
       </div>
@@ -689,24 +933,45 @@
   </div>
 
 
-  <!-- GESCHIEDENIS -->
-  <div id="historyView" class="view">
+  <!-- =====================================================
+       GESCHIEDENIS
+  ====================================================== -->
 
-    <button class="back-button" onclick="showView('recurringView')">
+  <div
+    id="historyView"
+    class="view"
+  >
+
+    <button
+      class="back-button"
+      onclick="showView('mainView')"
+    >
       ← Terug
     </button>
 
     <h1>📖 Geschiedenis</h1>
 
-    <div id="historyList" class="history"></div>
+    <div
+      id="historyList"
+      class="history"
+    ></div>
 
   </div>
 
 
-  <!-- INSTELLINGEN -->
-  <div id="settingsView" class="view">
+  <!-- =====================================================
+       INSTELLINGEN
+  ====================================================== -->
 
-    <button class="back-button" onclick="showView('recurringView')">
+  <div
+    id="settingsView"
+    class="view"
+  >
+
+    <button
+      class="back-button"
+      onclick="showView('mainView')"
+    >
       ← Terug
     </button>
 
@@ -721,23 +986,33 @@
       </div>
 
       <div class="field">
-        <label for="youNameInput">Jouw naam</label>
+
+        <label for="youNameInput">
+          Jouw naam
+        </label>
+
         <input
           id="youNameInput"
           type="text"
           maxlength="40"
           placeholder="Bijvoorbeeld: Jan"
         >
+
       </div>
 
       <div class="field">
-        <label for="partnerNameInput">Naam partner</label>
+
+        <label for="partnerNameInput">
+          Naam partner
+        </label>
+
         <input
           id="partnerNameInput"
           type="text"
           maxlength="40"
           placeholder="Bijvoorbeeld: Emma"
         >
+
       </div>
 
     </div>
@@ -749,10 +1024,10 @@
 
       <div class="settings-description">
         Vanaf deze datum begint de app de repeterende taken te volgen.
-        Taken vóór deze datum worden niet als achterstallig beschouwd.
       </div>
 
       <div class="field">
+
         <label for="startDateInput">
           Startdatum
         </label>
@@ -761,10 +1036,11 @@
           id="startDateInput"
           type="date"
         >
+
       </div>
 
       <div class="info-box">
-        Je kunt deze datum later nog aanpassen als jullie verhuisdatum verandert.
+        Taken vóór deze datum worden niet als achterstallig beschouwd.
       </div>
 
     </div>
@@ -782,12 +1058,20 @@
 </div>
 
 
-<!-- UITVOERINGSMODAL -->
-<div id="completionModal" class="modal-backdrop">
+<!-- =======================================================
+     UITVOERINGSMODAL
+======================================================== -->
+
+<div
+  id="completionModal"
+  class="modal-backdrop"
+>
 
   <div class="modal">
 
-    <h2 id="completionTitle">Taak</h2>
+    <h2 id="completionTitle">
+      Taak
+    </h2>
 
     <div
       class="modal-subtitle"
@@ -835,8 +1119,14 @@
 </div>
 
 
-<!-- TAAK EDITOR -->
-<div id="taskEditorModal" class="modal-backdrop">
+<!-- =======================================================
+     TAAK EDITOR
+======================================================== -->
+
+<div
+  id="taskEditorModal"
+  class="modal-backdrop"
+>
 
   <div class="modal">
 
@@ -854,6 +1144,7 @@
     <div class="modal-form">
 
       <div>
+
         <label for="taskTitleInput">
           Naam van de taak
         </label>
@@ -864,6 +1155,7 @@
           maxlength="100"
           placeholder="Bijvoorbeeld: Containerpark"
         >
+
       </div>
 
 
@@ -873,7 +1165,9 @@
           Frequentie
         </label>
 
-        <select id="taskFrequencyInput">
+        <select
+          id="taskFrequencyInput"
+        >
 
           <option value="weekly">
             Wekelijks
@@ -1188,6 +1482,8 @@ let settings = JSON.parse(
 let selectedTask = null;
 let editingTaskId = null;
 let editorCategory = null;
+let editorFrequency = null;
+let activeTaskTab = "recurring";
 
 
 /* =========================================================
@@ -1372,21 +1668,13 @@ function getWeekPeriod(date) {
 }
 
 
-/*
-  Tweewekelijkse blokken worden vanaf de startdatum
-  opgebouwd. Daardoor begint het ritme logisch op
-  de ingestelde startdatum van het huishouden.
-*/
-
 function getBiweeklyPeriod(date) {
 
   const start =
     getStartDate();
 
   if (!start) {
-
     return getWeekPeriod(date);
-
   }
 
   const current =
@@ -1710,7 +1998,7 @@ function getPreviousPeriodInfo(task) {
 
 
 /* =========================================================
-   VOLTOOIDINGEN
+   VOLTOOIINGEN
 ========================================================= */
 
 function getTaskCompletions(task) {
@@ -1767,15 +2055,9 @@ function getLastCompletion(task) {
 }
 
 
-/*
-  Belangrijk:
-  Een taak is alleen achterstallig als er daadwerkelijk
-  een VOLLEDIG VOORBIJE periode bestaat waarin ze niet
-  werd uitgevoerd.
-
-  Daardoor wordt een nieuwe week/maand niet automatisch
-  als achterstallig gemarkeerd.
-*/
+/* =========================================================
+   ACHTERSTALLIG
+========================================================= */
 
 function isOverdue(task) {
 
@@ -1801,24 +2083,12 @@ function isOverdue(task) {
     return false;
   }
 
-
-  /*
-    Kijk naar de vorige volledige periode.
-  */
-
   const previous =
     getPreviousPeriodInfo(task);
 
   if (!previous) {
     return false;
   }
-
-
-  /*
-    Als de vorige periode vóór de startdatum
-    van het huishouden ligt, kan de taak niet
-    achterstallig zijn.
-  */
 
   const start =
     getStartDate();
@@ -1831,19 +2101,12 @@ function isOverdue(task) {
     return false;
   }
 
-
-  /*
-    Alleen als de vorige periode volledig
-    verstreken is én er geen uitvoering bestaat.
-  */
-
   if (
     new Date() <=
     previous.end
   ) {
     return false;
   }
-
 
   const previousCompletion =
     completions.find(
@@ -1866,41 +2129,31 @@ function getTaskStatus(task) {
     task.category ===
     "later"
   ) {
-
     return "gray";
-
   }
 
+  /*
+    "Wanneer nodig" heeft geen kleurstatus.
+  */
 
   if (
     task.category ===
     "when_needed"
   ) {
-
-    return getLastCompletion(task)
-      ? "green"
-      : "gray";
-
+    return "gray";
   }
-
 
   if (
     getCurrentCompletion(task)
   ) {
-
     return "green";
-
   }
-
 
   if (
     isOverdue(task)
   ) {
-
     return "red";
-
   }
-
 
   return "gray";
 }
@@ -1994,20 +2247,6 @@ function getPointsTotals() {
 
   completions.forEach(c => {
 
-    const task =
-      tasks.find(
-        t =>
-          t.id ===
-          c.taskId
-      );
-
-    /*
-      Punten worden altijd uit de uitvoering
-      gehaald. Daardoor blijft de geschiedenis
-      correct als je later de punten van een
-      taak aanpast.
-    */
-
     const points =
       Number(
         c.points || 0
@@ -2067,7 +2306,7 @@ function render() {
 
 
 /* =========================================================
-   TAKEN HTML
+   TAKEN ELEMENT
 ========================================================= */
 
 function createTaskElement(
@@ -2081,12 +2320,37 @@ function createTaskElement(
     showPoints = true
   } = options;
 
-
   const element =
     document.createElement("div");
 
   element.className =
     "task";
+
+
+  const currentCompletion =
+    getCurrentCompletion(task);
+
+  /*
+    Een voltooide repeterende taak is niet meer
+    klikbaar vanaf de takenlijst.
+  */
+
+  const isLocked =
+    task.category === "recurring" &&
+    !!currentCompletion;
+
+  if (
+    allowCompletion &&
+    !isLocked
+  ) {
+    element.classList.add("clickable");
+  }
+
+  if (
+    currentCompletion
+  ) {
+    element.classList.add("completed");
+  }
 
 
   const status =
@@ -2130,14 +2394,11 @@ function createTaskElement(
     "recurring"
   ) {
 
-    const current =
-      getCurrentCompletion(task);
-
-    if (current) {
+    if (currentCompletion) {
 
       meta.textContent =
         `Gedaan door ${personLabel(
-          current.person
+          currentCompletion.person
         )} · deze periode`;
 
     } else if (
@@ -2208,7 +2469,7 @@ function createTaskElement(
           task.points === 1
             ? "punt"
             : "punten"
-        } · onbeperkt herhaalbaar`;
+        }`;
 
     }
 
@@ -2218,7 +2479,7 @@ function createTaskElement(
   ) {
 
     meta.textContent =
-      "Geen punten · later uitvoeren";
+      "Later uitvoeren";
 
   }
 
@@ -2294,7 +2555,10 @@ function createTaskElement(
   element.appendChild(actions);
 
 
-  if (allowCompletion) {
+  if (
+    allowCompletion &&
+    !isLocked
+  ) {
 
     element.onclick =
       event => {
@@ -2378,11 +2642,17 @@ function renderRecurring() {
         );
 
 
-      const count =
+      const headerRight =
         document.createElement("div");
 
-      count.className =
-        "section-count";
+      headerRight.style.display =
+        "flex";
+
+      headerRight.style.alignItems =
+        "center";
+
+      headerRight.style.gap =
+        "7px";
 
 
       const completed =
@@ -2392,12 +2662,39 @@ function renderRecurring() {
         ).length;
 
 
-      count.textContent =
-        `${completed}/${sectionTasks.length} gedaan`;
+      const count =
+        document.createElement("div");
 
+      count.className =
+        "section-count";
+
+      count.textContent =
+        `${completed}/${sectionTasks.length}`;
+
+
+      const addButton =
+        document.createElement("button");
+
+      addButton.className =
+        "section-add";
+
+      addButton.textContent =
+        "＋ Taak";
+
+      addButton.onclick =
+        () =>
+          openTaskEditor(
+            "recurring",
+            null,
+            frequency
+          );
+
+
+      headerRight.appendChild(count);
+      headerRight.appendChild(addButton);
 
       header.appendChild(title);
-      header.appendChild(count);
+      header.appendChild(headerRight);
 
 
       const list =
@@ -2422,7 +2719,7 @@ function renderRecurring() {
         list.innerHTML =
           `
             <div class="empty">
-              Nog geen taken in deze categorie.
+              Nog geen taken.
             </div>
           `;
 
@@ -2507,7 +2804,7 @@ function renderWhenNeeded() {
     container.innerHTML =
       `
         <div class="empty">
-          Nog geen "wanneer nodig"-taken.
+          Nog geen taken.
         </div>
       `;
 
@@ -2555,9 +2852,7 @@ function renderLater() {
     container.innerHTML =
       `
         <div class="empty">
-          Nog geen taken voor later.<br>
-          Voeg hier iets toe dat je hebt opgemerkt
-          maar nu nog niet kunt uitvoeren.
+          Nog geen taken.
         </div>
       `;
 
@@ -2595,21 +2890,21 @@ function getFrequencyTitle(
     frequency ===
     "weekly"
   ) {
-    return "🔄 Wekelijks";
+    return "Wekelijks";
   }
 
   if (
     frequency ===
     "biweekly"
   ) {
-    return "🔄 Om de 2 weken";
+    return "Om de 2 weken";
   }
 
   if (
     frequency ===
     "monthly"
   ) {
-    return "📅 Maandelijks";
+    return "Maandelijks";
   }
 
   return frequency;
@@ -2669,6 +2964,20 @@ function escapeHtml(text) {
 function openCompletionModal(
   task
 ) {
+
+  /*
+    Repeterende taak die al klaar is:
+    helemaal niets doen.
+  */
+
+  if (
+    task.category ===
+      "recurring" &&
+    getCurrentCompletion(task)
+  ) {
+    return;
+  }
+
 
   selectedTask =
     task;
@@ -2758,11 +3067,6 @@ function completeTask(
     selectedTask;
 
 
-  /*
-    Een repeterende taak mag maximaal één keer
-    per huidige periode worden uitgevoerd.
-  */
-
   if (
     task.category ===
     "recurring"
@@ -2780,11 +3084,6 @@ function completeTask(
 
   }
 
-
-  /*
-    Later-taken verdwijnen na uitvoering.
-    Ze krijgen geen punten.
-  */
 
   const points =
     task.category ===
@@ -2807,6 +3106,9 @@ function completeTask(
     taskId:
       task.id,
 
+    taskTitle:
+      task.title,
+
     person:
       person,
 
@@ -2828,7 +3130,7 @@ function completeTask(
 
 
   /*
-    Eenmalige "Later"-taak verwijderen.
+    Later-taken verdwijnen na uitvoering.
   */
 
   if (
@@ -2862,7 +3164,8 @@ function completeTask(
 
 function openTaskEditor(
   category,
-  taskId = null
+  taskId = null,
+  preferredFrequency = null
 ) {
 
   editorCategory =
@@ -2870,6 +3173,9 @@ function openTaskEditor(
 
   editingTaskId =
     taskId;
+
+  editorFrequency =
+    preferredFrequency;
 
 
   const titleInput =
@@ -2907,6 +3213,7 @@ function openTaskEditor(
     "";
 
   frequencyInput.value =
+    preferredFrequency ||
     "weekly";
 
   pointsInput.value =
@@ -2987,7 +3294,7 @@ function openTaskEditor(
     document.getElementById(
       "editorSubtitle"
     ).textContent =
-      "Deze taak kan onbeperkt opnieuw worden uitgevoerd.";
+      "Kies het aantal punten.";
 
   } else {
 
@@ -3000,7 +3307,7 @@ function openTaskEditor(
     document.getElementById(
       "editorSubtitle"
     ).textContent =
-      "Deze taak heeft geen punten of datum en blijft staan tot ze uitgevoerd is.";
+      "Deze taak heeft geen punten.";
 
   }
 
@@ -3026,6 +3333,9 @@ function closeTaskEditor() {
     null;
 
   editorCategory =
+    null;
+
+  editorFrequency =
     null;
 
   document
@@ -3244,7 +3554,7 @@ function deleteTaskFromEditor() {
 
 
 /* =========================================================
-   ANNULEREN UIT GESCHIEDENIS
+   ONGEDAAN MAKEN
 ========================================================= */
 
 function undoCompletion(
@@ -3281,7 +3591,7 @@ function undoCompletion(
 
   const answer =
     confirm(
-      `Wil je "${task ? task.title : "deze taak"}" echt ongedaan maken?\n\nDe punten worden ook teruggedraaid.`
+      `Wil je "${task ? task.title : (completion.taskTitle || "deze taak")}" echt ongedaan maken?\n\nDe punten worden ook teruggedraaid.`
     );
 
 
@@ -3300,11 +3610,8 @@ function undoCompletion(
 
 
   /*
-    Een "Later"-taak wordt normaal verwijderd
-    zodra ze uitgevoerd is. Als iemand die uitvoering
-    ongedaan maakt, moet de taak dus opnieuw verschijnen.
-
-    We maken ze opnieuw aan met dezelfde naam.
+    Als een Later-taak was uitgevoerd en daardoor
+    verwijderd werd, verschijnt ze opnieuw.
   */
 
   if (
@@ -3312,17 +3619,14 @@ function undoCompletion(
     completion.points === 0
   ) {
 
-    const title =
-      completion.taskTitle ||
-      "Taak voor later";
-
     tasks.push({
 
       id:
         completion.taskId,
 
       title:
-        title,
+        completion.taskTitle ||
+        "Taak voor later",
 
       category:
         "later",
@@ -3528,11 +3832,6 @@ function renderHistory() {
             completion.taskId
         );
 
-
-      /*
-        Bij verwijderde taken kan de geschiedenis
-        nog steeds zichtbaar blijven.
-      */
 
       const taskTitle =
         task
@@ -3762,7 +4061,123 @@ function saveSettings() {
 
 
 /* =========================================================
-   NAVIGATIE
+   TABS
+========================================================= */
+
+function showTaskTab(
+  tab
+) {
+
+  activeTaskTab =
+    tab;
+
+
+  document
+    .querySelectorAll(
+      ".task-tab"
+    )
+    .forEach(
+      element =>
+        element.classList.remove(
+          "active"
+        )
+    );
+
+
+  document
+    .querySelectorAll(
+      ".tab"
+    )
+    .forEach(
+      element =>
+        element.classList.remove(
+          "active"
+        )
+    );
+
+
+  if (
+    tab ===
+    "recurring"
+  ) {
+
+    document
+      .getElementById(
+        "recurringTab"
+      )
+      .classList.add(
+        "active"
+      );
+
+    document
+      .getElementById(
+        "tabRecurring"
+      )
+      .classList.add(
+        "active"
+      );
+
+  }
+
+
+  if (
+    tab ===
+    "when_needed"
+  ) {
+
+    document
+      .getElementById(
+        "whenNeededTab"
+      )
+      .classList.add(
+        "active"
+      );
+
+    document
+      .getElementById(
+        "tabWhenNeeded"
+      )
+      .classList.add(
+        "active"
+      );
+
+  }
+
+
+  if (
+    tab ===
+    "later"
+  ) {
+
+    document
+      .getElementById(
+        "laterTab"
+      )
+      .classList.add(
+        "active"
+      );
+
+    document
+      .getElementById(
+        "tabLater"
+      )
+      .classList.add(
+        "active"
+      );
+
+  }
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* =========================================================
+   ALGEMENE VIEW NAVIGATIE
 ========================================================= */
 
 function showView(
@@ -3797,6 +4212,9 @@ function showView(
   );
 
 
+  closeMenu();
+
+
   window.scrollTo({
     top: 0,
     behavior: "smooth"
@@ -3804,6 +4222,49 @@ function showView(
 
 
   render();
+
+}
+
+
+function openMenuView(
+  viewId
+) {
+
+  showView(viewId);
+
+}
+
+
+/* =========================================================
+   HAMBURGER MENU
+========================================================= */
+
+function toggleMenu(event) {
+
+  if (event) {
+    event.stopPropagation();
+  }
+
+  document
+    .getElementById(
+      "menuDropdown"
+    )
+    .classList.toggle(
+      "show"
+    );
+}
+
+
+function closeMenu() {
+
+  document
+    .getElementById(
+      "menuDropdown"
+    )
+    .classList.remove(
+      "show"
+    );
+
 }
 
 
@@ -3854,13 +4315,46 @@ document
 
 
 /* =========================================================
+   BUITEN MENU KLIKKEN
+========================================================= */
+
+document.addEventListener(
+  "click",
+  event => {
+
+    const menu =
+      document.getElementById(
+        "menuDropdown"
+      );
+
+    const button =
+      document.querySelector(
+        ".menu-button"
+      );
+
+    if (
+      menu.classList.contains("show") &&
+      !menu.contains(event.target) &&
+      !button.contains(event.target)
+    ) {
+
+      closeMenu();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
    START
 ========================================================= */
 
 render();
 
+showTaskTab("recurring");
+
 </script>
 
 </body>
 </html>
-```

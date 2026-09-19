@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -46,6 +47,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
+      gap: 12px;
     }
 
     .section-title {
@@ -55,7 +57,8 @@
 
     .section-count {
       color: #6b7280;
-      font-size: 14px;
+      font-size: 13px;
+      text-align: right;
     }
 
     .task-list {
@@ -80,18 +83,50 @@
       transform: scale(0.99);
     }
 
-    .task.completed {
-      opacity: 0.55;
+    .task.disabled {
+      cursor: default;
+      opacity: 0.6;
     }
 
     .task-info {
       min-width: 0;
       padding-right: 12px;
+      flex: 1;
+    }
+
+    .task-title-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
     }
 
     .task-title {
       font-size: 16px;
       font-weight: 600;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      min-width: 9px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-dot.completed {
+      background: #55a868;
+    }
+
+    .status-dot.overdue {
+      background: #d95c5c;
+    }
+
+    .status-dot.pending {
+      background: #c7cbd1;
+    }
+
+    .status-dot.future {
+      background: #b9bdc4;
     }
 
     .task-meta {
@@ -107,6 +142,20 @@
       background: #eef1f5;
       padding: 7px 10px;
       border-radius: 10px;
+    }
+
+    .start-banner {
+      background: white;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 22px;
+      color: #656b73;
+      font-size: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
+
+    .start-banner strong {
+      color: #202124;
     }
 
     .nav {
@@ -128,6 +177,7 @@
     }
 
     /* PUNTEN */
+
     .points-card {
       margin-top: 12px;
       background: white;
@@ -207,6 +257,7 @@
     }
 
     /* GESCHIEDENIS */
+
     .history {
       margin-top: 14px;
     }
@@ -259,7 +310,153 @@
       text-align: center;
     }
 
-    /* MODAL */
+    /* INSTELLINGEN */
+
+    .settings-card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
+
+    .settings-card h2 {
+      margin: 0 0 6px;
+      font-size: 19px;
+    }
+
+    .settings-description {
+      color: #737982;
+      font-size: 13px;
+      line-height: 1.45;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 13px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #555b63;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      border: 1px solid #d9dce1;
+      border-radius: 10px;
+      padding: 11px 12px;
+      background: white;
+      font-size: 15px;
+      color: #202124;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .primary-button {
+      border: 0;
+      border-radius: 11px;
+      background: #202124;
+      color: white;
+      padding: 11px 15px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .secondary-button {
+      border: 0;
+      border-radius: 11px;
+      background: #eef0f3;
+      color: #33373d;
+      padding: 11px 15px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .danger-button {
+      border: 0;
+      border-radius: 9px;
+      background: #f8eaea;
+      color: #a43d3d;
+      padding: 8px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .task-editor-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .managed-task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eceef1;
+    }
+
+    .managed-task:last-child {
+      border-bottom: 0;
+    }
+
+    .managed-task-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .managed-task-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .managed-task-meta {
+      margin-top: 3px;
+      color: #777d85;
+      font-size: 12px;
+    }
+
+    .managed-task-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .small-button {
+      border: 0;
+      border-radius: 9px;
+      background: #eef0f3;
+      color: #33373d;
+      padding: 8px 9px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .inactive-label {
+      color: #999;
+      font-style: italic;
+    }
+
+    .settings-section-title {
+      margin: 18px 0 6px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* MODALS */
+
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -280,6 +477,8 @@
       background: white;
       border-radius: 22px 22px 0 0;
       padding: 24px 18px 28px;
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal h2 {
@@ -355,25 +554,42 @@
 <div class="app">
 
   <!-- HOOFDSCHERM -->
+
   <div id="mainView" class="view active">
 
     <header>
       <h1>🏠 Huishouden</h1>
+
       <div class="subtitle">
         Samen overzicht houden over het huishouden
       </div>
     </header>
 
+    <div id="startBanner" class="start-banner" style="display:none;"></div>
+
     <div id="taskSections"></div>
 
     <div class="nav">
 
-      <button class="nav-button" onclick="showView('pointsView')">
+      <button
+        class="nav-button"
+        onclick="showView('pointsView')"
+      >
         📊 Punten
       </button>
 
-      <button class="nav-button" onclick="showView('historyView')">
+      <button
+        class="nav-button"
+        onclick="showView('historyView')"
+      >
         📖 Geschiedenis
+      </button>
+
+      <button
+        class="nav-button"
+        onclick="showView('settingsView')"
+      >
+        ⚙️ Instellingen
       </button>
 
     </div>
@@ -382,9 +598,13 @@
 
 
   <!-- PUNTEN -->
+
   <div id="pointsView" class="view">
 
-    <button class="back-button" onclick="showView('mainView')">
+    <button
+      class="back-button"
+      onclick="showView('mainView')"
+    >
       ← Terug
     </button>
 
@@ -396,12 +616,22 @@
 
         <div class="person-score">
           <div class="person-name">Jij</div>
-          <div class="person-number" id="youPoints">0</div>
+          <div
+            class="person-number"
+            id="youPoints"
+          >
+            0
+          </div>
         </div>
 
         <div class="person-score right">
           <div class="person-name">Partner</div>
-          <div class="person-number" id="partnerPoints">0</div>
+          <div
+            class="person-number"
+            id="partnerPoints"
+          >
+            0
+          </div>
         </div>
 
       </div>
@@ -438,27 +668,218 @@
 
 
   <!-- GESCHIEDENIS -->
+
   <div id="historyView" class="view">
 
-    <button class="back-button" onclick="showView('mainView')">
+    <button
+      class="back-button"
+      onclick="showView('mainView')"
+    >
       ← Terug
     </button>
 
     <h1>📖 Geschiedenis</h1>
 
-    <div id="historyList" class="history"></div>
+    <div
+      id="historyList"
+      class="history"
+    ></div>
+
+  </div>
+
+
+  <!-- INSTELLINGEN -->
+
+  <div id="settingsView" class="view">
+
+    <button
+      class="back-button"
+      onclick="showView('mainView')"
+    >
+      ← Terug
+    </button>
+
+    <h1>⚙️ Instellingen</h1>
+
+
+    <!-- STARTDATUM -->
+
+    <div class="settings-card">
+
+      <h2>Startdatum huishouden</h2>
+
+      <div class="settings-description">
+        Vanaf deze datum begint de app rekening te houden met terugkerende taken.
+        Zo krijg je vóór je verhuis geen onterechte achterstallige taken.
+      </div>
+
+      <div class="form-group">
+
+        <label
+          class="form-label"
+          for="householdStartDate"
+        >
+          Startdatum
+        </label>
+
+        <input
+          id="householdStartDate"
+          class="form-input"
+          type="date"
+        >
+
+      </div>
+
+      <button
+        class="primary-button"
+        onclick="saveStartDate()"
+      >
+        Startdatum opslaan
+      </button>
+
+    </div>
+
+
+    <!-- NIEUWE TAAK -->
+
+    <div class="settings-card">
+
+      <h2 id="taskEditorTitle">
+        Nieuwe taak toevoegen
+      </h2>
+
+      <div class="settings-description">
+        Je kunt zelf taken toevoegen, verwijderen, de frequentie aanpassen
+        en het aantal punten wijzigen.
+      </div>
+
+      <div class="form-group">
+
+        <label
+          class="form-label"
+          for="taskTitleInput"
+        >
+          Naam van de taak
+        </label>
+
+        <input
+          id="taskTitleInput"
+          class="form-input"
+          type="text"
+          placeholder="Bijvoorbeeld: Tuin maaien"
+        >
+
+      </div>
+
+      <div class="form-row">
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="taskCategoryInput"
+          >
+            Frequentie
+          </label>
+
+          <select
+            id="taskCategoryInput"
+            class="form-select"
+          >
+            <option value="weekly">
+              Wekelijks
+            </option>
+
+            <option value="biweekly">
+              Om de 2 weken
+            </option>
+
+            <option value="monthly">
+              Maandelijks
+            </option>
+
+            <option value="when_needed">
+              Wanneer nodig
+            </option>
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="taskPointsInput"
+          >
+            Punten
+          </label>
+
+          <input
+            id="taskPointsInput"
+            class="form-input"
+            type="number"
+            min="1"
+            max="20"
+            value="1"
+          >
+
+        </div>
+
+      </div>
+
+
+      <div class="task-editor-buttons">
+
+        <button
+          id="taskSaveButton"
+          class="primary-button"
+          onclick="saveTaskFromSettings()"
+        >
+          Taak toevoegen
+        </button>
+
+        <button
+          id="taskCancelButton"
+          class="secondary-button"
+          onclick="cancelTaskEdit()"
+          style="display:none;"
+        >
+          Annuleren
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- TAKEN BEHEREN -->
+
+    <div class="settings-card">
+
+      <h2>Mijn taken</h2>
+
+      <div id="managedTasks"></div>
+
+    </div>
 
   </div>
 
 </div>
 
 
-<!-- MODAL -->
-<div id="modalBackdrop" class="modal-backdrop">
+<!-- TAAK UITVOEREN MODAL -->
+
+<div
+  id="modalBackdrop"
+  class="modal-backdrop"
+>
 
   <div class="modal">
 
-    <h2 id="modalTaskTitle">Taak</h2>
+    <h2 id="modalTaskTitle">
+      Taak
+    </h2>
 
     <div
       class="modal-subtitle"
@@ -506,206 +927,319 @@
 
 <script>
 
-const TASKS = [
+/* =========================================================
+   STANDAARD TAKEN
+========================================================= */
 
-  // WEKELIJKS
+const DEFAULT_TASKS = [
+
   {
     id: 1,
     title: "Bovenverdieping stofzuigen",
     category: "weekly",
-    points: 3
+    points: 3,
+    active: true
   },
+
   {
     id: 2,
     title: "Bovenverdieping dweilen",
     category: "weekly",
-    points: 3
+    points: 3,
+    active: true
   },
+
   {
     id: 3,
     title: "Benedenverdieping dweilen",
     category: "weekly",
-    points: 3
+    points: 3,
+    active: true
   },
+
   {
     id: 4,
     title: "WC kuisen",
     category: "weekly",
-    points: 2
+    points: 2,
+    active: true
   },
+
   {
     id: 5,
     title: "Lakens vervangen",
     category: "weekly",
-    points: 2
+    points: 2,
+    active: true
   },
+
   {
     id: 6,
     title: "Douchewand kuisen",
     category: "weekly",
-    points: 2
+    points: 2,
+    active: true
   },
+
   {
     id: 7,
     title: "Spiegels kuisen",
     category: "weekly",
-    points: 2
+    points: 2,
+    active: true
   },
 
-  // OM DE 2 WEKEN
   {
     id: 8,
     title: "Stof afdoen",
     category: "biweekly",
-    points: 3
+    points: 3,
+    active: true
   },
+
   {
     id: 9,
     title: "Vuilbakken uitkuisen",
     category: "biweekly",
-    points: 2
+    points: 2,
+    active: true
   },
 
-  // MAANDELIJKS
   {
     id: 10,
     title: "Keuken deepclean",
     category: "monthly",
-    points: 5
+    points: 5,
+    active: true
   },
+
   {
     id: 11,
     title: "Ramen kuisen",
     category: "monthly",
-    points: 5
+    points: 5,
+    active: true
   },
+
   {
     id: 12,
     title: "Koelkast uitkuisen",
     category: "monthly",
-    points: 4
+    points: 4,
+    active: true
   },
+
   {
     id: 13,
     title: "Deurklinken afwassen",
     category: "monthly",
-    points: 2
+    points: 2,
+    active: true
   },
+
   {
     id: 14,
     title: "Onder bed & zetel stofzuigen",
     category: "monthly",
-    points: 2
+    points: 2,
+    active: true
   },
+
   {
     id: 15,
     title: "Droogkast & wasmachine reinigen",
     category: "monthly",
-    points: 2
+    points: 2,
+    active: true
   },
+
   {
     id: 16,
     title: "WC-bril afdoen & kuisen",
     category: "monthly",
-    points: 1
+    points: 1,
+    active: true
   },
+
   {
     id: 17,
     title: "Ontstopper in leidingen doen",
     category: "monthly",
-    points: 1
+    points: 1,
+    active: true
   },
 
-  // WANNEER NODIG
   {
     id: 18,
     title: "Wasmachine opzetten",
     category: "when_needed",
-    points: 1
+    points: 1,
+    active: true
   },
+
   {
     id: 19,
     title: "Droogkast opzetten",
     category: "when_needed",
-    points: 1
+    points: 1,
+    active: true
   },
+
   {
     id: 20,
     title: "Vaatwasser uitladen",
     category: "when_needed",
-    points: 1
+    points: 1,
+    active: true
   },
+
   {
     id: 21,
     title: "Was ophangen",
     category: "when_needed",
-    points: 1
+    points: 1,
+    active: true
   },
+
   {
     id: 22,
     title: "Was opvouwen & strijken",
     category: "when_needed",
-    points: 2
+    points: 2,
+    active: true
   },
+
   {
     id: 23,
     title: "Boodschappen doen",
     category: "when_needed",
-    points: 3
+    points: 3,
+    active: true
   },
+
   {
     id: 24,
     title: "Afval buitenzetten",
     category: "when_needed",
-    points: 1
+    points: 1,
+    active: true
   },
+
   {
     id: 25,
     title: "Kleine vuilbakken WC leegmaken",
     category: "when_needed",
-    points: 1
+    points: 1,
+    active: true
   },
+
   {
     id: 26,
     title: "Glas naar glascontainer brengen",
     category: "when_needed",
-    points: 2
+    points: 2,
+    active: true
   }
 
 ];
 
 
+/* =========================================================
+   CATEGORIEËN
+========================================================= */
+
 const CATEGORY_INFO = {
 
   weekly: {
-    title: "🔄 Deze week"
+    title: "🔄 Deze week",
+    label: "Wekelijks"
   },
 
   biweekly: {
-    title: "🔄 Deze 2 weken"
+    title: "🔄 Deze 2 weken",
+    label: "Om de 2 weken"
   },
 
   monthly: {
-    title: "📅 Deze maand"
+    title: "📅 Deze maand",
+    label: "Maandelijks"
   },
 
   when_needed: {
-    title: "⚡ Wanneer nodig"
+    title: "⚡ Wanneer nodig",
+    label: "Wanneer nodig"
   }
 
 };
 
 
+/* =========================================================
+   DATA LADEN
+========================================================= */
+
+let TASKS = JSON.parse(
+  localStorage.getItem("householdTasks") || "null"
+);
+
+if (!Array.isArray(TASKS)) {
+
+  TASKS = DEFAULT_TASKS.map(
+    task => ({ ...task })
+  );
+
+  localStorage.setItem(
+    "householdTasks",
+    JSON.stringify(TASKS)
+  );
+
+}
+
+
+/*
+  Bestaande geschiedenis blijft behouden.
+*/
+
 let completions = JSON.parse(
   localStorage.getItem("householdCompletions") || "[]"
 );
 
+
+/*
+  Nieuwe instelling.
+  Als er nog geen startdatum is,
+  gebruiken we vandaag.
+*/
+
+let householdStartDate =
+  localStorage.getItem(
+    "householdStartDate"
+  );
+
+
+if (!householdStartDate) {
+
+  const today =
+    new Date();
+
+  householdStartDate =
+    formatInputDate(today);
+
+  localStorage.setItem(
+    "householdStartDate",
+    householdStartDate
+  );
+
+}
+
+
 let selectedTask = null;
 
+let editingTaskId = null;
 
-/* -------------------------
+
+/* =========================================================
    OPSLAAN
-------------------------- */
+========================================================= */
 
 function save() {
 
@@ -714,166 +1248,78 @@ function save() {
     JSON.stringify(completions)
   );
 
-}
-
-
-/* -------------------------
-   PERIODES
-------------------------- */
-
-function getPeriod(task) {
-
-  const now = new Date();
-
-  if (task.category === "weekly") {
-
-    const date = new Date(
-      Date.UTC(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate()
-      )
-    );
-
-    const day = date.getUTCDay() || 7;
-
-    date.setUTCDate(
-      date.getUTCDate() + 4 - day
-    );
-
-    const yearStart = new Date(
-      Date.UTC(
-        date.getUTCFullYear(),
-        0,
-        1
-      )
-    );
-
-    const week = Math.ceil(
-      (
-        (
-          (date - yearStart) / 86400000
-        ) + 1
-      ) / 7
-    );
-
-    return `${date.getUTCFullYear()}-W${week}`;
-
-  }
-
-
-  if (task.category === "biweekly") {
-
-    const date = new Date(
-      Date.UTC(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate()
-      )
-    );
-
-    const day = date.getUTCDay() || 7;
-
-    date.setUTCDate(
-      date.getUTCDate() + 4 - day
-    );
-
-    const yearStart = new Date(
-      Date.UTC(
-        date.getUTCFullYear(),
-        0,
-        1
-      )
-    );
-
-    const week = Math.ceil(
-      (
-        (
-          (date - yearStart) / 86400000
-        ) + 1
-      ) / 7
-    );
-
-    return `${date.getUTCFullYear()}-BW${Math.ceil(week / 2)}`;
-
-  }
-
-
-  if (task.category === "monthly") {
-
-    return `${now.getFullYear()}-${String(
-      now.getMonth() + 1
-    ).padStart(2, "0")}`;
-
-  }
-
-  /*
-    Wanneer nodig heeft geen vaste periode.
-    Iedere uitvoering is een aparte registratie.
-  */
-
-  return null;
-
-}
-
-
-/* -------------------------
-   UITVOERINGEN
-------------------------- */
-
-function getTaskCompletions(task) {
-
-  return completions.filter(
-    c => c.taskId === task.id
+  localStorage.setItem(
+    "householdTasks",
+    JSON.stringify(TASKS)
   );
 
 }
 
 
-function getCurrentCompletion(task) {
+/* =========================================================
+   DATUM HELPERS
+========================================================= */
 
-  /*
-    Wanneer nodig kan onbeperkt opnieuw.
-  */
+function formatInputDate(date) {
 
-  if (task.category === "when_needed") {
+  return [
+    date.getFullYear(),
+    String(
+      date.getMonth() + 1
+    ).padStart(2, "0"),
+    String(
+      date.getDate()
+    ).padStart(2, "0")
+  ].join("-");
+
+}
+
+
+function parseInputDate(value) {
+
+  if (!value) {
     return null;
   }
 
-  const period = getPeriod(task);
+  const parts =
+    value.split("-");
 
-  return completions.find(
-    c =>
-      c.taskId === task.id &&
-      c.period === period
+  return new Date(
+    Number(parts[0]),
+    Number(parts[1]) - 1,
+    Number(parts[2])
   );
 
 }
 
 
-function getLastCompletion(task) {
+function startOfDay(date) {
 
-  const list =
-    getTaskCompletions(task);
-
-  if (!list.length) {
-    return null;
-  }
-
-  return list
-    .slice()
-    .sort(
-      (a, b) =>
-        new Date(b.completedAt) -
-        new Date(a.completedAt)
-    )[0];
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
 
 }
 
 
-/* -------------------------
-   DATUM
-------------------------- */
+function isBeforeStartDate() {
+
+  const today =
+    startOfDay(new Date());
+
+  const start =
+    startOfDay(
+      parseInputDate(
+        householdStartDate
+      )
+    );
+
+  return today < start;
+
+}
+
 
 function formatDate(dateString) {
 
@@ -909,9 +1355,466 @@ function formatDateTime(dateString) {
 }
 
 
-/* -------------------------
+/* =========================================================
+   PERIODE
+========================================================= */
+
+function getPeriodForDate(task, inputDate) {
+
+  const now =
+    new Date(inputDate);
+
+
+  if (task.category === "weekly") {
+
+    const date =
+      new Date(
+        Date.UTC(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        )
+      );
+
+    const day =
+      date.getUTCDay() || 7;
+
+    date.setUTCDate(
+      date.getUTCDate() + 4 - day
+    );
+
+    const yearStart =
+      new Date(
+        Date.UTC(
+          date.getUTCFullYear(),
+          0,
+          1
+        )
+      );
+
+    const week =
+      Math.ceil(
+        (
+          (
+            (date - yearStart) /
+            86400000
+          ) + 1
+        ) / 7
+      );
+
+    return `${date.getUTCFullYear()}-W${week}`;
+
+  }
+
+
+  if (task.category === "biweekly") {
+
+    const date =
+      new Date(
+        Date.UTC(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        )
+      );
+
+    const day =
+      date.getUTCDay() || 7;
+
+    date.setUTCDate(
+      date.getUTCDate() + 4 - day
+    );
+
+    const yearStart =
+      new Date(
+        Date.UTC(
+          date.getUTCFullYear(),
+          0,
+          1
+        )
+      );
+
+    const week =
+      Math.ceil(
+        (
+          (
+            (date - yearStart) /
+            86400000
+          ) + 1
+        ) / 7
+      );
+
+    return `${date.getUTCFullYear()}-BW${Math.ceil(
+      week / 2
+    )}`;
+
+  }
+
+
+  if (task.category === "monthly") {
+
+    return `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}`;
+
+  }
+
+
+  return null;
+
+}
+
+
+function getPeriod(task) {
+
+  return getPeriodForDate(
+    task,
+    new Date()
+  );
+
+}
+
+
+/*
+  Startdatum van een periode.
+  Hiermee bepalen we of een taak
+  achterstallig is.
+*/
+
+function getPeriodStart(task, inputDate) {
+
+  const date =
+    new Date(inputDate);
+
+
+  if (task.category === "monthly") {
+
+    return new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      1
+    );
+
+  }
+
+
+  /*
+    Voor week en 2-weken:
+    maandag als begin van de periode.
+  */
+
+  const day =
+    date.getDay() || 7;
+
+  const monday =
+    new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+
+  monday.setDate(
+    monday.getDate() -
+    (day - 1)
+  );
+
+
+  if (task.category === "biweekly") {
+
+    const year =
+      monday.getFullYear();
+
+    /*
+      Zelfde principe als de huidige
+      2-weekse kalenderblokken.
+    */
+
+    const firstMonday =
+      new Date(
+        year,
+        0,
+        1
+      );
+
+    const firstDay =
+      firstMonday.getDay() || 7;
+
+    firstMonday.setDate(
+      firstMonday.getDate() -
+      (firstDay - 1)
+    );
+
+    const diff =
+      Math.floor(
+        (
+          monday -
+          firstMonday
+        ) / 86400000
+      );
+
+    const block =
+      Math.floor(
+        diff / 14
+      );
+
+    const blockStart =
+      new Date(firstMonday);
+
+    blockStart.setDate(
+      blockStart.getDate() +
+      block * 14
+    );
+
+    return blockStart;
+
+  }
+
+
+  return monday;
+
+}
+
+
+/* =========================================================
+   UITVOERINGEN
+========================================================= */
+
+function getTaskCompletions(task) {
+
+  return completions.filter(
+    c =>
+      c.taskId === task.id
+  );
+
+}
+
+
+function getCurrentCompletion(task) {
+
+  if (
+    task.category ===
+    "when_needed"
+  ) {
+
+    return null;
+
+  }
+
+
+  const period =
+    getPeriod(task);
+
+
+  return completions.find(
+    c =>
+      c.taskId === task.id &&
+      c.period === period
+  );
+
+}
+
+
+function getLastCompletion(task) {
+
+  const list =
+    getTaskCompletions(task);
+
+
+  if (!list.length) {
+    return null;
+  }
+
+
+  return list
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(
+          b.completedAt
+        ) -
+        new Date(
+          a.completedAt
+        )
+    )[0];
+
+}
+
+
+/* =========================================================
+   ACHTERSTALLIG
+========================================================= */
+
+function isTaskOverdue(task) {
+
+  /*
+    Wanneer nodig heeft geen achterstand.
+  */
+
+  if (
+    task.category ===
+    "when_needed"
+  ) {
+
+    return false;
+
+  }
+
+
+  /*
+    Voor de startdatum bestaan er
+    nog geen verplichtingen.
+  */
+
+  if (isBeforeStartDate()) {
+
+    return false;
+
+  }
+
+
+  const today =
+    new Date();
+
+  const currentPeriodStart =
+    getPeriodStart(
+      task,
+      today
+    );
+
+
+  const householdStart =
+    parseInputDate(
+      householdStartDate
+    );
+
+
+  const householdStartPeriod =
+    getPeriodStart(
+      task,
+      householdStart
+    );
+
+
+  /*
+    Als we nog in de eerste periode
+    zitten waarin het huishouden startte,
+    is een niet-uitgevoerde taak nog
+    niet achterstallig.
+  */
+
+  if (
+    currentPeriodStart <=
+    householdStartPeriod
+  ) {
+
+    return false;
+
+  }
+
+
+  const current =
+    getCurrentCompletion(task);
+
+
+  /*
+    Uitgevoerd in de huidige periode:
+    niet achterstallig.
+  */
+
+  if (current) {
+
+    return false;
+
+  }
+
+
+  const last =
+    getLastCompletion(task);
+
+
+  /*
+    Nooit gedaan sinds de start:
+    achterstallig zodra we voorbij
+    de eerste periode zijn.
+  */
+
+  if (!last) {
+
+    return true;
+
+  }
+
+
+  const lastPeriodStart =
+    getPeriodStart(
+      task,
+      new Date(
+        last.completedAt
+      )
+    );
+
+
+  return (
+    lastPeriodStart <
+    currentPeriodStart
+  );
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function getTaskStatus(
+  task,
+  currentCompletion,
+  lastCompletion
+) {
+
+  if (isBeforeStartDate()) {
+
+    return "future";
+
+  }
+
+
+  if (currentCompletion) {
+
+    return "completed";
+
+  }
+
+
+  if (
+    task.category ===
+    "when_needed"
+  ) {
+
+    if (lastCompletion) {
+      return "completed";
+    }
+
+    return "pending";
+
+  }
+
+
+  if (isTaskOverdue(task)) {
+
+    return "overdue";
+
+  }
+
+
+  return "pending";
+
+}
+
+
+/* =========================================================
    PERSOON
-------------------------- */
+========================================================= */
 
 function personLabel(person) {
 
@@ -932,42 +1835,41 @@ function personLabel(person) {
 }
 
 
-/* -------------------------
+/* =========================================================
    PUNTEN
-------------------------- */
+========================================================= */
 
 function getPointsTotals() {
 
   let you = 0;
   let partner = 0;
 
+
   completions.forEach(c => {
 
     if (c.person === "you") {
 
-      you += c.points;
+      you += Number(c.points);
 
     }
+
 
     if (c.person === "partner") {
 
-      partner += c.points;
+      partner += Number(c.points);
 
     }
 
+
     if (c.person === "together") {
 
-      /*
-        Samen = volledige punten
-        voor beide personen.
-      */
-
-      you += c.points;
-      partner += c.points;
+      you += Number(c.points);
+      partner += Number(c.points);
 
     }
 
   });
+
 
   return {
     you,
@@ -977,22 +1879,85 @@ function getPointsTotals() {
 }
 
 
-/* -------------------------
+/* =========================================================
    RENDER
-------------------------- */
+========================================================= */
 
 function render() {
 
+  renderStartBanner();
   renderTasks();
   renderPoints();
   renderHistory();
+  renderManagedTasks();
 
 }
 
 
-/* -------------------------
+/* =========================================================
+   STARTBANNER
+========================================================= */
+
+function renderStartBanner() {
+
+  const banner =
+    document.getElementById(
+      "startBanner"
+    );
+
+
+  const start =
+    parseInputDate(
+      householdStartDate
+    );
+
+
+  if (!start) {
+
+    banner.style.display =
+      "none";
+
+    return;
+
+  }
+
+
+  const today =
+    startOfDay(new Date());
+
+
+  const startDay =
+    startOfDay(start);
+
+
+  if (today < startDay) {
+
+    banner.style.display =
+      "block";
+
+    banner.innerHTML =
+      `🏡 Het huishouden start op <strong>${start.toLocaleDateString(
+        "nl-BE",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        }
+      )}</strong>. Tot die datum worden taken niet als achterstallig beschouwd.`;
+
+  } else {
+
+    banner.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =========================================================
    TAKEN
-------------------------- */
+========================================================= */
 
 function renderTasks() {
 
@@ -1000,6 +1965,7 @@ function renderTasks() {
     document.getElementById(
       "taskSections"
     );
+
 
   container.innerHTML = "";
 
@@ -1010,22 +1976,58 @@ function renderTasks() {
       let tasks =
         TASKS.filter(
           task =>
+            task.active !== false &&
             task.category === category
         );
 
 
+      if (!tasks.length) {
+        return;
+      }
+
+
       /*
-        Nooit gedaan bovenaan.
-        Daarna langst geleden bovenaan.
+        Sortering:
+        1. achterstallig
+        2. nooit gedaan
+        3. langst geleden gedaan
       */
 
       tasks.sort((a, b) => {
+
+        const aCurrent =
+          getCurrentCompletion(a);
+
+        const bCurrent =
+          getCurrentCompletion(b);
+
+        const aOverdue =
+          isTaskOverdue(a);
+
+        const bOverdue =
+          isTaskOverdue(b);
+
+        if (
+          aOverdue &&
+          !bOverdue
+        ) {
+          return -1;
+        }
+
+        if (
+          !aOverdue &&
+          bOverdue
+        ) {
+          return 1;
+        }
+
 
         const aLast =
           getLastCompletion(a);
 
         const bLast =
           getLastCompletion(b);
+
 
         if (!aLast && !bLast) {
           return 0;
@@ -1039,35 +2041,49 @@ function renderTasks() {
           return 1;
         }
 
+
         return (
-          new Date(aLast.completedAt) -
-          new Date(bLast.completedAt)
+          new Date(
+            aLast.completedAt
+          ) -
+          new Date(
+            bLast.completedAt
+          )
         );
 
       });
 
 
       const section =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      section.className = "section";
+      section.className =
+        "section";
 
 
       const header =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       header.className =
         "section-header";
 
 
       const title =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       title.className =
         "section-title";
 
       title.textContent =
-        CATEGORY_INFO[category].title;
+        CATEGORY_INFO[
+          category
+        ].title;
 
 
       const completedCount =
@@ -1077,7 +2093,9 @@ function renderTasks() {
             task.category ===
             "when_needed"
           ) {
+
             return false;
+
           }
 
           return !!getCurrentCompletion(
@@ -1087,8 +2105,17 @@ function renderTasks() {
         }).length;
 
 
+      const overdueCount =
+        tasks.filter(
+          task =>
+            isTaskOverdue(task)
+        ).length;
+
+
       const count =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       count.className =
         "section-count";
@@ -1104,8 +2131,18 @@ function renderTasks() {
 
       } else {
 
-        count.textContent =
+        let countText =
           `${completedCount}/${tasks.length} gedaan`;
+
+        if (overdueCount > 0) {
+
+          countText +=
+            ` · ${overdueCount} achterstallig`;
+
+        }
+
+        count.textContent =
+          countText;
 
       }
 
@@ -1115,7 +2152,9 @@ function renderTasks() {
 
 
       const list =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       list.className =
         "task-list";
@@ -1129,17 +2168,29 @@ function renderTasks() {
         const lastCompletion =
           getLastCompletion(task);
 
+        const status =
+          getTaskStatus(
+            task,
+            currentCompletion,
+            lastCompletion
+          );
+
 
         const element =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
-        element.className = "task";
+        element.className =
+          "task";
 
 
-        if (currentCompletion) {
+        if (
+          status === "future"
+        ) {
 
           element.classList.add(
-            "completed"
+            "disabled"
           );
 
         }
@@ -1153,7 +2204,11 @@ function renderTasks() {
           }`;
 
 
-        if (currentCompletion) {
+        if (
+          status ===
+          "completed" &&
+          currentCompletion
+        ) {
 
           metaText =
             `Gedaan door ${
@@ -1166,7 +2221,11 @@ function renderTasks() {
                 : "punten"
             }`;
 
-        } else if (lastCompletion) {
+        } else if (
+          status ===
+          "completed" &&
+          lastCompletion
+        ) {
 
           metaText =
             `Laatst gedaan: ${
@@ -1179,44 +2238,148 @@ function renderTasks() {
                 : "punten"
             }`;
 
+        } else if (
+          status ===
+          "overdue"
+        ) {
+
+          if (lastCompletion) {
+
+            metaText =
+              `Achterstallig · laatst gedaan: ${
+                formatDate(
+                  lastCompletion.completedAt
+                )
+              } · ${task.points} ${
+                task.points === 1
+                  ? "punt"
+                  : "punten"
+              }`;
+
+          } else {
+
+            metaText =
+              `Achterstallig · nog nooit gedaan · ${task.points} ${
+                task.points === 1
+                  ? "punt"
+                  : "punten"
+              }`;
+
+          }
+
+        } else if (
+          status ===
+          "future"
+        ) {
+
+          metaText =
+            `Start op ${
+              parseInputDate(
+                householdStartDate
+              ).toLocaleDateString(
+                "nl-BE",
+                {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric"
+                }
+              )
+            }`;
+
         }
 
 
-        element.innerHTML = `
+        const info =
+          document.createElement(
+            "div"
+          );
 
-          <div class="task-info">
+        info.className =
+          "task-info";
 
-            <div class="task-title">
-              ${escapeHtml(
-                task.title
-              )}
-            </div>
 
-            <div class="task-meta">
-              ${escapeHtml(
-                metaText
-              )}
-            </div>
+        const titleRow =
+          document.createElement(
+            "div"
+          );
 
-          </div>
+        titleRow.className =
+          "task-title-row";
 
-          <div class="task-points">
-            ${task.points} pt
-          </div>
 
-        `;
+        const dot =
+          document.createElement(
+            "span"
+          );
+
+        dot.className =
+          `status-dot ${status}`;
+
+
+        const taskTitle =
+          document.createElement(
+            "div"
+          );
+
+        taskTitle.className =
+          "task-title";
+
+        taskTitle.textContent =
+          task.title;
+
+
+        titleRow.appendChild(dot);
+        titleRow.appendChild(taskTitle);
+
+
+        const meta =
+          document.createElement(
+            "div"
+          );
+
+        meta.className =
+          "task-meta";
+
+        meta.textContent =
+          metaText;
+
+
+        info.appendChild(titleRow);
+        info.appendChild(meta);
+
+
+        const points =
+          document.createElement(
+            "div"
+          );
+
+        points.className =
+          "task-points";
+
+        points.textContent =
+          `${task.points} pt`;
+
+
+        element.appendChild(info);
+        element.appendChild(points);
 
 
         element.onclick = () => {
 
-          /*
-            BELANGRIJK:
-            Een reeds uitgevoerde terugkerende taak
-            kan NIET meer vanaf de hoofdpagina
-            geannuleerd worden.
+          if (
+            status ===
+            "future"
+          ) {
 
-            Annuleren kan uitsluitend via
-            Geschiedenis.
+            return;
+
+          }
+
+
+          /*
+            Reeds uitgevoerde terugkerende
+            taken kunnen alleen via
+            Geschiedenis ongedaan worden.
           */
 
           if (
@@ -1229,11 +2392,6 @@ function renderTasks() {
 
           }
 
-
-          /*
-            Wanneer nodig:
-            altijd een nieuwe uitvoering.
-          */
 
           openModal(task);
 
@@ -1255,29 +2413,33 @@ function renderTasks() {
 }
 
 
-/* -------------------------
+/* =========================================================
    HTML VEILIG MAKEN
-------------------------- */
+========================================================= */
 
 function escapeHtml(text) {
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  div.textContent = text;
+  div.textContent =
+    text;
 
   return div.innerHTML;
 
 }
 
 
-/* -------------------------
+/* =========================================================
    MODAL
-------------------------- */
+========================================================= */
 
 function openModal(task) {
 
-  selectedTask = task;
+  selectedTask =
+    task;
 
 
   document.getElementById(
@@ -1307,7 +2469,9 @@ function openModal(task) {
 
 function closeModal() {
 
-  selectedTask = null;
+  selectedTask =
+    null;
+
 
   document
     .getElementById(
@@ -1318,9 +2482,9 @@ function closeModal() {
 }
 
 
-/* -------------------------
+/* =========================================================
    TAAK UITVOEREN
-------------------------- */
+========================================================= */
 
 function completeTask(person) {
 
@@ -1370,11 +2534,24 @@ function completeTask(person) {
     taskId:
       task.id,
 
+    /*
+      Deze gegevens bewaren we ook
+      zodat oude geschiedenis correct
+      blijft als een taak later wordt
+      aangepast of verwijderd.
+    */
+
+    taskTitle:
+      task.title,
+
     person:
       person,
 
     points:
-      task.points,
+      Number(task.points),
+
+    category:
+      task.category,
 
     period:
       getPeriod(task),
@@ -1398,16 +2575,16 @@ function completeTask(person) {
 }
 
 
-/* -------------------------
+/* =========================================================
    ANNULEREN
-   ALLEEN VIA GESCHIEDENIS
-------------------------- */
+========================================================= */
 
 function undoCompletion(id) {
 
   const index =
     completions.findIndex(
-      c => c.id === id
+      c =>
+        c.id === id
     );
 
 
@@ -1428,9 +2605,18 @@ function undoCompletion(id) {
     );
 
 
+  const taskName =
+    task
+      ? task.title
+      : (
+          completion.taskTitle ||
+          "deze taak"
+        );
+
+
   const answer =
     confirm(
-      `Wil je "${task ? task.title : "deze taak"}" echt ongedaan maken?\n\nDe punten worden ook teruggedraaid.`
+      `Wil je "${taskName}" echt ongedaan maken?\n\nDe punten worden ook teruggedraaid.`
     );
 
 
@@ -1451,9 +2637,9 @@ function undoCompletion(id) {
 }
 
 
-/* -------------------------
+/* =========================================================
    PUNTENPAGINA
-------------------------- */
+========================================================= */
 
 function renderPoints() {
 
@@ -1499,16 +2685,16 @@ function renderPoints() {
     totals.partner;
 
 
-  /*
-    Geen punten:
-    grijze balk.
-  */
-
   if (total === 0) {
 
-    left.style.width = "0%";
-    right.style.width = "0%";
-    empty.style.display = "block";
+    left.style.width =
+      "0%";
+
+    right.style.width =
+      "0%";
+
+    empty.style.display =
+      "block";
 
     description.textContent =
       "Nog geen punten";
@@ -1536,12 +2722,6 @@ function renderPoints() {
     ) * 100;
 
 
-  /*
-    De balk bestaat uit twee
-    ingekleurde delen die elkaar
-    in het midden ontmoeten.
-  */
-
   left.style.width =
     `${youPercentage}%`;
 
@@ -1557,18 +2737,6 @@ function renderPoints() {
     description.textContent =
       "Gelijk verdeeld";
 
-  } else if (
-    totals.you >
-    totals.partner
-  ) {
-
-    description.textContent =
-      `Jij ${Math.round(
-        youPercentage
-      )}% · Partner ${Math.round(
-        partnerPercentage
-      )}%`;
-
   } else {
 
     description.textContent =
@@ -1583,9 +2751,9 @@ function renderPoints() {
 }
 
 
-/* -------------------------
+/* =========================================================
    GESCHIEDENIS
-------------------------- */
+========================================================= */
 
 function renderHistory() {
 
@@ -1595,7 +2763,8 @@ function renderHistory() {
     );
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
   if (!completions.length) {
@@ -1637,9 +2806,13 @@ function renderHistory() {
         );
 
 
-      if (!task) {
-        return;
-      }
+      const taskName =
+        task
+          ? task.title
+          : (
+              completion.taskTitle ||
+              "Verwijderde taak"
+            );
 
 
       const item =
@@ -1666,24 +2839,41 @@ function renderHistory() {
         );
 
 
-      left.innerHTML = `
+      const historyTask =
+        document.createElement(
+          "div"
+        );
 
-        <div class="history-task">
-          ${escapeHtml(
-            task.title
-          )}
-        </div>
+      historyTask.className =
+        "history-task";
 
-        <div class="history-details">
-          ${formatDateTime(
-            completion.completedAt
-          )}
-          · ${personLabel(
-            completion.person
-          )}
-        </div>
+      historyTask.textContent =
+        taskName;
 
-      `;
+
+      const details =
+        document.createElement(
+          "div"
+        );
+
+      details.className =
+        "history-details";
+
+      details.textContent =
+        `${formatDateTime(
+          completion.completedAt
+        )} · ${personLabel(
+          completion.person
+        )}`;
+
+
+      left.appendChild(
+        historyTask
+      );
+
+      left.appendChild(
+        details
+      );
 
 
       const right =
@@ -1714,12 +2904,6 @@ function renderHistory() {
       main.appendChild(left);
       main.appendChild(right);
 
-
-      /*
-        De enige plek waar een
-        registratie ongedaan kan
-        worden gemaakt.
-      */
 
       const undo =
         document.createElement(
@@ -1756,9 +2940,596 @@ function renderHistory() {
 }
 
 
-/* -------------------------
+/* =========================================================
+   INSTELLINGEN
+========================================================= */
+
+function renderManagedTasks() {
+
+  const container =
+    document.getElementById(
+      "managedTasks"
+    );
+
+
+  if (!container) {
+    return;
+  }
+
+
+  container.innerHTML =
+    "";
+
+
+  const activeTasks =
+    TASKS.filter(
+      task =>
+        task.active !== false
+    );
+
+
+  const inactiveTasks =
+    TASKS.filter(
+      task =>
+        task.active === false
+    );
+
+
+  activeTasks.forEach(
+    task => {
+
+      container.appendChild(
+        createManagedTaskElement(
+          task,
+          false
+        )
+      );
+
+    }
+  );
+
+
+  if (inactiveTasks.length) {
+
+    const title =
+      document.createElement(
+        "div"
+      );
+
+    title.className =
+      "settings-section-title";
+
+    title.textContent =
+      "Gedeactiveerde taken";
+
+
+    container.appendChild(
+      title
+    );
+
+
+    inactiveTasks.forEach(
+      task => {
+
+        container.appendChild(
+          createManagedTaskElement(
+            task,
+            true
+          )
+        );
+
+      }
+    );
+
+  }
+
+
+  if (!TASKS.length) {
+
+    container.innerHTML =
+      `
+        <div class="empty">
+          Nog geen taken.
+        </div>
+      `;
+
+  }
+
+}
+
+
+function createManagedTaskElement(
+  task,
+  inactive
+) {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+  row.className =
+    "managed-task";
+
+
+  const info =
+    document.createElement(
+      "div"
+    );
+
+  info.className =
+    "managed-task-info";
+
+
+  const title =
+    document.createElement(
+      "div"
+    );
+
+  title.className =
+    "managed-task-title";
+
+  title.textContent =
+    task.title;
+
+
+  if (inactive) {
+
+    title.classList.add(
+      "inactive-label"
+    );
+
+  }
+
+
+  const meta =
+    document.createElement(
+      "div"
+    );
+
+  meta.className =
+    "managed-task-meta";
+
+  meta.textContent =
+    `${CATEGORY_INFO[
+      task.category
+    ].label} · ${task.points} ${
+      task.points === 1
+        ? "punt"
+        : "punten"
+    }`;
+
+
+  info.appendChild(title);
+  info.appendChild(meta);
+
+
+  const actions =
+    document.createElement(
+      "div"
+    );
+
+  actions.className =
+    "managed-task-actions";
+
+
+  const edit =
+    document.createElement(
+      "button"
+    );
+
+  edit.className =
+    "small-button";
+
+  edit.textContent =
+    "Bewerken";
+
+
+  edit.onclick = () => {
+
+    editTask(task.id);
+
+  };
+
+
+  const toggle =
+    document.createElement(
+      "button"
+    );
+
+
+  if (inactive) {
+
+    toggle.className =
+      "small-button";
+
+    toggle.textContent =
+      "Herstellen";
+
+    toggle.onclick = () => {
+
+      activateTask(task.id);
+
+    };
+
+  } else {
+
+    toggle.className =
+      "danger-button";
+
+    toggle.textContent =
+      "Verwijderen";
+
+    toggle.onclick = () => {
+
+      deactivateTask(task.id);
+
+    };
+
+  }
+
+
+  actions.appendChild(edit);
+  actions.appendChild(toggle);
+
+
+  row.appendChild(info);
+  row.appendChild(actions);
+
+
+  return row;
+
+}
+
+
+/* =========================================================
+   STARTDATUM OPSLAAN
+========================================================= */
+
+function saveStartDate() {
+
+  const input =
+    document.getElementById(
+      "householdStartDate"
+    );
+
+
+  if (!input.value) {
+
+    alert(
+      "Kies eerst een startdatum."
+    );
+
+    return;
+
+  }
+
+
+  householdStartDate =
+    input.value;
+
+
+  localStorage.setItem(
+    "householdStartDate",
+    householdStartDate
+  );
+
+
+  render();
+
+  alert(
+    "Startdatum opgeslagen."
+  );
+
+}
+
+
+/* =========================================================
+   TAAK TOEVOEGEN / BEWERKEN
+========================================================= */
+
+function saveTaskFromSettings() {
+
+  const titleInput =
+    document.getElementById(
+      "taskTitleInput"
+    );
+
+  const categoryInput =
+    document.getElementById(
+      "taskCategoryInput"
+    );
+
+  const pointsInput =
+    document.getElementById(
+      "taskPointsInput"
+    );
+
+
+  const title =
+    titleInput.value.trim();
+
+
+  const category =
+    categoryInput.value;
+
+
+  const points =
+    Number(
+      pointsInput.value
+    );
+
+
+  if (!title) {
+
+    alert(
+      "Geef de taak een naam."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !Number.isFinite(points) ||
+    points < 1
+  ) {
+
+    alert(
+      "Punten moeten minstens 1 zijn."
+    );
+
+    return;
+
+  }
+
+
+  if (editingTaskId !== null) {
+
+    const task =
+      TASKS.find(
+        t =>
+          t.id ===
+          editingTaskId
+      );
+
+
+    if (task) {
+
+      task.title =
+        title;
+
+      task.category =
+        category;
+
+      task.points =
+        points;
+
+    }
+
+  } else {
+
+    const maxId =
+      TASKS.reduce(
+        (max, task) =>
+          Math.max(
+            max,
+            Number(task.id)
+          ),
+        0
+      );
+
+
+    TASKS.push({
+
+      id:
+        maxId + 1,
+
+      title:
+        title,
+
+      category:
+        category,
+
+      points:
+        points,
+
+      active:
+        true
+
+    });
+
+  }
+
+
+  save();
+
+  cancelTaskEdit();
+
+  render();
+
+}
+
+
+function editTask(id) {
+
+  const task =
+    TASKS.find(
+      t =>
+        t.id === id
+    );
+
+
+  if (!task) {
+    return;
+  }
+
+
+  editingTaskId =
+    id;
+
+
+  document.getElementById(
+    "taskEditorTitle"
+  ).textContent =
+    "Taak aanpassen";
+
+
+  document.getElementById(
+    "taskTitleInput"
+  ).value =
+    task.title;
+
+
+  document.getElementById(
+    "taskCategoryInput"
+  ).value =
+    task.category;
+
+
+  document.getElementById(
+    "taskPointsInput"
+  ).value =
+    task.points;
+
+
+  document.getElementById(
+    "taskSaveButton"
+  ).textContent =
+    "Wijzigingen opslaan";
+
+
+  document.getElementById(
+    "taskCancelButton"
+  ).style.display =
+    "block";
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+function cancelTaskEdit() {
+
+  editingTaskId =
+    null;
+
+
+  document.getElementById(
+    "taskEditorTitle"
+  ).textContent =
+    "Nieuwe taak toevoegen";
+
+
+  document.getElementById(
+    "taskTitleInput"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "taskCategoryInput"
+  ).value =
+    "weekly";
+
+
+  document.getElementById(
+    "taskPointsInput"
+  ).value =
+    "1";
+
+
+  document.getElementById(
+    "taskSaveButton"
+  ).textContent =
+    "Taak toevoegen";
+
+
+  document.getElementById(
+    "taskCancelButton"
+  ).style.display =
+    "none";
+
+}
+
+
+/* =========================================================
+   TAAK DEACTIVEREN
+========================================================= */
+
+function deactivateTask(id) {
+
+  const task =
+    TASKS.find(
+      t =>
+        t.id === id
+    );
+
+
+  if (!task) {
+    return;
+  }
+
+
+  const answer =
+    confirm(
+      `Wil je "${task.title}" verwijderen uit de actieve taken?\n\nDe oude geschiedenis blijft behouden.`
+    );
+
+
+  if (!answer) {
+    return;
+  }
+
+
+  task.active =
+    false;
+
+
+  save();
+
+  render();
+
+}
+
+
+/* =========================================================
+   TAAK HERSTELLEN
+========================================================= */
+
+function activateTask(id) {
+
+  const task =
+    TASKS.find(
+      t =>
+        t.id === id
+    );
+
+
+  if (!task) {
+    return;
+  }
+
+
+  task.active =
+    true;
+
+
+  save();
+
+  render();
+
+}
+
+
+/* =========================================================
    NAVIGATIE
-------------------------- */
+========================================================= */
 
 function showView(viewId) {
 
@@ -1775,7 +3546,27 @@ function showView(viewId) {
 
   document
     .getElementById(viewId)
-    .classList.add("active");
+    .classList.add(
+      "active"
+    );
+
+
+  /*
+    Startdatum steeds correct tonen
+    wanneer instellingen geopend worden.
+  */
+
+  if (
+    viewId ===
+    "settingsView"
+  ) {
+
+    document.getElementById(
+      "householdStartDate"
+    ).value =
+      householdStartDate;
+
+  }
 
 
   window.scrollTo({
@@ -1789,9 +3580,9 @@ function showView(viewId) {
 }
 
 
-/* -------------------------
+/* =========================================================
    MODAL SLUITEN
-------------------------- */
+========================================================= */
 
 document
   .getElementById(
@@ -1814,9 +3605,15 @@ document
   );
 
 
-/* -------------------------
+/* =========================================================
    START
-------------------------- */
+========================================================= */
+
+document.getElementById(
+  "householdStartDate"
+).value =
+  householdStartDate;
+
 
 render();
 
@@ -1824,3 +3621,4 @@ render();
 
 </body>
 </html>
+```

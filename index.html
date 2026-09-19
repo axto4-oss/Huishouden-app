@@ -1,870 +1,742 @@
-```html
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Taakapp</title>
-
-<style>
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Arial,
-    sans-serif;
-  background: #f5f6f8;
-  color: #202124;
-}
-
-button,
-input,
-select {
-  font: inherit;
-}
-
-button {
-  -webkit-tap-highlight-color: transparent;
-}
-
-.app {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 16px 16px 60px;
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 18px;
-}
-
-.app-title-wrap {
-  min-width: 0;
-}
-
-.app-title {
-  margin: 0;
-  font-size: 28px;
-  line-height: 1.15;
-  word-break: break-word;
-}
-
-.app-subtitle {
-  margin-top: 5px;
-  color: #737880;
-  font-size: 14px;
-}
-
-.menu-button {
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 13px;
-  background: white;
-  cursor: pointer;
-  font-size: 23px;
-  box-shadow: 0 1px 4px rgba(0,0,0,.08);
-  flex-shrink: 0;
-}
-
-/* =========================================================
-   DROPDOWN MENU
-========================================================= */
-
-.menu-wrapper {
-  position: relative;
-}
-
-.menu-dropdown {
-  position: absolute;
-  right: 0;
-  top: 51px;
-  width: 190px;
-  background: white;
-  border-radius: 15px;
-  padding: 7px;
-  box-shadow: 0 8px 30px rgba(0,0,0,.14);
-  z-index: 500;
-  display: none;
-}
-
-.menu-dropdown.show {
-  display: block;
-}
-
-.menu-item {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  text-align: left;
-  border-radius: 10px;
-  padding: 11px 12px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.menu-item:hover {
-  background: #f1f2f4;
-}
-
-/* =========================================================
-   TABS
-========================================================= */
-
-.tabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 7px;
-  margin-bottom: 22px;
-}
-
-.tab-button {
-  border: 0;
-  background: #e9ebee;
-  color: #646970;
-  border-radius: 13px;
-  padding: 11px 7px;
-  min-height: 48px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 13px;
-  line-height: 1.2;
-}
-
-.tab-button.active {
-  background: #202124;
-  color: white;
-}
-
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-.section {
-  margin-bottom: 25px;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.section-title {
-  font-size: 18px;
-  font-weight: 750;
-}
-
-.section-count {
-  color: #747980;
-  font-size: 13px;
-}
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.add-button {
-  width: 100%;
-  border: 0;
-  background: white;
-  border-radius: 14px;
-  padding: 14px 16px;
-  margin-bottom: 13px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0,0,0,.07);
-}
-
-.add-button:active {
-  transform: scale(.99);
-}
-
-/* =========================================================
-   TASKS
-========================================================= */
-
-.task-list {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.task {
-  background: white;
-  border-radius: 14px;
-  padding: 14px 15px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.07);
-  cursor: pointer;
-}
-
-.status-dot {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: #c8ccd2;
-}
-
-.status-dot.green {
-  background: #58a76f;
-}
-
-.status-dot.red {
-  background: #d65b5b;
-}
-
-.status-dot.gray {
-  background: #c7cbd1;
-}
-
-.task-info {
-  min-width: 0;
-  flex: 1;
-}
-
-.task-title {
-  font-size: 16px;
-  font-weight: 650;
-  word-break: break-word;
-}
-
-.task-meta {
-  margin-top: 4px;
-  font-size: 13px;
-  color: #7a7f87;
-  line-height: 1.4;
-}
-
-.task-actions {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  flex-shrink: 0;
-}
-
-.task-points {
-  font-weight: 700;
-  font-size: 13px;
-  background: #eef1f5;
-  padding: 7px 9px;
-  border-radius: 10px;
-  white-space: nowrap;
-}
-
-.edit-button {
-  border: 0;
-  background: #f0f1f3;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-/* =========================================================
-   EMPTY
-========================================================= */
-
-.empty {
-  color: #777;
-  background: white;
-  padding: 18px;
-  border-radius: 14px;
-  text-align: center;
-  line-height: 1.45;
-}
-
-/* =========================================================
-   POINTS
-========================================================= */
-
-.points-card {
-  background: white;
-  border-radius: 16px;
-  padding: 20px;
-  margin-top: 14px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.07);
-}
-
-.points-names {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 20px;
-  margin-bottom: 13px;
-}
-
-.person-score {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.person-score.right {
-  text-align: right;
-}
-
-.person-name {
-  font-size: 14px;
-  color: #70757d;
-}
-
-.person-number {
-  font-size: 26px;
-  font-weight: 800;
-}
-
-/*
-  Puntenbalk
-*/
-
-.balance-bar {
-  position: relative;
-  width: 100%;
-  height: 18px;
-  border-radius: 999px;
-  overflow: hidden;
-  background: #e7e9ed;
-  display: flex;
-}
-
-.balance-empty {
-  position: absolute;
-  inset: 0;
-  background: #e7e9ed;
-}
-
-.balance-left {
-  height: 100%;
-  background: #8fa8c4;
-  transition: width .35s ease;
-  z-index: 2;
-}
-
-.balance-right {
-  height: 100%;
-  background: #c4b29a;
-  transition: width .35s ease;
-  z-index: 2;
-}
-
-.balance-description {
-  margin-top: 11px;
-  text-align: center;
-  color: #7a7f87;
-  font-size: 13px;
-}
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-.history {
-  margin-top: 14px;
-}
-
-.history-item {
-  background: white;
-  border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 9px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.07);
-}
-
-.history-main {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.history-task {
-  font-weight: 600;
-}
-
-.history-details {
-  margin-top: 5px;
-  color: #727780;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.history-points {
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.undo-button {
-  margin-top: 10px;
-  border: 0;
-  background: #f0f1f3;
-  border-radius: 9px;
-  padding: 8px 11px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-.settings-section-title {
-  font-size: 20px;
-  font-weight: 750;
-  margin: 0 0 13px;
-}
-
-.settings-card {
-  background: white;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 13px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.07);
-}
-
-.settings-card h3 {
-  margin: 0 0 5px;
-  font-size: 17px;
-}
-
-.settings-description {
-  color: #747981;
-  font-size: 13px;
-  margin-bottom: 15px;
-  line-height: 1.45;
-}
-
-.field {
-  margin-bottom: 13px;
-}
-
-.field:last-child {
-  margin-bottom: 0;
-}
-
-.field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 650;
-  margin-bottom: 6px;
-}
-
-.field input,
-.field select {
-  width: 100%;
-  border: 1px solid #dfe2e6;
-  border-radius: 11px;
-  padding: 11px 12px;
-  background: white;
-  outline: none;
-}
-
-.field input:focus,
-.field select:focus {
-  border-color: #9aa0a6;
-}
-
-/*
-  Uniforme instelling voor punten.
-*/
-
-.setting-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 12px 0;
-  border-top: 1px solid #eef0f2;
-}
-
-.setting-row:first-of-type {
-  border-top: 0;
-  padding-top: 0;
-}
-
-.setting-row:last-of-type {
-  padding-bottom: 0;
-}
-
-.setting-row-text {
-  min-width: 0;
-  flex: 1;
-}
-
-.setting-row-title {
-  font-size: 14px;
-  font-weight: 650;
-}
-
-.setting-row-description {
-  margin-top: 3px;
-  color: #777d85;
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.toggle {
-  position: relative;
-  width: 46px;
-  height: 27px;
-  flex-shrink: 0;
-}
-
-.toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.toggle-slider {
-  position: absolute;
-  inset: 0;
-  background: #d7d9dd;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.toggle-slider:before {
-  content: "";
-  position: absolute;
-  width: 21px;
-  height: 21px;
-  left: 3px;
-  top: 3px;
-  background: white;
-  border-radius: 50%;
-  transition: .2s;
-  box-shadow: 0 1px 3px rgba(0,0,0,.15);
-}
-
-.toggle input:checked + .toggle-slider {
-  background: #202124;
-}
-
-.toggle input:checked + .toggle-slider:before {
-  transform: translateX(19px);
-}
-
-/* =========================================================
-   TAB / FREQUENCY INSTELLINGEN
-========================================================= */
-
-.custom-item {
-  border: 1px solid #e3e5e8;
-  border-radius: 13px;
-  padding: 13px;
-  margin-bottom: 10px;
-}
-
-.custom-item:last-child {
-  margin-bottom: 0;
-}
-
-.custom-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 11px;
-}
-
-.custom-item-title {
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.custom-item-actions {
-  display: flex;
-  gap: 6px;
-}
-
-.small-button {
-  border: 0;
-  background: #f0f1f3;
-  border-radius: 9px;
-  padding: 7px 9px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.icon-preview {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: #f0f1f3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 21px;
-  flex-shrink: 0;
-}
-
-.icon-choice-grid {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 7px;
-  margin-top: 8px;
-}
-
-.icon-choice {
-  border: 0;
-  background: #f0f1f3;
-  border-radius: 9px;
-  min-height: 36px;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.icon-choice.selected {
-  outline: 2px solid #202124;
-}
-
-.save-settings-button {
-  width: 100%;
-  border: 0;
-  background: #202124;
-  color: white;
-  border-radius: 12px;
-  padding: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 5px;
-}
-
-.reset-button {
-  width: 100%;
-  border: 0;
-  background: #f8e6e6;
-  color: #a33a3a;
-  border-radius: 12px;
-  padding: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-/* =========================================================
-   MODAL
-========================================================= */
-
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.4);
-  display: none;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 1000;
-  padding: 12px;
-}
-
-.modal-backdrop.show {
-  display: flex;
-}
-
-.modal {
-  width: 100%;
-  max-width: 720px;
-  max-height: 90vh;
-  overflow-y: auto;
-  background: white;
-  border-radius: 22px 22px 0 0;
-  padding: 24px 18px 28px;
-}
-
-.modal h2 {
-  margin: 0 0 6px;
-  font-size: 21px;
-}
-
-.modal-subtitle {
-  color: #70757d;
-  font-size: 14px;
-  margin-bottom: 20px;
-  line-height: 1.4;
-}
-
-.person-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 9px;
-}
-
-.person-button {
-  border: 0;
-  border-radius: 13px;
-  padding: 15px 8px;
-  background: #f0f1f3;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.cancel-button {
-  width: 100%;
-  margin-top: 12px;
-  border: 0;
-  background: transparent;
-  padding: 12px;
-  font-size: 15px;
-  cursor: pointer;
-  color: #666;
-}
-
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-
-.modal-form label {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 5px;
-  display: block;
-}
-
-.modal-form input,
-.modal-form select {
-  width: 100%;
-  border: 1px solid #dfe2e6;
-  border-radius: 11px;
-  padding: 12px;
-  background: white;
-  outline: none;
-}
-
-.modal-primary {
-  width: 100%;
-  border: 0;
-  background: #202124;
-  color: white;
-  border-radius: 12px;
-  padding: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.modal-danger {
-  width: 100%;
-  border: 0;
-  background: #f8e6e6;
-  color: #a33a3a;
-  border-radius: 12px;
-  padding: 13px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.info-box {
-  background: #f0f1f3;
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 13px;
-  color: #666;
-  line-height: 1.45;
-}
-
-.view {
-  display: none;
-}
-
-.view.active {
-  display: block;
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 430px) {
-
-  .icon-choice-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-
-  .tabs {
-    gap: 5px;
-  }
-
-  .tab-button {
-    font-size: 12px;
-    padding-left: 4px;
-    padding-right: 4px;
-  }
-
-}
-
-@media (min-width: 700px) {
-
-  .modal-backdrop {
-    align-items: center;
-  }
-
-  .modal {
-    border-radius: 22px;
-  }
-
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huishouden</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+      background: #f5f6f8;
+      color: #202124;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .app {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 18px 16px 50px;
+    }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .app-title-area {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .app-title {
+      margin: 0;
+      font-size: 29px;
+      line-height: 1.15;
+      word-break: break-word;
+    }
+
+    .app-subtitle {
+      margin-top: 5px;
+      color: #70757d;
+      font-size: 14px;
+    }
+
+    .menu-button {
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 13px;
+      background: white;
+      cursor: pointer;
+      font-size: 22px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+      flex-shrink: 0;
+    }
+
+    /* =====================================================
+       DROPDOWN MENU
+    ===================================================== */
+
+    .menu-wrapper {
+      position: relative;
+    }
+
+    .menu-dropdown {
+      position: absolute;
+      top: 54px;
+      right: 0;
+      width: 210px;
+      background: white;
+      border-radius: 15px;
+      padding: 7px;
+      box-shadow:
+        0 8px 30px rgba(0,0,0,0.12);
+      z-index: 500;
+      display: none;
+    }
+
+    .menu-dropdown.show {
+      display: block;
+    }
+
+    .menu-item {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .menu-item:hover {
+      background: #f1f2f4;
+    }
+
+    /* =====================================================
+       TABS
+    ===================================================== */
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      margin-bottom: 22px;
+    }
+
+    .tab-button {
+      border: 0;
+      border-radius: 13px;
+      background: #e8eaed;
+      color: #555b63;
+      padding: 11px 7px;
+      min-height: 48px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .tab-button.active {
+      background: #202124;
+      color: white;
+    }
+
+    /* =====================================================
+       VIEWS
+    ===================================================== */
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    /* =====================================================
+       SECTIONS
+    ===================================================== */
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 750;
+    }
+
+    .section-count {
+      color: #70757d;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+
+    .add-button {
+      width: 100%;
+      border: 0;
+      background: white;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
+
+    .add-button:active {
+      transform: scale(0.99);
+    }
+
+    /* =====================================================
+       TASKS
+    ===================================================== */
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .task {
+      background: white;
+      border-radius: 14px;
+      padding: 14px 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .task:active {
+      transform: scale(0.99);
+    }
+
+    .status-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: #c7cbd1;
+    }
+
+    .status-dot.green {
+      background: #58a76f;
+    }
+
+    .status-dot.red {
+      background: #d65b5b;
+    }
+
+    .status-dot.gray {
+      background: #c7cbd1;
+    }
+
+    .task-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .task-title {
+      font-size: 16px;
+      font-weight: 650;
+      word-break: break-word;
+    }
+
+    .task-meta {
+      margin-top: 4px;
+      font-size: 13px;
+      color: #7a7f87;
+      line-height: 1.4;
+    }
+
+    .task-actions {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .task-points {
+      font-weight: 700;
+      font-size: 13px;
+      background: #eef1f5;
+      padding: 7px 9px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    .edit-button {
+      border: 0;
+      background: #f0f1f3;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 17px;
+    }
+
+    /* =====================================================
+       EMPTY
+    ===================================================== */
+
+    .empty {
+      color: #777;
+      background: white;
+      padding: 18px;
+      border-radius: 14px;
+      text-align: center;
+      line-height: 1.45;
+    }
+
+    /* =====================================================
+       POINTS
+    ===================================================== */
+
+    .points-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
+
+    .points-names {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 14px;
+    }
+
+    .person-score {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .person-score.right {
+      text-align: right;
+    }
+
+    .person-name {
+      font-size: 14px;
+      color: #70757d;
+    }
+
+    .person-number {
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .balance-bar {
+      position: relative;
+      width: 100%;
+      height: 18px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #e7e9ed;
+    }
+
+    .balance-empty {
+      position: absolute;
+      inset: 0;
+      background: #e7e9ed;
+    }
+
+    .balance-left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      background: #8fa8c4;
+      transition: width 0.35s ease;
+    }
+
+    .balance-right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      background: #c4b29a;
+      transition: width 0.35s ease;
+    }
+
+    .balance-description {
+      margin-top: 11px;
+      text-align: center;
+      color: #7a7f87;
+      font-size: 13px;
+    }
+
+    /* =====================================================
+       HISTORY
+    ===================================================== */
+
+    .history {
+      margin-top: 14px;
+    }
+
+    .history-item {
+      background: white;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 9px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
+
+    .history-main {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .history-task {
+      font-weight: 600;
+    }
+
+    .history-details {
+      margin-top: 5px;
+      color: #727780;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .history-points {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .undo-button {
+      margin-top: 10px;
+      border: 0;
+      background: #f0f1f3;
+      border-radius: 9px;
+      padding: 8px 11px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    /* =====================================================
+       SETTINGS
+    ===================================================== */
+
+    .settings-card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
+
+    .settings-card h3 {
+      margin: 0 0 5px;
+      font-size: 17px;
+    }
+
+    .settings-description {
+      color: #747981;
+      font-size: 13px;
+      margin-bottom: 15px;
+      line-height: 1.45;
+    }
+
+    .field {
+      margin-bottom: 13px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 650;
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      border: 1px solid #dfe2e6;
+      border-radius: 11px;
+      padding: 11px 12px;
+      background: white;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #9aa0a6;
+    }
+
+    /* =====================================================
+       TOGGLE
+    ===================================================== */
+
+    .setting-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      cursor: pointer;
+      min-height: 52px;
+    }
+
+    .setting-toggle-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+    }
+
+    .setting-toggle-text strong {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .setting-toggle-text small {
+      color: #777;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .setting-toggle input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .toggle-slider {
+      width: 48px;
+      height: 28px;
+      border-radius: 999px;
+      background: #d5d8dc;
+      position: relative;
+      flex-shrink: 0;
+      transition: background 0.2s ease;
+    }
+
+    .toggle-slider::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .setting-toggle input:checked + .toggle-slider {
+      background: #202124;
+    }
+
+    .setting-toggle input:checked + .toggle-slider::after {
+      transform: translateX(20px);
+    }
+
+    .save-settings-button {
+      width: 100%;
+      border: 0;
+      background: #202124;
+      color: white;
+      border-radius: 12px;
+      padding: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    /* =====================================================
+       MODALS
+    ===================================================== */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 1000;
+      padding: 12px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 720px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 22px 22px 0 0;
+      padding: 24px 18px 28px;
+    }
+
+    .modal h2 {
+      margin: 0 0 6px;
+      font-size: 21px;
+    }
+
+    .modal-subtitle {
+      color: #70757d;
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .person-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 9px;
+    }
+
+    .person-button {
+      border: 0;
+      border-radius: 13px;
+      padding: 15px 8px;
+      background: #f0f1f3;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .cancel-button {
+      width: 100%;
+      margin-top: 12px;
+      border: 0;
+      background: transparent;
+      padding: 12px;
+      font-size: 15px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .modal-form label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .modal-form input,
+    .modal-form select {
+      width: 100%;
+      border: 1px solid #dfe2e6;
+      border-radius: 11px;
+      padding: 12px;
+      background: white;
+      outline: none;
+    }
+
+    .modal-primary {
+      width: 100%;
+      border: 0;
+      background: #202124;
+      color: white;
+      border-radius: 12px;
+      padding: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .modal-danger {
+      width: 100%;
+      border: 0;
+      background: #f8e6e6;
+      color: #a33a3a;
+      border-radius: 12px;
+      padding: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .info-box {
+      background: #f0f1f3;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.45;
+    }
+
+    @media (min-width: 700px) {
+      .modal-backdrop {
+        align-items: center;
+      }
+
+      .modal {
+        border-radius: 22px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="app">
 
-  <!-- =====================================================
+  <!-- ===================================================
        APP HEADER
-  ====================================================== -->
+  ==================================================== -->
 
   <header class="app-header">
 
-    <div class="app-title-wrap">
-
-      <h1
-        class="app-title"
-        id="appTitle"
-      >
+    <div class="app-title-area">
+      <h1 id="appTitle" class="app-title">
         Huishouden
       </h1>
 
-      <div
-        class="app-subtitle"
-        id="appSubtitle"
-      >
+      <div class="app-subtitle">
         Takenoverzicht
       </div>
-
     </div>
 
     <div class="menu-wrapper">
 
       <button
+        id="menuButton"
         class="menu-button"
-        onclick="toggleMenu()"
+        type="button"
         aria-label="Menu"
       >
         ☰
@@ -877,21 +749,21 @@ button {
 
         <button
           class="menu-item"
-          onclick="openPoints()"
+          onclick="showView('pointsView'); closeMenu();"
         >
           📊 Punten
         </button>
 
         <button
           class="menu-item"
-          onclick="openHistory()"
+          onclick="showView('historyView'); closeMenu();"
         >
           📖 Geschiedenis
         </button>
 
         <button
           class="menu-item"
-          onclick="openSettings()"
+          onclick="showView('settingsView'); closeMenu();"
         >
           ⚙️ Instellingen
         </button>
@@ -903,28 +775,26 @@ button {
   </header>
 
 
-  <!-- =====================================================
+  <!-- ===================================================
        TABS
-  ====================================================== -->
+  ==================================================== -->
 
-  <div
-    id="tabs"
+  <nav
+    id="mainTabs"
     class="tabs"
-  ></div>
+  ></nav>
 
 
-  <!-- =====================================================
-       TAB VIEWS
-  ====================================================== -->
+  <!-- ===================================================
+       DYNAMISCHE TABVIEWS
+  ==================================================== -->
 
-  <div
-    id="tabViews"
-  ></div>
+  <div id="dynamicViews"></div>
 
 
-  <!-- =====================================================
+  <!-- ===================================================
        PUNTEN
-  ====================================================== -->
+  ==================================================== -->
 
   <div
     id="pointsView"
@@ -940,15 +810,15 @@ button {
         <div class="person-score">
 
           <div
-            class="person-name"
             id="youNameLabel"
+            class="person-name"
           >
             Jij
           </div>
 
           <div
-            class="person-number"
             id="youPoints"
+            class="person-number"
           >
             0
           </div>
@@ -958,15 +828,15 @@ button {
         <div class="person-score right">
 
           <div
-            class="person-name"
             id="partnerNameLabel"
+            class="person-name"
           >
             Partner
           </div>
 
           <div
-            class="person-number"
             id="partnerPoints"
+            class="person-number"
           >
             0
           </div>
@@ -974,7 +844,6 @@ button {
         </div>
 
       </div>
-
 
       <div class="balance-bar">
 
@@ -995,7 +864,6 @@ button {
 
       </div>
 
-
       <div
         id="balanceDescription"
         class="balance-description"
@@ -1008,9 +876,9 @@ button {
   </div>
 
 
-  <!-- =====================================================
+  <!-- ===================================================
        GESCHIEDENIS
-  ====================================================== -->
+  ==================================================== -->
 
   <div
     id="historyView"
@@ -1027,9 +895,9 @@ button {
   </div>
 
 
-  <!-- =====================================================
+  <!-- ===================================================
        INSTELLINGEN
-  ====================================================== -->
+  ==================================================== -->
 
   <div
     id="settingsView"
@@ -1038,20 +906,19 @@ button {
 
     <h2>⚙️ Instellingen</h2>
 
-
-    <!-- ALGEMEEN -->
+    <!-- APPNAAM -->
 
     <div class="settings-card">
 
-      <h3>🏠 Algemeen</h3>
+      <h3>🏠 Algemene instellingen</h3>
 
       <div class="settings-description">
-        Pas de algemene naam en persoonlijke gegevens van de app aan.
+        Pas de naam van de app aan zoals die bovenaan wordt weergegeven.
       </div>
 
       <div class="field">
 
-        <label>
+        <label for="appNameInput">
           Naam van de app
         </label>
 
@@ -1064,11 +931,23 @@ button {
 
       </div>
 
+    </div>
+
+
+    <!-- NAMEN -->
+
+    <div class="settings-card">
+
+      <h3>👥 Namen</h3>
+
+      <div class="settings-description">
+        Deze namen worden gebruikt wanneer een taak wordt uitgevoerd.
+      </div>
 
       <div class="field">
 
-        <label>
-          Jouw naam
+        <label for="youNameInput">
+          Naam persoon 1
         </label>
 
         <input
@@ -1080,11 +959,10 @@ button {
 
       </div>
 
-
       <div class="field">
 
-        <label>
-          Naam partner
+        <label for="partnerNameInput">
+          Naam persoon 2
         </label>
 
         <input
@@ -1099,78 +977,38 @@ button {
     </div>
 
 
-    <!-- TABS -->
-
-    <div class="settings-card">
-
-      <h3>📑 Tabs</h3>
-
-      <div class="settings-description">
-        Bepaal zelf hoe de drie hoofdtabbladen van de app eruitzien.
-      </div>
-
-      <div id="tabSettings"></div>
-
-    </div>
-
-
-    <!-- FREQUENTIES -->
-
-    <div class="settings-card">
-
-      <h3>🔄 Frequenties</h3>
-
-      <div class="settings-description">
-        De frequenties kunnen afzonderlijk worden aangepast. De naam en het icoon verschijnen automatisch bij de taken.
-      </div>
-
-      <div id="frequencySettings"></div>
-
-    </div>
-
-
     <!-- PUNTEN -->
 
     <div class="settings-card">
 
-      <h3>⭐ Punten</h3>
+      <h3>📊 Punten</h3>
 
       <div class="settings-description">
-        Bepaal of punten gebruikt worden binnen de verschillende onderdelen van de app.
+        Kies of het puntensysteem in de app gebruikt wordt.
       </div>
 
+      <label class="setting-toggle">
 
-      <div class="setting-row">
+        <span class="setting-toggle-text">
 
-        <div class="setting-row-text">
-
-          <div class="setting-row-title">
+          <strong>
             Punten gebruiken
-          </div>
+          </strong>
 
-          <div class="setting-row-description">
-            Wanneer uitgeschakeld worden punten niet getoond of toegekend.
-          </div>
+          <small>
+            Taken kunnen punten opleveren en de verdeling wordt bijgehouden.
+          </small>
 
-        </div>
+        </span>
 
-        <label class="toggle">
+        <input
+          id="pointsEnabledInput"
+          type="checkbox"
+        >
 
-          <input
-            type="checkbox"
-            id="pointsEnabledInput"
-          >
+        <span class="toggle-slider"></span>
 
-          <span class="toggle-slider"></span>
-
-        </label>
-
-      </div>
-
-
-      <div
-        id="tabPointsSettings"
-      ></div>
+      </label>
 
     </div>
 
@@ -1182,18 +1020,365 @@ button {
       <h3>📅 Startdatum</h3>
 
       <div class="settings-description">
-        Taken vóór deze datum worden niet als achterstallig beschouwd.
+        Vanaf deze datum worden repeterende taken gevolgd.
+        Een periode vóór deze datum kan nooit als achterstallig worden beschouwd.
       </div>
 
       <div class="field">
 
-        <label>
+        <label for="startDateInput">
           Startdatum
         </label>
 
         <input
           id="startDateInput"
           type="date"
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- TABS -->
+
+    <div class="settings-card">
+
+      <h3>📑 Tab 1</h3>
+
+      <div class="settings-description">
+        Stel de eerste hoofdtab van de app in.
+      </div>
+
+      <div class="field">
+
+        <label for="tab1NameInput">
+          Naam
+        </label>
+
+        <input
+          id="tab1NameInput"
+          type="text"
+          maxlength="40"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="tab1IconInput">
+          Icoon
+        </label>
+
+        <select id="tab1IconInput">
+          <option value="🏠">🏠 Huis</option>
+          <option value="🧹">🧹 Schoonmaak</option>
+          <option value="🧺">🧺 Was</option>
+          <option value="🍽️">🍽️ Keuken</option>
+          <option value="🛒">🛒 Boodschappen</option>
+          <option value="🔧">🔧 Klussen</option>
+          <option value="🌱">🌱 Tuin</option>
+          <option value="📋">📋 Taken</option>
+          <option value="⭐">⭐ Favorieten</option>
+          <option value="❤️">❤️ Samen</option>
+          <option value="📦">📦 Opbergen</option>
+          <option value="🧽">🧽 Schoonmaken</option>
+          <option value="📝">📝 Lijst</option>
+          <option value="📌">📌 Later</option>
+          <option value="⚡">⚡ Wanneer nodig</option>
+          <option value="🔄">🔄 Repeterend</option>
+          <option value="custom">✏️ Eigen symbool</option>
+        </select>
+
+      </div>
+
+      <div
+        id="tab1CustomIconField"
+        class="field"
+        style="display:none;"
+      >
+
+        <label for="tab1CustomIconInput">
+          Eigen symbool
+        </label>
+
+        <input
+          id="tab1CustomIconInput"
+          type="text"
+          maxlength="4"
+          placeholder="Bijvoorbeeld: 🌿"
+        >
+
+      </div>
+
+      <label class="setting-toggle">
+
+        <span class="setting-toggle-text">
+
+          <strong>
+            Frequentie gebruiken
+          </strong>
+
+          <small>
+            Taken in deze tab kunnen een terugkerend ritme hebben.
+          </small>
+
+        </span>
+
+        <input
+          id="tab1FrequencyEnabledInput"
+          type="checkbox"
+        >
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+    <!-- TAB 2 -->
+
+    <div class="settings-card">
+
+      <h3>📑 Tab 2</h3>
+
+      <div class="settings-description">
+        Stel de tweede hoofdtab van de app in.
+      </div>
+
+      <div class="field">
+
+        <label for="tab2NameInput">
+          Naam
+        </label>
+
+        <input
+          id="tab2NameInput"
+          type="text"
+          maxlength="40"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="tab2IconInput">
+          Icoon
+        </label>
+
+        <select id="tab2IconInput">
+          <option value="🏠">🏠 Huis</option>
+          <option value="🧹">🧹 Schoonmaak</option>
+          <option value="🧺">🧺 Was</option>
+          <option value="🍽️">🍽️ Keuken</option>
+          <option value="🛒">🛒 Boodschappen</option>
+          <option value="🔧">🔧 Klussen</option>
+          <option value="🌱">🌱 Tuin</option>
+          <option value="📋">📋 Taken</option>
+          <option value="⭐">⭐ Favorieten</option>
+          <option value="❤️">❤️ Samen</option>
+          <option value="📦">📦 Opbergen</option>
+          <option value="🧽">🧽 Schoonmaken</option>
+          <option value="📝">📝 Lijst</option>
+          <option value="📌">📌 Later</option>
+          <option value="⚡">⚡ Wanneer nodig</option>
+          <option value="🔄">🔄 Repeterend</option>
+          <option value="custom">✏️ Eigen symbool</option>
+        </select>
+
+      </div>
+
+      <div
+        id="tab2CustomIconField"
+        class="field"
+        style="display:none;"
+      >
+
+        <label for="tab2CustomIconInput">
+          Eigen symbool
+        </label>
+
+        <input
+          id="tab2CustomIconInput"
+          type="text"
+          maxlength="4"
+          placeholder="Bijvoorbeeld: 🌿"
+        >
+
+      </div>
+
+      <label class="setting-toggle">
+
+        <span class="setting-toggle-text">
+
+          <strong>
+            Frequentie gebruiken
+          </strong>
+
+          <small>
+            Taken in deze tab kunnen een terugkerend ritme hebben.
+          </small>
+
+        </span>
+
+        <input
+          id="tab2FrequencyEnabledInput"
+          type="checkbox"
+        >
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+    <!-- TAB 3 -->
+
+    <div class="settings-card">
+
+      <h3>📑 Tab 3</h3>
+
+      <div class="settings-description">
+        Stel de derde hoofdtab van de app in.
+      </div>
+
+      <div class="field">
+
+        <label for="tab3NameInput">
+          Naam
+        </label>
+
+        <input
+          id="tab3NameInput"
+          type="text"
+          maxlength="40"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="tab3IconInput">
+          Icoon
+        </label>
+
+        <select id="tab3IconInput">
+          <option value="🏠">🏠 Huis</option>
+          <option value="🧹">🧹 Schoonmaak</option>
+          <option value="🧺">🧺 Was</option>
+          <option value="🍽️">🍽️ Keuken</option>
+          <option value="🛒">🛒 Boodschappen</option>
+          <option value="🔧">🔧 Klussen</option>
+          <option value="🌱">🌱 Tuin</option>
+          <option value="📋">📋 Taken</option>
+          <option value="⭐">⭐ Favorieten</option>
+          <option value="❤️">❤️ Samen</option>
+          <option value="📦">📦 Opbergen</option>
+          <option value="🧽">🧽 Schoonmaken</option>
+          <option value="📝">📝 Lijst</option>
+          <option value="📌">📌 Later</option>
+          <option value="⚡">⚡ Wanneer nodig</option>
+          <option value="🔄">🔄 Repeterend</option>
+          <option value="custom">✏️ Eigen symbool</option>
+        </select>
+
+      </div>
+
+      <div
+        id="tab3CustomIconField"
+        class="field"
+        style="display:none;"
+      >
+
+        <label for="tab3CustomIconInput">
+          Eigen symbool
+        </label>
+
+        <input
+          id="tab3CustomIconInput"
+          type="text"
+          maxlength="4"
+          placeholder="Bijvoorbeeld: 🌿"
+        >
+
+      </div>
+
+      <label class="setting-toggle">
+
+        <span class="setting-toggle-text">
+
+          <strong>
+            Frequentie gebruiken
+          </strong>
+
+          <small>
+            Taken in deze tab kunnen een terugkerend ritme hebben.
+          </small>
+
+        </span>
+
+        <input
+          id="tab3FrequencyEnabledInput"
+          type="checkbox"
+        >
+
+        <span class="toggle-slider"></span>
+
+      </label>
+
+    </div>
+
+
+    <!-- FREQUENTIES -->
+
+    <div class="settings-card">
+
+      <h3>🔄 Frequenties</h3>
+
+      <div class="settings-description">
+        Deze namen worden gebruikt wanneer een taak een frequentie heeft.
+      </div>
+
+      <div class="field">
+
+        <label for="weeklyLabelInput">
+          Wekelijks
+        </label>
+
+        <input
+          id="weeklyLabelInput"
+          type="text"
+          maxlength="40"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="biweeklyLabelInput">
+          Om de 2 weken
+        </label>
+
+        <input
+          id="biweeklyLabelInput"
+          type="text"
+          maxlength="40"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="monthlyLabelInput">
+          Maandelijks
+        </label>
+
+        <input
+          id="monthlyLabelInput"
+          type="text"
+          maxlength="40"
         >
 
       </div>
@@ -1208,22 +1393,14 @@ button {
       Instellingen opslaan
     </button>
 
-
-    <button
-      class="reset-button"
-      onclick="resetApp()"
-    >
-      Alles terugzetten naar basissjabloon
-    </button>
-
   </div>
 
 </div>
 
 
-<!-- =======================================================
-     COMPLETION MODAL
-======================================================== -->
+<!-- =====================================================
+     UITVOERINGSMODAL
+====================================================== -->
 
 <div
   id="completionModal"
@@ -1237,8 +1414,8 @@ button {
     </h2>
 
     <div
-      class="modal-subtitle"
       id="completionSubtitle"
+      class="modal-subtitle"
     >
       Wie heeft dit gedaan?
     </div>
@@ -1246,17 +1423,17 @@ button {
     <div class="person-buttons">
 
       <button
+        id="youButton"
         class="person-button"
         onclick="completeTask('you')"
-        id="youButton"
       >
         Jij
       </button>
 
       <button
+        id="partnerButton"
         class="person-button"
         onclick="completeTask('partner')"
-        id="partnerButton"
       >
         Partner
       </button>
@@ -1282,9 +1459,9 @@ button {
 </div>
 
 
-<!-- =======================================================
-     TASK EDITOR
-======================================================== -->
+<!-- =====================================================
+     TAAK EDITOR
+====================================================== -->
 
 <div
   id="taskEditorModal"
@@ -1298,8 +1475,8 @@ button {
     </h2>
 
     <div
-      class="modal-subtitle"
       id="editorSubtitle"
+      class="modal-subtitle"
     >
       Vul de gegevens van de taak in.
     </div>
@@ -1308,7 +1485,7 @@ button {
 
       <div>
 
-        <label>
+        <label for="taskTitleInput">
           Naam van de taak
         </label>
 
@@ -1324,20 +1501,32 @@ button {
 
       <div id="frequencyField">
 
-        <label>
+        <label for="taskFrequencyInput">
           Frequentie
         </label>
 
-        <select
-          id="taskFrequencyInput"
-        ></select>
+        <select id="taskFrequencyInput">
+
+          <option value="weekly">
+            Wekelijks
+          </option>
+
+          <option value="biweekly">
+            Om de 2 weken
+          </option>
+
+          <option value="monthly">
+            Maandelijks
+          </option>
+
+        </select>
 
       </div>
 
 
       <div id="pointsField">
 
-        <label>
+        <label for="taskPointsInput">
           Punten
         </label>
 
@@ -1392,57 +1581,10 @@ button {
 ========================================================= */
 
 const STORAGE_KEYS = {
-
-  tasks:
-    "genericHouseholdTasksV5",
-
-  completions:
-    "genericHouseholdCompletionsV5",
-
-  settings:
-    "genericHouseholdSettingsV5"
-
+  tasks: "householdTasksV5",
+  completions: "householdCompletionsV5",
+  settings: "householdSettingsV5"
 };
-
-
-/* =========================================================
-   ICOON LIJST
-========================================================= */
-
-const ICONS = [
-
-  "🏠",
-  "🧹",
-  "🧽",
-  "🧺",
-  "🧼",
-  "🚿",
-  "🚽",
-  "🍽️",
-  "🍳",
-  "🛒",
-  "🛍️",
-  "🗑️",
-  "♻️",
-  "📦",
-  "🔧",
-  "🛠️",
-  "🌱",
-  "🌳",
-  "🚗",
-  "🐶",
-  "🐱",
-  "📅",
-  "🔄",
-  "⚡",
-  "📌",
-  "⭐",
-  "❤️",
-  "✓",
-  "☀️",
-  "🌙"
-
-];
 
 
 /* =========================================================
@@ -1451,20 +1593,15 @@ const ICONS = [
 
 const DEFAULT_SETTINGS = {
 
-  appName:
-    "Huishouden",
+  appName: "Huishouden",
 
-  youName:
-    "Jij",
+  pointsEnabled: true,
 
-  partnerName:
-    "Partner",
+  youName: "Jij",
 
-  startDate:
-    "",
+  partnerName: "Partner",
 
-  pointsEnabled:
-    true,
+  startDate: "",
 
   tabs: [
 
@@ -1472,81 +1609,66 @@ const DEFAULT_SETTINGS = {
       id: "tab1",
       name: "Tab 1",
       icon: "🏠",
-      useFrequency: true,
-      usePoints: true
+      customIcon: "",
+      useFrequency: true
     },
 
     {
       id: "tab2",
       name: "Tab 2",
-      icon: "⚡",
-      useFrequency: false,
-      usePoints: true
+      icon: "🧺",
+      customIcon: "",
+      useFrequency: true
     },
 
     {
       id: "tab3",
       name: "Tab 3",
       icon: "📌",
-      useFrequency: false,
-      usePoints: false
+      customIcon: "",
+      useFrequency: false
     }
 
   ],
 
-  frequencies: [
+  frequencies: {
 
-    {
-      id: "weekly",
-      name: "Wekelijks",
-      icon: "🔄",
-      days: 7
-    },
+    weekly: "Wekelijks",
 
-    {
-      id: "biweekly",
-      name: "Om de 2 weken",
-      icon: "🔄",
-      days: 14
-    },
+    biweekly: "Om de 2 weken",
 
-    {
-      id: "monthly",
-      name: "Maandelijks",
-      icon: "📅",
-      days: 30
-    }
+    monthly: "Maandelijks"
 
-  ]
+  }
 
 };
 
 
 /* =========================================================
-   BASIS TAAK-SJABLOON
+   BASIS TAKEN
 ========================================================= */
 
 const DEFAULT_TASKS = [
 
   {
     id: "template-1",
-    title: "Voorbeeldtaak 1",
+    title: "Taak 1",
     tabId: "tab1",
     frequency: "weekly",
-    points: 2
+    points: 1
   },
 
   {
     id: "template-2",
-    title: "Voorbeeldtaak 2",
+    title: "Taak 2",
     tabId: "tab1",
     frequency: "weekly",
-    points: 2
+    points: 1
   },
 
   {
     id: "template-3",
-    title: "Voorbeeldtaak 3",
+    title: "Taak 3",
     tabId: "tab2",
     frequency: null,
     points: 1
@@ -1554,10 +1676,18 @@ const DEFAULT_TASKS = [
 
   {
     id: "template-4",
-    title: "Voorbeeldtaak 4",
+    title: "Taak 4",
+    tabId: "tab2",
+    frequency: null,
+    points: 1
+  },
+
+  {
+    id: "template-5",
+    title: "Taak 5",
     tabId: "tab3",
     frequency: null,
-    points: 0
+    points: 1
   }
 
 ];
@@ -1567,11 +1697,9 @@ const DEFAULT_TASKS = [
    DATA
 ========================================================= */
 
-let settings =
-  loadSettings();
+let settings = loadSettings();
 
-let tasks =
-  loadTasks();
+let tasks = loadTasks();
 
 let completions =
   JSON.parse(
@@ -1580,18 +1708,15 @@ let completions =
     ) || "[]"
   );
 
-let selectedTask =
-  null;
+let selectedTask = null;
 
-let editingTaskId =
-  null;
+let editingTaskId = null;
 
-let editorTabId =
-  null;
+let editorTabId = null;
 
 
 /* =========================================================
-   SETTINGS LADEN
+   INSTELLINGEN LADEN
 ========================================================= */
 
 function loadSettings() {
@@ -1603,10 +1728,19 @@ function loadSettings() {
 
   if (!stored) {
 
-    return clone(
-      DEFAULT_SETTINGS
+    const copy =
+      JSON.parse(
+        JSON.stringify(
+          DEFAULT_SETTINGS
+        )
+      );
+
+    localStorage.setItem(
+      STORAGE_KEYS.settings,
+      JSON.stringify(copy)
     );
 
+    return copy;
   }
 
   try {
@@ -1614,130 +1748,146 @@ function loadSettings() {
     const parsed =
       JSON.parse(stored);
 
-    return mergeSettings(
-      DEFAULT_SETTINGS,
+    return normalizeSettings(
       parsed
     );
 
-  } catch {
+  } catch (error) {
 
-    return clone(
-      DEFAULT_SETTINGS
+    console.error(error);
+
+    return JSON.parse(
+      JSON.stringify(
+        DEFAULT_SETTINGS
+      )
     );
 
   }
-
 }
 
 
 /* =========================================================
-   SETTINGS SAMENVOEGEN
+   INSTELLINGEN NORMALISEREN
 ========================================================= */
 
-function mergeSettings(
-  defaults,
-  saved
+function normalizeSettings(
+  input
 ) {
 
   const result =
-    clone(defaults);
-
-  if (!saved) {
-    return result;
-  }
-
-  Object.keys(saved).forEach(
-    key => {
-
-      if (
-        key === "tabs" ||
-        key === "frequencies"
-      ) {
-
-        return;
-
-      }
-
-      result[key] =
-        saved[key];
-
-    }
-  );
+    JSON.parse(
+      JSON.stringify(
+        DEFAULT_SETTINGS
+      )
+    );
 
 
   if (
-    Array.isArray(saved.tabs)
+    input &&
+    typeof input === "object"
+  ) {
+
+    Object.assign(
+      result,
+      input
+    );
+
+  }
+
+
+  if (
+    !Array.isArray(
+      result.tabs
+    ) ||
+    result.tabs.length !== 3
   ) {
 
     result.tabs =
-      result.tabs.map(
-        defaultTab => {
-
-          const savedTab =
-            saved.tabs.find(
-              t =>
-                t.id ===
-                defaultTab.id
-            );
-
-          return savedTab
-            ? {
-                ...defaultTab,
-                ...savedTab
-              }
-            : defaultTab;
-
-        }
+      JSON.parse(
+        JSON.stringify(
+          DEFAULT_SETTINGS.tabs
+        )
       );
 
   }
 
 
+  result.tabs =
+    result.tabs.map(
+      (tab, index) => {
+
+        const defaults =
+          DEFAULT_SETTINGS.tabs[index];
+
+        return {
+
+          id:
+            defaults.id,
+
+          name:
+            tab.name ||
+            defaults.name,
+
+          icon:
+            tab.icon ||
+            defaults.icon,
+
+          customIcon:
+            tab.customIcon ||
+            "",
+
+          useFrequency:
+            typeof tab.useFrequency ===
+            "boolean"
+              ? tab.useFrequency
+              : defaults.useFrequency
+
+        };
+
+      }
+    );
+
+
   if (
-    Array.isArray(saved.frequencies)
+    !result.frequencies ||
+    typeof result.frequencies !==
+      "object"
   ) {
 
     result.frequencies =
-      result.frequencies.map(
-        defaultFrequency => {
-
-          const savedFrequency =
-            saved.frequencies.find(
-              f =>
-                f.id ===
-                defaultFrequency.id
-            );
-
-          return savedFrequency
-            ? {
-                ...defaultFrequency,
-                ...savedFrequency
-              }
-            : defaultFrequency;
-
-        }
+      JSON.parse(
+        JSON.stringify(
+          DEFAULT_SETTINGS.frequencies
+        )
       );
+
+  }
+
+
+  result.frequencies.weekly =
+    result.frequencies.weekly ||
+    "Wekelijks";
+
+  result.frequencies.biweekly =
+    result.frequencies.biweekly ||
+    "Om de 2 weken";
+
+  result.frequencies.monthly =
+    result.frequencies.monthly ||
+    "Maandelijks";
+
+
+  if (
+    typeof result.pointsEnabled !==
+    "boolean"
+  ) {
+
+    result.pointsEnabled = true;
 
   }
 
 
   return result;
-
-}
-
-
-/* =========================================================
-   CLONE
-========================================================= */
-
-function clone(
-  object
-) {
-
-  return JSON.parse(
-    JSON.stringify(object)
-  );
-
 }
 
 
@@ -1754,9 +1904,19 @@ function loadTasks() {
 
   if (!stored) {
 
-    return clone(
-      DEFAULT_TASKS
+    const copy =
+      JSON.parse(
+        JSON.stringify(
+          DEFAULT_TASKS
+        )
+      );
+
+    localStorage.setItem(
+      STORAGE_KEYS.tasks,
+      JSON.stringify(copy)
     );
+
+    return copy;
 
   }
 
@@ -1773,12 +1933,17 @@ function loadTasks() {
 
     }
 
-  } catch {}
+  } catch (error) {
 
-  return clone(
-    DEFAULT_TASKS
+    console.error(error);
+
+  }
+
+  return JSON.parse(
+    JSON.stringify(
+      DEFAULT_TASKS
+    )
   );
-
 }
 
 
@@ -1786,23 +1951,84 @@ function loadTasks() {
    OPSLAAN
 ========================================================= */
 
-function saveEverything() {
-
-  localStorage.setItem(
-    STORAGE_KEYS.settings,
-    JSON.stringify(settings)
-  );
+function saveTasks() {
 
   localStorage.setItem(
     STORAGE_KEYS.tasks,
     JSON.stringify(tasks)
   );
 
+}
+
+
+function saveCompletions() {
+
   localStorage.setItem(
     STORAGE_KEYS.completions,
     JSON.stringify(completions)
   );
 
+}
+
+
+function saveSettingsData() {
+
+  localStorage.setItem(
+    STORAGE_KEYS.settings,
+    JSON.stringify(settings)
+  );
+
+}
+
+
+/* =========================================================
+   TAB HELPERS
+========================================================= */
+
+function getTab(
+  tabId
+) {
+
+  return settings.tabs.find(
+    tab =>
+      tab.id === tabId
+  );
+
+}
+
+
+function getTabIcon(
+  tab
+) {
+
+  if (
+    tab &&
+    tab.icon === "custom" &&
+    tab.customIcon
+  ) {
+
+    return tab.customIcon;
+
+  }
+
+  return (
+    tab &&
+    tab.icon
+  ) || "📋";
+}
+
+
+function getTabName(
+  tabId
+) {
+
+  const tab =
+    getTab(tabId);
+
+  return (
+    tab &&
+    tab.name
+  ) || tabId;
 }
 
 
@@ -1814,18 +2040,17 @@ function dateOnly(
   date
 ) {
 
-  const d =
+  const result =
     new Date(date);
 
-  d.setHours(
+  result.setHours(
     0,
     0,
     0,
     0
   );
 
-  return d;
-
+  return result;
 }
 
 
@@ -1835,40 +2060,41 @@ function getStartDate() {
     return null;
   }
 
-  const d =
+  const date =
     new Date(
       settings.startDate +
       "T00:00:00"
     );
 
   if (
-    isNaN(d.getTime())
+    isNaN(
+      date.getTime()
+    )
   ) {
 
     return null;
 
   }
 
-  return dateOnly(d);
-
+  return dateOnly(date);
 }
 
 
-function addDays(
-  date,
-  amount
+function isBeforeStartDate(
+  date
 ) {
 
-  const d =
-    new Date(date);
+  const start =
+    getStartDate();
 
-  d.setDate(
-    d.getDate() +
-    amount
+  if (!start) {
+    return false;
+  }
+
+  return (
+    dateOnly(date) <
+    start
   );
-
-  return d;
-
 }
 
 
@@ -1876,53 +2102,160 @@ function addDays(
    PERIODE
 ========================================================= */
 
+function getMonday(
+  date
+) {
+
+  const result =
+    dateOnly(date);
+
+  const day =
+    result.getDay() || 7;
+
+  result.setDate(
+    result.getDate() -
+    day +
+    1
+  );
+
+  return result;
+}
+
+
+function addDays(
+  date,
+  days
+) {
+
+  const result =
+    new Date(date);
+
+  result.setDate(
+    result.getDate() +
+    days
+  );
+
+  return result;
+}
+
+
+function getWeekPeriod(
+  date
+) {
+
+  return getMonday(
+    date
+  )
+    .toISOString()
+    .slice(0, 10);
+}
+
+
+function getBiweeklyPeriod(
+  date
+) {
+
+  const start =
+    getStartDate();
+
+  if (!start) {
+
+    return getWeekPeriod(
+      date
+    );
+
+  }
+
+  const current =
+    getMonday(date);
+
+  const startMonday =
+    getMonday(start);
+
+  const diff =
+    Math.floor(
+      (
+        current -
+        startMonday
+      ) / 86400000
+    );
+
+  const block =
+    Math.floor(
+      diff / 14
+    );
+
+  return addDays(
+    startMonday,
+    block * 14
+  )
+    .toISOString()
+    .slice(0, 10);
+}
+
+
+function getMonthPeriod(
+  date
+) {
+
+  const d =
+    dateOnly(date);
+
+  return (
+    d.getFullYear() +
+    "-" +
+    String(
+      d.getMonth() + 1
+    ).padStart(2, "0")
+  );
+}
+
+
+/* =========================================================
+   TAAK FREQUENTIE
+========================================================= */
+
+function taskUsesFrequency(
+  task
+) {
+
+  const tab =
+    getTab(
+      task.tabId
+    );
+
+  return !!(
+    tab &&
+    tab.useFrequency &&
+    task.frequency
+  );
+}
+
+
 function getPeriod(
   task,
   date = new Date()
 ) {
 
-  if (!task.frequency) {
+  if (
+    !taskUsesFrequency(
+      task
+    )
+  ) {
+
     return null;
+
   }
 
-  const frequency =
-    settings.frequencies.find(
-      f =>
-        f.id ===
-        task.frequency
-    );
-
-  if (!frequency) {
-    return null;
-  }
-
-  const d =
-    dateOnly(date);
-
-  /*
-    Wekelijkse / tweewekelijkse periodes
-    gebruiken een vaste start.
-  */
 
   if (
     task.frequency ===
     "weekly"
   ) {
 
-    const day =
-      d.getDay() || 7;
-
-    const monday =
-      addDays(
-        d,
-        -day + 1
-      );
-
     return (
       "weekly-" +
-      monday
-        .toISOString()
-        .slice(0,10)
+      getWeekPeriod(date)
     );
 
   }
@@ -1933,77 +2266,9 @@ function getPeriod(
     "biweekly"
   ) {
 
-    const start =
-      getStartDate();
-
-    if (!start) {
-
-      const day =
-        d.getDay() || 7;
-
-      const monday =
-        addDays(
-          d,
-          -day + 1
-        );
-
-      const week =
-        Math.floor(
-          monday.getTime() /
-          (
-            14 *
-            86400000
-          )
-        );
-
-      return (
-        "biweekly-" +
-        week
-      );
-
-    }
-
-
-    const startDay =
-      start.getDay() || 7;
-
-    const firstMonday =
-      addDays(
-        start,
-        -startDay + 1
-      );
-
-    const currentDay =
-      d.getDay() || 7;
-
-    const currentMonday =
-      addDays(
-        d,
-        -currentDay + 1
-      );
-
-    const diff =
-      Math.floor(
-        (
-          currentMonday -
-          firstMonday
-        ) /
-        86400000
-      );
-
-    const block =
-      Math.floor(
-        diff / 14
-      );
-
     return (
       "biweekly-" +
-      addDays(
-        firstMonday,
-        block * 14
-      )
-        .toISOString()
-        .slice(0,10)
+      getBiweeklyPeriod(date)
     );
 
   }
@@ -2016,51 +2281,13 @@ function getPeriod(
 
     return (
       "monthly-" +
-      d.getFullYear() +
-      "-" +
-      String(
-        d.getMonth() + 1
-      ).padStart(2,"0")
+      getMonthPeriod(date)
     );
 
   }
 
 
-  /*
-    Voor aangepaste frequenties:
-    werk met een periode vanaf de startdatum.
-  */
-
-  const start =
-    getStartDate() ||
-    new Date(
-      d.getFullYear(),
-      0,
-      1
-    );
-
-  const diff =
-    Math.floor(
-      (
-        d -
-        start
-      ) /
-      86400000
-    );
-
-  const block =
-    Math.floor(
-      diff /
-      frequency.days
-    );
-
-  return (
-    "custom-" +
-    frequency.id +
-    "-" +
-    block
-  );
-
+  return null;
 }
 
 
@@ -2073,23 +2300,19 @@ function getPeriodInfo(
   date = new Date()
 ) {
 
-  if (!task.frequency) {
+  if (
+    !taskUsesFrequency(
+      task
+    )
+  ) {
+
     return null;
+
   }
 
-  const d =
+
+  const today =
     dateOnly(date);
-
-  const frequency =
-    settings.frequencies.find(
-      f =>
-        f.id ===
-        task.frequency
-    );
-
-  if (!frequency) {
-    return null;
-  }
 
 
   if (
@@ -2097,14 +2320,8 @@ function getPeriodInfo(
     "weekly"
   ) {
 
-    const day =
-      d.getDay() || 7;
-
     const start =
-      addDays(
-        d,
-        -day + 1
-      );
+      getMonday(today);
 
     const end =
       addDays(
@@ -2113,7 +2330,10 @@ function getPeriodInfo(
       );
 
     end.setHours(
-      23,59,59,999
+      23,
+      59,
+      59,
+      999
     );
 
     return {
@@ -2122,7 +2342,7 @@ function getPeriodInfo(
       period:
         getPeriod(
           task,
-          d
+          today
         )
     };
 
@@ -2142,19 +2362,13 @@ function getPeriodInfo(
     if (startDate) {
 
       const firstMonday =
-        addDays(
-          startDate,
-          -(
-            startDate.getDay() || 7
-          ) + 1
+        getMonday(
+          startDate
         );
 
       const currentMonday =
-        addDays(
-          d,
-          -(
-            d.getDay() || 7
-          ) + 1
+        getMonday(
+          today
         );
 
       const diff =
@@ -2162,8 +2376,7 @@ function getPeriodInfo(
           (
             currentMonday -
             firstMonday
-          ) /
-          86400000
+          ) / 86400000
         );
 
       const block =
@@ -2179,13 +2392,9 @@ function getPeriodInfo(
 
     } else {
 
-      const day =
-        d.getDay() || 7;
-
       start =
-        addDays(
-          d,
-          -day + 1
+        getMonday(
+          today
         );
 
     }
@@ -2197,7 +2406,10 @@ function getPeriodInfo(
       );
 
     end.setHours(
-      23,59,59,999
+      23,
+      59,
+      59,
+      999
     );
 
     return {
@@ -2206,7 +2418,7 @@ function getPeriodInfo(
       period:
         getPeriod(
           task,
-          d
+          today
         )
     };
 
@@ -2220,15 +2432,15 @@ function getPeriodInfo(
 
     const start =
       new Date(
-        d.getFullYear(),
-        d.getMonth(),
+        today.getFullYear(),
+        today.getMonth(),
         1
       );
 
     const end =
       new Date(
-        d.getFullYear(),
-        d.getMonth() + 1,
+        today.getFullYear(),
+        today.getMonth() + 1,
         0,
         23,
         59,
@@ -2242,63 +2454,73 @@ function getPeriodInfo(
       period:
         getPeriod(
           task,
-          d
+          today
         )
     };
 
   }
 
 
-  const startDate =
-    getStartDate() ||
+  return null;
+}
+
+
+/* =========================================================
+   VORIGE PERIODE
+========================================================= */
+
+function getPreviousPeriodInfo(
+  task
+) {
+
+  const info =
+    getPeriodInfo(task);
+
+  if (!info) {
+    return null;
+  }
+
+  const previousDate =
     new Date(
-      d.getFullYear(),
-      0,
+      info.start
+    );
+
+  if (
+    task.frequency ===
+    "weekly"
+  ) {
+
+    previousDate.setDate(
+      previousDate.getDate() -
+      7
+    );
+
+  } else if (
+    task.frequency ===
+    "biweekly"
+  ) {
+
+    previousDate.setDate(
+      previousDate.getDate() -
+      14
+    );
+
+  } else if (
+    task.frequency ===
+    "monthly"
+  ) {
+
+    previousDate.setMonth(
+      previousDate.getMonth() -
       1
     );
 
-  const diff =
-    Math.floor(
-      (
-        d -
-        startDate
-      ) /
-      86400000
-    );
+  }
 
-  const block =
-    Math.floor(
-      diff /
-      frequency.days
-    );
-
-  const start =
-    addDays(
-      startDate,
-      block *
-      frequency.days
-    );
-
-  const end =
-    addDays(
-      start,
-      frequency.days - 1
-    );
-
-  end.setHours(
-    23,59,59,999
+  return getPeriodInfo(
+    task,
+    previousDate
   );
-
-  return {
-    start,
-    end,
-    period:
-      getPeriod(
-        task,
-        d
-      )
-  };
-
 }
 
 
@@ -2311,8 +2533,8 @@ function getTaskCompletions(
 ) {
 
   return completions.filter(
-    c =>
-      c.taskId ===
+    completion =>
+      completion.taskId ===
       task.id
   );
 
@@ -2331,11 +2553,12 @@ function getCurrentCompletion(
   }
 
   return completions.find(
-    c =>
-      c.taskId === task.id &&
-      c.period === period
+    completion =>
+      completion.taskId ===
+        task.id &&
+      completion.period ===
+        period
   ) || null;
-
 }
 
 
@@ -2355,7 +2578,7 @@ function getLastCompletion(
   return list
     .slice()
     .sort(
-      (a,b) =>
+      (a, b) =>
         new Date(
           b.completedAt
         ) -
@@ -2363,7 +2586,6 @@ function getLastCompletion(
           a.completedAt
         )
     )[0];
-
 }
 
 
@@ -2375,92 +2597,83 @@ function isOverdue(
   task
 ) {
 
-  if (!task.frequency) {
+  if (
+    !taskUsesFrequency(
+      task
+    )
+  ) {
+
     return false;
+
   }
 
-  const today =
-    new Date();
 
   if (
     isBeforeStartDate(
-      today
+      new Date()
     )
   ) {
+
     return false;
+
   }
+
 
   if (
     getCurrentCompletion(
       task
     )
   ) {
+
     return false;
+
   }
 
-  const current =
-    getPeriodInfo(
-      task
-    );
-
-  if (!current) {
-    return false;
-  }
-
-  const previousDate =
-    new Date(
-      current.start
-    );
-
-  const frequency =
-    settings.frequencies.find(
-      f =>
-        f.id ===
-        task.frequency
-    );
-
-  if (!frequency) {
-    return false;
-  }
-
-  previousDate.setDate(
-    previousDate.getDate() -
-    frequency.days
-  );
 
   const previous =
-    getPeriodInfo(
-      task,
-      previousDate
+    getPreviousPeriodInfo(
+      task
     );
 
   if (!previous) {
     return false;
   }
 
+
   const start =
     getStartDate();
 
   if (
     start &&
-    previous.end < start
+    previous.end <
+      start
   ) {
+
     return false;
+
   }
+
 
   if (
     new Date() <=
     previous.end
   ) {
+
     return false;
+
   }
 
-  return !completions.some(
-    c =>
-      c.taskId === task.id &&
-      c.period === previous.period
-  );
 
+  const previousCompletion =
+    completions.find(
+      completion =>
+        completion.taskId ===
+          task.id &&
+        completion.period ===
+          previous.period
+    );
+
+  return !previousCompletion;
 }
 
 
@@ -2473,47 +2686,44 @@ function getTaskStatus(
 ) {
 
   if (
-    getCurrentCompletion(task)
+    getCurrentCompletion(
+      task
+    )
   ) {
+
     return "green";
+
   }
+
 
   if (
-    isOverdue(task)
+    isOverdue(
+      task
+    )
   ) {
+
     return "red";
+
   }
+
+
+  if (
+    !taskUsesFrequency(
+      task
+    )
+  ) {
+
+    return "gray";
+
+  }
+
 
   return "gray";
-
 }
 
 
 /* =========================================================
-   STARTDATUM CHECK
-========================================================= */
-
-function isBeforeStartDate(
-  date
-) {
-
-  const start =
-    getStartDate();
-
-  if (!start) {
-    return false;
-  }
-
-  return (
-    dateOnly(date) <
-    start
-  );
-
-}
-
-
-/* =========================================================
-   FORMAT
+   DATUM WEERGEVEN
 ========================================================= */
 
 function formatDate(
@@ -2534,7 +2744,6 @@ function formatDate(
       year: "numeric"
     }
   );
-
 }
 
 
@@ -2558,7 +2767,6 @@ function formatDateTime(
       minute: "2-digit"
     }
   );
-
 }
 
 
@@ -2571,48 +2779,39 @@ function personLabel(
 ) {
 
   if (
-    person === "you"
+    person ===
+    "you"
   ) {
-    return settings.youName ||
-      "Jij";
+
+    return (
+      settings.youName ||
+      "Jij"
+    );
+
   }
 
   if (
-    person === "partner"
+    person ===
+    "partner"
   ) {
-    return settings.partnerName ||
-      "Partner";
-  }
 
-  return "Samen";
-
-}
-
-
-/* =========================================================
-   FREQUENTIE LABEL
-========================================================= */
-
-function frequencyLabel(
-  id
-) {
-
-  const frequency =
-    settings.frequencies.find(
-      f =>
-        f.id === id
+    return (
+      settings.partnerName ||
+      "Partner"
     );
 
-  if (!frequency) {
-    return "";
   }
 
-  return (
-    frequency.icon +
-    " " +
-    frequency.name
-  );
+  if (
+    person ===
+    "together"
+  ) {
 
+    return "Samen";
+
+  }
+
+  return person;
 }
 
 
@@ -2620,40 +2819,22 @@ function frequencyLabel(
    PUNTEN
 ========================================================= */
 
-function pointsEnabledForTask(
-  task
-) {
-
-  if (!settings.pointsEnabled) {
-    return false;
-  }
-
-  const tab =
-    settings.tabs.find(
-      t =>
-        t.id ===
-        task.tabId
-    );
-
-  return tab
-    ? tab.usePoints
-    : true;
-
-}
-
-
 function getPointsTotals() {
 
   let you = 0;
+
   let partner = 0;
+
 
   completions.forEach(
     completion => {
 
       const points =
         Number(
-          completion.points || 0
+          completion.points ||
+          0
         );
+
 
       if (
         completion.person ===
@@ -2664,6 +2845,7 @@ function getPointsTotals() {
 
       }
 
+
       if (
         completion.person ===
         "partner"
@@ -2673,12 +2855,14 @@ function getPointsTotals() {
 
       }
 
+
       if (
         completion.person ===
         "together"
       ) {
 
         you += points;
+
         partner += points;
 
       }
@@ -2686,16 +2870,490 @@ function getPointsTotals() {
     }
   );
 
+
   return {
     you,
     partner
   };
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render() {
+
+  renderHeader();
+
+  renderTabs();
+
+  renderDynamicViews();
+
+  renderPoints();
+
+  renderHistory();
+
+  renderSettings();
+
+  setupCustomIconFields();
 
 }
 
 
 /* =========================================================
-   TASK HTML
+   HEADER
+========================================================= */
+
+function renderHeader() {
+
+  document.getElementById(
+    "appTitle"
+  ).textContent =
+    settings.appName ||
+    "Huishouden";
+
+}
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+function renderTabs() {
+
+  const container =
+    document.getElementById(
+      "mainTabs"
+    );
+
+  container.innerHTML =
+    "";
+
+
+  settings.tabs.forEach(
+    tab => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.className =
+        "tab-button";
+
+
+      const active =
+        currentViewId ===
+        tab.id;
+
+
+      if (active) {
+
+        button.classList.add(
+          "active"
+        );
+
+      }
+
+
+      button.textContent =
+        `${getTabIcon(tab)} ${tab.name}`;
+
+
+      button.onclick =
+        () => {
+
+          showView(
+            tab.id
+          );
+
+        };
+
+
+      container.appendChild(
+        button
+      );
+
+    }
+  );
+}
+
+
+/* =========================================================
+   HUIDIGE VIEW
+========================================================= */
+
+let currentViewId =
+  "tab1";
+
+
+/* =========================================================
+   DYNAMISCHE VIEWS
+========================================================= */
+
+function renderDynamicViews() {
+
+  const container =
+    document.getElementById(
+      "dynamicViews"
+    );
+
+  container.innerHTML =
+    "";
+
+
+  settings.tabs.forEach(
+    tab => {
+
+      const view =
+        document.createElement(
+          "div"
+        );
+
+      view.id =
+        tab.id;
+
+      view.className =
+        "view";
+
+
+      if (
+        currentViewId ===
+        tab.id
+      ) {
+
+        view.classList.add(
+          "active"
+        );
+
+      }
+
+
+      const header =
+        document.createElement(
+          "header"
+        );
+
+      const title =
+        document.createElement(
+          "h2"
+        );
+
+      title.textContent =
+        `${getTabIcon(tab)} ${tab.name}`;
+
+
+      const add =
+        document.createElement(
+          "button"
+        );
+
+      add.className =
+        "add-button";
+
+      add.textContent =
+        "＋ Taak toevoegen";
+
+      add.onclick =
+        () =>
+          openTaskEditor(
+            tab.id
+          );
+
+
+      view.appendChild(
+        title
+      );
+
+      view.appendChild(
+        add
+      );
+
+
+      const tasksInTab =
+        tasks.filter(
+          task =>
+            task.tabId ===
+            tab.id
+        );
+
+
+      if (
+        tab.useFrequency
+      ) {
+
+        renderFrequencySections(
+          view,
+          tasksInTab
+        );
+
+      } else {
+
+        const list =
+          document.createElement(
+            "div"
+          );
+
+        list.className =
+          "task-list";
+
+
+        if (
+          !tasksInTab.length
+        ) {
+
+          list.innerHTML =
+            `
+              <div class="empty">
+                Nog geen taken.
+              </div>
+            `;
+
+        } else {
+
+          tasksInTab.forEach(
+            task => {
+
+              list.appendChild(
+                createTaskElement(
+                  task
+                )
+              );
+
+            }
+          );
+
+        }
+
+
+        view.appendChild(
+          list
+        );
+
+      }
+
+
+      container.appendChild(
+        view
+      );
+
+    }
+  );
+}
+
+
+/* =========================================================
+   FREQUENTIE SECTIES
+========================================================= */
+
+function renderFrequencySections(
+  view,
+  tabTasks
+) {
+
+  const frequencies = [
+    "weekly",
+    "biweekly",
+    "monthly"
+  ];
+
+
+  frequencies.forEach(
+    frequency => {
+
+      const sectionTasks =
+        tabTasks.filter(
+          task =>
+            task.frequency ===
+            frequency
+        );
+
+
+      const section =
+        document.createElement(
+          "div"
+        );
+
+      section.className =
+        "section";
+
+
+      const header =
+        document.createElement(
+          "div"
+        );
+
+      header.className =
+        "section-header";
+
+
+      const title =
+        document.createElement(
+          "div"
+        );
+
+      title.className =
+        "section-title";
+
+      title.textContent =
+        getFrequencyLabel(
+          frequency
+        );
+
+
+      const count =
+        document.createElement(
+          "div"
+        );
+
+      count.className =
+        "section-count";
+
+
+      const completed =
+        sectionTasks.filter(
+          task =>
+            !!getCurrentCompletion(
+              task
+            )
+        ).length;
+
+
+      count.textContent =
+        `${completed}/${sectionTasks.length}`;
+
+
+      header.appendChild(
+        title
+      );
+
+      header.appendChild(
+        count
+      );
+
+
+      const list =
+        document.createElement(
+          "div"
+        );
+
+      list.className =
+        "task-list";
+
+
+      const sorted =
+        sectionTasks
+          .slice()
+          .sort(
+            (a, b) =>
+              getStatusSortValue(a) -
+              getStatusSortValue(b)
+          );
+
+
+      if (
+        !sorted.length
+      ) {
+
+        list.innerHTML =
+          `
+            <div class="empty">
+              Nog geen taken.
+            </div>
+          `;
+
+      } else {
+
+        sorted.forEach(
+          task => {
+
+            list.appendChild(
+              createTaskElement(
+                task
+              )
+            );
+
+          }
+        );
+
+      }
+
+
+      section.appendChild(
+        header
+      );
+
+      section.appendChild(
+        list
+      );
+
+      view.appendChild(
+        section
+      );
+
+    }
+  );
+}
+
+
+/* =========================================================
+   SORTERING
+========================================================= */
+
+function getStatusSortValue(
+  task
+) {
+
+  const status =
+    getTaskStatus(
+      task
+    );
+
+
+  if (
+    status ===
+    "red"
+  ) {
+
+    return 0;
+
+  }
+
+
+  if (
+    status ===
+    "gray"
+  ) {
+
+    return 1;
+
+  }
+
+
+  return 2;
+}
+
+
+/* =========================================================
+   FREQUENTIE LABELS
+========================================================= */
+
+function getFrequencyLabel(
+  frequency
+) {
+
+  return (
+    settings.frequencies &&
+    settings.frequencies[
+      frequency
+    ]
+  ) || frequency;
+}
+
+
+/* =========================================================
+   TASK ELEMENT
 ========================================================= */
 
 function createTaskElement(
@@ -2710,6 +3368,13 @@ function createTaskElement(
   element.className =
     "task";
 
+
+  const status =
+    getTaskStatus(
+      task
+    );
+
+
   const dot =
     document.createElement(
       "div"
@@ -2717,7 +3382,7 @@ function createTaskElement(
 
   dot.className =
     "status-dot " +
-    getTaskStatus(task);
+    status;
 
 
   const info =
@@ -2750,39 +3415,79 @@ function createTaskElement(
     "task-meta";
 
 
-  const current =
-    getCurrentCompletion(
+  const pointsEnabled =
+    settings.pointsEnabled !==
+    false;
+
+
+  if (
+    taskUsesFrequency(
       task
-    );
-
-
-  if (current) {
-
-    meta.textContent =
-      `Gedaan door ${personLabel(
-        current.person
-      )} · deze periode`;
-
-  } else if (
-    isOverdue(task)
+    )
   ) {
 
-    meta.textContent =
-      "Achterstallig";
-
-  } else if (
-    task.frequency
-  ) {
-
-    meta.textContent =
-      frequencyLabel(
-        task.frequency
+    const current =
+      getCurrentCompletion(
+        task
       );
+
+
+    if (current) {
+
+      meta.textContent =
+        `Gedaan door ${personLabel(
+          current.person
+        )} · deze periode`;
+
+    } else if (
+      isOverdue(
+        task
+      )
+    ) {
+
+      const previous =
+        getPreviousPeriodInfo(
+          task
+        );
+
+
+      meta.textContent =
+        previous
+          ? `Achterstallig sinds ${formatDate(
+              previous.start
+            )}`
+          : "Achterstallig";
+
+    } else {
+
+      meta.textContent =
+        getFrequencyLabel(
+          task.frequency
+        );
+
+    }
 
   } else {
 
-    meta.textContent =
-      "Geen vast tijdschema";
+    const last =
+      getLastCompletion(
+        task
+      );
+
+
+    if (last) {
+
+      meta.textContent =
+        `Laatst gedaan: ${formatDate(
+          last.completedAt
+        )}`;
+
+    } else {
+
+      meta.textContent =
+        "Geen vast tijdschema";
+
+    }
 
   }
 
@@ -2806,8 +3511,7 @@ function createTaskElement(
 
 
   if (
-    settings.pointsEnabled &&
-    pointsEnabledForTask(task)
+    pointsEnabled
   ) {
 
     const points =
@@ -2819,7 +3523,9 @@ function createTaskElement(
       "task-points";
 
     points.textContent =
-      `${task.points || 0} pt`;
+      `${Number(
+        task.points || 0
+      )} pt`;
 
     actions.appendChild(
       points
@@ -2839,6 +3545,10 @@ function createTaskElement(
   edit.textContent =
     "⋯";
 
+  edit.title =
+    "Bewerken";
+
+
   edit.onclick =
     event => {
 
@@ -2851,14 +3561,23 @@ function createTaskElement(
 
     };
 
+
   actions.appendChild(
     edit
   );
 
 
-  element.appendChild(dot);
-  element.appendChild(info);
-  element.appendChild(actions);
+  element.appendChild(
+    dot
+  );
+
+  element.appendChild(
+    info
+  );
+
+  element.appendChild(
+    actions
+  );
 
 
   element.onclick =
@@ -2869,7 +3588,9 @@ function createTaskElement(
           ".edit-button"
         )
       ) {
+
         return;
+
       }
 
       openCompletionModal(
@@ -2880,324 +3601,6 @@ function createTaskElement(
 
 
   return element;
-
-}
-
-
-/* =========================================================
-   TABS RENDER
-========================================================= */
-
-function renderTabs() {
-
-  const container =
-    document.getElementById(
-      "tabs"
-    );
-
-  container.innerHTML =
-    "";
-
-  settings.tabs.forEach(
-    (tab, index) => {
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-      button.className =
-        "tab-button";
-
-      if (
-        index ===
-        0
-      ) {
-
-        button.classList.add(
-          "active"
-        );
-
-      }
-
-      button.dataset.tabId =
-        tab.id;
-
-      button.textContent =
-        `${tab.icon} ${tab.name}`;
-
-      button.onclick =
-        () =>
-          showTab(
-            tab.id
-          );
-
-      container.appendChild(
-        button
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   TAB VIEWS
-========================================================= */
-
-function renderTabViews() {
-
-  const container =
-    document.getElementById(
-      "tabViews"
-    );
-
-  container.innerHTML =
-    "";
-
-  settings.tabs.forEach(
-    (tab, index) => {
-
-      const view =
-        document.createElement(
-          "div"
-        );
-
-      view.className =
-        "view";
-
-      view.id =
-        "tabView-" +
-        tab.id;
-
-      if (
-        index === 0
-      ) {
-
-        view.classList.add(
-          "active"
-        );
-
-      }
-
-
-      const header =
-        document.createElement(
-          "div"
-        );
-
-      header.className =
-        "section-header";
-
-
-      const title =
-        document.createElement(
-          "div"
-        );
-
-      title.className =
-        "section-title";
-
-      title.textContent =
-        `${tab.icon} ${tab.name}`;
-
-
-      const count =
-        document.createElement(
-          "div"
-        );
-
-      count.className =
-        "section-count";
-
-
-      const list =
-        tasks.filter(
-          task =>
-            task.tabId ===
-            tab.id
-        );
-
-
-      const completed =
-        list.filter(
-          task =>
-            !!getCurrentCompletion(
-              task
-            )
-        ).length;
-
-
-      count.textContent =
-        `${completed}/${list.length}`;
-
-
-      header.appendChild(
-        title
-      );
-
-      header.appendChild(
-        count
-      );
-
-
-      view.appendChild(
-        header
-      );
-
-
-      const add =
-        document.createElement(
-          "button"
-        );
-
-      add.className =
-        "add-button";
-
-      add.textContent =
-        "＋ Taak toevoegen";
-
-      add.onclick =
-        () =>
-          openTaskEditor(
-            tab.id
-          );
-
-      view.appendChild(
-        add
-      );
-
-
-      const listContainer =
-        document.createElement(
-          "div"
-        );
-
-      listContainer.className =
-        "task-list";
-
-
-      if (!list.length) {
-
-        listContainer.innerHTML =
-          `
-            <div class="empty">
-              Nog geen taken.
-            </div>
-          `;
-
-      } else {
-
-        list
-          .slice()
-          .sort(
-            (a,b) =>
-              getStatusSortValue(a) -
-              getStatusSortValue(b)
-          )
-          .forEach(
-            task =>
-              listContainer.appendChild(
-                createTaskElement(task)
-              )
-          );
-
-      }
-
-
-      view.appendChild(
-        listContainer
-      );
-
-      container.appendChild(
-        view
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   SORTERING
-========================================================= */
-
-function getStatusSortValue(
-  task
-) {
-
-  const status =
-    getTaskStatus(task);
-
-  if (
-    status === "red"
-  ) {
-    return 0;
-  }
-
-  if (
-    status === "gray"
-  ) {
-    return 1;
-  }
-
-  return 2;
-
-}
-
-
-/* =========================================================
-   TAB TONEN
-========================================================= */
-
-function showTab(
-  tabId
-) {
-
-  document
-    .querySelectorAll(
-      "#tabViews .view"
-    )
-    .forEach(
-      view =>
-        view.classList.remove(
-          "active"
-        )
-    );
-
-  const target =
-    document.getElementById(
-      "tabView-" +
-      tabId
-    );
-
-  if (target) {
-
-    target.classList.add(
-      "active"
-    );
-
-  }
-
-
-  document
-    .querySelectorAll(
-      ".tab-button"
-    )
-    .forEach(
-      button => {
-
-        button.classList.toggle(
-          "active",
-          button.dataset.tabId ===
-            tabId
-        );
-
-      }
-    );
-
 }
 
 
@@ -3212,17 +3615,27 @@ function openCompletionModal(
   selectedTask =
     task;
 
+
   document.getElementById(
     "completionTitle"
   ).textContent =
     task.title;
 
+
   document.getElementById(
     "completionSubtitle"
   ).textContent =
-    pointsEnabledForTask(task)
-      ? `${task.points || 0} punten · Wie heeft dit gedaan?`
+    settings.pointsEnabled !==
+      false
+      ? `${Number(
+          task.points || 0
+        )} ${
+          Number(task.points || 0) === 1
+            ? "punt"
+            : "punten"
+        } · Wie heeft dit gedaan?`
       : "Wie heeft dit gedaan?";
+
 
   document.getElementById(
     "youButton"
@@ -3230,20 +3643,19 @@ function openCompletionModal(
     settings.youName ||
     "Jij";
 
+
   document.getElementById(
     "partnerButton"
   ).textContent =
     settings.partnerName ||
     "Partner";
 
-  document
-    .getElementById(
-      "completionModal"
-    )
-    .classList.add(
-      "show"
-    );
 
+  document.getElementById(
+    "completionModal"
+  ).classList.add(
+    "show"
+  );
 }
 
 
@@ -3252,19 +3664,16 @@ function closeCompletionModal() {
   selectedTask =
     null;
 
-  document
-    .getElementById(
-      "completionModal"
-    )
-    .classList.remove(
-      "show"
-    );
-
+  document.getElementById(
+    "completionModal"
+  ).classList.remove(
+    "show"
+  );
 }
 
 
 /* =========================================================
-   TAAK VOLTOOIEN
+   TAAK UITVOEREN
 ========================================================= */
 
 function completeTask(
@@ -3275,13 +3684,18 @@ function completeTask(
     return;
   }
 
+
   const task =
     selectedTask;
 
 
   if (
-    task.frequency &&
-    getCurrentCompletion(task)
+    taskUsesFrequency(
+      task
+    ) &&
+    getCurrentCompletion(
+      task
+    )
   ) {
 
     closeCompletionModal();
@@ -3292,7 +3706,8 @@ function completeTask(
 
 
   const points =
-    pointsEnabledForTask(task)
+    settings.pointsEnabled !==
+      false
       ? Number(
           task.points || 0
         )
@@ -3306,7 +3721,7 @@ function completeTask(
       "-" +
       Math.random()
         .toString(36)
-        .slice(2),
+        .substring(2, 9),
 
     taskId:
       task.id,
@@ -3324,8 +3739,7 @@ function completeTask(
       getPeriod(task),
 
     completedAt:
-      new Date()
-        .toISOString()
+      new Date().toISOString()
 
   };
 
@@ -3334,17 +3748,17 @@ function completeTask(
     completion
   );
 
-  saveEverything();
+
+  saveCompletions();
 
   closeCompletionModal();
 
-  renderAll();
-
+  render();
 }
 
 
 /* =========================================================
-   TASK EDITOR
+   TAAK EDITOR
 ========================================================= */
 
 function openTaskEditor(
@@ -3359,14 +3773,18 @@ function openTaskEditor(
     taskId;
 
 
+  const tab =
+    getTab(tabId);
+
+
+  if (!tab) {
+    return;
+  }
+
+
   const titleInput =
     document.getElementById(
       "taskTitleInput"
-    );
-
-  const frequencyField =
-    document.getElementById(
-      "frequencyField"
     );
 
   const frequencyInput =
@@ -3374,14 +3792,19 @@ function openTaskEditor(
       "taskFrequencyInput"
     );
 
-  const pointsField =
-    document.getElementById(
-      "pointsField"
-    );
-
   const pointsInput =
     document.getElementById(
       "taskPointsInput"
+    );
+
+  const frequencyField =
+    document.getElementById(
+      "frequencyField"
+    );
+
+  const pointsField =
+    document.getElementById(
+      "pointsField"
     );
 
   const deleteButton =
@@ -3393,81 +3816,45 @@ function openTaskEditor(
   titleInput.value =
     "";
 
+  frequencyInput.value =
+    "weekly";
+
   pointsInput.value =
-    1;
-
-
-  const tab =
-    settings.tabs.find(
-      t =>
-        t.id ===
-        tabId
-    );
-
-
-  if (!tab) {
-    return;
-  }
-
-
-  frequencyInput.innerHTML =
-    "";
-
-
-  settings.frequencies.forEach(
-    frequency => {
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-      option.value =
-        frequency.id;
-
-      option.textContent =
-        `${frequency.icon} ${frequency.name}`;
-
-      frequencyInput.appendChild(
-        option
-      );
-
-    }
-  );
+    "1";
 
 
   if (taskId) {
 
     const task =
       tasks.find(
-        t =>
-          t.id ===
+        item =>
+          item.id ===
           taskId
       );
+
 
     if (!task) {
       return;
     }
 
+
     titleInput.value =
       task.title;
 
+    frequencyInput.value =
+      task.frequency ||
+      "weekly";
+
     pointsInput.value =
-      task.points ?? 1;
+      task.points ??
+      1;
 
-    if (
-      task.frequency
-    ) {
-
-      frequencyInput.value =
-        task.frequency;
-
-    }
 
     document.getElementById(
       "editorTitle"
     ).textContent =
       "Taak bewerken";
+
 
     deleteButton.style.display =
       "block";
@@ -3479,60 +3866,39 @@ function openTaskEditor(
     ).textContent =
       "Taak toevoegen";
 
+
     deleteButton.style.display =
       "none";
 
   }
 
 
-  if (
+  frequencyField.style.display =
     tab.useFrequency
-  ) {
-
-    frequencyField.style.display =
-      "block";
-
-    document.getElementById(
-      "editorSubtitle"
-    ).textContent =
-      "Kies eventueel de frequentie van deze taak.";
-
-  } else {
-
-    frequencyField.style.display =
-      "none";
-
-    document.getElementById(
-      "editorSubtitle"
-    ).textContent =
-      "Deze tab gebruikt geen vast tijdschema.";
-
-  }
+      ? "block"
+      : "none";
 
 
-  if (
-    settings.pointsEnabled &&
-    tab.usePoints
-  ) {
-
-    pointsField.style.display =
-      "block";
-
-  } else {
-
-    pointsField.style.display =
-      "none";
-
-  }
+  pointsField.style.display =
+    settings.pointsEnabled !==
+      false
+      ? "block"
+      : "none";
 
 
-  document
-    .getElementById(
-      "taskEditorModal"
-    )
-    .classList.add(
-      "show"
-    );
+  document.getElementById(
+    "editorSubtitle"
+  ).textContent =
+    tab.useFrequency
+      ? "Vul de naam, frequentie en punten in."
+      : "Deze tab gebruikt geen vaste frequentie.";
+
+
+  document.getElementById(
+    "taskEditorModal"
+  ).classList.add(
+    "show"
+  );
 
 
   setTimeout(
@@ -3540,7 +3906,6 @@ function openTaskEditor(
       titleInput.focus(),
     50
   );
-
 }
 
 
@@ -3552,19 +3917,16 @@ function closeTaskEditor() {
   editorTabId =
     null;
 
-  document
-    .getElementById(
-      "taskEditorModal"
-    )
-    .classList.remove(
-      "show"
-    );
-
+  document.getElementById(
+    "taskEditorModal"
+  ).classList.remove(
+    "show"
+  );
 }
 
 
 /* =========================================================
-   TASK OPSLAAN
+   TAAK OPSLAAN
 ========================================================= */
 
 function saveTaskFromEditor() {
@@ -3572,9 +3934,8 @@ function saveTaskFromEditor() {
   const title =
     document.getElementById(
       "taskTitleInput"
-    )
-    .value
-    .trim();
+    ).value.trim();
+
 
   if (!title) {
 
@@ -3588,65 +3949,54 @@ function saveTaskFromEditor() {
 
 
   const tab =
-    settings.tabs.find(
-      t =>
-        t.id ===
-        editorTabId
+    getTab(
+      editorTabId
     );
+
 
   if (!tab) {
     return;
   }
 
 
-  let frequency =
-    null;
-
-  if (
+  const frequency =
     tab.useFrequency
-  ) {
-
-    frequency =
-      document.getElementById(
-        "taskFrequencyInput"
-      ).value;
-
-  }
+      ? document.getElementById(
+          "taskFrequencyInput"
+        ).value
+      : null;
 
 
-  let points =
-    0;
+  const points =
+    settings.pointsEnabled !==
+      false
+      ? Math.max(
+          0,
+          Number(
+            document.getElementById(
+              "taskPointsInput"
+            ).value
+          ) || 0
+        )
+      : 0;
+
 
   if (
-    settings.pointsEnabled &&
-    tab.usePoints
+    editingTaskId
   ) {
-
-    points =
-      Math.max(
-        0,
-        Number(
-          document.getElementById(
-            "taskPointsInput"
-          ).value
-        ) || 0
-      );
-
-  }
-
-
-  if (editingTaskId) {
 
     const task =
       tasks.find(
-        t =>
-          t.id ===
+        item =>
+          item.id ===
           editingTaskId
       );
+
 
     if (!task) {
       return;
     }
+
 
     task.title =
       title;
@@ -3660,6 +4010,7 @@ function saveTaskFromEditor() {
     task.points =
       points;
 
+
   } else {
 
     tasks.push({
@@ -3670,7 +4021,7 @@ function saveTaskFromEditor() {
         "-" +
         Math.random()
           .toString(36)
-          .slice(2),
+          .substring(2, 9),
 
       title:
         title,
@@ -3689,17 +4040,16 @@ function saveTaskFromEditor() {
   }
 
 
-  saveEverything();
+  saveTasks();
 
   closeTaskEditor();
 
-  renderAll();
-
+  render();
 }
 
 
 /* =========================================================
-   DELETE
+   TAAK VERWIJDEREN
 ========================================================= */
 
 function deleteTaskFromEditor() {
@@ -3708,12 +4058,14 @@ function deleteTaskFromEditor() {
     return;
   }
 
+
   const task =
     tasks.find(
-      t =>
-        t.id ===
+      item =>
+        item.id ===
         editingTaskId
     );
+
 
   if (!task) {
     return;
@@ -3725,56 +4077,136 @@ function deleteTaskFromEditor() {
       `Wil je "${task.title}" verwijderen?`
     )
   ) {
+
     return;
+
   }
 
 
   tasks =
     tasks.filter(
-      t =>
-        t.id !==
+      item =>
+        item.id !==
         editingTaskId
     );
 
 
-  saveEverything();
+  saveTasks();
 
   closeTaskEditor();
 
-  renderAll();
-
+  render();
 }
 
 
 /* =========================================================
-   POINTS VIEW
+   PUNTEN RENDER
 ========================================================= */
 
-function openPoints() {
+function renderPoints() {
 
-  closeMenu();
-
-  hideAllViews();
-
-  document
-    .getElementById(
+  const view =
+    document.getElementById(
       "pointsView"
-    )
-    .classList.add(
-      "active"
     );
 
-  renderPoints();
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  if (
+    settings.pointsEnabled ===
+    false
+  ) {
 
-}
+    view.innerHTML =
+      `
+        <h2>📊 Punten</h2>
+
+        <div class="empty">
+          Het puntensysteem is uitgeschakeld.
+          <br><br>
+          Je kunt het opnieuw inschakelen via Instellingen.
+        </div>
+      `;
+
+    return;
+
+  }
 
 
-function renderPoints() {
+  view.innerHTML =
+    `
+      <h2>📊 Punten</h2>
+
+      <div class="points-card">
+
+        <div class="points-names">
+
+          <div class="person-score">
+
+            <div class="person-name">
+              ${escapeHtml(
+                settings.youName ||
+                "Jij"
+              )}
+            </div>
+
+            <div
+              id="youPoints"
+              class="person-number"
+            >
+              0
+            </div>
+
+          </div>
+
+          <div class="person-score right">
+
+            <div class="person-name">
+              ${escapeHtml(
+                settings.partnerName ||
+                "Partner"
+              )}
+            </div>
+
+            <div
+              id="partnerPoints"
+              class="person-number"
+            >
+              0
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="balance-bar">
+
+          <div
+            id="balanceEmpty"
+            class="balance-empty"
+          ></div>
+
+          <div
+            id="balanceLeft"
+            class="balance-left"
+          ></div>
+
+          <div
+            id="balanceRight"
+            class="balance-right"
+          ></div>
+
+        </div>
+
+        <div
+          id="balanceDescription"
+          class="balance-description"
+        >
+          Nog geen punten
+        </div>
+
+      </div>
+    `;
+
 
   const totals =
     getPointsTotals();
@@ -3785,22 +4217,11 @@ function renderPoints() {
   ).textContent =
     totals.you;
 
+
   document.getElementById(
     "partnerPoints"
   ).textContent =
     totals.partner;
-
-  document.getElementById(
-    "youNameLabel"
-  ).textContent =
-    settings.youName ||
-    "Jij";
-
-  document.getElementById(
-    "partnerNameLabel"
-  ).textContent =
-    settings.partnerName ||
-    "Partner";
 
 
   const left =
@@ -3822,27 +4243,6 @@ function renderPoints() {
     document.getElementById(
       "balanceDescription"
     );
-
-
-  if (
-    !settings.pointsEnabled
-  ) {
-
-    left.style.width =
-      "0%";
-
-    right.style.width =
-      "0%";
-
-    empty.style.display =
-      "block";
-
-    description.textContent =
-      "Punten zijn uitgeschakeld.";
-
-    return;
-
-  }
 
 
   const total =
@@ -3876,14 +4276,17 @@ function renderPoints() {
 
 
   const youPercentage =
-    totals.you /
-    total *
-    100;
+    (
+      totals.you /
+      total
+    ) * 100;
+
 
   const partnerPercentage =
-    totals.partner /
-    total *
-    100;
+    (
+      totals.partner /
+      total
+    ) * 100;
 
 
   left.style.width =
@@ -3911,37 +4314,12 @@ function renderPoints() {
       )}%`;
 
   }
-
 }
 
 
 /* =========================================================
-   HISTORY
+   GESCHIEDENIS
 ========================================================= */
-
-function openHistory() {
-
-  closeMenu();
-
-  hideAllViews();
-
-  document
-    .getElementById(
-      "historyView"
-    )
-    .classList.add(
-      "active"
-    );
-
-  renderHistory();
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-}
-
 
 function renderHistory() {
 
@@ -3949,6 +4327,7 @@ function renderHistory() {
     document.getElementById(
       "historyList"
     );
+
 
   container.innerHTML =
     "";
@@ -3968,163 +4347,190 @@ function renderHistory() {
   }
 
 
-  completions
-    .slice()
-    .sort(
-      (a,b) =>
-        new Date(
-          b.completedAt
-        ) -
-        new Date(
-          a.completedAt
-        )
-    )
-    .forEach(
-      completion => {
-
-        const item =
-          document.createElement(
-            "div"
-          );
-
-        item.className =
-          "history-item";
+  const sorted =
+    completions
+      .slice()
+      .sort(
+        (a, b) =>
+          new Date(
+            b.completedAt
+          ) -
+          new Date(
+            a.completedAt
+          )
+      );
 
 
-        const main =
-          document.createElement(
-            "div"
-          );
+  sorted.forEach(
+    completion => {
 
-        main.className =
-          "history-main";
-
-
-        const left =
-          document.createElement(
-            "div"
-          );
-
-
-        const title =
-          document.createElement(
-            "div"
-          );
-
-        title.className =
-          "history-task";
-
-        title.textContent =
-          completion.taskTitle ||
-          "Taak";
-
-
-        const details =
-          document.createElement(
-            "div"
-          );
-
-        details.className =
-          "history-details";
-
-        details.textContent =
-          `${formatDateTime(
-            completion.completedAt
-          )} · ${personLabel(
-            completion.person
-          )}`;
-
-
-        left.appendChild(
-          title
-        );
-
-        left.appendChild(
-          details
+      const task =
+        tasks.find(
+          item =>
+            item.id ===
+            completion.taskId
         );
 
 
-        const points =
-          document.createElement(
-            "div"
-          );
-
-        points.className =
-          "history-points";
-
-
-        if (
-          completion.points ===
-          0
-        ) {
-
-          points.textContent =
-            "Geen punten";
-
-        } else if (
-          completion.person ===
-          "together"
-        ) {
-
-          points.textContent =
-            `+${completion.points} elk`;
-
-        } else {
-
-          points.textContent =
-            `+${completion.points}`;
-
-        }
-
-
-        main.appendChild(
-          left
-        );
-
-        main.appendChild(
-          points
-        );
-
-
-        const undo =
-          document.createElement(
-            "button"
-          );
-
-        undo.className =
-          "undo-button";
-
-        undo.textContent =
-          "↩ Ongedaan maken";
-
-        undo.onclick =
-          () =>
-            undoCompletion(
-              completion.id
+      const taskTitle =
+        task
+          ? task.title
+          : (
+              completion.taskTitle ||
+              "Verwijderde taak"
             );
 
 
-        item.appendChild(
-          main
+      const item =
+        document.createElement(
+          "div"
         );
 
-        item.appendChild(
-          undo
+      item.className =
+        "history-item";
+
+
+      const main =
+        document.createElement(
+          "div"
+        );
+
+      main.className =
+        "history-main";
+
+
+      const left =
+        document.createElement(
+          "div"
         );
 
 
-        container.appendChild(
-          item
+      const taskTitleElement =
+        document.createElement(
+          "div"
         );
+
+      taskTitleElement.className =
+        "history-task";
+
+      taskTitleElement.textContent =
+        taskTitle;
+
+
+      const details =
+        document.createElement(
+          "div"
+        );
+
+      details.className =
+        "history-details";
+
+      details.textContent =
+        `${formatDateTime(
+          completion.completedAt
+        )} · ${personLabel(
+          completion.person
+        )}`;
+
+
+      left.appendChild(
+        taskTitleElement
+      );
+
+      left.appendChild(
+        details
+      );
+
+
+      const right =
+        document.createElement(
+          "div"
+        );
+
+      right.className =
+        "history-points";
+
+
+      if (
+        settings.pointsEnabled ===
+        false
+      ) {
+
+        right.textContent =
+          "";
+
+      } else if (
+        completion.points ===
+        0
+      ) {
+
+        right.textContent =
+          "Geen punten";
+
+      } else if (
+        completion.person ===
+        "together"
+      ) {
+
+        right.textContent =
+          `+${completion.points} elk`;
+
+      } else {
+
+        right.textContent =
+          `+${completion.points}`;
 
       }
-    );
 
+
+      main.appendChild(
+        left
+      );
+
+      main.appendChild(
+        right
+      );
+
+
+      const undo =
+        document.createElement(
+          "button"
+        );
+
+      undo.className =
+        "undo-button";
+
+      undo.textContent =
+        "↩ Ongedaan maken";
+
+
+      undo.onclick =
+        () =>
+          undoCompletion(
+            completion.id
+          );
+
+
+      item.appendChild(
+        main
+      );
+
+      item.appendChild(
+        undo
+      );
+
+
+      container.appendChild(
+        item
+      );
+
+    }
+  );
 }
 
 
 /* =========================================================
-   UNDO
+   GESCHIEDENIS ONGEDAAN MAKEN
 ========================================================= */
 
 function undoCompletion(
@@ -4133,16 +4539,19 @@ function undoCompletion(
 
   const index =
     completions.findIndex(
-      c =>
-        c.id ===
+      completion =>
+        completion.id ===
         id
     );
+
 
   if (
     index ===
     -1
   ) {
+
     return;
+
   }
 
 
@@ -4150,12 +4559,22 @@ function undoCompletion(
     completions[index];
 
 
+  const task =
+    tasks.find(
+      item =>
+        item.id ===
+        completion.taskId
+    );
+
+
   if (
     !confirm(
-      "Wil je deze uitvoering ongedaan maken?"
+      `Wil je "${task ? task.title : completion.taskTitle || "deze taak"}" echt ongedaan maken?`
     )
   ) {
+
     return;
+
   }
 
 
@@ -4164,43 +4583,15 @@ function undoCompletion(
     1
   );
 
-  saveEverything();
 
-  renderAll();
+  saveCompletions();
 
+  render();
 }
 
 
 /* =========================================================
-   SETTINGS OPENEN
-========================================================= */
-
-function openSettings() {
-
-  closeMenu();
-
-  hideAllViews();
-
-  document
-    .getElementById(
-      "settingsView"
-    )
-    .classList.add(
-      "active"
-    );
-
-  renderSettings();
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-}
-
-
-/* =========================================================
-   SETTINGS RENDER
+   INSTELLINGEN RENDEREN
 ========================================================= */
 
 function renderSettings() {
@@ -4208,718 +4599,178 @@ function renderSettings() {
   document.getElementById(
     "appNameInput"
   ).value =
-    settings.appName || "";
+    settings.appName ||
+    "Huishouden";
 
 
   document.getElementById(
     "youNameInput"
   ).value =
-    settings.youName === "Jij"
+    settings.youName ===
+      "Jij"
       ? ""
-      : settings.youName || "";
+      : (
+          settings.youName ||
+          ""
+        );
 
 
   document.getElementById(
     "partnerNameInput"
   ).value =
-    settings.partnerName === "Partner"
+    settings.partnerName ===
+      "Partner"
       ? ""
-      : settings.partnerName || "";
-
-
-  document.getElementById(
-    "startDateInput"
-  ).value =
-    settings.startDate || "";
+      : (
+          settings.partnerName ||
+          ""
+        );
 
 
   document.getElementById(
     "pointsEnabledInput"
   ).checked =
-    !!settings.pointsEnabled;
+    settings.pointsEnabled !==
+    false;
 
 
-  renderTabSettings();
-
-  renderFrequencySettings();
-
-  renderTabPointsSettings();
-
-}
-
-
-/* =========================================================
-   TAB SETTINGS
-========================================================= */
-
-function renderTabSettings() {
-
-  const container =
-    document.getElementById(
-      "tabSettings"
-    );
-
-  container.innerHTML =
-    "";
-
-
-  settings.tabs.forEach(
-    (tab, index) => {
-
-      const item =
-        document.createElement(
-          "div"
-        );
-
-      item.className =
-        "custom-item";
-
-
-      const header =
-        document.createElement(
-          "div"
-        );
-
-      header.className =
-        "custom-item-header";
-
-
-      const title =
-        document.createElement(
-          "div"
-        );
-
-      title.className =
-        "custom-item-title";
-
-      title.textContent =
-        `Tab ${index + 1}`;
-
-
-      header.appendChild(
-        title
-      );
-
-
-      const icon =
-        document.createElement(
-          "div"
-        );
-
-      icon.className =
-        "icon-preview";
-
-      icon.textContent =
-        tab.icon;
-
-
-      const iconRow =
-        document.createElement(
-          "div"
-        );
-
-      iconRow.style.display =
-        "flex";
-
-      iconRow.style.alignItems =
-        "center";
-
-      iconRow.style.gap =
-        "10px";
-
-      iconRow.appendChild(
-        icon
-      );
-
-
-      const fields =
-        document.createElement(
-          "div"
-        );
-
-
-      const nameField =
-        document.createElement(
-          "div"
-        );
-
-      nameField.className =
-        "field";
-
-      nameField.innerHTML =
-        `
-          <label>Naam</label>
-          <input
-            type="text"
-            maxlength="30"
-            value="${escapeAttribute(tab.name)}"
-            data-tab-name="${tab.id}"
-          >
-        `;
-
-
-      const iconField =
-        document.createElement(
-          "div"
-        );
-
-      iconField.className =
-        "field";
-
-      iconField.innerHTML =
-        `
-          <label>Icoon</label>
-        `;
-
-
-      const iconGrid =
-        document.createElement(
-          "div"
-        );
-
-      iconGrid.className =
-        "icon-choice-grid";
-
-
-      ICONS.forEach(
-        choice => {
-
-          const button =
-            document.createElement(
-              "button"
-            );
-
-          button.type =
-            "button";
-
-          button.className =
-            "icon-choice";
-
-          if (
-            choice ===
-            tab.icon
-          ) {
-
-            button.classList.add(
-              "selected"
-            );
-
-          }
-
-          button.textContent =
-            choice;
-
-          button.onclick =
-            () => {
-
-              tab.icon =
-                choice;
-
-              renderTabSettings();
-
-            };
-
-          iconGrid.appendChild(
-            button
-          );
-
-        }
-      );
-
-
-      const customInput =
-        document.createElement(
-          "input"
-        );
-
-      customInput.type =
-        "text";
-
-      customInput.maxLength =
-        4;
-
-      customInput.placeholder =
-        "Of eigen symbool";
-
-      customInput.value =
-        ICONS.includes(tab.icon)
-          ? ""
-          : tab.icon;
-
-
-      customInput.oninput =
-        () => {
-
-          const value =
-            customInput.value.trim();
-
-          if (value) {
-
-            tab.icon =
-              value;
-
-            icon.textContent =
-              value;
-
-          }
-
-        };
-
-
-      iconField.appendChild(
-        iconGrid
-      );
-
-      iconField.appendChild(
-        customInput
-      );
-
-
-      const frequencyRow =
-        document.createElement(
-          "div"
-        );
-
-      frequencyRow.className =
-        "setting-row";
-
-
-      frequencyRow.innerHTML =
-        `
-          <div class="setting-row-text">
-            <div class="setting-row-title">
-              Frequentie gebruiken
-            </div>
-            <div class="setting-row-description">
-              Taken in deze tab kunnen een vast ritme hebben.
-            </div>
-          </div>
-
-          <label class="toggle">
-            <input
-              type="checkbox"
-              ${tab.useFrequency ? "checked" : ""}
-            >
-            <span class="toggle-slider"></span>
-          </label>
-        `;
-
-
-      frequencyRow
-        .querySelector(
-          "input"
-        )
-        .onchange =
-        event => {
-
-          tab.useFrequency =
-            event.target.checked;
-
-        };
-
-
-      const pointsRow =
-        document.createElement(
-          "div"
-        );
-
-      pointsRow.className =
-        "setting-row";
-
-
-      pointsRow.innerHTML =
-        `
-          <div class="setting-row-text">
-            <div class="setting-row-title">
-              Punten gebruiken
-            </div>
-            <div class="setting-row-description">
-              Taken in deze tab kunnen punten krijgen.
-            </div>
-          </div>
-
-          <label class="toggle">
-            <input
-              type="checkbox"
-              ${tab.usePoints ? "checked" : ""}
-            >
-            <span class="toggle-slider"></span>
-          </label>
-        `;
-
-
-      pointsRow
-        .querySelector(
-          "input"
-        )
-        .onchange =
-        event => {
-
-          tab.usePoints =
-            event.target.checked;
-
-        };
-
-
-      fields.appendChild(
-        nameField
-      );
-
-      fields.appendChild(
-        iconField
-      );
-
-      fields.appendChild(
-        frequencyRow
-      );
-
-      fields.appendChild(
-        pointsRow
-      );
-
-
-      item.appendChild(
-        header
-      );
-
-      item.appendChild(
-        fields
-      );
-
-      container.appendChild(
-        item
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   FREQUENCY SETTINGS
-========================================================= */
-
-function renderFrequencySettings() {
-
-  const container =
-    document.getElementById(
-      "frequencySettings"
-    );
-
-  container.innerHTML =
-    "";
-
-
-  settings.frequencies.forEach(
-    frequency => {
-
-      const item =
-        document.createElement(
-          "div"
-        );
-
-      item.className =
-        "custom-item";
-
-
-      const nameField =
-        document.createElement(
-          "div"
-        );
-
-      nameField.className =
-        "field";
-
-      nameField.innerHTML =
-        `
-          <label>Naam</label>
-
-          <input
-            type="text"
-            maxlength="30"
-            value="${escapeAttribute(
-              frequency.name
-            )}"
-          >
-        `;
-
-
-      nameField
-        .querySelector(
-          "input"
-        )
-        .oninput =
-        event => {
-
-          frequency.name =
-            event.target.value;
-
-        };
-
-
-      const iconField =
-        document.createElement(
-          "div"
-        );
-
-      iconField.className =
-        "field";
-
-      iconField.innerHTML =
-        `
-          <label>Icoon</label>
-        `;
-
-
-      const grid =
-        document.createElement(
-          "div"
-        );
-
-      grid.className =
-        "icon-choice-grid";
-
-
-      ICONS.forEach(
-        iconValue => {
-
-          const button =
-            document.createElement(
-              "button"
-            );
-
-          button.type =
-            "button";
-
-          button.className =
-            "icon-choice";
-
-          if (
-            frequency.icon ===
-            iconValue
-          ) {
-
-            button.classList.add(
-              "selected"
-            );
-
-          }
-
-          button.textContent =
-            iconValue;
-
-          button.onclick =
-            () => {
-
-              frequency.icon =
-                iconValue;
-
-              renderFrequencySettings();
-
-            };
-
-          grid.appendChild(
-            button
-          );
-
-        }
-      );
-
-
-      const custom =
-        document.createElement(
-          "input"
-        );
-
-      custom.type =
-        "text";
-
-      custom.maxLength =
-        4;
-
-      custom.placeholder =
-        "Of eigen symbool";
-
-      custom.value =
-        ICONS.includes(
-          frequency.icon
-        )
-          ? ""
-          : frequency.icon;
-
-
-      custom.oninput =
-        () => {
-
-          const value =
-            custom.value.trim();
-
-          if (value) {
-
-            frequency.icon =
-              value;
-
-          }
-
-        };
-
-
-      iconField.appendChild(
-        grid
-      );
-
-      iconField.appendChild(
-        custom
-      );
-
-
-      const daysField =
-        document.createElement(
-          "div"
-        );
-
-      daysField.className =
-        "field";
-
-      daysField.innerHTML =
-        `
-          <label>
-            Periode in dagen
-          </label>
-
-          <input
-            type="number"
-            min="1"
-            max="3650"
-            value="${frequency.days}"
-          >
-        `;
-
-
-      daysField
-        .querySelector(
-          "input"
-        )
-        .oninput =
-        event => {
-
-          frequency.days =
-            Math.max(
-              1,
-              Number(
-                event.target.value
-              ) || 1
-            );
-
-        };
-
-
-      item.appendChild(
-        nameField
-      );
-
-      item.appendChild(
-        iconField
-      );
-
-      item.appendChild(
-        daysField
-      );
-
-      container.appendChild(
-        item
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   TAB PUNTEN SETTINGS
-========================================================= */
-
-function renderTabPointsSettings() {
-
-  const container =
-    document.getElementById(
-      "tabPointsSettings"
-    );
-
-  container.innerHTML =
+  document.getElementById(
+    "startDateInput"
+  ).value =
+    settings.startDate ||
     "";
 
 
   settings.tabs.forEach(
     tab => {
 
-      const row =
-        document.createElement(
-          "div"
-        );
-
-      row.className =
-        "setting-row";
+      document.getElementById(
+        `${tab.id}NameInput`
+      ).value =
+        tab.name;
 
 
-      row.innerHTML =
-        `
-          <div class="setting-row-text">
-
-            <div class="setting-row-title">
-              ${escapeHtml(
-                tab.icon +
-                " " +
-                tab.name
-              )}
-            </div>
-
-            <div class="setting-row-description">
-              Punten toestaan in deze tab.
-            </div>
-
-          </div>
-
-          <label class="toggle">
-
-            <input
-              type="checkbox"
-              ${tab.usePoints ? "checked" : ""}
-            >
-
-            <span class="toggle-slider"></span>
-
-          </label>
-        `;
+      document.getElementById(
+        `${tab.id}IconInput`
+      ).value =
+        tab.icon;
 
 
-      row
-        .querySelector(
-          "input"
-        )
-        .onchange =
-        event => {
-
-          tab.usePoints =
-            event.target.checked;
-
-        };
+      document.getElementById(
+        `${tab.id}CustomIconInput`
+      ).value =
+        tab.customIcon ||
+        "";
 
 
-      container.appendChild(
-        row
-      );
+      document.getElementById(
+        `${tab.id}FrequencyEnabledInput`
+      ).checked =
+        tab.useFrequency;
 
     }
   );
+
+
+  document.getElementById(
+    "weeklyLabelInput"
+  ).value =
+    settings.frequencies.weekly;
+
+
+  document.getElementById(
+    "biweeklyLabelInput"
+  ).value =
+    settings.frequencies.biweekly;
+
+
+  document.getElementById(
+    "monthlyLabelInput"
+  ).value =
+    settings.frequencies.monthly;
 
 }
 
 
 /* =========================================================
-   SETTINGS OPSLAAN
+   CUSTOM ICON VELDEN
+========================================================= */
+
+function setupCustomIconField(
+  tabId
+) {
+
+  const select =
+    document.getElementById(
+      `${tabId}IconInput`
+    );
+
+  const field =
+    document.getElementById(
+      `${tabId}CustomIconField`
+    );
+
+
+  if (
+    !select ||
+    !field
+  ) {
+
+    return;
+
+  }
+
+
+  field.style.display =
+    select.value ===
+      "custom"
+      ? "block"
+      : "none";
+
+}
+
+
+function setupCustomIconFields() {
+
+  ["tab1", "tab2", "tab3"]
+    .forEach(
+      tabId => {
+
+        setupCustomIconField(
+          tabId
+        );
+
+        const select =
+          document.getElementById(
+            `${tabId}IconInput`
+          );
+
+
+        if (
+          select &&
+          !select.dataset.bound
+        ) {
+
+          select.addEventListener(
+            "change",
+            () =>
+              setupCustomIconField(
+                tabId
+              )
+          );
+
+          select.dataset.bound =
+            "true";
+
+        }
+
+      }
+    );
+}
+
+
+/* =========================================================
+   INSTELLINGEN OPSLAAN
 ========================================================= */
 
 function saveSettings() {
@@ -4952,17 +4803,21 @@ function saveSettings() {
     appName ||
     "Huishouden";
 
+
   settings.youName =
     youName ||
     "Jij";
+
 
   settings.partnerName =
     partnerName ||
     "Partner";
 
+
   settings.startDate =
     startDate ||
     "";
+
 
   settings.pointsEnabled =
     document.getElementById(
@@ -4970,34 +4825,201 @@ function saveSettings() {
     ).checked;
 
 
-  saveEverything();
+  settings.tabs =
+    settings.tabs.map(
+      tab => {
 
-  renderAll();
+        const name =
+          document.getElementById(
+            `${tab.id}NameInput`
+          ).value.trim();
+
+
+        const icon =
+          document.getElementById(
+            `${tab.id}IconInput`
+          ).value;
+
+
+        const customIcon =
+          document.getElementById(
+            `${tab.id}CustomIconInput`
+          ).value.trim();
+
+
+        const useFrequency =
+          document.getElementById(
+            `${tab.id}FrequencyEnabledInput`
+          ).checked;
+
+
+        return {
+
+          ...tab,
+
+          name:
+            name ||
+            `Tab ${
+              tab.id.replace(
+                "tab",
+                ""
+              )
+            }`,
+
+          icon:
+            icon,
+
+          customIcon:
+            customIcon,
+
+          useFrequency:
+            useFrequency
+
+        };
+
+      }
+    );
+
+
+  settings.frequencies = {
+
+    weekly:
+      document.getElementById(
+        "weeklyLabelInput"
+      ).value.trim() ||
+      "Wekelijks",
+
+    biweekly:
+      document.getElementById(
+        "biweeklyLabelInput"
+      ).value.trim() ||
+      "Om de 2 weken",
+
+    monthly:
+      document.getElementById(
+        "monthlyLabelInput"
+      ).value.trim() ||
+      "Maandelijks"
+
+  };
+
+
+  /*
+    Als een tab geen frequenties gebruikt,
+    verwijderen we de frequentie van bestaande
+    taken in die tab.
+  */
+
+  tasks.forEach(
+    task => {
+
+      const tab =
+        getTab(
+          task.tabId
+        );
+
+
+      if (
+        tab &&
+        !tab.useFrequency
+      ) {
+
+        task.frequency =
+          null;
+
+      }
+
+    }
+  );
+
+
+  saveSettingsData();
+
+  saveTasks();
+
+  render();
+
 
   alert(
     "Instellingen opgeslagen."
   );
-
 }
 
 
 /* =========================================================
-   APP HEADER
+   NAVIGATIE
 ========================================================= */
 
-function renderHeader() {
+function showView(
+  viewId
+) {
 
-  document.getElementById(
-    "appTitle"
-  ).textContent =
-    settings.appName ||
-    "Huishouden";
+  currentViewId =
+    viewId;
 
-  document.getElementById(
-    "appSubtitle"
-  ).textContent =
-    "Takenoverzicht";
 
+  [
+    "pointsView",
+    "historyView",
+    "settingsView"
+  ].forEach(
+    id => {
+
+      const element =
+        document.getElementById(
+          id
+        );
+
+      if (
+        element
+      ) {
+
+        element.classList.remove(
+          "active"
+        );
+
+      }
+
+    }
+  );
+
+
+  if (
+    settings.tabs.some(
+      tab =>
+        tab.id ===
+        viewId
+    )
+  ) {
+
+    render();
+
+  } else {
+
+    const view =
+      document.getElementById(
+        viewId
+      );
+
+
+    if (view) {
+
+      view.classList.add(
+        "active"
+      );
+
+    }
+
+
+    renderTabs();
+
+  }
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 
@@ -5005,30 +5027,33 @@ function renderHeader() {
    MENU
 ========================================================= */
 
-function toggleMenu() {
-
-  document
-    .getElementById(
-      "menuDropdown"
-    )
-    .classList.toggle(
-      "show"
-    );
-
-}
-
-
 function closeMenu() {
 
-  document
-    .getElementById(
+  document.getElementById(
+    "menuDropdown"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+document.getElementById(
+  "menuButton"
+).addEventListener(
+  "click",
+  event => {
+
+    event.stopPropagation();
+
+    document.getElementById(
       "menuDropdown"
-    )
-    .classList.remove(
+    ).classList.toggle(
       "show"
     );
 
-}
+  }
+);
 
 
 document.addEventListener(
@@ -5050,200 +5075,58 @@ document.addEventListener(
 
 
 /* =========================================================
-   ALLE VIEWS VERBERGEN
+   MODAL BACKDROP
 ========================================================= */
 
-function hideAllViews() {
+document.getElementById(
+  "completionModal"
+).addEventListener(
+  "click",
+  event => {
 
-  document
-    .querySelectorAll(
-      ".view"
-    )
-    .forEach(
-      view =>
-        view.classList.remove(
-          "active"
-        )
-    );
+    if (
+      event.target.id ===
+      "completionModal"
+    ) {
 
-}
+      closeCompletionModal();
 
+    }
 
-/* =========================================================
-   ALLES RENDEREN
-========================================================= */
-
-function renderAll() {
-
-  renderHeader();
-
-  renderTabs();
-
-  renderTabViews();
-
-  renderPoints();
-
-  renderHistory();
-
-  renderSettings();
-
-}
-
-
-/* =========================================================
-   RESET
-========================================================= */
-
-function resetApp() {
-
-  const answer =
-    confirm(
-      "Dit verwijdert alle huidige taken, uitvoeringen en instellingen en zet de app terug naar het basissjabloon. Doorgaan?"
-    );
-
-  if (!answer) {
-    return;
   }
+);
 
 
-  localStorage.removeItem(
-    STORAGE_KEYS.tasks
-  );
+document.getElementById(
+  "taskEditorModal"
+).addEventListener(
+  "click",
+  event => {
 
-  localStorage.removeItem(
-    STORAGE_KEYS.completions
-  );
+    if (
+      event.target.id ===
+      "taskEditorModal"
+    ) {
 
-  localStorage.removeItem(
-    STORAGE_KEYS.settings
-  );
-
-
-  settings =
-    clone(
-      DEFAULT_SETTINGS
-    );
-
-  tasks =
-    clone(
-      DEFAULT_TASKS
-    );
-
-  completions =
-    [];
-
-
-  renderAll();
-
-  alert(
-    "De app is teruggezet naar het basissjabloon."
-  );
-
-}
-
-
-/* =========================================================
-   ESCAPE
-========================================================= */
-
-function escapeHtml(
-  text
-) {
-
-  const div =
-    document.createElement(
-      "div"
-    );
-
-  div.textContent =
-    text ?? "";
-
-  return div.innerHTML;
-
-}
-
-
-function escapeAttribute(
-  text
-) {
-
-  return String(
-    text ?? ""
-  )
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    );
-
-}
-
-
-/* =========================================================
-   MODALS
-========================================================= */
-
-document
-  .getElementById(
-    "completionModal"
-  )
-  .addEventListener(
-    "click",
-    event => {
-
-      if (
-        event.target.id ===
-        "completionModal"
-      ) {
-
-        closeCompletionModal();
-
-      }
+      closeTaskEditor();
 
     }
-  );
 
-
-document
-  .getElementById(
-    "taskEditorModal"
-  )
-  .addEventListener(
-    "click",
-    event => {
-
-      if (
-        event.target.id ===
-        "taskEditorModal"
-      ) {
-
-        closeTaskEditor();
-
-      }
-
-    }
-  );
+  }
+);
 
 
 /* =========================================================
    START
 ========================================================= */
 
-renderAll();
+render();
+
+showView(
+  "tab1"
+);
 
 </script>
 
 </body>
 </html>
-```

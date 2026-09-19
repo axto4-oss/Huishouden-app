@@ -4,594 +4,557 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mijn app</title>
+<title>Huishouden</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  background:#f5f6f8;
-  color:#202124;
+* {
+  box-sizing: border-box;
 }
 
-button,input,select{font:inherit}
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --text: #20242a;
+  --muted: #727983;
+  --border: #e1e4e8;
+  --primary: #2f6fed;
+  --primary-light: #edf3ff;
+  --green: #28a745;
+  --green-light: #eaf8ee;
+  --red: #dc3545;
+  --red-light: #fff0f1;
+  --yellow: #f0a500;
+  --yellow-light: #fff8e6;
+  --shadow: 0 2px 10px rgba(0,0,0,.06);
+  --radius: 14px;
+}
 
-.app{
-  max-width:720px;
-  margin:0 auto;
-  padding:18px 16px 50px;
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
 }
 
 /* HEADER */
 
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:18px;
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.app-title{
-  margin:0;
-  font-size:28px;
-  font-weight:800;
+.app-title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
 }
 
-.menu-button{
-  border:0;
-  background:white;
-  width:44px;
-  height:44px;
-  border-radius:13px;
-  font-size:23px;
-  cursor:pointer;
-  box-shadow:0 1px 3px rgba(0,0,0,.07);
+.menu-wrap {
+  position: relative;
+}
+
+.menu-button {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 23px;
+}
+
+.menu-button:hover {
+  background: #e9ebee;
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  width: 210px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.12);
+  padding: 7px;
+  display: none;
+}
+
+.menu.open {
+  display: block;
+}
+
+.menu button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 11px 12px;
+  border-radius: 8px;
+}
+
+.menu button:hover {
+  background: var(--bg);
 }
 
 /* TABS */
 
-.tabs{
-  display:flex;
-  gap:8px;
-  overflow-x:auto;
-  padding-bottom:4px;
-  margin-bottom:22px;
-  scrollbar-width:none;
+.tab-bar {
+  display: flex;
+  overflow-x: auto;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
 }
 
-.tabs::-webkit-scrollbar{display:none}
-
-.tab-button{
-  flex:0 0 auto;
-  border:0;
-  background:#e9ebef;
-  color:#60656d;
-  border-radius:12px;
-  padding:11px 15px;
-  font-weight:700;
-  cursor:pointer;
+.tab-bar::-webkit-scrollbar {
+  display: none;
 }
 
-.tab-button.active{
-  background:#202124;
-  color:white;
+.tab-button {
+  flex: 0 0 auto;
+  min-width: 110px;
+  padding: 13px 18px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: white;
+  color: var(--muted);
+  font-weight: 600;
 }
 
-/* SECTIONS */
-
-.section{
-  margin-bottom:26px;
+.tab-button.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
 }
 
-.section-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:10px;
+/* CONTENT */
+
+main {
+  padding: 18px;
 }
 
-.section-title{
-  font-size:19px;
-  font-weight:700;
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
 }
 
-.section-count{
-  color:#6b7280;
-  font-size:14px;
+.page-title {
+  margin: 0;
+  font-size: 21px;
 }
 
-.add-button{
-  width:100%;
-  border:0;
-  background:white;
-  border-radius:14px;
-  padding:14px 16px;
-  margin-bottom:12px;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 1px 3px rgba(0,0,0,.07);
+.primary-button,
+.secondary-button,
+.danger-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 600;
 }
 
-/* TAKEN */
-
-.task-list{
-  display:flex;
-  flex-direction:column;
-  gap:9px;
+.primary-button {
+  background: var(--primary);
+  color: white;
 }
 
-.task{
-  background:white;
-  border-radius:14px;
-  padding:14px 15px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  box-shadow:0 1px 3px rgba(0,0,0,.07);
-  cursor:pointer;
-  transition:transform .1s;
+.primary-button:hover {
+  opacity: .9;
 }
 
-.task:active{
-  transform:scale(.99);
+.secondary-button {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
 }
 
-.status-dot{
-  width:11px;
-  height:11px;
-  border-radius:50%;
-  flex-shrink:0;
-  background:#c7cbd1;
+.danger-button {
+  background: var(--red-light);
+  color: var(--red);
 }
 
-.status-dot.green{background:#58a76f}
-.status-dot.red{background:#d65b5b}
-.status-dot.gray{background:#c7cbd1}
-
-.task-info{
-  min-width:0;
-  flex:1;
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 45px 20px;
+  background: white;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
 }
 
-.task-title{
-  font-size:16px;
-  font-weight:600;
-  word-break:break-word;
+/* TASKS */
+
+.frequency-section {
+  margin-bottom: 24px;
 }
 
-.task-meta{
-  margin-top:4px;
-  font-size:13px;
-  color:#7a7f87;
-  line-height:1.4;
+.frequency-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 0 0 8px 3px;
 }
 
-.task-actions{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  flex-shrink:0;
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.task-points{
-  font-weight:700;
-  font-size:13px;
-  background:#eef1f5;
-  padding:7px 9px;
-  border-radius:10px;
-  white-space:nowrap;
+.task {
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 5px solid #c8ccd1;
+  border-radius: var(--radius);
+  padding: 13px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow);
 }
 
-.edit-button{
-  border:0;
-  background:#f0f1f3;
-  width:34px;
-  height:34px;
-  border-radius:10px;
-  cursor:pointer;
+.task.status-green {
+  border-left-color: var(--green);
+  background: var(--green-light);
 }
 
-/* INSTELLINGEN MENU */
-
-.settings-menu{
-  position:fixed;
-  top:70px;
-  right:16px;
-  width:210px;
-  background:white;
-  border-radius:16px;
-  padding:8px;
-  box-shadow:0 8px 30px rgba(0,0,0,.15);
-  z-index:900;
-  display:none;
+.task.status-red {
+  border-left-color: var(--red);
+  background: var(--red-light);
 }
 
-.settings-menu.show{
-  display:block;
+.task.status-gray {
+  border-left-color: #c8ccd1;
 }
 
-.menu-item{
-  width:100%;
-  border:0;
-  background:transparent;
-  text-align:left;
-  padding:12px;
-  border-radius:10px;
-  cursor:pointer;
-  font-weight:600;
+.task-main {
+  flex: 1;
+  min-width: 0;
 }
 
-.menu-item:hover{
-  background:#f1f2f4;
+.task-title {
+  font-weight: 650;
+  margin-bottom: 4px;
+  word-break: break-word;
 }
 
-/* VIEWS */
-
-.view{
-  display:none;
+.task-meta {
+  color: var(--muted);
+  font-size: 13px;
 }
 
-.view.active{
-  display:block;
+.task-points {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-/* PUNTEN */
-
-.points-card{
-  background:white;
-  border-radius:16px;
-  padding:20px;
-  box-shadow:0 1px 3px rgba(0,0,0,.07);
+.task-actions {
+  display: flex;
+  gap: 6px;
 }
 
-.points-names{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:20px;
-  margin-bottom:13px;
+.icon-button {
+  border: 0;
+  background: transparent;
+  border-radius: 8px;
+  padding: 7px;
 }
 
-.person-score{
-  display:flex;
-  flex-direction:column;
-  gap:3px;
+.icon-button:hover {
+  background: rgba(0,0,0,.06);
 }
 
-.person-score.right{
-  text-align:right;
+.complete-button {
+  border: 0;
+  border-radius: 9px;
+  padding: 8px 11px;
+  background: white;
+  border: 1px solid var(--border);
+  white-space: nowrap;
 }
 
-.person-name{
-  font-size:14px;
-  color:#70757d;
+/* SPECIAL PAGES */
+
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
 }
 
-.person-number{
-  font-size:25px;
-  font-weight:800;
+.card h2,
+.card h3 {
+  margin-top: 0;
 }
 
-.balance-bar{
-  position:relative;
-  width:100%;
-  height:16px;
-  border-radius:999px;
-  overflow:hidden;
-  background:#e7e9ed;
+.points-total {
+  font-size: 40px;
+  font-weight: 800;
+  margin: 8px 0;
 }
 
-.balance-left{
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:50%;
-  background:#8fa8c4;
-  transition:width .35s ease;
+.points-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
 
-.balance-right{
-  position:absolute;
-  right:0;
-  top:0;
-  bottom:0;
-  width:50%;
-  background:#c4b29a;
-  transition:width .35s ease;
+.person-points {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 15px;
 }
 
-.balance-empty{
-  position:absolute;
-  inset:0;
-  background:#e7e9ed;
+.person-points strong {
+  display: block;
+  margin-bottom: 5px;
 }
 
-.balance-description{
-  margin-top:11px;
-  text-align:center;
-  color:#7a7f87;
-  font-size:13px;
+.history-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
 }
 
-/* GESCHIEDENIS */
-
-.history{
-  margin-top:14px;
+.history-item:last-child {
+  border-bottom: 0;
 }
 
-.history-item{
-  background:white;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:9px;
-  box-shadow:0 1px 3px rgba(0,0,0,.07);
+.history-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-.history-main{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
+.history-meta {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 3px;
 }
 
-.history-task{
-  font-weight:600;
+/* SETTINGS */
+
+.settings-section {
+  margin-bottom: 18px;
 }
 
-.history-details{
-  margin-top:5px;
-  color:#727780;
-  font-size:13px;
-  line-height:1.4;
+.settings-section > h2 {
+  font-size: 20px;
+  margin: 0 0 10px;
 }
 
-.history-points{
-  font-weight:700;
-  white-space:nowrap;
+.settings-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
 }
 
-.undo-button{
-  margin-top:10px;
-  border:0;
-  background:#f0f1f3;
-  border-radius:9px;
-  padding:8px 11px;
-  cursor:pointer;
-  font-size:13px;
+.field {
+  margin-bottom: 14px;
 }
 
-/* INSTELLINGEN */
-
-.settings-card{
-  background:white;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:12px;
-  box-shadow:0 1px 3px rgba(0,0,0,.07);
+.field:last-child {
+  margin-bottom: 0;
 }
 
-.settings-card h3{
-  margin:0 0 5px;
-  font-size:17px;
-}
-
-.settings-description{
-  color:#747981;
-  font-size:13px;
-  margin-bottom:15px;
-  line-height:1.45;
-}
-
-.field{
-  margin-bottom:13px;
-}
-
-.field:last-child{
-  margin-bottom:0;
-}
-
-.field label{
-  display:block;
-  font-size:13px;
-  font-weight:600;
-  margin-bottom:6px;
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
 }
 
 .field input,
-.field select{
-  width:100%;
-  border:1px solid #dfe2e6;
-  border-radius:11px;
-  padding:11px 12px;
-  background:white;
-  outline:none;
+.field select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 11px;
+  background: white;
 }
 
-.save-settings-button,
-.modal-primary{
-  width:100%;
-  border:0;
-  background:#202124;
-  color:white;
-  border-radius:12px;
-  padding:13px;
-  font-weight:700;
-  cursor:pointer;
-  margin-top:8px;
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.danger-button{
-  width:100%;
-  border:0;
-  background:#f8e6e6;
-  color:#a33a3a;
-  border-radius:12px;
-  padding:13px;
-  font-weight:700;
-  cursor:pointer;
-  margin-top:8px;
+.checkbox-field label {
+  margin: 0;
 }
 
-/* TAB INSTELLINGEN */
-
-.tab-setting{
-  background:#f5f6f8;
-  border-radius:13px;
-  padding:14px;
-  margin-bottom:10px;
+.tab-config {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
 }
 
-.tab-setting-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:12px;
+.tab-config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
 }
 
-.tab-setting-title{
-  font-weight:700;
+.tab-config-title {
+  font-weight: 700;
 }
 
-.remove-tab{
-  border:0;
-  background:#f8e6e6;
-  color:#a33a3a;
-  border-radius:8px;
-  padding:6px 9px;
-  cursor:pointer;
+.frequency-editor {
+  border-top: 1px solid var(--border);
+  margin-top: 14px;
+  padding-top: 14px;
 }
 
-/* MODAL */
-
-.modal-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  display:none;
-  align-items:flex-end;
-  justify-content:center;
-  z-index:1000;
-  padding:12px;
+.frequency-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 8px;
+  align-items: end;
+  margin-bottom: 8px;
 }
 
-.modal-backdrop.show{
-  display:flex;
+.frequency-row input,
+.frequency-row select {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
 }
 
-.modal{
-  width:100%;
-  max-width:720px;
-  max-height:90vh;
-  overflow-y:auto;
-  background:white;
-  border-radius:22px 22px 0 0;
-  padding:24px 18px 28px;
+.small-label {
+  font-size: 12px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 4px;
 }
 
-.modal h2{
-  margin:0 0 6px;
-  font-size:21px;
+.settings-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.modal-subtitle{
-  color:#70757d;
-  font-size:14px;
-  margin-bottom:20px;
-  line-height:1.4;
+/* MODALS */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 18px;
 }
 
-.person-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:9px;
+.modal-backdrop.open {
+  display: flex;
 }
 
-.person-button{
-  border:0;
-  border-radius:13px;
-  padding:15px 8px;
-  background:#f0f1f3;
-  font-size:15px;
-  font-weight:600;
-  cursor:pointer;
+.modal {
+  background: white;
+  border-radius: 16px;
+  width: min(500px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px;
 }
 
-.cancel-button{
-  width:100%;
-  margin-top:12px;
-  border:0;
-  background:transparent;
-  padding:12px;
-  font-size:15px;
-  cursor:pointer;
-  color:#666;
+.modal h2 {
+  margin-top: 0;
 }
 
-.modal-form{
-  display:flex;
-  flex-direction:column;
-  gap:13px;
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+  flex-wrap: wrap;
 }
 
-.modal-form label{
-  font-size:13px;
-  font-weight:600;
-  margin-bottom:5px;
-  display:block;
+.person-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
 }
 
-.modal-form input,
-.modal-form select{
-  width:100%;
-  border:1px solid #dfe2e6;
-  border-radius:11px;
-  padding:12px;
-  background:white;
-  outline:none;
+.person-button {
+  padding: 12px 8px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 10px;
+  font-weight: 600;
 }
 
-.modal-danger{
-  width:100%;
-  border:0;
-  background:#f8e6e6;
-  color:#a33a3a;
-  border-radius:12px;
-  padding:13px;
-  font-weight:700;
-  cursor:pointer;
+.person-button:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
 }
 
-.empty{
-  color:#777;
-  background:white;
-  padding:18px;
-  border-radius:14px;
-  text-align:center;
-  line-height:1.45;
-}
+/* MOBILE */
 
-.info-box{
-  background:#f0f1f3;
-  border-radius:12px;
-  padding:12px;
-  font-size:13px;
-  color:#666;
-  line-height:1.45;
-}
-
-@media(min-width:700px){
-  .modal-backdrop{
-    align-items:center;
+@media (max-width: 600px) {
+  main {
+    padding: 13px;
   }
 
-  .modal{
-    border-radius:22px;
+  .app-title {
+    font-size: 21px;
+  }
+
+  .page-header {
+    align-items: flex-start;
+  }
+
+  .task {
+    align-items: flex-start;
+  }
+
+  .task-actions {
+    flex-direction: column;
+  }
+
+  .frequency-row {
+    grid-template-columns: 1fr;
+  }
+
+  .points-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .person-buttons {
+    grid-template-columns: 1fr;
   }
 }
 </style>
@@ -601,3780 +564,467 @@ button,input,select{font:inherit}
 
 <div class="app">
 
-  <!-- HEADER -->
-  <div class="topbar">
-    <h1 id="appTitle" class="app-title">Mijn app</h1>
+  <header class="app-header">
+    <h1 class="app-title" id="appTitle">Huishouden</h1>
 
-    <button
-      class="menu-button"
-      onclick="toggleMenu()"
-      aria-label="Menu"
-    >
-      ☰
-    </button>
-  </div>
+    <div class="menu-wrap">
+      <button class="menu-button" id="menuButton" onclick="toggleMenu()">☰</button>
 
-  <!-- MENU -->
-  <div id="settingsMenu" class="settings-menu">
-
-    <button
-      class="menu-item"
-      onclick="showView('pointsView'); closeMenu()"
-    >
-      📊 Punten
-    </button>
-
-    <button
-      class="menu-item"
-      onclick="showView('historyView'); closeMenu()"
-    >
-      📖 Geschiedenis
-    </button>
-
-    <button
-      class="menu-item"
-      onclick="showView('settingsView'); closeMenu()"
-    >
-      ⚙️ Instellingen
-    </button>
-
-  </div>
-
-
-  <!-- HOOFDTABS -->
-  <div id="tabs" class="tabs"></div>
-
-
-  <!-- DYNAMISCHE TABVIEWS -->
-  <div id="dynamicViews"></div>
-
-
-  <!-- PUNTEN -->
-  <div id="pointsView" class="view">
-
-    <h2>📊 Punten</h2>
-
-    <div class="points-card">
-
-      <div class="points-names">
-
-        <div class="person-score">
-          <div class="person-name" id="youNameLabel">Jij</div>
-          <div class="person-number" id="youPoints">0</div>
-        </div>
-
-        <div class="person-score right">
-          <div class="person-name" id="partnerNameLabel">Partner</div>
-          <div class="person-number" id="partnerPoints">0</div>
-        </div>
-
+      <div class="menu" id="mainMenu">
+        <button onclick="showSpecialView('points')">🏆 Punten</button>
+        <button onclick="showSpecialView('history')">📜 Geschiedenis</button>
+        <button onclick="showSpecialView('settings')">⚙️ Instellingen</button>
       </div>
-
-      <div class="balance-bar">
-
-        <div id="balanceEmpty" class="balance-empty"></div>
-        <div id="balanceLeft" class="balance-left"></div>
-        <div id="balanceRight" class="balance-right"></div>
-
-      </div>
-
-      <div id="balanceDescription" class="balance-description">
-        Nog geen punten
-      </div>
-
     </div>
+  </header>
 
-  </div>
+  <nav class="tab-bar" id="tabBar"></nav>
 
-
-  <!-- GESCHIEDENIS -->
-  <div id="historyView" class="view">
-
-    <h2>📖 Geschiedenis</h2>
-
-    <div id="historyList" class="history"></div>
-
-  </div>
-
-
-  <!-- INSTELLINGEN -->
-  <div id="settingsView" class="view">
-
-    <h2>⚙️ Instellingen</h2>
-
-
-    <div class="settings-card">
-
-      <h3>🏷️ Algemene naam</h3>
-
-      <div class="settings-description">
-        Kies de naam van deze app of het systeem.
-      </div>
-
-      <div class="field">
-        <label for="appNameInput">
-          Algemene naam
-        </label>
-
-        <input
-          id="appNameInput"
-          type="text"
-          maxlength="50"
-          placeholder="Bijvoorbeeld: Huishouden"
-        >
-      </div>
-
-    </div>
-
-
-    <div class="settings-card">
-
-      <h3>👥 Namen</h3>
-
-      <div class="settings-description">
-        Deze namen worden gebruikt wanneer een taak wordt uitgevoerd.
-      </div>
-
-      <div class="field">
-
-        <label for="youNameInput">
-          Naam persoon 1
-        </label>
-
-        <input
-          id="youNameInput"
-          type="text"
-          maxlength="40"
-          placeholder="Bijvoorbeeld: Jan"
-        >
-
-      </div>
-
-      <div class="field">
-
-        <label for="partnerNameInput">
-          Naam persoon 2
-        </label>
-
-        <input
-          id="partnerNameInput"
-          type="text"
-          maxlength="40"
-          placeholder="Bijvoorbeeld: Emma"
-        >
-
-      </div>
-
-    </div>
-
-
-    <div class="settings-card">
-
-      <h3>📑 Tabbladen</h3>
-
-      <div class="settings-description">
-        Maak hier zelf de tabbladen van de app.
-        Je kunt de naam, het icoon en het type aanpassen.
-      </div>
-
-      <div id="tabSettingsList"></div>
-
-      <button
-        class="add-button"
-        onclick="addTabSetting()"
-      >
-        ＋ Tabblad toevoegen
-      </button>
-
-    </div>
-
-
-    <div class="settings-card">
-
-      <h3>🏠 Startdatum</h3>
-
-      <div class="settings-description">
-        Optioneel. Bij een ingevulde datum worden
-        repeterende taken vóór deze datum niet als
-        achterstallig beschouwd.
-      </div>
-
-      <div class="field">
-
-        <label for="startDateInput">
-          Startdatum
-        </label>
-
-        <input
-          id="startDateInput"
-          type="date"
-        >
-
-      </div>
-
-    </div>
-
-
-    <button
-      class="save-settings-button"
-      onclick="saveSettings()"
-    >
-      Instellingen opslaan
-    </button>
-
-
-    <button
-      class="danger-button"
-      onclick="resetApp()"
-    >
-      Alles terugzetten naar basissjabloon
-    </button>
-
-  </div>
+  <main id="mainContent"></main>
 
 </div>
 
 
-<!-- UITVOERINGSMODAL -->
+<!-- TASK MODAL -->
 
-<div id="completionModal" class="modal-backdrop">
-
+<div class="modal-backdrop" id="taskModal">
   <div class="modal">
+    <h2 id="taskModalTitle">Taak toevoegen</h2>
 
-    <h2 id="completionTitle">Taak</h2>
-
-    <div
-      class="modal-subtitle"
-      id="completionSubtitle"
-    >
-      Wie heeft dit gedaan?
+    <div class="field">
+      <label for="taskName">Naam van de taak</label>
+      <input id="taskName" type="text" placeholder="Bijvoorbeeld: Keuken poetsen">
     </div>
 
-    <div class="person-buttons">
-
-      <button
-        class="person-button"
-        onclick="completeTask('you')"
-        id="youButton"
-      >
-        Jij
-      </button>
-
-      <button
-        class="person-button"
-        onclick="completeTask('partner')"
-        id="partnerButton"
-      >
-        Partner
-      </button>
-
-      <button
-        class="person-button"
-        onclick="completeTask('together')"
-      >
-        Samen
-      </button>
-
+    <div class="field" id="taskFrequencyField">
+      <label for="taskFrequency">Frequentie</label>
+      <select id="taskFrequency"></select>
     </div>
 
-    <button
-      class="cancel-button"
-      onclick="closeCompletionModal()"
-    >
-      Annuleren
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- TAAK EDITOR -->
-
-<div id="taskEditorModal" class="modal-backdrop">
-
-  <div class="modal">
-
-    <h2 id="editorTitle">
-      Taak toevoegen
-    </h2>
-
-    <div
-      class="modal-subtitle"
-      id="editorSubtitle"
-    >
-      Vul de gegevens van de taak in.
+    <div class="field" id="taskPointsField">
+      <label for="taskPoints">Punten</label>
+      <input id="taskPoints" type="number" min="0" step="1" value="1">
     </div>
 
-    <div class="modal-form">
-
-      <div>
-
-        <label for="taskTitleInput">
-          Naam van de taak
-        </label>
-
-        <input
-          id="taskTitleInput"
-          type="text"
-          maxlength="100"
-          placeholder="Bijvoorbeeld: Stofzuigen"
-        >
-
-      </div>
-
-
-      <div id="frequencyField">
-
-        <label for="taskFrequencyInput">
-          Frequentie
-        </label>
-
-        <select id="taskFrequencyInput">
-
-          <option value="weekly">
-            Wekelijks
-          </option>
-
-          <option value="biweekly">
-            Om de 2 weken
-          </option>
-
-          <option value="monthly">
-            Maandelijks
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div id="pointsField">
-
-        <label for="taskPointsInput">
-          Punten
-        </label>
-
-        <input
-          id="taskPointsInput"
-          type="number"
-          min="0"
-          max="100"
-          step="1"
-          value="1"
-        >
-
-      </div>
-
-
-      <button
-        class="modal-primary"
-        onclick="saveTaskFromEditor()"
-      >
-        Opslaan
+    <div class="modal-actions">
+      <button class="danger-button" id="deleteTaskButton" onclick="deleteCurrentTask()" style="display:none;">
+        Verwijderen
       </button>
 
-
-      <button
-        id="deleteTaskButton"
-        class="modal-danger"
-        onclick="deleteTaskFromEditor()"
-        style="display:none"
-      >
-        Taak verwijderen
-      </button>
-
-
-      <button
-        class="cancel-button"
-        onclick="closeTaskEditor()"
-      >
+      <button class="secondary-button" onclick="closeModal('taskModal')">
         Annuleren
       </button>
 
+      <button class="primary-button" onclick="saveTask()">
+        Opslaan
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- COMPLETION MODAL -->
+
+<div class="modal-backdrop" id="completionModal">
+  <div class="modal">
+    <h2>Wie heeft deze taak gedaan?</h2>
+    <p id="completionTaskName"></p>
+
+    <div class="person-buttons">
+      <button class="person-button" onclick="completeTask('you')">
+        <span id="youButtonName">Jij</span>
+      </button>
+
+      <button class="person-button" onclick="completeTask('partner')">
+        <span id="partnerButtonName">Partner</span>
+      </button>
+
+      <button class="person-button" onclick="completeTask('together')">
+        Samen
+      </button>
     </div>
 
+    <div class="modal-actions">
+      <button class="secondary-button" onclick="closeModal('completionModal')">
+        Annuleren
+      </button>
+    </div>
   </div>
-
 </div>
 
 
 <script>
-
-/* =========================================================
-   NIEUWE OPSLAGVERSIE
-
-   Bewust anders dan vorige versies.
-   Daardoor worden oude ingevulde gegevens niet gebruikt.
-========================================================= */
-
-const STORAGE_KEYS = {
-  tasks: "customTaskAppTasksV1",
-  completions: "customTaskAppCompletionsV1",
-  settings: "customTaskAppSettingsV1"
-};
-
-
-/* =========================================================
-   BASISINSTELLINGEN
-
-   De app start met 3 lege standaardtabs.
-========================================================= */
-
-const DEFAULT_SETTINGS = {
-
-  appName: "Huishouden",
-
-  youName: "Jij",
-
-  partnerName: "Partner",
-
-  startDate: "",
-
-  tabs: [
-
-    {
-      id: "tab-1",
-      name: "Repeterend",
-      icon: "🔄",
-      mode: "recurring",
-      frequencies: [
-        "weekly",
-        "biweekly",
-        "monthly"
-      ]
-    },
-
-    {
-      id: "tab-2",
-      name: "Wanneer nodig",
-      icon: "⚡",
-      mode: "when_needed",
-      frequencies: []
-    },
-
-    {
-      id: "tab-3",
-      name: "Later",
-      icon: "📌",
-      mode: "later",
-      frequencies: []
-    }
-
-  ]
-
-};
-
-
 /* =========================================================
    DATA
-
-   GEEN STANDAARDTAKEN.
 ========================================================= */
 
-let tasks = [];
+const STORAGE_KEY = "householdGenericTemplateV1";
 
-let completions = [];
+const DEFAULT_DATA = {
+  settings: {
+    appName: "Huishouden",
 
-let settings = loadSettings();
+    youName: "Jij",
+    partnerName: "Partner",
 
-let selectedTask = null;
+    startDate: "",
+
+    tabs: [
+      {
+        id: "tab-1",
+        name: "Tab 1",
+        icon: "1️⃣",
+        type: "recurring",
+        pointsEnabled: true,
+
+        frequencies: [
+          {
+            id: "freq-1",
+            label: "Wekelijks",
+            type: "weekly"
+          },
+          {
+            id: "freq-2",
+            label: "Om de 2 weken",
+            type: "biweekly"
+          },
+          {
+            id: "freq-3",
+            label: "Maandelijks",
+            type: "monthly"
+          }
+        ]
+      },
+
+      {
+        id: "tab-2",
+        name: "Tab 2",
+        icon: "2️⃣",
+        type: "repeatable",
+        pointsEnabled: true,
+        frequencies: []
+      },
+
+      {
+        id: "tab-3",
+        name: "Tab 3",
+        icon: "3️⃣",
+        type: "one_time",
+        pointsEnabled: false,
+        frequencies: []
+      }
+    ]
+  },
+
+  tasks: [],
+  completions: []
+};
+
+
+let data = loadData();
+
+let currentView = {
+  type: "tab",
+  id: data.settings.tabs[0]?.id
+};
 
 let editingTaskId = null;
-
-let editorTabId = null;
+let editingTabId = null;
+let completionTaskId = null;
 
 
 /* =========================================================
-   INSTELLINGEN LADEN
+   STORAGE
 ========================================================= */
 
-function loadSettings(){
+function clone(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
 
-  const stored =
-    localStorage.getItem(
-      STORAGE_KEYS.settings
-    );
+function loadData() {
+  const stored = localStorage.getItem(STORAGE_KEY);
 
-  if(!stored){
-
-    const copy =
-      JSON.parse(
-        JSON.stringify(
-          DEFAULT_SETTINGS
-        )
-      );
-
-    localStorage.setItem(
-      STORAGE_KEYS.settings,
-      JSON.stringify(copy)
-    );
-
-    return copy;
+  if (!stored) {
+    return clone(DEFAULT_DATA);
   }
 
-  try{
+  try {
+    const parsed = JSON.parse(stored);
 
-    const parsed =
-      JSON.parse(stored);
-
-    if(
-      parsed &&
-      Array.isArray(parsed.tabs)
-    ){
-
-      return normalizeSettings(
-        parsed
-      );
-
+    if (!parsed.settings || !Array.isArray(parsed.settings.tabs)) {
+      return clone(DEFAULT_DATA);
     }
 
-  }catch(error){
+    return parsed;
 
-    console.error(
-      "Instellingen konden niet geladen worden.",
-      error
-    );
-
+  } catch {
+    return clone(DEFAULT_DATA);
   }
+}
 
-  return JSON.parse(
-    JSON.stringify(
-      DEFAULT_SETTINGS
-    )
-  );
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
 
 /* =========================================================
-   INSTELLINGEN NORMALISEREN
+   HELPERS
 ========================================================= */
 
-function normalizeSettings(data){
-
-  const result = {
-
-    ...DEFAULT_SETTINGS,
-
-    ...data
-
-  };
-
-
-  if(!Array.isArray(result.tabs)){
-
-    result.tabs =
-      JSON.parse(
-        JSON.stringify(
-          DEFAULT_SETTINGS.tabs
-        )
-      );
-
-  }
-
-
-  result.tabs =
-    result.tabs.map(
-      (tab,index) => ({
-
-        id:
-          tab.id ||
-          "tab-" +
-          Date.now() +
-          "-" +
-          index,
-
-        name:
-          tab.name ||
-          "Tabblad " +
-          (index + 1),
-
-        icon:
-          tab.icon ||
-          "📋",
-
-        mode:
-          tab.mode ||
-          "custom",
-
-        frequencies:
-          Array.isArray(
-            tab.frequencies
-          )
-            ? tab.frequencies
-            : []
-
-      })
-    );
-
-
-  return result;
+function uid(prefix = "id") {
+  return prefix + "-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8);
 }
 
-
-/* =========================================================
-   TAKEN LADEN
-
-   Bewust leeg als er nog geen data is.
-========================================================= */
-
-function loadTasks(){
-
-  const stored =
-    localStorage.getItem(
-      STORAGE_KEYS.tasks
-    );
-
-  if(!stored){
-
-    return [];
-
-  }
-
-  try{
-
-    const parsed =
-      JSON.parse(stored);
-
-    return Array.isArray(parsed)
-      ? parsed
-      : [];
-
-  }catch(error){
-
-    console.error(
-      "Taken konden niet geladen worden.",
-      error
-    );
-
-    return [];
-
-  }
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
-
-tasks = loadTasks();
-
-
-/* =========================================================
-   UITVOERINGEN LADEN
-========================================================= */
-
-function loadCompletions(){
-
-  const stored =
-    localStorage.getItem(
-      STORAGE_KEYS.completions
-    );
-
-  if(!stored){
-
-    return [];
-
-  }
-
-  try{
-
-    const parsed =
-      JSON.parse(stored);
-
-    return Array.isArray(parsed)
-      ? parsed
-      : [];
-
-  }catch(error){
-
-    console.error(
-      "Geschiedenis kon niet geladen worden.",
-      error
-    );
-
-    return [];
-
-  }
+function getTab(tabId) {
+  return data.settings.tabs.find(tab => tab.id === tabId);
 }
 
-
-completions =
-  loadCompletions();
-
-
-/* =========================================================
-   OPSLAAN
-========================================================= */
-
-function saveTasks(){
-
-  localStorage.setItem(
-    STORAGE_KEYS.tasks,
-    JSON.stringify(tasks)
-  );
-
+function getTask(taskId) {
+  return data.tasks.find(task => task.id === taskId);
 }
 
-
-function saveCompletions(){
-
-  localStorage.setItem(
-    STORAGE_KEYS.completions,
-    JSON.stringify(completions)
-  );
-
-}
-
-
-function saveSettingsData(){
-
-  localStorage.setItem(
-    STORAGE_KEYS.settings,
-    JSON.stringify(settings)
-  );
-
-}
-
-
-/* =========================================================
-   DATUM HELPERS
-========================================================= */
-
-function dateOnly(date){
-
-  const result =
-    new Date(date);
-
-  result.setHours(
-    0,
-    0,
-    0,
-    0
-  );
-
-  return result;
-}
-
-
-function getStartDate(){
-
-  if(!settings.startDate){
-
-    return null;
-
-  }
-
-  const date =
-    new Date(
-      settings.startDate +
-      "T00:00:00"
-    );
-
-  if(isNaN(date.getTime())){
-
-    return null;
-
-  }
-
-  return dateOnly(date);
-}
-
-
-function isBeforeStartDate(date){
-
-  const start =
-    getStartDate();
-
-  if(!start){
-
-    return false;
-
-  }
-
-  return dateOnly(date) < start;
-}
-
-
-/* =========================================================
-   PERIODE HELPERS
-========================================================= */
-
-function getMonday(date){
-
-  const result =
-    dateOnly(date);
-
-  const day =
-    result.getDay() || 7;
-
-  result.setDate(
-    result.getDate() -
-    day +
-    1
-  );
-
-  return result;
-}
-
-
-function addDays(date,days){
-
-  const result =
-    new Date(date);
-
-  result.setDate(
-    result.getDate() +
-    days
-  );
-
-  return result;
-}
-
-
-function getWeekPeriod(date){
-
-  return getMonday(date)
-    .toISOString()
-    .slice(0,10);
-
-}
-
-
-function getMonthPeriod(date){
-
-  const d =
-    dateOnly(date);
+function getFrequency(tab, frequencyId) {
+  if (!tab || !tab.frequencies) return null;
 
   return (
-    d.getFullYear() +
-    "-" +
-    String(
-      d.getMonth()+1
-    ).padStart(2,"0")
+    tab.frequencies.find(freq => freq.id === frequencyId) ||
+    tab.frequencies[0] ||
+    null
   );
-
 }
 
+function today() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
 
-function getBiweeklyPeriod(date){
+function parseDate(value) {
+  if (!value) return null;
 
-  const start =
-    getStartDate();
-
-  if(!start){
-
-    return getWeekPeriod(date);
-
+  if (value instanceof Date) {
+    const d = new Date(value);
+    d.setHours(0, 0, 0, 0);
+    return d;
   }
 
-  const current =
-    getMonday(date);
+  return new Date(value + "T00:00:00");
+}
 
-  const startMonday =
-    getMonday(start);
+function addDays(date, amount) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + amount);
+  return d;
+}
 
-  const diff =
-    Math.floor(
-      (
-        current -
-        startMonday
-      ) /
-      86400000
-    );
+function formatDate(date) {
+  if (!date) return "";
 
-  const block =
-    Math.floor(
-      diff / 14
-    );
+  const d = date instanceof Date ? date : parseDate(date);
 
-  return addDays(
-    startMonday,
-    block * 14
-  )
-  .toISOString()
-  .slice(0,10);
+  return d.toLocaleDateString("nl-BE", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+}
 
+function dateKey(date) {
+  const d = date instanceof Date ? date : parseDate(date);
+
+  return [
+    d.getFullYear(),
+    String(d.getMonth() + 1).padStart(2, "0"),
+    String(d.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+function getMonday(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+
+  const difference = day === 0 ? -6 : 1 - day;
+
+  d.setDate(d.getDate() + difference);
+  d.setHours(0, 0, 0, 0);
+
+  return d;
 }
 
 
 /* =========================================================
-   PERIODE
+   PERIODS / FREQUENCIES
 ========================================================= */
 
-function getPeriod(
-  task,
-  date = new Date()
-){
+function getPeriodInfo(task, date = today()) {
+  const tab = getTab(task.tabId);
 
-  if(
-    task.mode !==
-    "recurring"
-  ){
+  if (!tab || tab.type !== "recurring") {
+    return null;
+  }
+
+  const frequency = getFrequency(tab, task.frequencyId);
+
+  if (!frequency) {
+    return null;
+  }
+
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+
+  let start;
+  let end;
+
+  if (frequency.type === "weekly") {
+
+    start = getMonday(d);
+    end = addDays(start, 6);
+
+  } else if (frequency.type === "biweekly") {
+
+    let anchor;
+
+    if (data.settings.startDate) {
+      anchor = getMonday(parseDate(data.settings.startDate));
+    } else {
+      anchor = new Date(2020, 0, 6);
+    }
+
+    const diffDays = Math.floor(
+      (getMonday(d) - anchor) / 86400000
+    );
+
+    const block = Math.floor(diffDays / 14);
+
+    start = addDays(anchor, block * 14);
+    end = addDays(start, 13);
+
+  } else if (frequency.type === "monthly") {
+
+    start = new Date(d.getFullYear(), d.getMonth(), 1);
+    end = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+  } else {
 
     return null;
-
   }
-
-  if(
-    task.frequency ===
-    "weekly"
-  ){
-
-    return (
-      "weekly-" +
-      getWeekPeriod(date)
-    );
-
-  }
-
-  if(
-    task.frequency ===
-    "biweekly"
-  ){
-
-    return (
-      "biweekly-" +
-      getBiweeklyPeriod(date)
-    );
-
-  }
-
-  if(
-    task.frequency ===
-    "monthly"
-  ){
-
-    return (
-      "monthly-" +
-      getMonthPeriod(date)
-    );
-
-  }
-
-  return null;
-}
-
-
-/* =========================================================
-   TAAKCOMPLETIONS
-========================================================= */
-
-function getTaskCompletions(task){
-
-  return completions.filter(
-    c =>
-      c.taskId ===
-      task.id
-  );
-
-}
-
-
-function getCurrentCompletion(task){
-
-  if(
-    task.mode !==
-    "recurring"
-  ){
-
-    return null;
-
-  }
-
-  const period =
-    getPeriod(task);
-
-  if(!period){
-
-    return null;
-
-  }
-
-  return completions.find(
-    c =>
-      c.taskId === task.id &&
-      c.period === period
-  ) || null;
-}
-
-
-function getLastCompletion(task){
-
-  const list =
-    getTaskCompletions(task);
-
-  if(!list.length){
-
-    return null;
-
-  }
-
-  return list
-    .slice()
-    .sort(
-      (a,b) =>
-        new Date(
-          b.completedAt
-        ) -
-        new Date(
-          a.completedAt
-        )
-    )[0];
-}
-
-
-/* =========================================================
-   OVERDUE
-
-   Alleen voor taken met een frequentie.
-========================================================= */
-
-function isOverdue(task){
-
-  if(
-    task.mode !==
-    "recurring"
-  ){
-
-    return false;
-
-  }
-
-  if(
-    !task.frequency
-  ){
-
-    return false;
-
-  }
-
-  const today =
-    new Date();
-
-  if(
-    isBeforeStartDate(today)
-  ){
-
-    return false;
-
-  }
-
-  if(
-    getCurrentCompletion(task)
-  ){
-
-    return false;
-
-  }
-
-  let previousDate =
-    new Date(today);
-
-  if(
-    task.frequency ===
-    "weekly"
-  ){
-
-    previousDate.setDate(
-      previousDate.getDate() -
-      7
-    );
-
-  }else if(
-    task.frequency ===
-    "biweekly"
-  ){
-
-    previousDate.setDate(
-      previousDate.getDate() -
-      14
-    );
-
-  }else if(
-    task.frequency ===
-    "monthly"
-  ){
-
-    previousDate.setMonth(
-      previousDate.getMonth() -
-      1
-    );
-
-  }else{
-
-    return false;
-
-  }
-
-  const previousPeriod =
-    getPeriod(
-      task,
-      previousDate
-    );
-
-  if(!previousPeriod){
-
-    return false;
-
-  }
-
-  const previousCompletion =
-    completions.find(
-      c =>
-        c.taskId ===
-        task.id &&
-        c.period ===
-        previousPeriod
-    );
-
-  return !previousCompletion;
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function getTaskStatus(task){
-
-  if(
-    task.mode ===
-    "later"
-  ){
-
-    return "gray";
-
-  }
-
-  if(
-    task.mode ===
-    "when_needed"
-  ){
-
-    return getLastCompletion(task)
-      ? "green"
-      : "gray";
-
-  }
-
-  if(
-    getCurrentCompletion(task)
-  ){
-
-    return "green";
-
-  }
-
-  if(
-    isOverdue(task)
-  ){
-
-    return "red";
-
-  }
-
-  return "gray";
-}
-
-
-/* =========================================================
-   PERSONEN
-========================================================= */
-
-function personLabel(person){
-
-  if(
-    person ===
-    "you"
-  ){
-
-    return (
-      settings.youName ||
-      "Jij"
-    );
-
-  }
-
-  if(
-    person ===
-    "partner"
-  ){
-
-    return (
-      settings.partnerName ||
-      "Partner"
-    );
-
-  }
-
-  if(
-    person ===
-    "together"
-  ){
-
-    return "Samen";
-
-  }
-
-  return person;
-}
-
-
-/* =========================================================
-   FREQUENTIELABELS
-========================================================= */
-
-function getFrequencyLabel(
-  frequency
-){
-
-  if(
-    frequency ===
-    "weekly"
-  ){
-
-    return "Wekelijks";
-
-  }
-
-  if(
-    frequency ===
-    "biweekly"
-  ){
-
-    return "Om de 2 weken";
-
-  }
-
-  if(
-    frequency ===
-    "monthly"
-  ){
-
-    return "Maandelijks";
-
-  }
-
-  return frequency || "";
-
-}
-
-
-/* =========================================================
-   DATUM
-========================================================= */
-
-function formatDate(dateString){
-
-  if(!dateString){
-
-    return "";
-
-  }
-
-  return new Date(
-    dateString
-  ).toLocaleDateString(
-    "nl-BE",
-    {
-      day:"2-digit",
-      month:"2-digit",
-      year:"numeric"
-    }
-  );
-}
-
-
-function formatDateTime(dateString){
-
-  if(!dateString){
-
-    return "";
-
-  }
-
-  return new Date(
-    dateString
-  ).toLocaleString(
-    "nl-BE",
-    {
-      day:"2-digit",
-      month:"2-digit",
-      year:"numeric",
-      hour:"2-digit",
-      minute:"2-digit"
-    }
-  );
-}
-
-
-/* =========================================================
-   TABS
-========================================================= */
-
-function renderTabs(){
-
-  const container =
-    document.getElementById(
-      "tabs"
-    );
-
-  container.innerHTML = "";
-
-
-  settings.tabs.forEach(
-    (tab,index) => {
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-      button.className =
-        "tab-button";
-
-      button.dataset.tabId =
-        tab.id;
-
-      button.textContent =
-        `${tab.icon} ${tab.name}`;
-
-      button.onclick =
-        () =>
-          showTab(tab.id);
-
-      container.appendChild(
-        button
-      );
-
-    }
-  );
-
-}
-
-
-function renderDynamicViews(){
-
-  const container =
-    document.getElementById(
-      "dynamicViews"
-    );
-
-  container.innerHTML = "";
-
-
-  settings.tabs.forEach(
-    tab => {
-
-      const view =
-        document.createElement(
-          "div"
-        );
-
-      view.className =
-        "view";
-
-      view.id =
-        "tabView-" +
-        tab.id;
-
-
-      const header =
-        document.createElement(
-          "div"
-        );
-
-      header.className =
-        "section-header";
-
-
-      const title =
-        document.createElement(
-          "h2"
-        );
-
-      title.textContent =
-        `${tab.icon} ${tab.name}`;
-
-      header.appendChild(title);
-
-      view.appendChild(header);
-
-
-      const add =
-        document.createElement(
-          "button"
-        );
-
-      add.className =
-        "add-button";
-
-      add.textContent =
-        "＋ Taak toevoegen";
-
-      add.onclick =
-        () =>
-          openTaskEditor(
-            tab.id
-          );
-
-      view.appendChild(add);
-
-
-      const content =
-        document.createElement(
-          "div"
-        );
-
-      content.id =
-        "tabContent-" +
-        tab.id;
-
-      view.appendChild(
-        content
-      );
-
-
-      container.appendChild(
-        view
-      );
-
-      renderTabContent(tab);
-
-    }
-  );
-
-}
-
-
-function renderTabContent(tab){
-
-  const container =
-    document.getElementById(
-      "tabContent-" +
-      tab.id
-    );
-
-  if(!container){
-
-    return;
-
-  }
-
-  container.innerHTML = "";
-
-
-  const tabTasks =
-    tasks.filter(
-      task =>
-        task.tabId ===
-        tab.id
-    );
-
-
-  if(!tabTasks.length){
-
-    container.innerHTML =
-      `
-        <div class="empty">
-          Nog geen taken in dit tabblad.
-        </div>
-      `;
-
-    return;
-
-  }
-
-
-  /*
-    Tab met frequenties:
-    taken worden per frequentie gegroepeerd.
-  */
-
-  if(
-    tab.frequencies &&
-    tab.frequencies.length
-  ){
-
-    tab.frequencies.forEach(
-      frequency => {
-
-        const frequencyTasks =
-          tabTasks.filter(
-            task =>
-              task.frequency ===
-              frequency
-          );
-
-
-        if(!frequencyTasks.length){
-
-          return;
-
-        }
-
-
-        const section =
-          document.createElement(
-            "div"
-          );
-
-        section.className =
-          "section";
-
-
-        const header =
-          document.createElement(
-            "div"
-          );
-
-        header.className =
-          "section-header";
-
-
-        const title =
-          document.createElement(
-            "div"
-          );
-
-        title.className =
-          "section-title";
-
-        title.textContent =
-          getFrequencyLabel(
-            frequency
-          );
-
-
-        const count =
-          document.createElement(
-            "div"
-          );
-
-        count.className =
-          "section-count";
-
-
-        const completed =
-          frequencyTasks.filter(
-            task =>
-              !!getCurrentCompletion(task)
-          ).length;
-
-
-        count.textContent =
-          `${completed}/${frequencyTasks.length}`;
-
-
-        header.appendChild(title);
-        header.appendChild(count);
-
-
-        const list =
-          document.createElement(
-            "div"
-          );
-
-        list.className =
-          "task-list";
-
-
-        frequencyTasks
-          .slice()
-          .sort(
-            (a,b) =>
-              getStatusSortValue(a) -
-              getStatusSortValue(b)
-          )
-          .forEach(
-            task =>
-              list.appendChild(
-                createTaskElement(task)
-              )
-          );
-
-
-        section.appendChild(header);
-        section.appendChild(list);
-
-        container.appendChild(section);
-
-      }
-    );
-
-
-    /*
-      Taken zonder gekozen frequentie.
-    */
-
-    const ungrouped =
-      tabTasks.filter(
-        task =>
-          !task.frequency ||
-          !tab.frequencies.includes(
-            task.frequency
-          )
-      );
-
-
-    if(ungrouped.length){
-
-      const section =
-        document.createElement(
-          "div"
-        );
-
-      section.className =
-        "section";
-
-
-      const title =
-        document.createElement(
-          "div"
-        );
-
-      title.className =
-        "section-title";
-
-      title.textContent =
-        "Overig";
-
-
-      section.appendChild(title);
-
-
-      const list =
-        document.createElement(
-          "div"
-        );
-
-      list.className =
-        "task-list";
-
-
-      ungrouped.forEach(
-        task =>
-          list.appendChild(
-            createTaskElement(task)
-          )
-      );
-
-
-      section.appendChild(list);
-
-      container.appendChild(section);
-
-    }
-
-  }else{
-
-    const list =
-      document.createElement(
-        "div"
-      );
-
-    list.className =
-      "task-list";
-
-
-    tabTasks.forEach(
-      task =>
-        list.appendChild(
-          createTaskElement(task)
-        )
-    );
-
-
-    container.appendChild(list);
-
-  }
-
-}
-
-
-/* =========================================================
-   STATUS SORT
-========================================================= */
-
-function getStatusSortValue(task){
-
-  const status =
-    getTaskStatus(task);
-
-  if(status === "red"){
-
-    return 0;
-
-  }
-
-  if(status === "gray"){
-
-    return 1;
-
-  }
-
-  return 2;
-}
-
-
-/* =========================================================
-   TASK ELEMENT
-========================================================= */
-
-function createTaskElement(task){
-
-  const element =
-    document.createElement(
-      "div"
-    );
-
-  element.className =
-    "task";
-
-
-  const dot =
-    document.createElement(
-      "div"
-    );
-
-  dot.className =
-    "status-dot " +
-    getTaskStatus(task);
-
-
-  const info =
-    document.createElement(
-      "div"
-    );
-
-  info.className =
-    "task-info";
-
-
-  const title =
-    document.createElement(
-      "div"
-    );
-
-  title.className =
-    "task-title";
-
-  title.textContent =
-    task.title;
-
-
-  const meta =
-    document.createElement(
-      "div"
-    );
-
-  meta.className =
-    "task-meta";
-
-
-  if(
-    task.mode ===
-    "recurring"
-  ){
-
-    const current =
-      getCurrentCompletion(task);
-
-    if(current){
-
-      meta.textContent =
-        `Gedaan door ${personLabel(
-          current.person
-        )} · deze periode`;
-
-    }else if(
-      isOverdue(task)
-    ){
-
-      meta.textContent =
-        "Achterstallig";
-
-    }else{
-
-      meta.textContent =
-        task.frequency
-          ? `${getFrequencyLabel(
-              task.frequency
-            )} · ${task.points} pt`
-          : `${task.points} pt`;
-
-    }
-
-  }else if(
-    task.mode ===
-    "when_needed"
-  ){
-
-    const last =
-      getLastCompletion(task);
-
-    meta.textContent =
-      last
-        ? `Laatst gedaan: ${formatDate(
-            last.completedAt
-          )} · ${task.points} pt`
-        : `${task.points} pt`;
-
-  }else if(
-    task.mode ===
-    "later"
-  ){
-
-    meta.textContent =
-      "Geen punten";
-
-  }else{
-
-    meta.textContent =
-      task.points > 0
-        ? `${task.points} pt`
-        : "";
-
-  }
-
-
-  info.appendChild(title);
-  info.appendChild(meta);
-
-
-  const actions =
-    document.createElement(
-      "div"
-    );
-
-  actions.className =
-    "task-actions";
-
-
-  if(
-    task.points > 0
-  ){
-
-    const points =
-      document.createElement(
-        "div"
-      );
-
-    points.className =
-      "task-points";
-
-    points.textContent =
-      `${task.points} pt`;
-
-    actions.appendChild(points);
-
-  }
-
-
-  const edit =
-    document.createElement(
-      "button"
-    );
-
-  edit.className =
-    "edit-button";
-
-  edit.textContent =
-    "⋯";
-
-  edit.onclick =
-    event => {
-
-      event.stopPropagation();
-
-      openTaskEditor(
-        task.tabId,
-        task.id
-      );
-
-    };
-
-  actions.appendChild(edit);
-
-
-  element.appendChild(dot);
-  element.appendChild(info);
-  element.appendChild(actions);
-
-
-  element.onclick =
-    event => {
-
-      if(
-        event.target.closest(
-          ".edit-button"
-        )
-      ){
-
-        return;
-
-      }
-
-      openCompletionModal(task);
-
-    };
-
-
-  return element;
-}
-
-
-/* =========================================================
-   COMPLETION MODAL
-========================================================= */
-
-function openCompletionModal(task){
-
-  selectedTask =
-    task;
-
-
-  document.getElementById(
-    "completionTitle"
-  ).textContent =
-    task.title;
-
-
-  document.getElementById(
-    "completionSubtitle"
-  ).textContent =
-    task.points > 0
-      ? `${task.points} punten · Wie heeft dit gedaan?`
-      : "Wie heeft dit uitgevoerd?";
-
-
-  document.getElementById(
-    "youButton"
-  ).textContent =
-    settings.youName ||
-    "Jij";
-
-
-  document.getElementById(
-    "partnerButton"
-  ).textContent =
-    settings.partnerName ||
-    "Partner";
-
-
-  document
-    .getElementById(
-      "completionModal"
-    )
-    .classList.add(
-      "show"
-    );
-}
-
-
-function closeCompletionModal(){
-
-  selectedTask =
-    null;
-
-  document
-    .getElementById(
-      "completionModal"
-    )
-    .classList.remove(
-      "show"
-    );
-
-}
-
-
-/* =========================================================
-   TAAK UITVOEREN
-========================================================= */
-
-function completeTask(person){
-
-  if(!selectedTask){
-
-    return;
-
-  }
-
-
-  const task =
-    selectedTask;
-
-
-  if(
-    task.mode ===
-    "recurring"
-  ){
-
-    if(
-      getCurrentCompletion(task)
-    ){
-
-      closeCompletionModal();
-
-      return;
-
-    }
-
-  }
-
-
-  const completion = {
-
-    id:
-      Date.now() +
-      "-" +
-      Math.random()
-        .toString(36)
-        .substring(2,9),
-
-    taskId:
-      task.id,
-
-    taskTitle:
-      task.title,
-
-    person:
-      person,
-
-    points:
-      task.mode ===
-        "later"
-        ? 0
-        : Number(
-            task.points || 0
-          ),
-
-    period:
-      getPeriod(task),
-
-    completedAt:
-      new Date().toISOString()
-
-  };
-
-
-  completions.push(
-    completion
-  );
-
-
-  if(
-    task.mode ===
-    "later"
-  ){
-
-    tasks =
-      tasks.filter(
-        t =>
-          t.id !==
-          task.id
-      );
-
-    saveTasks();
-
-  }
-
-
-  saveCompletions();
-
-  closeCompletionModal();
-
-  render();
-
-}
-
-
-/* =========================================================
-   TAAK EDITOR
-========================================================= */
-
-function openTaskEditor(
-  tabId,
-  taskId = null
-){
-
-  editorTabId =
-    tabId;
-
-  editingTaskId =
-    taskId;
-
-
-  const tab =
-    settings.tabs.find(
-      t =>
-        t.id ===
-        tabId
-    );
-
-
-  if(!tab){
-
-    return;
-
-  }
-
-
-  const task =
-    taskId
-      ? tasks.find(
-          t =>
-            t.id ===
-            taskId
-        )
-      : null;
-
-
-  document.getElementById(
-    "taskTitleInput"
-  ).value =
-    task
-      ? task.title
-      : "";
-
-
-  document.getElementById(
-    "taskPointsInput"
-  ).value =
-    task
-      ? task.points
-      : 1;
-
-
-  const frequencyField =
-    document.getElementById(
-      "frequencyField"
-    );
-
-  const frequencyInput =
-    document.getElementById(
-      "taskFrequencyInput"
-    );
-
-
-  frequencyInput.innerHTML = "";
-
-
-  if(
-    tab.frequencies &&
-    tab.frequencies.length
-  ){
-
-    frequencyField.style.display =
-      "block";
-
-
-    tab.frequencies.forEach(
-      frequency => {
-
-        const option =
-          document.createElement(
-            "option"
-          );
-
-        option.value =
-          frequency;
-
-        option.textContent =
-          getFrequencyLabel(
-            frequency
-          );
-
-        frequencyInput.appendChild(
-          option
-        );
-
-      }
-    );
-
-
-    if(
-      task &&
-      task.frequency
-    ){
-
-      frequencyInput.value =
-        task.frequency;
-
-    }
-
-  }else{
-
-    frequencyField.style.display =
-      "none";
-
-  }
-
-
-  const pointsField =
-    document.getElementById(
-      "pointsField"
-    );
-
-
-  if(
-    tab.mode ===
-    "later"
-  ){
-
-    pointsField.style.display =
-      "none";
-
-  }else{
-
-    pointsField.style.display =
-      "block";
-
-  }
-
-
-  document.getElementById(
-    "editorTitle"
-  ).textContent =
-    task
-      ? "Taak bewerken"
-      : "Taak toevoegen";
-
-
-  document.getElementById(
-    "editorSubtitle"
-  ).textContent =
-    `Taak voor "${tab.name}".`;
-
-
-  document.getElementById(
-    "deleteTaskButton"
-  ).style.display =
-    task
-      ? "block"
-      : "none";
-
-
-  document
-    .getElementById(
-      "taskEditorModal"
-    )
-    .classList.add(
-      "show"
-    );
-
-
-  setTimeout(
-    () =>
-      document
-        .getElementById(
-          "taskTitleInput"
-        )
-        .focus(),
-    50
-  );
-
-}
-
-
-function closeTaskEditor(){
-
-  editingTaskId =
-    null;
-
-  editorTabId =
-    null;
-
-  document
-    .getElementById(
-      "taskEditorModal"
-    )
-    .classList.remove(
-      "show"
-    );
-
-}
-
-
-/* =========================================================
-   TAAK OPSLAAN
-========================================================= */
-
-function saveTaskFromEditor(){
-
-  const title =
-    document
-      .getElementById(
-        "taskTitleInput"
-      )
-      .value
-      .trim();
-
-
-  if(!title){
-
-    alert(
-      "Geef de taak eerst een naam."
-    );
-
-    return;
-
-  }
-
-
-  const tab =
-    settings.tabs.find(
-      t =>
-        t.id ===
-        editorTabId
-    );
-
-
-  if(!tab){
-
-    return;
-
-  }
-
-
-  let points =
-    Number(
-      document
-        .getElementById(
-          "taskPointsInput"
-        )
-        .value
-    ) || 0;
-
-
-  if(
-    tab.mode ===
-    "later"
-  ){
-
-    points = 0;
-
-  }
-
-
-  const frequency =
-    tab.frequencies &&
-    tab.frequencies.length
-      ? document
-          .getElementById(
-            "taskFrequencyInput"
-          )
-          .value
-      : null;
-
-
-  if(editingTaskId){
-
-    const task =
-      tasks.find(
-        t =>
-          t.id ===
-          editingTaskId
-      );
-
-
-    if(!task){
-
-      return;
-
-    }
-
-
-    task.title =
-      title;
-
-    task.points =
-      points;
-
-    task.frequency =
-      frequency;
-
-    task.tabId =
-      editorTabId;
-
-    task.mode =
-      tab.mode;
-
-
-  }else{
-
-    tasks.push({
-
-      id:
-        "task-" +
-        Date.now() +
-        "-" +
-        Math.random()
-          .toString(36)
-          .substring(2,9),
-
-      title:
-        title,
-
-      tabId:
-        editorTabId,
-
-      mode:
-        tab.mode,
-
-      frequency:
-        frequency,
-
-      points:
-        points
-
-    });
-
-  }
-
-
-  saveTasks();
-
-  closeTaskEditor();
-
-  render();
-
-}
-
-
-/* =========================================================
-   TAAK VERWIJDEREN
-========================================================= */
-
-function deleteTaskFromEditor(){
-
-  if(!editingTaskId){
-
-    return;
-
-  }
-
-
-  const task =
-    tasks.find(
-      t =>
-        t.id ===
-        editingTaskId
-    );
-
-
-  if(!task){
-
-    return;
-
-  }
-
-
-  if(
-    !confirm(
-      `Wil je "${task.title}" verwijderen?`
-    )
-  ){
-
-    return;
-
-  }
-
-
-  tasks =
-    tasks.filter(
-      t =>
-        t.id !==
-        editingTaskId
-    );
-
-
-  saveTasks();
-
-  closeTaskEditor();
-
-  render();
-
-}
-
-
-/* =========================================================
-   PUNTEN
-========================================================= */
-
-function getPointsTotals(){
-
-  let you = 0;
-
-  let partner = 0;
-
-
-  completions.forEach(
-    completion => {
-
-      const points =
-        Number(
-          completion.points || 0
-        );
-
-
-      if(
-        completion.person ===
-        "you"
-      ){
-
-        you += points;
-
-      }
-
-
-      if(
-        completion.person ===
-        "partner"
-      ){
-
-        partner += points;
-
-      }
-
-
-      if(
-        completion.person ===
-        "together"
-      ){
-
-        you += points;
-        partner += points;
-
-      }
-
-    }
-  );
-
 
   return {
-    you,
-    partner
+    start,
+    end,
+    key: frequency.id + "_" + dateKey(start),
+    label: frequency.label
   };
-
 }
 
+function getPreviousPeriodInfo(task) {
+  const current = getPeriodInfo(task);
 
-function renderPoints(){
+  if (!current) return null;
 
-  const totals =
-    getPointsTotals();
+  const tab = getTab(task.tabId);
+  const frequency = getFrequency(tab, task.frequencyId);
 
+  if (!frequency) return null;
 
-  document.getElementById(
-    "youPoints"
-  ).textContent =
-    totals.you;
+  let previousDate;
 
+  if (frequency.type === "weekly") {
+    previousDate = addDays(current.start, -1);
 
-  document.getElementById(
-    "partnerPoints"
-  ).textContent =
-    totals.partner;
+  } else if (frequency.type === "biweekly") {
+    previousDate = addDays(current.start, -1);
 
-
-  document.getElementById(
-    "youNameLabel"
-  ).textContent =
-    settings.youName ||
-    "Jij";
-
-
-  document.getElementById(
-    "partnerNameLabel"
-  ).textContent =
-    settings.partnerName ||
-    "Partner";
-
-
-  const left =
-    document.getElementById(
-      "balanceLeft"
+  } else if (frequency.type === "monthly") {
+    previousDate = new Date(
+      current.start.getFullYear(),
+      current.start.getMonth(),
+      0
     );
 
-  const right =
-    document.getElementById(
-      "balanceRight"
-    );
-
-  const empty =
-    document.getElementById(
-      "balanceEmpty"
-    );
-
-  const description =
-    document.getElementById(
-      "balanceDescription"
-    );
-
-
-  const total =
-    totals.you +
-    totals.partner;
-
-
-  if(total === 0){
-
-    left.style.width =
-      "0%";
-
-    right.style.width =
-      "0%";
-
-    empty.style.display =
-      "block";
-
-    description.textContent =
-      "Nog geen punten";
-
-    return;
-
+  } else {
+    return null;
   }
 
-
-  empty.style.display =
-    "none";
-
-
-  const youPercentage =
-    totals.you /
-    total *
-    100;
-
-
-  const partnerPercentage =
-    totals.partner /
-    total *
-    100;
-
-
-  left.style.width =
-    `${youPercentage}%`;
-
-  right.style.width =
-    `${partnerPercentage}%`;
-
-
-  if(
-    totals.you ===
-    totals.partner
-  ){
-
-    description.textContent =
-      "Gelijk verdeeld";
-
-  }else{
-
-    description.textContent =
-      `${settings.youName || "Jij"} ${Math.round(
-        youPercentage
-      )}% · ${settings.partnerName || "Partner"} ${Math.round(
-        partnerPercentage
-      )}%`;
-
-  }
-
+  return getPeriodInfo(task, previousDate);
 }
 
-
-/* =========================================================
-   GESCHIEDENIS
-========================================================= */
-
-function renderHistory(){
-
-  const container =
-    document.getElementById(
-      "historyList"
-    );
-
-  container.innerHTML = "";
-
-
-  if(!completions.length){
-
-    container.innerHTML =
-      `
-        <div class="empty">
-          Nog geen uitgevoerde taken.
-        </div>
-      `;
-
-    return;
-
-  }
-
-
-  completions
-    .slice()
-    .sort(
-      (a,b) =>
-        new Date(
-          b.completedAt
-        ) -
-        new Date(
-          a.completedAt
-        )
+function getCompletionForPeriod(task, periodKey) {
+  return data.completions
+    .filter(c =>
+      c.taskId === task.id &&
+      c.period === periodKey
     )
-    .forEach(
-      completion => {
-
-        const task =
-          tasks.find(
-            t =>
-              t.id ===
-              completion.taskId
-          );
-
-
-        const item =
-          document.createElement(
-            "div"
-          );
-
-        item.className =
-          "history-item";
-
-
-        const main =
-          document.createElement(
-            "div"
-          );
-
-        main.className =
-          "history-main";
-
-
-        const left =
-          document.createElement(
-            "div"
-          );
-
-
-        const title =
-          document.createElement(
-            "div"
-          );
-
-        title.className =
-          "history-task";
-
-        title.textContent =
-          task
-            ? task.title
-            : (
-                completion.taskTitle ||
-                "Verwijderde taak"
-              );
-
-
-        const details =
-          document.createElement(
-            "div"
-          );
-
-        details.className =
-          "history-details";
-
-        details.textContent =
-          `${formatDateTime(
-            completion.completedAt
-          )} · ${personLabel(
-            completion.person
-          )}`;
-
-
-        left.appendChild(title);
-        left.appendChild(details);
-
-
-        const points =
-          document.createElement(
-            "div"
-          );
-
-        points.className =
-          "history-points";
-
-
-        if(
-          completion.points ===
-          0
-        ){
-
-          points.textContent =
-            "Geen punten";
-
-        }else if(
-          completion.person ===
-          "together"
-        ){
-
-          points.textContent =
-            `+${completion.points} elk`;
-
-        }else{
-
-          points.textContent =
-            `+${completion.points}`;
-
-        }
-
-
-        main.appendChild(left);
-        main.appendChild(points);
-
-
-        const undo =
-          document.createElement(
-            "button"
-          );
-
-        undo.className =
-          "undo-button";
-
-        undo.textContent =
-          "↩ Ongedaan maken";
-
-        undo.onclick =
-          () =>
-            undoCompletion(
-              completion.id
-            );
-
-
-        item.appendChild(main);
-        item.appendChild(undo);
-
-        container.appendChild(item);
-
-      }
-    );
-
+    .sort((a, b) =>
+      new Date(b.completedAt) - new Date(a.completedAt)
+    )[0] || null;
 }
 
+function getCurrentCompletion(task) {
+  const period = getPeriodInfo(task);
 
-/* =========================================================
-   GESCHIEDENIS ONGEDAAN MAKEN
-========================================================= */
+  if (!period) return null;
 
-function undoCompletion(id){
+  return getCompletionForPeriod(task, period.key);
+}
 
-  const index =
-    completions.findIndex(
-      c =>
-        c.id ===
-        id
-    );
+function isOverdue(task) {
+  const tab = getTab(task.tabId);
 
-
-  if(index === -1){
-
-    return;
-
+  if (!tab || tab.type !== "recurring") {
+    return false;
   }
 
+  const current = getPeriodInfo(task);
+  const previous = getPreviousPeriodInfo(task);
 
-  if(
-    !confirm(
-      "Wil je deze uitvoering ongedaan maken?"
-    )
-  ){
-
-    return;
-
+  if (!current || !previous) {
+    return false;
   }
 
+  if (getCurrentCompletion(task)) {
+    return false;
+  }
 
-  const completion =
-    completions[index];
+  const now = today();
 
+  if (now < current.start) {
+    return false;
+  }
 
-  const task =
-    tasks.find(
-      t =>
-        t.id ===
-        completion.taskId
-    );
+  if (previous.end >= now) {
+    return false;
+  }
 
+  if (task.createdAt) {
+    const created = new Date(task.createdAt);
 
-  completions.splice(
-    index,
-    1
-  );
-
-
-  /*
-    Een verwijderde 'Later'-taak opnieuw terugzetten.
-  */
-
-  if(
-    !task &&
-    completion.points === 0
-  ){
-
-    const tab =
-      settings.tabs.find(
-        t =>
-          t.mode ===
-          "later"
-      );
-
-
-    if(tab){
-
-      tasks.push({
-
-        id:
-          completion.taskId,
-
-        title:
-          completion.taskTitle ||
-          "Taak voor later",
-
-        tabId:
-          tab.id,
-
-        mode:
-          "later",
-
-        frequency:
-          null,
-
-        points:
-          0
-
-      });
-
-      saveTasks();
-
+    if (previous.end < created) {
+      return false;
     }
-
   }
 
-
-  saveCompletions();
-
-  render();
-
-}
-
-
-/* =========================================================
-   TAB INSTELLINGEN
-========================================================= */
-
-function renderTabSettings(){
-
-  const container =
-    document.getElementById(
-      "tabSettingsList"
-    );
-
-  container.innerHTML = "";
-
-
-  settings.tabs.forEach(
-    (tab,index) => {
-
-      const wrapper =
-        document.createElement(
-          "div"
-        );
-
-      wrapper.className =
-        "tab-setting";
-
-
-      const header =
-        document.createElement(
-          "div"
-        );
-
-      header.className =
-        "tab-setting-header";
-
-
-      const label =
-        document.createElement(
-          "div"
-        );
-
-      label.className =
-        "tab-setting-title";
-
-      label.textContent =
-        `Tabblad ${index + 1}`;
-
-
-      const remove =
-        document.createElement(
-          "button"
-        );
-
-      remove.className =
-        "remove-tab";
-
-      remove.textContent =
-        "Verwijderen";
-
-      remove.onclick =
-        () =>
-          removeTab(
-            tab.id
-          );
-
-
-      header.appendChild(label);
-      header.appendChild(remove);
-
-
-      wrapper.appendChild(header);
-
-
-      const nameField =
-        createField(
-          "Naam",
-          "text",
-          tab.name,
-          value =>
-            tab.name = value
-        );
-
-
-      const iconField =
-        createField(
-          "Icoon",
-          "text",
-          tab.icon,
-          value =>
-            tab.icon = value
-        );
-
-
-      wrapper.appendChild(
-        nameField
-      );
-
-      wrapper.appendChild(
-        iconField
-      );
-
-
-      const modeField =
-        document.createElement(
-          "div"
-        );
-
-      modeField.className =
-        "field";
-
-
-      const modeLabel =
-        document.createElement(
-          "label"
-        );
-
-      modeLabel.textContent =
-        "Type tabblad";
-
-
-      const modeSelect =
-        document.createElement(
-          "select"
-        );
-
-
-      [
-        ["recurring","Met frequentie"],
-        ["when_needed","Zonder vast schema"],
-        ["later","Later / zonder punten"],
-        ["custom","Vrij tabblad"]
-      ]
-      .forEach(
-        optionData => {
-
-          const option =
-            document.createElement(
-              "option"
-            );
-
-          option.value =
-            optionData[0];
-
-          option.textContent =
-            optionData[1];
-
-          modeSelect.appendChild(
-            option
-          );
-
-        }
-      );
-
-
-      modeSelect.value =
-        tab.mode;
-
-
-      modeSelect.onchange =
-        () => {
-
-          tab.mode =
-            modeSelect.value;
-
-          if(
-            tab.mode !==
-            "recurring"
-          ){
-
-            tab.frequencies = [];
-
-          }
-
-          renderTabSettings();
-
-        };
-
-
-      modeField.appendChild(
-        modeLabel
-      );
-
-      modeField.appendChild(
-        modeSelect
-      );
-
-      wrapper.appendChild(
-        modeField
-      );
-
-
-      /*
-        Frequenties
-      */
-
-      if(
-        tab.mode ===
-        "recurring"
-      ){
-
-        const frequencyField =
-          document.createElement(
-            "div"
-          );
-
-        frequencyField.className =
-          "field";
-
-
-        const frequencyLabel =
-          document.createElement(
-            "label"
-          );
-
-        frequencyLabel.textContent =
-          "Frequenties in dit tabblad";
-
-
-        frequencyField.appendChild(
-          frequencyLabel
-        );
-
-
-        [
-          ["weekly","Wekelijks"],
-          ["biweekly","Om de 2 weken"],
-          ["monthly","Maandelijks"]
-        ]
-        .forEach(
-          ([value,label]) => {
-
-            const row =
-              document.createElement(
-                "label"
-              );
-
-            row.style.display =
-              "flex";
-
-            row.style.alignItems =
-              "center";
-
-            row.style.gap =
-              "8px";
-
-            row.style.marginBottom =
-              "7px";
-
-
-            const checkbox =
-              document.createElement(
-                "input"
-              );
-
-            checkbox.type =
-              "checkbox";
-
-            checkbox.checked =
-              tab.frequencies.includes(
-                value
-              );
-
-
-            checkbox.onchange =
-              () => {
-
-                if(
-                  checkbox.checked
-                ){
-
-                  if(
-                    !tab.frequencies.includes(
-                      value
-                    )
-                  ){
-
-                    tab.frequencies.push(
-                      value
-                    );
-
-                  }
-
-                }else{
-
-                  tab.frequencies =
-                    tab.frequencies.filter(
-                      f =>
-                        f !==
-                        value
-                    );
-
-                }
-
-              };
-
-
-            const text =
-              document.createElement(
-                "span"
-              );
-
-            text.textContent =
-              label;
-
-
-            row.appendChild(
-              checkbox
-            );
-
-            row.appendChild(
-              text
-            );
-
-
-            frequencyField.appendChild(
-              row
-            );
-
-          }
-        );
-
-
-        wrapper.appendChild(
-          frequencyField
-        );
-
-      }
-
-
-      container.appendChild(
-        wrapper
-      );
-
+  if (data.settings.startDate) {
+    const startDate = parseDate(data.settings.startDate);
+
+    if (previous.end < startDate) {
+      return false;
     }
-  );
-
-}
-
-
-function createField(
-  labelText,
-  type,
-  value,
-  callback
-){
-
-  const field =
-    document.createElement(
-      "div"
-    );
-
-  field.className =
-    "field";
-
-
-  const label =
-    document.createElement(
-      "label"
-    );
-
-  label.textContent =
-    labelText;
-
-
-  const input =
-    document.createElement(
-      "input"
-    );
-
-  input.type =
-    type;
-
-  input.value =
-    value || "";
-
-
-  input.oninput =
-    () =>
-      callback(
-        input.value
-      );
-
-
-  field.appendChild(label);
-  field.appendChild(input);
-
-
-  return field;
-}
-
-
-function addTabSetting(){
-
-  settings.tabs.push({
-
-    id:
-      "tab-" +
-      Date.now() +
-      "-" +
-      Math.random()
-        .toString(36)
-        .substring(2,8),
-
-    name:
-      "Nieuw tabblad",
-
-    icon:
-      "📋",
-
-    mode:
-      "custom",
-
-    frequencies:
-      []
-
-  });
-
-
-  renderTabSettings();
-
-}
-
-
-function removeTab(id){
-
-  if(
-    settings.tabs.length <=
-    1
-  ){
-
-    alert(
-      "Er moet minstens één tabblad blijven bestaan."
-    );
-
-    return;
-
   }
 
-
-  const tab =
-    settings.tabs.find(
-      t =>
-        t.id ===
-        id
-    );
-
-
-  if(!tab){
-
-    return;
-
-  }
-
-
-  if(
-    !confirm(
-      `Wil je tabblad "${tab.name}" verwijderen?\n\nDe taken in dit tabblad worden ook verwijderd.`
-    )
-  ){
-
-    return;
-
-  }
-
-
-  settings.tabs =
-    settings.tabs.filter(
-      t =>
-        t.id !==
-        id
-    );
-
-
-  tasks =
-    tasks.filter(
-      task =>
-        task.tabId !==
-        id
-    );
-
-
-  saveSettingsData();
-  saveTasks();
-
-  render();
-
-}
-
-
-/* =========================================================
-   INSTELLINGEN
-========================================================= */
-
-function renderSettings(){
-
-  document.getElementById(
-    "appNameInput"
-  ).value =
-    settings.appName ||
-    "Huishouden";
-
-
-  document.getElementById(
-    "youNameInput"
-  ).value =
-    settings.youName ===
-      "Jij"
-      ? ""
-      : (
-          settings.youName ||
-          ""
-        );
-
-
-  document.getElementById(
-    "partnerNameInput"
-  ).value =
-    settings.partnerName ===
-      "Partner"
-      ? ""
-      : (
-          settings.partnerName ||
-          ""
-        );
-
-
-  document.getElementById(
-    "startDateInput"
-  ).value =
-    settings.startDate ||
-    "";
-
-
-  renderTabSettings();
-
-}
-
-
-function saveSettings(){
-
-  const appName =
-    document
-      .getElementById(
-        "appNameInput"
-      )
-      .value
-      .trim();
-
-
-  const youName =
-    document
-      .getElementById(
-        "youNameInput"
-      )
-      .value
-      .trim();
-
-
-  const partnerName =
-    document
-      .getElementById(
-        "partnerNameInput"
-      )
-      .value
-      .trim();
-
-
-  const startDate =
-    document
-      .getElementById(
-        "startDateInput"
-      )
-      .value;
-
-
-  settings.appName =
-    appName ||
-    "Huishouden";
-
-
-  settings.youName =
-    youName ||
-    "Jij";
-
-
-  settings.partnerName =
-    partnerName ||
-    "Partner";
-
-
-  settings.startDate =
-    startDate ||
-    "";
-
-
-  saveSettingsData();
-
-  render();
-
-  alert(
-    "Instellingen opgeslagen."
-  );
-
-}
-
-
-/* =========================================================
-   VOLLEDIGE RESET
-========================================================= */
-
-function resetApp(){
-
-  if(
-    !confirm(
-      "Dit verwijdert alle taken, punten, geschiedenis en instellingen en zet de app terug naar het basissjabloon.\n\nDoorgaan?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  localStorage.removeItem(
-    STORAGE_KEYS.tasks
-  );
-
-  localStorage.removeItem(
-    STORAGE_KEYS.completions
-  );
-
-  localStorage.removeItem(
-    STORAGE_KEYS.settings
-  );
-
-
-  tasks = [];
-
-  completions = [];
-
-  settings =
-    JSON.parse(
-      JSON.stringify(
-        DEFAULT_SETTINGS
-      )
-    );
-
-
-  saveSettingsData();
-
-  render();
-
-  showTab(
-    settings.tabs[0].id
-  );
-
-}
-
-
-/* =========================================================
-   NAVIGATIE
-========================================================= */
-
-function showTab(tabId){
-
-  document
-    .querySelectorAll(
-      ".view"
-    )
-    .forEach(
-      view =>
-        view.classList.remove(
-          "active"
-        )
-    );
-
-
-  document
-    .querySelectorAll(
-      ".tab-button"
-    )
-    .forEach(
-      button =>
-        button.classList.remove(
-          "active"
-        )
-    );
-
-
-  const view =
-    document.getElementById(
-      "tabView-" +
-      tabId
-    );
-
-
-  const button =
-    document.querySelector(
-      `.tab-button[data-tab-id="${tabId}"]`
-    );
-
-
-  if(view){
-
-    view.classList.add(
-      "active"
-    );
-
-  }
-
-
-  if(button){
-
-    button.classList.add(
-      "active"
-    );
-
-  }
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-function showView(viewId){
-
-  document
-    .querySelectorAll(
-      ".view"
-    )
-    .forEach(
-      view =>
-        view.classList.remove(
-          "active"
-        )
-    );
-
-
-  const view =
-    document.getElementById(
-      viewId
-    );
-
-
-  if(view){
-
-    view.classList.add(
-      "active"
-    );
-
-  }
-
-
-  document
-    .querySelectorAll(
-      ".tab-button"
-    )
-    .forEach(
-      button =>
-        button.classList.remove(
-          "active"
-        )
-    );
-
-
-  if(
-    viewId ===
-    "settingsView"
-  ){
-
-    renderSettings();
-
-  }
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-/* =========================================================
-   MENU
-========================================================= */
-
-function toggleMenu(){
-
-  document
-    .getElementById(
-      "settingsMenu"
-    )
-    .classList.toggle(
-      "show"
-    );
-
-}
-
-
-function closeMenu(){
-
-  document
-    .getElementById(
-      "settingsMenu"
-    )
-    .classList.remove(
-      "show"
-    );
-
+  return !getCompletionForPeriod(task, previous.key);
 }
 
 
@@ -4382,130 +1032,1394 @@ function closeMenu(){
    RENDER
 ========================================================= */
 
-function render(){
+function render() {
+  document.title = data.settings.appName || "Huishouden";
 
-  document.title =
-    settings.appName ||
-    "Huishouden";
+  document.getElementById("appTitle").textContent =
+    data.settings.appName || "Huishouden";
 
+  document.getElementById("youButtonName").textContent =
+    data.settings.youName || "Jij";
 
-  document.getElementById(
-    "appTitle"
-  ).textContent =
-    settings.appName ||
-    "Huishouden";
-
+  document.getElementById("partnerButtonName").textContent =
+    data.settings.partnerName || "Partner";
 
   renderTabs();
 
-  renderDynamicViews();
+  const main = document.getElementById("mainContent");
 
-  renderPoints();
+  if (currentView.type === "tab") {
+    renderTab(main, currentView.id);
 
-  renderHistory();
+  } else if (currentView.type === "points") {
+    renderPoints(main);
 
-  renderSettings();
+  } else if (currentView.type === "history") {
+    renderHistory(main);
 
-
-  /*
-    Als de gebruiker momenteel op een
-    dynamische tab zat, tonen we de eerste tab.
-  */
-
-  const firstTab =
-    settings.tabs[0];
-
-
-  if(firstTab){
-
-    showTab(
-      firstTab.id
-    );
-
+  } else if (currentView.type === "settings") {
+    renderSettings(main);
   }
+}
 
+function renderTabs() {
+  const bar = document.getElementById("tabBar");
+
+  bar.innerHTML = data.settings.tabs.map(tab => `
+    <button
+      class="tab-button ${currentView.type === "tab" && currentView.id === tab.id ? "active" : ""}"
+      onclick="showTab('${tab.id}')"
+    >
+      ${escapeHtml(tab.icon || "")} ${escapeHtml(tab.name)}
+    </button>
+  `).join("");
 }
 
 
 /* =========================================================
-   MODALS ACHTERGROND
+   TAB VIEW
 ========================================================= */
 
-document
-  .getElementById(
-    "completionModal"
-  )
-  .addEventListener(
-    "click",
-    event => {
+function renderTab(container, tabId) {
+  const tab = getTab(tabId);
 
-      if(
-        event.target.id ===
-        "completionModal"
-      ){
+  if (!tab) {
+    currentView = {
+      type: "tab",
+      id: data.settings.tabs[0]?.id
+    };
 
-        closeCompletionModal();
+    render();
+    return;
+  }
 
-      }
+  container.innerHTML = `
+    <div class="page-header">
+      <h2 class="page-title">
+        ${escapeHtml(tab.icon || "")} ${escapeHtml(tab.name)}
+      </h2>
 
+      <button class="primary-button" onclick="openTaskEditor('${tab.id}')">
+        + Taak
+      </button>
+    </div>
+  `;
+
+  if (tab.type === "recurring") {
+    renderRecurringTab(container, tab);
+  } else {
+    renderNormalTab(container, tab);
+  }
+}
+
+function renderRecurringTab(container, tab) {
+  const wrapper = document.createElement("div");
+
+  const frequencies = tab.frequencies || [];
+
+  frequencies.forEach(frequency => {
+
+    const tasks = data.tasks
+      .filter(task =>
+        task.tabId === tab.id &&
+        task.frequencyId === frequency.id
+      )
+      .sort(sortTasks);
+
+    const section = document.createElement("section");
+    section.className = "frequency-section";
+
+    section.innerHTML = `
+      <h3 class="frequency-title">
+        ${escapeHtml(frequency.label)}
+      </h3>
+    `;
+
+    const list = document.createElement("div");
+    list.className = "task-list";
+
+    if (tasks.length === 0) {
+      list.innerHTML = `
+        <div class="empty" style="padding:20px;">
+          Nog geen taken.
+        </div>
+      `;
+    } else {
+      tasks.forEach(task => {
+        list.appendChild(createTaskElement(task));
+      });
     }
-  );
 
+    section.appendChild(list);
+    wrapper.appendChild(section);
+  });
 
-document
-  .getElementById(
-    "taskEditorModal"
-  )
-  .addEventListener(
-    "click",
-    event => {
+  if (frequencies.length === 0) {
+    wrapper.innerHTML = `
+      <div class="empty">
+        Voeg eerst een frequentie toe via Instellingen.
+      </div>
+    `;
+  }
 
-      if(
-        event.target.id ===
-        "taskEditorModal"
-      ){
+  container.appendChild(wrapper);
+}
 
-        closeTaskEditor();
+function renderNormalTab(container, tab) {
+  const tasks = data.tasks
+    .filter(task => task.tabId === tab.id)
+    .sort(sortTasks);
 
-      }
+  const list = document.createElement("div");
+  list.className = "task-list";
 
+  if (tasks.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        Nog geen taken.
+      </div>
+    `;
+  } else {
+    tasks.forEach(task => {
+      list.appendChild(createTaskElement(task));
+    });
+  }
+
+  container.appendChild(list);
+}
+
+function sortTasks(a, b) {
+  const tab = getTab(a.tabId);
+
+  if (tab?.type === "recurring") {
+    const aOverdue = isOverdue(a);
+    const bOverdue = isOverdue(b);
+
+    if (aOverdue !== bOverdue) {
+      return aOverdue ? -1 : 1;
     }
-  );
+
+    const aDone = !!getCurrentCompletion(a);
+    const bDone = !!getCurrentCompletion(b);
+
+    if (aDone !== bDone) {
+      return aDone ? 1 : -1;
+    }
+  }
+
+  return a.title.localeCompare(b.title, "nl");
+}
+
+function createTaskElement(task) {
+  const tab = getTab(task.tabId);
+
+  const element = document.createElement("div");
+  element.className = "task";
+
+  let status = "gray";
+  let meta = "";
+
+  if (tab.type === "recurring") {
+
+    if (getCurrentCompletion(task)) {
+      status = "green";
+
+      const completion = getCurrentCompletion(task);
+
+      meta =
+        "Gedaan door " +
+        escapeHtml(personName(completion.person));
+
+    } else if (isOverdue(task)) {
+      status = "red";
+
+      const previous = getPreviousPeriodInfo(task);
+
+      meta =
+        "Achterstallig sinds " +
+        formatDate(previous?.start);
+
+    } else {
+      status = "gray";
+
+      const frequency = getFrequency(tab, task.frequencyId);
+
+      meta = escapeHtml(frequency?.label || "");
+    }
+
+  } else if (tab.type === "repeatable") {
+
+    const last = data.completions
+      .filter(c => c.taskId === task.id)
+      .sort((a, b) =>
+        new Date(b.completedAt) - new Date(a.completedAt)
+      )[0];
+
+    if (last) {
+      status = "green";
+      meta =
+        "Laatst gedaan door " +
+        escapeHtml(personName(last.person)) +
+        " · " +
+        formatDate(new Date(last.completedAt));
+    } else {
+      status = "gray";
+      meta = "Nog niet gedaan";
+    }
+
+  } else {
+
+    status = "gray";
+    meta = "Eenmalige taak";
+  }
+
+  element.classList.add("status-" + status);
+
+  const pointsHtml =
+    tab.pointsEnabled && task.points > 0
+      ? `<span class="task-points">${task.points} pt</span>`
+      : "";
+
+  element.innerHTML = `
+    <div class="task-main">
+      <div class="task-title">${escapeHtml(task.title)}</div>
+      <div class="task-meta">${meta}</div>
+    </div>
+
+    ${pointsHtml}
+
+    <div class="task-actions">
+      <button
+        class="icon-button"
+        title="Bewerken"
+        onclick="openTaskEditor('${task.tabId}', '${task.id}')"
+      >
+        ✏️
+      </button>
+
+      <button
+        class="complete-button"
+        onclick="openCompletion('${task.id}')"
+      >
+        ✓
+      </button>
+    </div>
+  `;
+
+  return element;
+}
 
 
 /* =========================================================
-   MENU BUITEN KLIKKEN
+   TASK EDITOR
 ========================================================= */
 
-document.addEventListener(
-  "click",
-  event => {
+function openTaskEditor(tabId, taskId = null) {
+  const tab = getTab(tabId);
 
-    const menu =
-      document.getElementById(
-        "settingsMenu"
-      );
+  if (!tab) return;
 
-    const button =
-      document.querySelector(
-        ".menu-button"
-      );
+  editingTabId = tabId;
+  editingTaskId = taskId;
 
+  const task = taskId ? getTask(taskId) : null;
 
-    if(
-      menu.classList.contains(
-        "show"
-      ) &&
-      !menu.contains(event.target) &&
-      !button.contains(event.target)
-    ){
+  document.getElementById("taskModalTitle").textContent =
+    task ? "Taak bewerken" : "Taak toevoegen";
 
-      closeMenu();
+  document.getElementById("taskName").value =
+    task?.title || "";
 
+  const frequencyField =
+    document.getElementById("taskFrequencyField");
+
+  const frequencySelect =
+    document.getElementById("taskFrequency");
+
+  const pointsField =
+    document.getElementById("taskPointsField");
+
+  const pointsInput =
+    document.getElementById("taskPoints");
+
+  const deleteButton =
+    document.getElementById("deleteTaskButton");
+
+  if (tab.type === "recurring") {
+
+    frequencyField.style.display = "";
+
+    frequencySelect.innerHTML =
+      (tab.frequencies || []).map(freq => `
+        <option value="${escapeHtml(freq.id)}">
+          ${escapeHtml(freq.label)}
+        </option>
+      `).join("");
+
+    if (task?.frequencyId) {
+      frequencySelect.value = task.frequencyId;
     }
 
+  } else {
+    frequencyField.style.display = "none";
   }
-);
+
+  if (tab.pointsEnabled) {
+    pointsField.style.display = "";
+    pointsInput.value = task?.points ?? 1;
+  } else {
+    pointsField.style.display = "none";
+    pointsInput.value = 0;
+  }
+
+  deleteButton.style.display = task ? "" : "none";
+
+  openModal("taskModal");
+
+  setTimeout(() => {
+    document.getElementById("taskName").focus();
+  }, 50);
+}
+
+function saveTask() {
+  const tab = getTab(editingTabId);
+
+  if (!tab) return;
+
+  const title =
+    document.getElementById("taskName").value.trim();
+
+  if (!title) {
+    alert("Geef de taak een naam.");
+    return;
+  }
+
+  let frequencyId = null;
+
+  if (tab.type === "recurring") {
+    frequencyId =
+      document.getElementById("taskFrequency").value;
+
+    if (!frequencyId) {
+      alert("Kies een frequentie.");
+      return;
+    }
+  }
+
+  const points =
+    tab.pointsEnabled
+      ? Math.max(
+          0,
+          parseInt(document.getElementById("taskPoints").value, 10) || 0
+        )
+      : 0;
+
+  if (editingTaskId) {
+
+    const task = getTask(editingTaskId);
+
+    if (!task) return;
+
+    task.title = title;
+    task.frequencyId = frequencyId;
+    task.points = points;
+
+  } else {
+
+    data.tasks.push({
+      id: uid("task"),
+      title,
+      tabId: tab.id,
+      frequencyId,
+      points,
+      createdAt: new Date().toISOString()
+    });
+  }
+
+  saveData();
+  closeModal("taskModal");
+  render();
+}
+
+function deleteCurrentTask() {
+  if (!editingTaskId) return;
+
+  const task = getTask(editingTaskId);
+
+  if (!task) return;
+
+  if (!confirm(
+    `Wil je "${task.title}" verwijderen?`
+  )) {
+    return;
+  }
+
+  data.tasks =
+    data.tasks.filter(task => task.id !== editingTaskId);
+
+  saveData();
+  closeModal("taskModal");
+  render();
+}
+
+
+/* =========================================================
+   COMPLETION
+========================================================= */
+
+function openCompletion(taskId) {
+  const task = getTask(taskId);
+
+  if (!task) return;
+
+  const tab = getTab(task.tabId);
+
+  if (
+    tab.type === "recurring" &&
+    getCurrentCompletion(task)
+  ) {
+    return;
+  }
+
+  completionTaskId = taskId;
+
+  document.getElementById("completionTaskName").textContent =
+    task.title;
+
+  openModal("completionModal");
+}
+
+function completeTask(person) {
+  const task = getTask(completionTaskId);
+
+  if (!task) return;
+
+  const tab = getTab(task.tabId);
+
+  const period =
+    tab.type === "recurring"
+      ? getPeriodInfo(task)
+      : null;
+
+  const completion = {
+    id: uid("completion"),
+
+    taskId: task.id,
+    taskTitle: task.title,
+
+    tabId: task.tabId,
+    tabName: tab.name,
+
+    taskType: tab.type,
+
+    frequencyId: task.frequencyId,
+
+    person,
+
+    points:
+      tab.pointsEnabled
+        ? task.points
+        : 0,
+
+    period:
+      period?.key || null,
+
+    completedAt:
+      new Date().toISOString()
+  };
+
+  data.completions.push(completion);
+
+  /*
+    Bij een eenmalige taak wordt de taak uit
+    de actieve lijst verwijderd.
+  */
+
+  if (tab.type === "one_time") {
+    data.tasks =
+      data.tasks.filter(t => t.id !== task.id);
+  }
+
+  saveData();
+
+  closeModal("completionModal");
+
+  render();
+}
+
+
+/* =========================================================
+   PERSONEN
+========================================================= */
+
+function personName(person) {
+  if (person === "you") {
+    return data.settings.youName || "Jij";
+  }
+
+  if (person === "partner") {
+    return data.settings.partnerName || "Partner";
+  }
+
+  return "Samen";
+}
+
+
+/* =========================================================
+   POINTS
+========================================================= */
+
+function renderPoints(container) {
+  const youPoints =
+    data.completions
+      .filter(c => c.person === "you" || c.person === "together")
+      .reduce((sum, c) => sum + (c.points || 0), 0);
+
+  const partnerPoints =
+    data.completions
+      .filter(c => c.person === "partner" || c.person === "together")
+      .reduce((sum, c) => sum + (c.points || 0), 0);
+
+  const total =
+    data.completions.reduce(
+      (sum, c) => sum + (c.points || 0),
+      0
+    );
+
+  container.innerHTML = `
+    <div class="page-header">
+      <h2 class="page-title">🏆 Punten</h2>
+    </div>
+
+    <div class="card">
+      <div class="points-total">${total}</div>
+      <div style="color:var(--muted);">
+        Totaal aantal geregistreerde punten
+      </div>
+    </div>
+
+    <div class="points-grid">
+      <div class="person-points">
+        <strong>${escapeHtml(data.settings.youName || "Jij")}</strong>
+        ${youPoints} punten
+      </div>
+
+      <div class="person-points">
+        <strong>${escapeHtml(data.settings.partnerName || "Partner")}</strong>
+        ${partnerPoints} punten
+      </div>
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory(container) {
+  const history =
+    [...data.completions]
+      .sort((a, b) =>
+        new Date(b.completedAt) -
+        new Date(a.completedAt)
+      );
+
+  container.innerHTML = `
+    <div class="page-header">
+      <h2 class="page-title">📜 Geschiedenis</h2>
+    </div>
+  `;
+
+  if (history.length === 0) {
+    container.innerHTML += `
+      <div class="empty">
+        Nog geen geschiedenis.
+      </div>
+    `;
+
+    return;
+  }
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  history.forEach(completion => {
+
+    const item = document.createElement("div");
+    item.className = "history-item";
+
+    const points =
+      completion.points
+        ? ` · ${completion.points} pt`
+        : "";
+
+    item.innerHTML = `
+      <div class="history-top">
+        <strong>${escapeHtml(completion.taskTitle)}</strong>
+
+        <span>
+          ${escapeHtml(personName(completion.person))}
+        </span>
+      </div>
+
+      <div class="history-meta">
+        ${escapeHtml(completion.tabName || "")}
+        ·
+        ${formatDate(new Date(completion.completedAt))}
+        ${points}
+      </div>
+
+      <div style="margin-top:8px;">
+        <button
+          class="secondary-button"
+          onclick="undoCompletion('${completion.id}')"
+        >
+          Ongedaan maken
+        </button>
+      </div>
+    `;
+
+    card.appendChild(item);
+  });
+
+  container.appendChild(card);
+}
+
+function undoCompletion(completionId) {
+  const completion =
+    data.completions.find(c => c.id === completionId);
+
+  if (!completion) return;
+
+  const taskExists =
+    !!getTask(completion.taskId);
+
+  /*
+    Bij een eenmalige taak moet de taak opnieuw
+    aangemaakt worden wanneer de voltooiing
+    ongedaan wordt gemaakt.
+  */
+
+  if (!taskExists && completion.taskType === "one_time") {
+
+    data.tasks.push({
+      id: completion.taskId,
+      title: completion.taskTitle,
+      tabId: completion.tabId,
+      frequencyId: completion.frequencyId || null,
+      points: completion.points || 0,
+      createdAt: completion.completedAt
+    });
+  }
+
+  data.completions =
+    data.completions.filter(c => c.id !== completionId);
+
+  saveData();
+
+  render();
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function renderSettings(container) {
+  container.innerHTML = `
+    <div class="page-header">
+      <h2 class="page-title">⚙️ Instellingen</h2>
+    </div>
+
+    <div class="settings-section">
+      <h2>Algemeen</h2>
+
+      <div class="settings-card">
+
+        <div class="field">
+          <label for="settingsAppName">
+            Naam van de app
+          </label>
+
+          <input
+            id="settingsAppName"
+            type="text"
+            value="${escapeHtml(data.settings.appName || "Huishouden")}"
+          >
+        </div>
+
+        <div class="field">
+          <label for="settingsYouName">
+            Naam persoon 1
+          </label>
+
+          <input
+            id="settingsYouName"
+            type="text"
+            value="${escapeHtml(data.settings.youName || "Jij")}"
+          >
+        </div>
+
+        <div class="field">
+          <label for="settingsPartnerName">
+            Naam persoon 2
+          </label>
+
+          <input
+            id="settingsPartnerName"
+            type="text"
+            value="${escapeHtml(data.settings.partnerName || "Partner")}"
+          >
+        </div>
+
+        <div class="field">
+          <label for="settingsStartDate">
+            Startdatum voor de planning
+          </label>
+
+          <input
+            id="settingsStartDate"
+            type="date"
+            value="${escapeHtml(data.settings.startDate || "")}"
+          >
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="settings-section">
+      <h2>Tabbladen</h2>
+
+      <div id="tabSettingsList"></div>
+
+      <button
+        class="secondary-button"
+        onclick="addTab()"
+      >
+        + Tab toevoegen
+      </button>
+    </div>
+
+
+    <div class="settings-actions">
+      <button
+        class="primary-button"
+        onclick="saveSettings()"
+      >
+        Instellingen opslaan
+      </button>
+
+      <button
+        class="danger-button"
+        onclick="resetApp()"
+      >
+        Alles terugzetten naar basissjabloon
+      </button>
+    </div>
+  `;
+
+  renderTabSettings();
+}
+
+function renderTabSettings() {
+  const container =
+    document.getElementById("tabSettingsList");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  data.settings.tabs.forEach((tab, index) => {
+
+    const card = document.createElement("div");
+    card.className = "tab-config";
+    card.dataset.tabId = tab.id;
+
+    card.innerHTML = `
+      <div class="tab-config-header">
+        <div class="tab-config-title">
+          Tab ${index + 1}
+        </div>
+
+        ${
+          data.settings.tabs.length > 1
+            ? `
+              <button
+                class="danger-button"
+                onclick="deleteTab('${tab.id}')"
+              >
+                Verwijderen
+              </button>
+            `
+            : ""
+        }
+      </div>
+
+      <div class="field">
+        <label>Naam van de tab</label>
+
+        <input
+          type="text"
+          data-tab-name
+          value="${escapeHtml(tab.name)}"
+        >
+      </div>
+
+      <div class="field">
+        <label>Icoon</label>
+
+        <input
+          type="text"
+          data-tab-icon
+          value="${escapeHtml(tab.icon || "")}"
+          maxlength="4"
+        >
+      </div>
+
+      <div class="field">
+        <label>Type van deze tab</label>
+
+        <select
+          data-tab-type
+          onchange="updateTabSettingsVisibility(this)"
+        >
+          <option
+            value="recurring"
+            ${tab.type === "recurring" ? "selected" : ""}
+          >
+            Met frequentie
+          </option>
+
+          <option
+            value="repeatable"
+            ${tab.type === "repeatable" ? "selected" : ""}
+          >
+            Zonder frequentie – herhaalbaar
+          </option>
+
+          <option
+            value="one_time"
+            ${tab.type === "one_time" ? "selected" : ""}
+          >
+            Zonder frequentie – eenmalig
+          </option>
+        </select>
+      </div>
+
+      <div class="field checkbox-field">
+        <input
+          type="checkbox"
+          data-tab-points
+          ${tab.pointsEnabled ? "checked" : ""}
+          ${tab.type === "one_time" ? "disabled" : ""}
+        >
+
+        <label>
+          Punten gebruiken
+        </label>
+      </div>
+
+      <div
+        class="frequency-editor"
+        data-frequency-editor
+        style="${tab.type === "recurring" ? "" : "display:none;"}"
+      >
+        <strong>Frequenties</strong>
+
+        <div style="height:10px;"></div>
+
+        <div data-frequency-list></div>
+
+        <button
+          class="secondary-button"
+          onclick="addFrequency('${tab.id}')"
+        >
+          + Frequentie toevoegen
+        </button>
+      </div>
+    `;
+
+    container.appendChild(card);
+
+    const frequencyList =
+      card.querySelector("[data-frequency-list]");
+
+    if (tab.type === "recurring") {
+
+      (tab.frequencies || []).forEach(freq => {
+
+        const row = document.createElement("div");
+        row.className = "frequency-row";
+        row.dataset.frequencyId = freq.id;
+
+        row.innerHTML = `
+          <div>
+            <span class="small-label">Benaming</span>
+
+            <input
+              type="text"
+              data-frequency-label
+              value="${escapeHtml(freq.label)}"
+            >
+          </div>
+
+          <div>
+            <span class="small-label">Frequentie</span>
+
+            <select data-frequency-type>
+              <option
+                value="weekly"
+                ${freq.type === "weekly" ? "selected" : ""}
+              >
+                Wekelijks
+              </option>
+
+              <option
+                value="biweekly"
+                ${freq.type === "biweekly" ? "selected" : ""}
+              >
+                Om de 2 weken
+              </option>
+
+              <option
+                value="monthly"
+                ${freq.type === "monthly" ? "selected" : ""}
+              >
+                Maandelijks
+              </option>
+            </select>
+          </div>
+
+          <button
+            class="danger-button"
+            onclick="deleteFrequency('${tab.id}', '${freq.id}')"
+          >
+            ×
+          </button>
+        `;
+
+        frequencyList.appendChild(row);
+      });
+    }
+  });
+}
+
+function updateTabSettingsVisibility(select) {
+  const card = select.closest(".tab-config");
+
+  if (!card) return;
+
+  const type = select.value;
+
+  const frequencyEditor =
+    card.querySelector("[data-frequency-editor]");
+
+  const points =
+    card.querySelector("[data-tab-points]");
+
+  if (type === "recurring") {
+    frequencyEditor.style.display = "";
+  } else {
+    frequencyEditor.style.display = "none";
+  }
+
+  if (type === "one_time") {
+    points.checked = false;
+    points.disabled = true;
+  } else {
+    points.disabled = false;
+  }
+}
+
+
+/* =========================================================
+   SETTINGS – TABS
+========================================================= */
+
+function addTab() {
+  if (data.settings.tabs.length >= 8) {
+    alert("Je kunt maximaal 8 tabbladen gebruiken.");
+    return;
+  }
+
+  data.settings.tabs.push({
+    id: uid("tab"),
+    name: "Nieuwe tab",
+    icon: "📋",
+    type: "repeatable",
+    pointsEnabled: true,
+    frequencies: []
+  });
+
+  saveData();
+  renderSettings(document.getElementById("mainContent"));
+}
+
+function deleteTab(tabId) {
+  const tab = getTab(tabId);
+
+  if (!tab) return;
+
+  if (!confirm(
+    `Wil je tab "${tab.name}" verwijderen? De taken in deze tab worden ook verwijderd.`
+  )) {
+    return;
+  }
+
+  const taskIds =
+    data.tasks
+      .filter(task => task.tabId === tabId)
+      .map(task => task.id);
+
+  data.tasks =
+    data.tasks.filter(task => task.tabId !== tabId);
+
+  data.completions =
+    data.completions.filter(
+      completion =>
+        completion.tabId !== tabId &&
+        !taskIds.includes(completion.taskId)
+    );
+
+  data.settings.tabs =
+    data.settings.tabs.filter(tab => tab.id !== tabId);
+
+  if (
+    currentView.type === "tab" &&
+    currentView.id === tabId
+  ) {
+    currentView = {
+      type: "tab",
+      id: data.settings.tabs[0].id
+    };
+  }
+
+  saveData();
+  render();
+}
+
+function addFrequency(tabId) {
+  const tab = getTab(tabId);
+
+  if (!tab) return;
+
+  tab.frequencies.push({
+    id: uid("freq"),
+    label: "Nieuwe frequentie",
+    type: "weekly"
+  });
+
+  saveData();
+  renderSettings(document.getElementById("mainContent"));
+}
+
+function deleteFrequency(tabId, frequencyId) {
+  const tab = getTab(tabId);
+
+  if (!tab) return;
+
+  if (tab.frequencies.length <= 1) {
+    alert(
+      "Een tab met frequenties moet minstens één frequentie hebben."
+    );
+    return;
+  }
+
+  const frequency =
+    tab.frequencies.find(f => f.id === frequencyId);
+
+  if (!frequency) return;
+
+  const replacement =
+    tab.frequencies.find(f => f.id !== frequencyId);
+
+  const affectedTasks =
+    data.tasks.filter(
+      task =>
+        task.tabId === tabId &&
+        task.frequencyId === frequencyId
+    );
+
+  if (
+    affectedTasks.length &&
+    !confirm(
+      `Er zijn ${affectedTasks.length} taak/taken met deze frequentie. Deze worden gekoppeld aan "${replacement.label}". Doorgaan?`
+    )
+  ) {
+    return;
+  }
+
+  affectedTasks.forEach(task => {
+    task.frequencyId = replacement.id;
+  });
+
+  tab.frequencies =
+    tab.frequencies.filter(
+      f => f.id !== frequencyId
+    );
+
+  saveData();
+  renderSettings(document.getElementById("mainContent"));
+}
+
+
+/* =========================================================
+   SAVE SETTINGS
+========================================================= */
+
+function saveSettings() {
+  const appName =
+    document.getElementById("settingsAppName").value.trim();
+
+  const youName =
+    document.getElementById("settingsYouName").value.trim();
+
+  const partnerName =
+    document.getElementById("settingsPartnerName").value.trim();
+
+  const startDate =
+    document.getElementById("settingsStartDate").value;
+
+  if (!appName) {
+    alert("Geef de app een naam.");
+    return;
+  }
+
+  data.settings.appName = appName;
+  data.settings.youName = youName || "Jij";
+  data.settings.partnerName = partnerName || "Partner";
+  data.settings.startDate = startDate;
+
+  const cards =
+    document.querySelectorAll(".tab-config");
+
+  const newTabs = [];
+
+  cards.forEach(card => {
+
+    const tabId = card.dataset.tabId;
+    const oldTab = getTab(tabId);
+
+    if (!oldTab) return;
+
+    const name =
+      card.querySelector("[data-tab-name]").value.trim();
+
+    const icon =
+      card.querySelector("[data-tab-icon]").value.trim();
+
+    const type =
+      card.querySelector("[data-tab-type]").value;
+
+    const pointsEnabled =
+      card.querySelector("[data-tab-points]").checked;
+
+    const frequencies = [];
+
+    if (type === "recurring") {
+
+      card.querySelectorAll(".frequency-row")
+        .forEach(row => {
+
+          const label =
+            row.querySelector("[data-frequency-label]")
+              .value.trim();
+
+          const frequencyType =
+            row.querySelector("[data-frequency-type]").value;
+
+          if (label) {
+            frequencies.push({
+              id: row.dataset.frequencyId,
+              label,
+              type: frequencyType
+            });
+          }
+        });
+
+      if (frequencies.length === 0) {
+        alert(
+          `Tab "${name || "zonder naam"}" heeft minstens één frequentie nodig.`
+        );
+
+        return;
+      }
+    }
+
+    newTabs.push({
+      id: tabId,
+      name: name || "Tab",
+      icon: icon || "📋",
+      type,
+      pointsEnabled:
+        type === "one_time"
+          ? false
+          : pointsEnabled,
+      frequencies
+    });
+  });
+
+  if (newTabs.length !== data.settings.tabs.length) {
+    return;
+  }
+
+  data.settings.tabs = newTabs;
+
+  /*
+    Bestaande taken automatisch aanpassen wanneer
+    een tab van type verandert.
+  */
+
+  data.tasks.forEach(task => {
+
+    const tab = getTab(task.tabId);
+
+    if (!tab) return;
+
+    if (tab.type === "recurring") {
+
+      const frequencyExists =
+        tab.frequencies.some(
+          f => f.id === task.frequencyId
+        );
+
+      if (!frequencyExists) {
+        task.frequencyId =
+          tab.frequencies[0]?.id || null;
+      }
+
+    } else {
+
+      task.frequencyId = null;
+    }
+
+    if (!tab.pointsEnabled) {
+      task.points = 0;
+    }
+  });
+
+  saveData();
+
+  currentView = {
+    type: "settings"
+  };
+
+  render();
+
+  alert("Instellingen opgeslagen.");
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetApp() {
+  if (!confirm(
+    "Weet je zeker dat je alle taken, punten, geschiedenis en instellingen wilt verwijderen en opnieuw wilt beginnen met het basissjabloon?"
+  )) {
+    return;
+  }
+
+  data = clone(DEFAULT_DATA);
+
+  currentView = {
+    type: "tab",
+    id: data.settings.tabs[0].id
+  };
+
+  saveData();
+  render();
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showTab(tabId) {
+  currentView = {
+    type: "tab",
+    id: tabId
+  };
+
+  closeMenu();
+  render();
+}
+
+function showSpecialView(type) {
+  currentView = {
+    type
+  };
+
+  closeMenu();
+  render();
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+function toggleMenu() {
+  document
+    .getElementById("mainMenu")
+    .classList.toggle("open");
+}
+
+function closeMenu() {
+  document
+    .getElementById("mainMenu")
+    .classList.remove("open");
+}
+
+document.addEventListener("click", event => {
+  const menu = document.getElementById("mainMenu");
+  const button = document.getElementById("menuButton");
+
+  if (
+    !menu.contains(event.target) &&
+    !button.contains(event.target)
+  ) {
+    closeMenu();
+  }
+});
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function openModal(id) {
+  document
+    .getElementById(id)
+    .classList.add("open");
+}
+
+function closeModal(id) {
+  document
+    .getElementById(id)
+    .classList.remove("open");
+
+  if (id === "taskModal") {
+    editingTaskId = null;
+    editingTabId = null;
+  }
+
+  if (id === "completionModal") {
+    completionTaskId = null;
+  }
+}
+
+document.querySelectorAll(".modal-backdrop").forEach(backdrop => {
+  backdrop.addEventListener("click", event => {
+    if (event.target === backdrop) {
+      backdrop.classList.remove("open");
+    }
+  });
+});
 
 
 /* =========================================================

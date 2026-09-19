@@ -47,7 +47,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-      gap: 12px;
+      gap: 10px;
     }
 
     .section-title {
@@ -57,7 +57,7 @@
 
     .section-count {
       color: #6b7280;
-      font-size: 13px;
+      font-size: 14px;
       text-align: right;
     }
 
@@ -76,16 +76,15 @@
       align-items: center;
       box-shadow: 0 1px 3px rgba(0,0,0,0.07);
       cursor: pointer;
-      transition: transform 0.1s, box-shadow 0.1s;
+      transition: transform 0.1s;
     }
 
     .task:active {
       transform: scale(0.99);
     }
 
-    .task.disabled {
-      cursor: default;
-      opacity: 0.6;
+    .task.completed {
+      opacity: 0.7;
     }
 
     .task-info {
@@ -94,45 +93,38 @@
       flex: 1;
     }
 
-    .task-title-row {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-
     .task-title {
       font-size: 16px;
       font-weight: 600;
-    }
-
-    .status-dot {
-      width: 9px;
-      height: 9px;
-      min-width: 9px;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .status-dot.completed {
-      background: #55a868;
-    }
-
-    .status-dot.overdue {
-      background: #d95c5c;
-    }
-
-    .status-dot.pending {
-      background: #c7cbd1;
-    }
-
-    .status-dot.future {
-      background: #b9bdc4;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .task-meta {
       margin-top: 4px;
       font-size: 13px;
       color: #7a7f87;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: inline-block;
+    }
+
+    .status-green {
+      background: #5eaa70;
+    }
+
+    .status-red {
+      background: #d85c5c;
+    }
+
+    .status-gray {
+      background: #b8bcc2;
     }
 
     .task-points {
@@ -142,20 +134,6 @@
       background: #eef1f5;
       padding: 7px 10px;
       border-radius: 10px;
-    }
-
-    .start-banner {
-      background: white;
-      border-radius: 14px;
-      padding: 14px 16px;
-      margin-bottom: 22px;
-      color: #656b73;
-      font-size: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-    }
-
-    .start-banner strong {
-      color: #202124;
     }
 
     .nav {
@@ -176,9 +154,14 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.07);
     }
 
+    .nav-button.full {
+      grid-column: 1 / -1;
+    }
+
     /* PUNTEN */
 
-    .points-card {
+    .points-card,
+    .settings-card {
       margin-top: 12px;
       background: white;
       border-radius: 16px;
@@ -312,31 +295,32 @@
 
     /* INSTELLINGEN */
 
-    .settings-card {
-      background: white;
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    .settings-group {
+      margin-bottom: 24px;
     }
 
-    .settings-card h2 {
-      margin: 0 0 6px;
-      font-size: 19px;
+    .settings-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
     }
 
     .settings-description {
-      color: #737982;
+      color: #70757d;
       font-size: 13px;
-      line-height: 1.45;
-      margin-bottom: 16px;
+      line-height: 1.5;
+      margin-bottom: 14px;
     }
 
-    .form-group {
-      margin-bottom: 13px;
+    .field {
+      margin-bottom: 12px;
     }
 
-    .form-label {
+    .field label {
       display: block;
       font-size: 13px;
       font-weight: 600;
@@ -344,118 +328,92 @@
       color: #555b63;
     }
 
-    .form-input,
-    .form-select {
+    .field input,
+    .field select {
       width: 100%;
       border: 1px solid #d9dce1;
-      border-radius: 10px;
-      padding: 11px 12px;
-      background: white;
-      font-size: 15px;
-      color: #202124;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .primary-button {
-      border: 0;
+      background: #fafbfc;
       border-radius: 11px;
+      padding: 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #9aa9ba;
+    }
+
+    .save-button,
+    .add-button {
+      border: 0;
       background: #202124;
       color: white;
-      padding: 11px 15px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .secondary-button {
-      border: 0;
       border-radius: 11px;
-      background: #eef0f3;
-      color: #33373d;
-      padding: 11px 15px;
+      padding: 11px 14px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
     }
 
-    .danger-button {
-      border: 0;
-      border-radius: 9px;
-      background: #f8eaea;
-      color: #a43d3d;
-      padding: 8px 10px;
-      font-size: 12px;
-      cursor: pointer;
+    .task-setting {
+      border: 1px solid #e1e3e7;
+      border-radius: 13px;
+      padding: 13px;
+      margin-bottom: 10px;
+      background: #fafbfc;
     }
 
-    .task-editor-buttons {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .managed-task {
+    .task-setting-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       gap: 10px;
-      padding: 12px 0;
-      border-bottom: 1px solid #eceef1;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
-    .managed-task:last-child {
-      border-bottom: 0;
-    }
-
-    .managed-task-info {
-      min-width: 0;
-      flex: 1;
-    }
-
-    .managed-task-title {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .managed-task-meta {
-      margin-top: 3px;
-      color: #777d85;
-      font-size: 12px;
-    }
-
-    .managed-task-actions {
-      display: flex;
-      gap: 6px;
-      flex-shrink: 0;
-    }
-
-    .small-button {
-      border: 0;
-      border-radius: 9px;
-      background: #eef0f3;
-      color: #33373d;
-      padding: 8px 9px;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .inactive-label {
-      color: #999;
-      font-style: italic;
-    }
-
-    .settings-section-title {
-      margin: 18px 0 6px;
-      font-size: 14px;
+    .task-setting-title {
       font-weight: 700;
+      font-size: 15px;
     }
 
-    /* MODALS */
+    .delete-task-button {
+      border: 0;
+      background: #f4dddd;
+      color: #a23d3d;
+      border-radius: 9px;
+      padding: 7px 9px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .task-setting-grid {
+      display: grid;
+      grid-template-columns: 1fr 100px;
+      gap: 8px;
+    }
+
+    .task-setting-grid select {
+      grid-column: 1 / -1;
+    }
+
+    .task-setting input,
+    .task-setting select {
+      width: 100%;
+      border: 1px solid #dddfe4;
+      background: white;
+      border-radius: 9px;
+      padding: 9px;
+      font-size: 13px;
+    }
+
+    .settings-divider {
+      border: 0;
+      border-top: 1px solid #eceef1;
+      margin: 24px 0;
+    }
+
+    /* MODAL */
 
     .modal-backdrop {
       position: fixed;
@@ -477,8 +435,6 @@
       background: white;
       border-radius: 22px 22px 0 0;
       padding: 24px 18px 28px;
-      max-height: 90vh;
-      overflow-y: auto;
     }
 
     .modal h2 {
@@ -537,6 +493,16 @@
       color: #555;
     }
 
+    .info-box {
+      background: #f0f3f6;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      color: #626872;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
     @media (min-width: 700px) {
       .modal-backdrop {
         align-items: center;
@@ -559,36 +525,24 @@
 
     <header>
       <h1>🏠 Huishouden</h1>
-
-      <div class="subtitle">
+      <div class="subtitle" id="mainSubtitle">
         Samen overzicht houden over het huishouden
       </div>
     </header>
-
-    <div id="startBanner" class="start-banner" style="display:none;"></div>
 
     <div id="taskSections"></div>
 
     <div class="nav">
 
-      <button
-        class="nav-button"
-        onclick="showView('pointsView')"
-      >
+      <button class="nav-button" onclick="showView('pointsView')">
         📊 Punten
       </button>
 
-      <button
-        class="nav-button"
-        onclick="showView('historyView')"
-      >
+      <button class="nav-button" onclick="showView('historyView')">
         📖 Geschiedenis
       </button>
 
-      <button
-        class="nav-button"
-        onclick="showView('settingsView')"
-      >
+      <button class="nav-button full" onclick="showView('settingsView')">
         ⚙️ Instellingen
       </button>
 
@@ -601,10 +555,7 @@
 
   <div id="pointsView" class="view">
 
-    <button
-      class="back-button"
-      onclick="showView('mainView')"
-    >
+    <button class="back-button" onclick="showView('mainView')">
       ← Terug
     </button>
 
@@ -615,21 +566,21 @@
       <div class="points-names">
 
         <div class="person-score">
-          <div class="person-name">Jij</div>
-          <div
-            class="person-number"
-            id="youPoints"
-          >
+          <div class="person-name" id="youNameDisplay">
+            Jij
+          </div>
+
+          <div class="person-number" id="youPoints">
             0
           </div>
         </div>
 
         <div class="person-score right">
-          <div class="person-name">Partner</div>
-          <div
-            class="person-number"
-            id="partnerPoints"
-          >
+          <div class="person-name" id="partnerNameDisplay">
+            Partner
+          </div>
+
+          <div class="person-number" id="partnerPoints">
             0
           </div>
         </div>
@@ -671,19 +622,13 @@
 
   <div id="historyView" class="view">
 
-    <button
-      class="back-button"
-      onclick="showView('mainView')"
-    >
+    <button class="back-button" onclick="showView('mainView')">
       ← Terug
     </button>
 
     <h1>📖 Geschiedenis</h1>
 
-    <div
-      id="historyList"
-      class="history"
-    ></div>
+    <div id="historyList" class="history"></div>
 
   </div>
 
@@ -692,174 +637,124 @@
 
   <div id="settingsView" class="view">
 
-    <button
-      class="back-button"
-      onclick="showView('mainView')"
-    >
+    <button class="back-button" onclick="showView('mainView')">
       ← Terug
     </button>
 
     <h1>⚙️ Instellingen</h1>
 
-
-    <!-- STARTDATUM -->
-
-    <div class="settings-card">
-
-      <h2>Startdatum huishouden</h2>
-
-      <div class="settings-description">
-        Vanaf deze datum begint de app rekening te houden met terugkerende taken.
-        Zo krijg je vóór je verhuis geen onterechte achterstallige taken.
-      </div>
-
-      <div class="form-group">
-
-        <label
-          class="form-label"
-          for="householdStartDate"
-        >
-          Startdatum
-        </label>
-
-        <input
-          id="householdStartDate"
-          class="form-input"
-          type="date"
-        >
-
-      </div>
-
-      <button
-        class="primary-button"
-        onclick="saveStartDate()"
-      >
-        Startdatum opslaan
-      </button>
-
-    </div>
-
-
-    <!-- NIEUWE TAAK -->
+    <!-- PERSONEN -->
 
     <div class="settings-card">
 
-      <h2 id="taskEditorTitle">
-        Nieuwe taak toevoegen
-      </h2>
+      <div class="settings-group">
 
-      <div class="settings-description">
-        Je kunt zelf taken toevoegen, verwijderen, de frequentie aanpassen
-        en het aantal punten wijzigen.
-      </div>
-
-      <div class="form-group">
-
-        <label
-          class="form-label"
-          for="taskTitleInput"
-        >
-          Naam van de taak
-        </label>
-
-        <input
-          id="taskTitleInput"
-          class="form-input"
-          type="text"
-          placeholder="Bijvoorbeeld: Tuin maaien"
-        >
-
-      </div>
-
-      <div class="form-row">
-
-        <div class="form-group">
-
-          <label
-            class="form-label"
-            for="taskCategoryInput"
-          >
-            Frequentie
-          </label>
-
-          <select
-            id="taskCategoryInput"
-            class="form-select"
-          >
-            <option value="weekly">
-              Wekelijks
-            </option>
-
-            <option value="biweekly">
-              Om de 2 weken
-            </option>
-
-            <option value="monthly">
-              Maandelijks
-            </option>
-
-            <option value="when_needed">
-              Wanneer nodig
-            </option>
-          </select>
-
+        <div class="settings-title">
+          👥 Personen
         </div>
 
+        <div class="settings-description">
+          Kies de namen die in de hele app gebruikt worden.
+        </div>
 
-        <div class="form-group">
-
-          <label
-            class="form-label"
-            for="taskPointsInput"
-          >
-            Punten
+        <div class="field">
+          <label for="youNameInput">
+            Jouw naam
           </label>
 
           <input
-            id="taskPointsInput"
-            class="form-input"
-            type="number"
-            min="1"
-            max="20"
-            value="1"
+            id="youNameInput"
+            type="text"
+            maxlength="30"
+            placeholder="Bijvoorbeeld: Jan"
           >
-
         </div>
 
+        <div class="field">
+          <label for="partnerNameInput">
+            Naam partner
+          </label>
+
+          <input
+            id="partnerNameInput"
+            type="text"
+            maxlength="30"
+            placeholder="Bijvoorbeeld: Emma"
+          >
+        </div>
+
+        <button
+          class="save-button"
+          onclick="savePeople()"
+        >
+          Namen opslaan
+        </button>
+
       </div>
 
 
-      <div class="task-editor-buttons">
+      <hr class="settings-divider">
+
+
+      <!-- STARTDATUM -->
+
+      <div class="settings-group">
+
+        <div class="settings-title">
+          🏠 Startdatum huishouden
+        </div>
+
+        <div class="settings-description">
+          Taken vóór deze datum worden niet als achterstallig beschouwd.
+          Handig wanneer jullie pas later verhuizen.
+        </div>
+
+        <div class="field">
+          <label for="startDateInput">
+            Startdatum
+          </label>
+
+          <input
+            id="startDateInput"
+            type="date"
+          >
+        </div>
 
         <button
-          id="taskSaveButton"
-          class="primary-button"
-          onclick="saveTaskFromSettings()"
+          class="save-button"
+          onclick="saveStartDate()"
         >
-          Taak toevoegen
-        </button>
-
-        <button
-          id="taskCancelButton"
-          class="secondary-button"
-          onclick="cancelTaskEdit()"
-          style="display:none;"
-        >
-          Annuleren
+          Startdatum opslaan
         </button>
 
       </div>
 
-    </div>
+
+      <hr class="settings-divider">
 
 
-    <!-- TAKEN BEHEREN -->
+      <!-- TAKEN -->
 
-    <div class="settings-card">
+      <div class="settings-group">
 
-      <h2>Mijn taken</h2>
+        <div class="settings-title">
+          📝 Taken aanpassen
+        </div>
 
-      <div id="managedTasks"></div>
+        <div class="settings-description">
+          Pas taken, frequentie en punten aan. Je kunt ook nieuwe taken toevoegen.
+        </div>
+
+        <div id="taskSettingsList"></div>
+
+        <button
+          class="add-button"
+          onclick="addTask()"
+        >
+          ＋ Nieuwe taak
+        </button>
+
+      </div>
 
     </div>
 
@@ -868,12 +763,9 @@
 </div>
 
 
-<!-- TAAK UITVOEREN MODAL -->
+<!-- MODAL -->
 
-<div
-  id="modalBackdrop"
-  class="modal-backdrop"
->
+<div id="modalBackdrop" class="modal-backdrop">
 
   <div class="modal">
 
@@ -892,6 +784,7 @@
 
       <button
         class="person-button"
+        id="youButton"
         onclick="completeTask('you')"
       >
         Jij
@@ -899,6 +792,7 @@
 
       <button
         class="person-button"
+        id="partnerButton"
         onclick="completeTask('partner')"
       >
         Partner
@@ -937,211 +831,258 @@ const DEFAULT_TASKS = [
     id: 1,
     title: "Bovenverdieping stofzuigen",
     category: "weekly",
-    points: 3,
-    active: true
+    points: 3
   },
 
   {
     id: 2,
     title: "Bovenverdieping dweilen",
     category: "weekly",
-    points: 3,
-    active: true
+    points: 3
   },
 
   {
     id: 3,
     title: "Benedenverdieping dweilen",
     category: "weekly",
-    points: 3,
-    active: true
+    points: 3
   },
 
   {
     id: 4,
     title: "WC kuisen",
     category: "weekly",
-    points: 2,
-    active: true
+    points: 2
   },
 
   {
     id: 5,
     title: "Lakens vervangen",
     category: "weekly",
-    points: 2,
-    active: true
+    points: 2
   },
 
   {
     id: 6,
     title: "Douchewand kuisen",
     category: "weekly",
-    points: 2,
-    active: true
+    points: 2
   },
 
   {
     id: 7,
     title: "Spiegels kuisen",
     category: "weekly",
-    points: 2,
-    active: true
+    points: 2
   },
 
   {
     id: 8,
     title: "Stof afdoen",
     category: "biweekly",
-    points: 3,
-    active: true
+    points: 3
   },
 
   {
     id: 9,
     title: "Vuilbakken uitkuisen",
     category: "biweekly",
-    points: 2,
-    active: true
+    points: 2
   },
 
   {
     id: 10,
     title: "Keuken deepclean",
     category: "monthly",
-    points: 5,
-    active: true
+    points: 5
   },
 
   {
     id: 11,
     title: "Ramen kuisen",
     category: "monthly",
-    points: 5,
-    active: true
+    points: 5
   },
 
   {
     id: 12,
     title: "Koelkast uitkuisen",
     category: "monthly",
-    points: 4,
-    active: true
+    points: 4
   },
 
   {
     id: 13,
     title: "Deurklinken afwassen",
     category: "monthly",
-    points: 2,
-    active: true
+    points: 2
   },
 
   {
     id: 14,
     title: "Onder bed & zetel stofzuigen",
     category: "monthly",
-    points: 2,
-    active: true
+    points: 2
   },
 
   {
     id: 15,
     title: "Droogkast & wasmachine reinigen",
     category: "monthly",
-    points: 2,
-    active: true
+    points: 2
   },
 
   {
     id: 16,
     title: "WC-bril afdoen & kuisen",
     category: "monthly",
-    points: 1,
-    active: true
+    points: 1
   },
 
   {
     id: 17,
     title: "Ontstopper in leidingen doen",
     category: "monthly",
-    points: 1,
-    active: true
+    points: 1
   },
 
   {
     id: 18,
     title: "Wasmachine opzetten",
     category: "when_needed",
-    points: 1,
-    active: true
+    points: 1
   },
 
   {
     id: 19,
     title: "Droogkast opzetten",
     category: "when_needed",
-    points: 1,
-    active: true
+    points: 1
   },
 
   {
     id: 20,
     title: "Vaatwasser uitladen",
     category: "when_needed",
-    points: 1,
-    active: true
+    points: 1
   },
 
   {
     id: 21,
     title: "Was ophangen",
     category: "when_needed",
-    points: 1,
-    active: true
+    points: 1
   },
 
   {
     id: 22,
     title: "Was opvouwen & strijken",
     category: "when_needed",
-    points: 2,
-    active: true
+    points: 2
   },
 
   {
     id: 23,
     title: "Boodschappen doen",
     category: "when_needed",
-    points: 3,
-    active: true
+    points: 3
   },
 
   {
     id: 24,
     title: "Afval buitenzetten",
     category: "when_needed",
-    points: 1,
-    active: true
+    points: 1
   },
 
   {
     id: 25,
     title: "Kleine vuilbakken WC leegmaken",
     category: "when_needed",
-    points: 1,
-    active: true
+    points: 1
   },
 
   {
     id: 26,
     title: "Glas naar glascontainer brengen",
     category: "when_needed",
-    points: 2,
-    active: true
+    points: 2
   }
 
 ];
+
+
+/* =========================================================
+   INSTELLINGEN
+========================================================= */
+
+let settings = JSON.parse(
+  localStorage.getItem("householdSettings") || "null"
+);
+
+
+if (!settings) {
+
+  settings = {
+
+    youName: "Jij",
+
+    partnerName: "Partner",
+
+    startDate:
+      new Date()
+        .toISOString()
+        .slice(0, 10),
+
+    tasks:
+      DEFAULT_TASKS.map(task => ({
+        ...task
+      }))
+
+  };
+
+} else {
+
+  if (!settings.youName) {
+    settings.youName = "Jij";
+  }
+
+  if (!settings.partnerName) {
+    settings.partnerName = "Partner";
+  }
+
+  if (!settings.startDate) {
+    settings.startDate =
+      new Date()
+        .toISOString()
+        .slice(0, 10);
+  }
+
+  if (!Array.isArray(settings.tasks)) {
+    settings.tasks =
+      DEFAULT_TASKS.map(task => ({
+        ...task
+      }));
+  }
+
+}
+
+
+function saveSettings() {
+
+  localStorage.setItem(
+    "householdSettings",
+    JSON.stringify(settings)
+  );
+
+}
+
+
+function getTasks() {
+
+  return settings.tasks || [];
+
+}
 
 
 /* =========================================================
@@ -1151,90 +1092,33 @@ const DEFAULT_TASKS = [
 const CATEGORY_INFO = {
 
   weekly: {
-    title: "🔄 Deze week",
-    label: "Wekelijks"
+    title: "🔄 Deze week"
   },
 
   biweekly: {
-    title: "🔄 Deze 2 weken",
-    label: "Om de 2 weken"
+    title: "🔄 Deze 2 weken"
   },
 
   monthly: {
-    title: "📅 Deze maand",
-    label: "Maandelijks"
+    title: "📅 Deze maand"
   },
 
   when_needed: {
-    title: "⚡ Wanneer nodig",
-    label: "Wanneer nodig"
+    title: "⚡ Wanneer nodig"
   }
 
 };
 
 
 /* =========================================================
-   DATA LADEN
+   DATA
 ========================================================= */
-
-let TASKS = JSON.parse(
-  localStorage.getItem("householdTasks") || "null"
-);
-
-if (!Array.isArray(TASKS)) {
-
-  TASKS = DEFAULT_TASKS.map(
-    task => ({ ...task })
-  );
-
-  localStorage.setItem(
-    "householdTasks",
-    JSON.stringify(TASKS)
-  );
-
-}
-
-
-/*
-  Bestaande geschiedenis blijft behouden.
-*/
 
 let completions = JSON.parse(
   localStorage.getItem("householdCompletions") || "[]"
 );
 
-
-/*
-  Nieuwe instelling.
-  Als er nog geen startdatum is,
-  gebruiken we vandaag.
-*/
-
-let householdStartDate =
-  localStorage.getItem(
-    "householdStartDate"
-  );
-
-
-if (!householdStartDate) {
-
-  const today =
-    new Date();
-
-  householdStartDate =
-    formatInputDate(today);
-
-  localStorage.setItem(
-    "householdStartDate",
-    householdStartDate
-  );
-
-}
-
-
 let selectedTask = null;
-
-let editingTaskId = null;
 
 
 /* =========================================================
@@ -1248,78 +1132,257 @@ function save() {
     JSON.stringify(completions)
   );
 
-  localStorage.setItem(
-    "householdTasks",
-    JSON.stringify(TASKS)
+}
+
+
+/* =========================================================
+   STARTDATUM
+========================================================= */
+
+function getStartDate() {
+
+  return new Date(
+    settings.startDate + "T00:00:00"
+  );
+
+}
+
+
+function isBeforeStartDate(date) {
+
+  return date < getStartDate();
+
+}
+
+
+/* =========================================================
+   PERIODE
+========================================================= */
+
+function getPeriod(task, dateInput = new Date()) {
+
+  const now =
+    new Date(dateInput);
+
+
+  if (
+    isBeforeStartDate(now)
+  ) {
+    return null;
+  }
+
+
+  if (task.category === "weekly") {
+
+    const date =
+      new Date(
+        Date.UTC(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        )
+      );
+
+
+    const day =
+      date.getUTCDay() || 7;
+
+
+    date.setUTCDate(
+      date.getUTCDate() + 4 - day
+    );
+
+
+    const yearStart =
+      new Date(
+        Date.UTC(
+          date.getUTCFullYear(),
+          0,
+          1
+        )
+      );
+
+
+    const week =
+      Math.ceil(
+        (
+          (
+            (date - yearStart) /
+            86400000
+          ) + 1
+        ) / 7
+      );
+
+
+    return `${date.getUTCFullYear()}-W${week}`;
+
+  }
+
+
+  if (task.category === "biweekly") {
+
+    const date =
+      new Date(
+        Date.UTC(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate()
+        )
+      );
+
+
+    const day =
+      date.getUTCDay() || 7;
+
+
+    date.setUTCDate(
+      date.getUTCDate() + 4 - day
+    );
+
+
+    const yearStart =
+      new Date(
+        Date.UTC(
+          date.getUTCFullYear(),
+          0,
+          1
+        )
+      );
+
+
+    const week =
+      Math.ceil(
+        (
+          (
+            (date - yearStart) /
+            86400000
+          ) + 1
+        ) / 7
+      );
+
+
+    return `${date.getUTCFullYear()}-BW${Math.ceil(
+      week / 2
+    )}`;
+
+  }
+
+
+  if (task.category === "monthly") {
+
+    return `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}`;
+
+  }
+
+
+  return null;
+
+}
+
+
+/* =========================================================
+   UITVOERINGEN
+========================================================= */
+
+function getTaskCompletions(task) {
+
+  return completions.filter(
+    c =>
+      c.taskId === task.id
+  );
+
+}
+
+
+function getCurrentCompletion(task) {
+
+  if (
+    task.category ===
+    "when_needed"
+  ) {
+
+    return null;
+
+  }
+
+
+  const period =
+    getPeriod(task);
+
+
+  if (!period) {
+    return null;
+  }
+
+
+  return completions.find(
+    c =>
+      c.taskId === task.id &&
+      c.period === period
+  );
+
+}
+
+
+function getLastCompletion(task) {
+
+  const list =
+    getTaskCompletions(task);
+
+
+  if (!list.length) {
+    return null;
+  }
+
+
+  return list
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(b.completedAt) -
+        new Date(a.completedAt)
+    )[0];
+
+}
+
+
+/* =========================================================
+   ACHTERSTALLIG
+========================================================= */
+
+function isOverdue(task) {
+
+  if (
+    task.category ===
+    "when_needed"
+  ) {
+    return false;
+  }
+
+
+  const today =
+    new Date();
+
+
+  if (
+    isBeforeStartDate(today)
+  ) {
+    return false;
+  }
+
+
+  return !getCurrentCompletion(
+    task
   );
 
 }
 
 
 /* =========================================================
-   DATUM HELPERS
+   DATUM
 ========================================================= */
-
-function formatInputDate(date) {
-
-  return [
-    date.getFullYear(),
-    String(
-      date.getMonth() + 1
-    ).padStart(2, "0"),
-    String(
-      date.getDate()
-    ).padStart(2, "0")
-  ].join("-");
-
-}
-
-
-function parseInputDate(value) {
-
-  if (!value) {
-    return null;
-  }
-
-  const parts =
-    value.split("-");
-
-  return new Date(
-    Number(parts[0]),
-    Number(parts[1]) - 1,
-    Number(parts[2])
-  );
-
-}
-
-
-function startOfDay(date) {
-
-  return new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate()
-  );
-
-}
-
-
-function isBeforeStartDate() {
-
-  const today =
-    startOfDay(new Date());
-
-  const start =
-    startOfDay(
-      parseInputDate(
-        householdStartDate
-      )
-    );
-
-  return today < start;
-
-}
-
 
 function formatDate(dateString) {
 
@@ -1356,474 +1419,17 @@ function formatDateTime(dateString) {
 
 
 /* =========================================================
-   PERIODE
-========================================================= */
-
-function getPeriodForDate(task, inputDate) {
-
-  const now =
-    new Date(inputDate);
-
-
-  if (task.category === "weekly") {
-
-    const date =
-      new Date(
-        Date.UTC(
-          now.getFullYear(),
-          now.getMonth(),
-          now.getDate()
-        )
-      );
-
-    const day =
-      date.getUTCDay() || 7;
-
-    date.setUTCDate(
-      date.getUTCDate() + 4 - day
-    );
-
-    const yearStart =
-      new Date(
-        Date.UTC(
-          date.getUTCFullYear(),
-          0,
-          1
-        )
-      );
-
-    const week =
-      Math.ceil(
-        (
-          (
-            (date - yearStart) /
-            86400000
-          ) + 1
-        ) / 7
-      );
-
-    return `${date.getUTCFullYear()}-W${week}`;
-
-  }
-
-
-  if (task.category === "biweekly") {
-
-    const date =
-      new Date(
-        Date.UTC(
-          now.getFullYear(),
-          now.getMonth(),
-          now.getDate()
-        )
-      );
-
-    const day =
-      date.getUTCDay() || 7;
-
-    date.setUTCDate(
-      date.getUTCDate() + 4 - day
-    );
-
-    const yearStart =
-      new Date(
-        Date.UTC(
-          date.getUTCFullYear(),
-          0,
-          1
-        )
-      );
-
-    const week =
-      Math.ceil(
-        (
-          (
-            (date - yearStart) /
-            86400000
-          ) + 1
-        ) / 7
-      );
-
-    return `${date.getUTCFullYear()}-BW${Math.ceil(
-      week / 2
-    )}`;
-
-  }
-
-
-  if (task.category === "monthly") {
-
-    return `${now.getFullYear()}-${String(
-      now.getMonth() + 1
-    ).padStart(2, "0")}`;
-
-  }
-
-
-  return null;
-
-}
-
-
-function getPeriod(task) {
-
-  return getPeriodForDate(
-    task,
-    new Date()
-  );
-
-}
-
-
-/*
-  Startdatum van een periode.
-  Hiermee bepalen we of een taak
-  achterstallig is.
-*/
-
-function getPeriodStart(task, inputDate) {
-
-  const date =
-    new Date(inputDate);
-
-
-  if (task.category === "monthly") {
-
-    return new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      1
-    );
-
-  }
-
-
-  /*
-    Voor week en 2-weken:
-    maandag als begin van de periode.
-  */
-
-  const day =
-    date.getDay() || 7;
-
-  const monday =
-    new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate()
-    );
-
-  monday.setDate(
-    monday.getDate() -
-    (day - 1)
-  );
-
-
-  if (task.category === "biweekly") {
-
-    const year =
-      monday.getFullYear();
-
-    /*
-      Zelfde principe als de huidige
-      2-weekse kalenderblokken.
-    */
-
-    const firstMonday =
-      new Date(
-        year,
-        0,
-        1
-      );
-
-    const firstDay =
-      firstMonday.getDay() || 7;
-
-    firstMonday.setDate(
-      firstMonday.getDate() -
-      (firstDay - 1)
-    );
-
-    const diff =
-      Math.floor(
-        (
-          monday -
-          firstMonday
-        ) / 86400000
-      );
-
-    const block =
-      Math.floor(
-        diff / 14
-      );
-
-    const blockStart =
-      new Date(firstMonday);
-
-    blockStart.setDate(
-      blockStart.getDate() +
-      block * 14
-    );
-
-    return blockStart;
-
-  }
-
-
-  return monday;
-
-}
-
-
-/* =========================================================
-   UITVOERINGEN
-========================================================= */
-
-function getTaskCompletions(task) {
-
-  return completions.filter(
-    c =>
-      c.taskId === task.id
-  );
-
-}
-
-
-function getCurrentCompletion(task) {
-
-  if (
-    task.category ===
-    "when_needed"
-  ) {
-
-    return null;
-
-  }
-
-
-  const period =
-    getPeriod(task);
-
-
-  return completions.find(
-    c =>
-      c.taskId === task.id &&
-      c.period === period
-  );
-
-}
-
-
-function getLastCompletion(task) {
-
-  const list =
-    getTaskCompletions(task);
-
-
-  if (!list.length) {
-    return null;
-  }
-
-
-  return list
-    .slice()
-    .sort(
-      (a, b) =>
-        new Date(
-          b.completedAt
-        ) -
-        new Date(
-          a.completedAt
-        )
-    )[0];
-
-}
-
-
-/* =========================================================
-   ACHTERSTALLIG
-========================================================= */
-
-function isTaskOverdue(task) {
-
-  /*
-    Wanneer nodig heeft geen achterstand.
-  */
-
-  if (
-    task.category ===
-    "when_needed"
-  ) {
-
-    return false;
-
-  }
-
-
-  /*
-    Voor de startdatum bestaan er
-    nog geen verplichtingen.
-  */
-
-  if (isBeforeStartDate()) {
-
-    return false;
-
-  }
-
-
-  const today =
-    new Date();
-
-  const currentPeriodStart =
-    getPeriodStart(
-      task,
-      today
-    );
-
-
-  const householdStart =
-    parseInputDate(
-      householdStartDate
-    );
-
-
-  const householdStartPeriod =
-    getPeriodStart(
-      task,
-      householdStart
-    );
-
-
-  /*
-    Als we nog in de eerste periode
-    zitten waarin het huishouden startte,
-    is een niet-uitgevoerde taak nog
-    niet achterstallig.
-  */
-
-  if (
-    currentPeriodStart <=
-    householdStartPeriod
-  ) {
-
-    return false;
-
-  }
-
-
-  const current =
-    getCurrentCompletion(task);
-
-
-  /*
-    Uitgevoerd in de huidige periode:
-    niet achterstallig.
-  */
-
-  if (current) {
-
-    return false;
-
-  }
-
-
-  const last =
-    getLastCompletion(task);
-
-
-  /*
-    Nooit gedaan sinds de start:
-    achterstallig zodra we voorbij
-    de eerste periode zijn.
-  */
-
-  if (!last) {
-
-    return true;
-
-  }
-
-
-  const lastPeriodStart =
-    getPeriodStart(
-      task,
-      new Date(
-        last.completedAt
-      )
-    );
-
-
-  return (
-    lastPeriodStart <
-    currentPeriodStart
-  );
-
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-function getTaskStatus(
-  task,
-  currentCompletion,
-  lastCompletion
-) {
-
-  if (isBeforeStartDate()) {
-
-    return "future";
-
-  }
-
-
-  if (currentCompletion) {
-
-    return "completed";
-
-  }
-
-
-  if (
-    task.category ===
-    "when_needed"
-  ) {
-
-    if (lastCompletion) {
-      return "completed";
-    }
-
-    return "pending";
-
-  }
-
-
-  if (isTaskOverdue(task)) {
-
-    return "overdue";
-
-  }
-
-
-  return "pending";
-
-}
-
-
-/* =========================================================
-   PERSOON
+   PERSONEN
 ========================================================= */
 
 function personLabel(person) {
 
   if (person === "you") {
-    return "Jij";
+    return settings.youName;
   }
 
   if (person === "partner") {
-    return "Partner";
+    return settings.partnerName;
   }
 
   if (person === "together") {
@@ -1847,24 +1453,34 @@ function getPointsTotals() {
 
   completions.forEach(c => {
 
-    if (c.person === "you") {
+    const points =
+      Number(c.points) || 0;
 
-      you += Number(c.points);
+
+    if (
+      c.person === "you"
+    ) {
+
+      you += points;
 
     }
 
 
-    if (c.person === "partner") {
+    if (
+      c.person === "partner"
+    ) {
 
-      partner += Number(c.points);
+      partner += points;
 
     }
 
 
-    if (c.person === "together") {
+    if (
+      c.person === "together"
+    ) {
 
-      you += Number(c.points);
-      partner += Number(c.points);
+      you += points;
+      partner += points;
 
     }
 
@@ -1885,72 +1501,15 @@ function getPointsTotals() {
 
 function render() {
 
-  renderStartBanner();
   renderTasks();
   renderPoints();
   renderHistory();
-  renderManagedTasks();
+  renderSettings();
 
-}
-
-
-/* =========================================================
-   STARTBANNER
-========================================================= */
-
-function renderStartBanner() {
-
-  const banner =
-    document.getElementById(
-      "startBanner"
-    );
-
-
-  const start =
-    parseInputDate(
-      householdStartDate
-    );
-
-
-  if (!start) {
-
-    banner.style.display =
-      "none";
-
-    return;
-
-  }
-
-
-  const today =
-    startOfDay(new Date());
-
-
-  const startDay =
-    startOfDay(start);
-
-
-  if (today < startDay) {
-
-    banner.style.display =
-      "block";
-
-    banner.innerHTML =
-      `🏡 Het huishouden start op <strong>${start.toLocaleDateString(
-        "nl-BE",
-        {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric"
-        }
-      )}</strong>. Tot die datum worden taken niet als achterstallig beschouwd.`;
-
-  } else {
-
-    banner.style.display =
-      "none";
-
-  }
+  document.getElementById(
+    "mainSubtitle"
+  ).textContent =
+    `${settings.youName} & ${settings.partnerName} · Samen overzicht houden`;
 
 }
 
@@ -1970,445 +1529,377 @@ function renderTasks() {
   container.innerHTML = "";
 
 
-  Object.keys(CATEGORY_INFO)
-    .forEach(category => {
+  Object.keys(
+    CATEGORY_INFO
+  ).forEach(category => {
 
-      let tasks =
-        TASKS.filter(
-          task =>
-            task.active !== false &&
-            task.category === category
-        );
-
-
-      if (!tasks.length) {
-        return;
-      }
+    let tasks =
+      getTasks().filter(
+        task =>
+          task.category === category
+      );
 
 
-      /*
-        Sortering:
-        1. achterstallig
-        2. nooit gedaan
-        3. langst geleden gedaan
-      */
+    tasks.sort((a, b) => {
 
-      tasks.sort((a, b) => {
+      const aOverdue =
+        isOverdue(a);
 
-        const aCurrent =
-          getCurrentCompletion(a);
-
-        const bCurrent =
-          getCurrentCompletion(b);
-
-        const aOverdue =
-          isTaskOverdue(a);
-
-        const bOverdue =
-          isTaskOverdue(b);
-
-        if (
-          aOverdue &&
-          !bOverdue
-        ) {
-          return -1;
-        }
-
-        if (
-          !aOverdue &&
-          bOverdue
-        ) {
-          return 1;
-        }
-
-
-        const aLast =
-          getLastCompletion(a);
-
-        const bLast =
-          getLastCompletion(b);
-
-
-        if (!aLast && !bLast) {
-          return 0;
-        }
-
-        if (!aLast) {
-          return -1;
-        }
-
-        if (!bLast) {
-          return 1;
-        }
-
-
-        return (
-          new Date(
-            aLast.completedAt
-          ) -
-          new Date(
-            bLast.completedAt
-          )
-        );
-
-      });
-
-
-      const section =
-        document.createElement(
-          "div"
-        );
-
-      section.className =
-        "section";
-
-
-      const header =
-        document.createElement(
-          "div"
-        );
-
-      header.className =
-        "section-header";
-
-
-      const title =
-        document.createElement(
-          "div"
-        );
-
-      title.className =
-        "section-title";
-
-      title.textContent =
-        CATEGORY_INFO[
-          category
-        ].title;
-
-
-      const completedCount =
-        tasks.filter(task => {
-
-          if (
-            task.category ===
-            "when_needed"
-          ) {
-
-            return false;
-
-          }
-
-          return !!getCurrentCompletion(
-            task
-          );
-
-        }).length;
-
-
-      const overdueCount =
-        tasks.filter(
-          task =>
-            isTaskOverdue(task)
-        ).length;
-
-
-      const count =
-        document.createElement(
-          "div"
-        );
-
-      count.className =
-        "section-count";
+      const bOverdue =
+        isOverdue(b);
 
 
       if (
-        category ===
-        "when_needed"
+        aOverdue &&
+        !bOverdue
       ) {
-
-        count.textContent =
-          `${tasks.length} taken`;
-
-      } else {
-
-        let countText =
-          `${completedCount}/${tasks.length} gedaan`;
-
-        if (overdueCount > 0) {
-
-          countText +=
-            ` · ${overdueCount} achterstallig`;
-
-        }
-
-        count.textContent =
-          countText;
-
+        return -1;
       }
 
 
-      header.appendChild(title);
-      header.appendChild(count);
+      if (
+        !aOverdue &&
+        bOverdue
+      ) {
+        return 1;
+      }
 
 
-      const list =
+      const aLast =
+        getLastCompletion(a);
+
+      const bLast =
+        getLastCompletion(b);
+
+
+      if (
+        !aLast &&
+        !bLast
+      ) {
+        return 0;
+      }
+
+
+      if (!aLast) {
+        return -1;
+      }
+
+
+      if (!bLast) {
+        return 1;
+      }
+
+
+      return (
+        new Date(
+          aLast.completedAt
+        ) -
+        new Date(
+          bLast.completedAt
+        )
+      );
+
+    });
+
+
+    const section =
+      document.createElement(
+        "div"
+      );
+
+
+    section.className =
+      "section";
+
+
+    const header =
+      document.createElement(
+        "div"
+      );
+
+
+    header.className =
+      "section-header";
+
+
+    const title =
+      document.createElement(
+        "div"
+      );
+
+
+    title.className =
+      "section-title";
+
+
+    title.textContent =
+      CATEGORY_INFO[
+        category
+      ].title;
+
+
+    const completedCount =
+      tasks.filter(
+        task =>
+          !!getCurrentCompletion(
+            task
+          )
+      ).length;
+
+
+    const overdueCount =
+      tasks.filter(
+        task =>
+          isOverdue(task)
+      ).length;
+
+
+    const count =
+      document.createElement(
+        "div"
+      );
+
+
+    count.className =
+      "section-count";
+
+
+    if (
+      category ===
+      "when_needed"
+    ) {
+
+      count.textContent =
+        `${tasks.length} taken`;
+
+    } else {
+
+      count.textContent =
+        `${completedCount}/${tasks.length} gedaan`;
+
+      if (
+        overdueCount > 0
+      ) {
+
+        count.textContent +=
+          ` · ${overdueCount} achterstallig`;
+
+      }
+
+    }
+
+
+    header.appendChild(title);
+    header.appendChild(count);
+
+
+    const list =
+      document.createElement(
+        "div"
+      );
+
+
+    list.className =
+      "task-list";
+
+
+    tasks.forEach(task => {
+
+      const currentCompletion =
+        getCurrentCompletion(
+          task
+        );
+
+
+      const lastCompletion =
+        getLastCompletion(
+          task
+        );
+
+
+      const overdue =
+        isOverdue(task);
+
+
+      const element =
         document.createElement(
           "div"
         );
 
-      list.className =
-        "task-list";
+
+      element.className =
+        "task";
 
 
-      tasks.forEach(task => {
+      if (
+        currentCompletion
+      ) {
 
-        const currentCompletion =
-          getCurrentCompletion(task);
+        element.classList.add(
+          "completed"
+        );
 
-        const lastCompletion =
-          getLastCompletion(task);
-
-        const status =
-          getTaskStatus(
-            task,
-            currentCompletion,
-            lastCompletion
-          );
+      }
 
 
-        const element =
-          document.createElement(
-            "div"
-          );
+      let statusClass =
+        "status-gray";
 
-        element.className =
-          "task";
 
+      if (
+        task.category ===
+        "when_needed"
+      ) {
 
         if (
-          status === "future"
+          lastCompletion
         ) {
 
-          element.classList.add(
-            "disabled"
-          );
+          statusClass =
+            "status-green";
 
         }
 
+      } else {
 
-        let metaText =
-          `${task.points} ${
+        if (
+          currentCompletion
+        ) {
+
+          statusClass =
+            "status-green";
+
+        } else if (
+          overdue
+        ) {
+
+          statusClass =
+            "status-red";
+
+        }
+
+      }
+
+
+      let metaText =
+        `${task.points} ${
+          task.points === 1
+            ? "punt"
+            : "punten"
+        }`;
+
+
+      if (
+        currentCompletion
+      ) {
+
+        metaText =
+          `Gedaan door ${
+            personLabel(
+              currentCompletion.person
+            )
+          } · ${task.points} ${
             task.points === 1
               ? "punt"
               : "punten"
           }`;
 
+      } else if (
+        overdue
+      ) {
+
+        metaText =
+          `⚠ Achterstallig · ${task.points} ${
+            task.points === 1
+              ? "punt"
+              : "punten"
+          }`;
+
+      } else if (
+        lastCompletion
+      ) {
+
+        metaText =
+          `Laatst gedaan: ${
+            formatDate(
+              lastCompletion.completedAt
+            )
+          } · ${task.points} ${
+            task.points === 1
+              ? "punt"
+              : "punten"
+          }`;
+
+      }
+
+
+      element.innerHTML = `
+
+        <div class="task-info">
+
+          <div class="task-title">
+
+            <span
+              class="status-dot ${statusClass}"
+            ></span>
+
+            <span>
+              ${escapeHtml(
+                task.title
+              )}
+            </span>
+
+          </div>
+
+          <div class="task-meta">
+            ${escapeHtml(
+              metaText
+            )}
+          </div>
+
+        </div>
+
+        <div class="task-points">
+          ${task.points} pt
+        </div>
+
+      `;
+
+
+      element.onclick = () => {
 
         if (
-          status ===
-          "completed" &&
+          task.category !==
+            "when_needed" &&
           currentCompletion
         ) {
 
-          metaText =
-            `Gedaan door ${
-              personLabel(
-                currentCompletion.person
-              )
-            } · ${task.points} ${
-              task.points === 1
-                ? "punt"
-                : "punten"
-            }`;
-
-        } else if (
-          status ===
-          "completed" &&
-          lastCompletion
-        ) {
-
-          metaText =
-            `Laatst gedaan: ${
-              formatDate(
-                lastCompletion.completedAt
-              )
-            } · ${task.points} ${
-              task.points === 1
-                ? "punt"
-                : "punten"
-            }`;
-
-        } else if (
-          status ===
-          "overdue"
-        ) {
-
-          if (lastCompletion) {
-
-            metaText =
-              `Achterstallig · laatst gedaan: ${
-                formatDate(
-                  lastCompletion.completedAt
-                )
-              } · ${task.points} ${
-                task.points === 1
-                  ? "punt"
-                  : "punten"
-              }`;
-
-          } else {
-
-            metaText =
-              `Achterstallig · nog nooit gedaan · ${task.points} ${
-                task.points === 1
-                  ? "punt"
-                  : "punten"
-              }`;
-
-          }
-
-        } else if (
-          status ===
-          "future"
-        ) {
-
-          metaText =
-            `Start op ${
-              parseInputDate(
-                householdStartDate
-              ).toLocaleDateString(
-                "nl-BE",
-                {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric"
-                }
-              )
-            }`;
+          return;
 
         }
 
 
-        const info =
-          document.createElement(
-            "div"
-          );
+        openModal(task);
 
-        info.className =
-          "task-info";
+      };
 
 
-        const titleRow =
-          document.createElement(
-            "div"
-          );
-
-        titleRow.className =
-          "task-title-row";
-
-
-        const dot =
-          document.createElement(
-            "span"
-          );
-
-        dot.className =
-          `status-dot ${status}`;
-
-
-        const taskTitle =
-          document.createElement(
-            "div"
-          );
-
-        taskTitle.className =
-          "task-title";
-
-        taskTitle.textContent =
-          task.title;
-
-
-        titleRow.appendChild(dot);
-        titleRow.appendChild(taskTitle);
-
-
-        const meta =
-          document.createElement(
-            "div"
-          );
-
-        meta.className =
-          "task-meta";
-
-        meta.textContent =
-          metaText;
-
-
-        info.appendChild(titleRow);
-        info.appendChild(meta);
-
-
-        const points =
-          document.createElement(
-            "div"
-          );
-
-        points.className =
-          "task-points";
-
-        points.textContent =
-          `${task.points} pt`;
-
-
-        element.appendChild(info);
-        element.appendChild(points);
-
-
-        element.onclick = () => {
-
-          if (
-            status ===
-            "future"
-          ) {
-
-            return;
-
-          }
-
-
-          /*
-            Reeds uitgevoerde terugkerende
-            taken kunnen alleen via
-            Geschiedenis ongedaan worden.
-          */
-
-          if (
-            task.category !==
-              "when_needed" &&
-            currentCompletion
-          ) {
-
-            return;
-
-          }
-
-
-          openModal(task);
-
-        };
-
-
-        list.appendChild(element);
-
-      });
-
-
-      section.appendChild(header);
-      section.appendChild(list);
-
-      container.appendChild(section);
+      list.appendChild(
+        element
+      );
 
     });
+
+
+    section.appendChild(header);
+    section.appendChild(list);
+
+
+    container.appendChild(
+      section
+    );
+
+  });
 
 }
 
@@ -2424,8 +1915,10 @@ function escapeHtml(text) {
       "div"
     );
 
+
   div.textContent =
     text;
+
 
   return div.innerHTML;
 
@@ -2458,11 +1951,25 @@ function openModal(task) {
     } · Wie heeft dit gedaan?`;
 
 
+  document.getElementById(
+    "youButton"
+  ).textContent =
+    settings.youName;
+
+
+  document.getElementById(
+    "partnerButton"
+  ).textContent =
+    settings.partnerName;
+
+
   document
     .getElementById(
       "modalBackdrop"
     )
-    .classList.add("show");
+    .classList.add(
+      "show"
+    );
 
 }
 
@@ -2477,7 +1984,9 @@ function closeModal() {
     .getElementById(
       "modalBackdrop"
     )
-    .classList.remove("show");
+    .classList.remove(
+      "show"
+    );
 
 }
 
@@ -2488,7 +1997,9 @@ function closeModal() {
 
 function completeTask(person) {
 
-  if (!selectedTask) {
+  if (
+    !selectedTask
+  ) {
     return;
   }
 
@@ -2497,18 +2008,15 @@ function completeTask(person) {
     selectedTask;
 
 
-  /*
-    Normale terugkerende taken:
-    maximaal één keer per periode.
-  */
-
   if (
     task.category !==
     "when_needed"
   ) {
 
     const existing =
-      getCurrentCompletion(task);
+      getCurrentCompletion(
+        task
+      );
 
 
     if (existing) {
@@ -2534,24 +2042,11 @@ function completeTask(person) {
     taskId:
       task.id,
 
-    /*
-      Deze gegevens bewaren we ook
-      zodat oude geschiedenis correct
-      blijft als een taak later wordt
-      aangepast of verwijderd.
-    */
-
-    taskTitle:
-      task.title,
-
     person:
       person,
 
     points:
-      Number(task.points),
-
-    category:
-      task.category,
+      Number(task.points) || 0,
 
     period:
       getPeriod(task),
@@ -2566,9 +2061,12 @@ function completeTask(person) {
     completion
   );
 
+
   save();
 
+
   closeModal();
+
 
   render();
 
@@ -2577,6 +2075,7 @@ function completeTask(person) {
 
 /* =========================================================
    ANNULEREN
+   ALLEEN VIA GESCHIEDENIS
 ========================================================= */
 
 function undoCompletion(id) {
@@ -2588,7 +2087,9 @@ function undoCompletion(id) {
     );
 
 
-  if (index === -1) {
+  if (
+    index === -1
+  ) {
     return;
   }
 
@@ -2598,25 +2099,20 @@ function undoCompletion(id) {
 
 
   const task =
-    TASKS.find(
+    getTasks().find(
       t =>
         t.id ===
         completion.taskId
     );
 
 
-  const taskName =
-    task
-      ? task.title
-      : (
-          completion.taskTitle ||
-          "deze taak"
-        );
-
-
   const answer =
     confirm(
-      `Wil je "${taskName}" echt ongedaan maken?\n\nDe punten worden ook teruggedraaid.`
+      `Wil je "${
+        task
+          ? task.title
+          : "deze taak"
+      }" echt ongedaan maken?\n\nDe punten worden ook teruggedraaid.`
     );
 
 
@@ -2630,7 +2126,9 @@ function undoCompletion(id) {
     1
   );
 
+
   save();
+
 
   render();
 
@@ -2645,6 +2143,18 @@ function renderPoints() {
 
   const totals =
     getPointsTotals();
+
+
+  document.getElementById(
+    "youNameDisplay"
+  ).textContent =
+    settings.youName;
+
+
+  document.getElementById(
+    "partnerNameDisplay"
+  ).textContent =
+    settings.partnerName;
 
 
   document.getElementById(
@@ -2664,15 +2174,18 @@ function renderPoints() {
       "balanceLeft"
     );
 
+
   const right =
     document.getElementById(
       "balanceRight"
     );
 
+
   const empty =
     document.getElementById(
       "balanceEmpty"
     );
+
 
   const description =
     document.getElementById(
@@ -2685,7 +2198,9 @@ function renderPoints() {
     totals.partner;
 
 
-  if (total === 0) {
+  if (
+    total === 0
+  ) {
 
     left.style.width =
       "0%";
@@ -2696,8 +2211,10 @@ function renderPoints() {
     empty.style.display =
       "block";
 
+
     description.textContent =
       "Nog geen punten";
+
 
     return;
 
@@ -2725,6 +2242,7 @@ function renderPoints() {
   left.style.width =
     `${youPercentage}%`;
 
+
   right.style.width =
     `${partnerPercentage}%`;
 
@@ -2740,9 +2258,9 @@ function renderPoints() {
   } else {
 
     description.textContent =
-      `Jij ${Math.round(
+      `${settings.youName} ${Math.round(
         youPercentage
-      )}% · Partner ${Math.round(
+      )}% · ${settings.partnerName} ${Math.round(
         partnerPercentage
       )}%`;
 
@@ -2767,7 +2285,9 @@ function renderHistory() {
     "";
 
 
-  if (!completions.length) {
+  if (
+    !completions.length
+  ) {
 
     container.innerHTML =
       `
@@ -2799,26 +2319,23 @@ function renderHistory() {
     completion => {
 
       const task =
-        TASKS.find(
+        getTasks().find(
           t =>
             t.id ===
             completion.taskId
         );
 
 
-      const taskName =
-        task
-          ? task.title
-          : (
-              completion.taskTitle ||
-              "Verwijderde taak"
-            );
+      if (!task) {
+        return;
+      }
 
 
       const item =
         document.createElement(
           "div"
         );
+
 
       item.className =
         "history-item";
@@ -2828,6 +2345,7 @@ function renderHistory() {
         document.createElement(
           "div"
         );
+
 
       main.className =
         "history-main";
@@ -2839,47 +2357,33 @@ function renderHistory() {
         );
 
 
-      const historyTask =
-        document.createElement(
-          "div"
-        );
+      left.innerHTML = `
 
-      historyTask.className =
-        "history-task";
+        <div class="history-task">
+          ${escapeHtml(
+            task.title
+          )}
+        </div>
 
-      historyTask.textContent =
-        taskName;
+        <div class="history-details">
+          ${formatDateTime(
+            completion.completedAt
+          )}
+          · ${escapeHtml(
+            personLabel(
+              completion.person
+            )
+          )}
+        </div>
 
-
-      const details =
-        document.createElement(
-          "div"
-        );
-
-      details.className =
-        "history-details";
-
-      details.textContent =
-        `${formatDateTime(
-          completion.completedAt
-        )} · ${personLabel(
-          completion.person
-        )}`;
-
-
-      left.appendChild(
-        historyTask
-      );
-
-      left.appendChild(
-        details
-      );
+      `;
 
 
       const right =
         document.createElement(
           "div"
         );
+
 
       right.className =
         "history-points";
@@ -2910,8 +2414,10 @@ function renderHistory() {
           "button"
         );
 
+
       undo.className =
         "undo-button";
+
 
       undo.textContent =
         "↩ Ongedaan maken";
@@ -2941,14 +2447,73 @@ function renderHistory() {
 
 
 /* =========================================================
-   INSTELLINGEN
+   INSTELLINGEN RENDEREN
 ========================================================= */
 
-function renderManagedTasks() {
+function renderSettings() {
+
+  const youInput =
+    document.getElementById(
+      "youNameInput"
+    );
+
+
+  const partnerInput =
+    document.getElementById(
+      "partnerNameInput"
+    );
+
+
+  const startInput =
+    document.getElementById(
+      "startDateInput"
+    );
+
+
+  if (
+    youInput
+  ) {
+
+    youInput.value =
+      settings.youName;
+
+  }
+
+
+  if (
+    partnerInput
+  ) {
+
+    partnerInput.value =
+      settings.partnerName;
+
+  }
+
+
+  if (
+    startInput
+  ) {
+
+    startInput.value =
+      settings.startDate;
+
+  }
+
+
+  renderTaskSettings();
+
+}
+
+
+/* =========================================================
+   TAAKINSTELLINGEN
+========================================================= */
+
+function renderTaskSettings() {
 
   const container =
     document.getElementById(
-      "managedTasks"
+      "taskSettingsList"
     );
 
 
@@ -2961,223 +2526,153 @@ function renderManagedTasks() {
     "";
 
 
-  const activeTasks =
-    TASKS.filter(
-      task =>
-        task.active !== false
-    );
-
-
-  const inactiveTasks =
-    TASKS.filter(
-      task =>
-        task.active === false
-    );
-
-
-  activeTasks.forEach(
+  getTasks().forEach(
     task => {
 
+      const wrapper =
+        document.createElement(
+          "div"
+        );
+
+
+      wrapper.className =
+        "task-setting";
+
+
+      wrapper.innerHTML = `
+
+        <div class="task-setting-header">
+
+          <div class="task-setting-title">
+            ${escapeHtml(
+              task.title
+            )}
+          </div>
+
+          <button
+            class="delete-task-button"
+            onclick="deleteTask(${task.id})"
+          >
+            Verwijderen
+          </button>
+
+        </div>
+
+        <div class="task-setting-grid">
+
+          <input
+            id="task-title-${task.id}"
+            type="text"
+            maxlength="80"
+            value="${escapeAttribute(
+              task.title
+            )}"
+            placeholder="Naam taak"
+          >
+
+          <input
+            id="task-points-${task.id}"
+            type="number"
+            min="0"
+            max="100"
+            value="${Number(
+              task.points
+            ) || 0}"
+            placeholder="Punten"
+          >
+
+          <select
+            id="task-category-${task.id}"
+          >
+
+            <option
+              value="weekly"
+              ${task.category === "weekly" ? "selected" : ""}
+            >
+              Wekelijks
+            </option>
+
+            <option
+              value="biweekly"
+              ${task.category === "biweekly" ? "selected" : ""}
+            >
+              Om de 2 weken
+            </option>
+
+            <option
+              value="monthly"
+              ${task.category === "monthly" ? "selected" : ""}
+            >
+              Maandelijks
+            </option>
+
+            <option
+              value="when_needed"
+              ${task.category === "when_needed" ? "selected" : ""}
+            >
+              Wanneer nodig
+            </option>
+
+          </select>
+
+        </div>
+
+        <button
+          class="save-button"
+          style="margin-top:9px;"
+          onclick="saveTaskSettings(${task.id})"
+        >
+          Taak opslaan
+        </button>
+
+      `;
+
+
       container.appendChild(
-        createManagedTaskElement(
-          task,
-          false
-        )
+        wrapper
       );
 
     }
   );
 
-
-  if (inactiveTasks.length) {
-
-    const title =
-      document.createElement(
-        "div"
-      );
-
-    title.className =
-      "settings-section-title";
-
-    title.textContent =
-      "Gedeactiveerde taken";
-
-
-    container.appendChild(
-      title
-    );
-
-
-    inactiveTasks.forEach(
-      task => {
-
-        container.appendChild(
-          createManagedTaskElement(
-            task,
-            true
-          )
-        );
-
-      }
-    );
-
-  }
-
-
-  if (!TASKS.length) {
-
-    container.innerHTML =
-      `
-        <div class="empty">
-          Nog geen taken.
-        </div>
-      `;
-
-  }
-
 }
 
 
-function createManagedTaskElement(
-  task,
-  inactive
-) {
+/* =========================================================
+   NAAM OPSLAAN
+========================================================= */
 
-  const row =
-    document.createElement(
-      "div"
-    );
+function savePeople() {
 
-  row.className =
-    "managed-task";
+  const you =
+    document.getElementById(
+      "youNameInput"
+    ).value.trim();
 
 
-  const info =
-    document.createElement(
-      "div"
-    );
-
-  info.className =
-    "managed-task-info";
+  const partner =
+    document.getElementById(
+      "partnerNameInput"
+    ).value.trim();
 
 
-  const title =
-    document.createElement(
-      "div"
-    );
-
-  title.className =
-    "managed-task-title";
-
-  title.textContent =
-    task.title;
+  settings.youName =
+    you || "Jij";
 
 
-  if (inactive) {
-
-    title.classList.add(
-      "inactive-label"
-    );
-
-  }
+  settings.partnerName =
+    partner || "Partner";
 
 
-  const meta =
-    document.createElement(
-      "div"
-    );
-
-  meta.className =
-    "managed-task-meta";
-
-  meta.textContent =
-    `${CATEGORY_INFO[
-      task.category
-    ].label} · ${task.points} ${
-      task.points === 1
-        ? "punt"
-        : "punten"
-    }`;
+  saveSettings();
 
 
-  info.appendChild(title);
-  info.appendChild(meta);
+  render();
 
 
-  const actions =
-    document.createElement(
-      "div"
-    );
-
-  actions.className =
-    "managed-task-actions";
-
-
-  const edit =
-    document.createElement(
-      "button"
-    );
-
-  edit.className =
-    "small-button";
-
-  edit.textContent =
-    "Bewerken";
-
-
-  edit.onclick = () => {
-
-    editTask(task.id);
-
-  };
-
-
-  const toggle =
-    document.createElement(
-      "button"
-    );
-
-
-  if (inactive) {
-
-    toggle.className =
-      "small-button";
-
-    toggle.textContent =
-      "Herstellen";
-
-    toggle.onclick = () => {
-
-      activateTask(task.id);
-
-    };
-
-  } else {
-
-    toggle.className =
-      "danger-button";
-
-    toggle.textContent =
-      "Verwijderen";
-
-    toggle.onclick = () => {
-
-      deactivateTask(task.id);
-
-    };
-
-  }
-
-
-  actions.appendChild(edit);
-  actions.appendChild(toggle);
-
-
-  row.appendChild(info);
-  row.appendChild(actions);
-
-
-  return row;
+  alert(
+    "De namen zijn opgeslagen."
+  );
 
 }
 
@@ -3188,13 +2683,13 @@ function createManagedTaskElement(
 
 function saveStartDate() {
 
-  const input =
+  const value =
     document.getElementById(
-      "householdStartDate"
-    );
+      "startDateInput"
+    ).value;
 
 
-  if (!input.value) {
+  if (!value) {
 
     alert(
       "Kies eerst een startdatum."
@@ -3205,157 +2700,31 @@ function saveStartDate() {
   }
 
 
-  householdStartDate =
-    input.value;
+  settings.startDate =
+    value;
 
 
-  localStorage.setItem(
-    "householdStartDate",
-    householdStartDate
-  );
+  saveSettings();
 
 
   render();
 
+
   alert(
-    "Startdatum opgeslagen."
+    "De startdatum is opgeslagen."
   );
 
 }
 
 
 /* =========================================================
-   TAAK TOEVOEGEN / BEWERKEN
+   TAAK AANPASSEN
 ========================================================= */
 
-function saveTaskFromSettings() {
-
-  const titleInput =
-    document.getElementById(
-      "taskTitleInput"
-    );
-
-  const categoryInput =
-    document.getElementById(
-      "taskCategoryInput"
-    );
-
-  const pointsInput =
-    document.getElementById(
-      "taskPointsInput"
-    );
-
-
-  const title =
-    titleInput.value.trim();
-
-
-  const category =
-    categoryInput.value;
-
-
-  const points =
-    Number(
-      pointsInput.value
-    );
-
-
-  if (!title) {
-
-    alert(
-      "Geef de taak een naam."
-    );
-
-    return;
-
-  }
-
-
-  if (
-    !Number.isFinite(points) ||
-    points < 1
-  ) {
-
-    alert(
-      "Punten moeten minstens 1 zijn."
-    );
-
-    return;
-
-  }
-
-
-  if (editingTaskId !== null) {
-
-    const task =
-      TASKS.find(
-        t =>
-          t.id ===
-          editingTaskId
-      );
-
-
-    if (task) {
-
-      task.title =
-        title;
-
-      task.category =
-        category;
-
-      task.points =
-        points;
-
-    }
-
-  } else {
-
-    const maxId =
-      TASKS.reduce(
-        (max, task) =>
-          Math.max(
-            max,
-            Number(task.id)
-          ),
-        0
-      );
-
-
-    TASKS.push({
-
-      id:
-        maxId + 1,
-
-      title:
-        title,
-
-      category:
-        category,
-
-      points:
-        points,
-
-      active:
-        true
-
-    });
-
-  }
-
-
-  save();
-
-  cancelTaskEdit();
-
-  render();
-
-}
-
-
-function editTask(id) {
+function saveTaskSettings(id) {
 
   const task =
-    TASKS.find(
+    getTasks().find(
       t =>
         t.id === id
     );
@@ -3366,106 +2735,138 @@ function editTask(id) {
   }
 
 
-  editingTaskId =
-    id;
+  const title =
+    document.getElementById(
+      `task-title-${id}`
+    ).value.trim();
 
 
-  document.getElementById(
-    "taskEditorTitle"
-  ).textContent =
-    "Taak aanpassen";
+  const points =
+    Number(
+      document.getElementById(
+        `task-points-${id}`
+      ).value
+    );
 
 
-  document.getElementById(
-    "taskTitleInput"
-  ).value =
-    task.title;
+  const category =
+    document.getElementById(
+      `task-category-${id}`
+    ).value;
 
 
-  document.getElementById(
-    "taskCategoryInput"
-  ).value =
-    task.category;
+  if (!title) {
+
+    alert(
+      "Een taak moet een naam hebben."
+    );
+
+    return;
+
+  }
 
 
-  document.getElementById(
-    "taskPointsInput"
-  ).value =
-    task.points;
+  if (
+    Number.isNaN(points) ||
+    points < 0
+  ) {
+
+    alert(
+      "Gebruik een geldig aantal punten."
+    );
+
+    return;
+
+  }
 
 
-  document.getElementById(
-    "taskSaveButton"
-  ).textContent =
-    "Wijzigingen opslaan";
+  task.title =
+    title;
 
 
-  document.getElementById(
-    "taskCancelButton"
-  ).style.display =
-    "block";
+  task.points =
+    points;
 
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-}
+  task.category =
+    category;
 
 
-function cancelTaskEdit() {
-
-  editingTaskId =
-    null;
+  saveSettings();
 
 
-  document.getElementById(
-    "taskEditorTitle"
-  ).textContent =
-    "Nieuwe taak toevoegen";
+  render();
 
 
-  document.getElementById(
-    "taskTitleInput"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "taskCategoryInput"
-  ).value =
-    "weekly";
-
-
-  document.getElementById(
-    "taskPointsInput"
-  ).value =
-    "1";
-
-
-  document.getElementById(
-    "taskSaveButton"
-  ).textContent =
-    "Taak toevoegen";
-
-
-  document.getElementById(
-    "taskCancelButton"
-  ).style.display =
-    "none";
+  alert(
+    "De taak is opgeslagen."
+  );
 
 }
 
 
 /* =========================================================
-   TAAK DEACTIVEREN
+   NIEUWE TAAK
 ========================================================= */
 
-function deactivateTask(id) {
+function addTask() {
+
+  const newId =
+    Date.now();
+
+
+  settings.tasks.push({
+
+    id:
+      newId,
+
+    title:
+      "Nieuwe taak",
+
+    category:
+      "weekly",
+
+    points:
+      1
+
+  });
+
+
+  saveSettings();
+
+
+  render();
+
+
+  setTimeout(() => {
+
+    const input =
+      document.getElementById(
+        `task-title-${newId}`
+      );
+
+
+    if (input) {
+
+      input.focus();
+
+      input.select();
+
+    }
+
+  }, 50);
+
+}
+
+
+/* =========================================================
+   TAAK VERWIJDEREN
+========================================================= */
+
+function deleteTask(id) {
 
   const task =
-    TASKS.find(
+    getTasks().find(
       t =>
         t.id === id
     );
@@ -3478,7 +2879,7 @@ function deactivateTask(id) {
 
   const answer =
     confirm(
-      `Wil je "${task.title}" verwijderen uit de actieve taken?\n\nDe oude geschiedenis blijft behouden.`
+      `Wil je "${task.title}" verwijderen?\n\nDe bestaande geschiedenis blijft behouden, maar de taak verdwijnt uit je huidige takenlijst.`
     );
 
 
@@ -3487,40 +2888,15 @@ function deactivateTask(id) {
   }
 
 
-  task.active =
-    false;
-
-
-  save();
-
-  render();
-
-}
-
-
-/* =========================================================
-   TAAK HERSTELLEN
-========================================================= */
-
-function activateTask(id) {
-
-  const task =
-    TASKS.find(
+  settings.tasks =
+    settings.tasks.filter(
       t =>
-        t.id === id
+        t.id !== id
     );
 
 
-  if (!task) {
-    return;
-  }
+  saveSettings();
 
-
-  task.active =
-    true;
-
-
-  save();
 
   render();
 
@@ -3534,7 +2910,9 @@ function activateTask(id) {
 function showView(viewId) {
 
   document
-    .querySelectorAll(".view")
+    .querySelectorAll(
+      ".view"
+    )
     .forEach(view => {
 
       view.classList.remove(
@@ -3545,28 +2923,12 @@ function showView(viewId) {
 
 
   document
-    .getElementById(viewId)
+    .getElementById(
+      viewId
+    )
     .classList.add(
       "active"
     );
-
-
-  /*
-    Startdatum steeds correct tonen
-    wanneer instellingen geopend worden.
-  */
-
-  if (
-    viewId ===
-    "settingsView"
-  ) {
-
-    document.getElementById(
-      "householdStartDate"
-    ).value =
-      householdStartDate;
-
-  }
 
 
   window.scrollTo({
@@ -3576,6 +2938,33 @@ function showView(viewId) {
 
 
   render();
+
+}
+
+
+/* =========================================================
+   ESCAPE ATTRIBUTE
+========================================================= */
+
+function escapeAttribute(text) {
+
+  return String(text)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    );
 
 }
 
@@ -3609,11 +2998,7 @@ document
    START
 ========================================================= */
 
-document.getElementById(
-  "householdStartDate"
-).value =
-  householdStartDate;
-
+saveSettings();
 
 render();
 

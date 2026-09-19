@@ -1,657 +1,1448 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Huishouden</title>
-<style>
-  * { box-sizing: border-box; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huishouden</title>
 
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f6f8;
-    color: #202124;
-  }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-  header {
-    background: white;
-    padding: 22px 18px 14px;
-    border-bottom: 1px solid #e5e7eb;
-    position: sticky;
-    top: 0;
-    z-index: 5;
-  }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f5f6f8;
+      color: #202124;
+    }
 
-  header h1 {
-    margin: 0;
-    font-size: 25px;
-  }
+    .app {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 16px 50px;
+    }
 
-  header p {
-    margin: 5px 0 0;
-    color: #6b7280;
-    font-size: 14px;
-  }
+    header {
+      margin-bottom: 24px;
+    }
 
-  main {
-    max-width: 700px;
-    margin: auto;
-    padding: 16px;
-    padding-bottom: 90px;
-  }
+    h1 {
+      margin: 0 0 6px;
+      font-size: 30px;
+    }
 
-  .category {
-    margin-bottom: 22px;
-  }
+    .subtitle {
+      color: #6b7280;
+      font-size: 15px;
+    }
 
-  .category-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 9px;
-  }
+    .section {
+      margin-bottom: 26px;
+    }
 
-  .category-title h2 {
-    margin: 0;
-    font-size: 18px;
-  }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
 
-  .progress {
-    font-size: 13px;
-    color: #6b7280;
-  }
+    .section-title {
+      font-size: 19px;
+      font-weight: 700;
+    }
 
-  .task {
-    background: white;
-    border-radius: 13px;
-    padding: 15px;
-    margin-bottom: 9px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,.06);
-    cursor: pointer;
-    transition: .15s;
-  }
+    .section-count {
+      color: #6b7280;
+      font-size: 14px;
+    }
 
-  .task:hover {
-    transform: translateY(-1px);
-  }
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
 
-  .task.done {
-    opacity: .55;
-  }
+    .task {
+      background: white;
+      border-radius: 14px;
+      padding: 15px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
 
-  .task-name {
-    font-size: 15px;
-    font-weight: 600;
-  }
+    .task:active {
+      transform: scale(0.99);
+    }
 
-  .task-info {
-    margin-top: 4px;
-    color: #6b7280;
-    font-size: 13px;
-  }
+    .task.completed {
+      opacity: 0.55;
+    }
 
-  .points {
-    min-width: 42px;
-    text-align: center;
-    background: #eef0f3;
-    border-radius: 20px;
-    padding: 6px 9px;
-    font-size: 13px;
-    font-weight: bold;
-  }
+    .task-info {
+      min-width: 0;
+      padding-right: 12px;
+    }
 
-  .done-mark {
-    margin-right: 8px;
-  }
+    .task-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
 
-  nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: center;
-    z-index: 10;
-  }
+    .task-meta {
+      margin-top: 4px;
+      font-size: 13px;
+      color: #7a7f87;
+    }
 
-  nav button {
-    border: 0;
-    background: none;
-    padding: 13px 20px;
-    color: #666;
-    font-size: 13px;
-    cursor: pointer;
-  }
+    .task-points {
+      flex-shrink: 0;
+      font-weight: 700;
+      font-size: 14px;
+      background: #eef1f5;
+      padding: 7px 10px;
+      border-radius: 10px;
+    }
 
-  nav button.active {
-    color: #111;
-    font-weight: bold;
-  }
+    .nav {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 28px;
+    }
 
-  .screen { display: none; }
-  .screen.active { display: block; }
+    .nav-button {
+      border: 0;
+      background: white;
+      border-radius: 14px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
 
-  .score-card {
-    background: white;
-    border-radius: 14px;
-    padding: 18px;
-    margin-bottom: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.06);
-  }
+    .points-card {
+      margin-top: 12px;
+      background: white;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
 
-  .score-row {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-  }
+    .points-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 16px;
+    }
 
-  .score-number {
-    font-size: 22px;
-    font-weight: bold;
-  }
+    .points-value {
+      font-weight: 700;
+    }
 
-  .history-item {
-    background: white;
-    padding: 14px;
-    border-radius: 12px;
-    margin-bottom: 8px;
-  }
+    .history {
+      margin-top: 14px;
+    }
 
-  .history-title {
-    font-weight: bold;
-  }
+    .history-item {
+      background: white;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 9px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
 
-  .history-info {
-    color: #6b7280;
-    font-size: 13px;
-    margin-top: 5px;
-  }
+    .history-main {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
 
-  .empty {
-    text-align: center;
-    color: #777;
-    padding: 30px 10px;
-  }
+    .history-task {
+      font-weight: 600;
+    }
 
-  .modal-bg {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.4);
-    z-index: 20;
-    align-items: flex-end;
-    justify-content: center;
-  }
+    .history-details {
+      margin-top: 5px;
+      color: #727780;
+      font-size: 13px;
+      line-height: 1.4;
+    }
 
-  .modal-bg.show {
-    display: flex;
-  }
+    .history-points {
+      font-weight: 700;
+      white-space: nowrap;
+    }
 
-  .modal {
-    background: white;
-    width: 100%;
-    max-width: 700px;
-    border-radius: 20px 20px 0 0;
-    padding: 22px;
-  }
+    .undo-button {
+      margin-top: 10px;
+      border: 0;
+      background: #f0f1f3;
+      border-radius: 9px;
+      padding: 8px 11px;
+      cursor: pointer;
+      font-size: 13px;
+    }
 
-  .modal h3 {
-    margin-top: 0;
-  }
+    .empty {
+      color: #777;
+      background: white;
+      padding: 16px;
+      border-radius: 14px;
+      text-align: center;
+    }
 
-  .choice {
-    width: 100%;
-    border: 0;
-    border-radius: 12px;
-    padding: 16px;
-    margin: 6px 0;
-    font-size: 16px;
-    cursor: pointer;
-    background: #f0f1f3;
-  }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 1000;
+    }
 
-  .choice:hover {
-    background: #e4e6e9;
-  }
+    .modal-backdrop.show {
+      display: flex;
+    }
 
-  .cancel {
-    width: 100%;
-    border: 0;
-    background: transparent;
-    padding: 14px;
-    margin-top: 5px;
-    cursor: pointer;
-    color: #666;
-  }
+    .modal {
+      width: 100%;
+      max-width: 720px;
+      background: white;
+      border-radius: 22px 22px 0 0;
+      padding: 24px 18px 28px;
+      animation: slideUp 0.18s ease-out;
+    }
 
-  .undo {
-    margin-top: 10px;
-    border: 0;
-    background: #f0f1f3;
-    border-radius: 9px;
-    padding: 8px 12px;
-    cursor: pointer;
-  }
-</style>
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal h2 {
+      margin: 0 0 6px;
+      font-size: 21px;
+    }
+
+    .modal-subtitle {
+      color: #70757d;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .person-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 9px;
+    }
+
+    .person-button {
+      border: 0;
+      border-radius: 13px;
+      padding: 15px 8px;
+      background: #f0f1f3;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .person-button:active {
+      transform: scale(0.98);
+    }
+
+    .cancel-button {
+      width: 100%;
+      margin-top: 12px;
+      border: 0;
+      background: transparent;
+      padding: 12px;
+      font-size: 15px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .back-button {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      margin-bottom: 20px;
+      font-size: 15px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    .total-box {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+    }
+
+    .total-number {
+      font-size: 34px;
+      font-weight: 800;
+    }
+
+    .total-label {
+      color: #70757d;
+      margin-top: 3px;
+    }
+
+    @media (min-width: 700px) {
+      .modal-backdrop {
+        align-items: center;
+      }
+
+      .modal {
+        border-radius: 22px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <h1>🏠 Huishouden</h1>
-  <p>Overzicht van jullie huishoudtaken</p>
-</header>
+<div class="app">
 
-<main>
+  <div id="mainView" class="view active">
 
-  <section id="tasksScreen" class="screen active">
-    <div id="taskContainer"></div>
-  </section>
+    <header>
+      <h1>🏠 Huishouden</h1>
+      <div class="subtitle">Samen overzicht houden over het huishouden</div>
+    </header>
 
-  <section id="pointsScreen" class="screen">
-    <h2>📊 Punten</h2>
+    <div id="taskSections"></div>
 
-    <div class="score-card">
-      <div class="score-row">
+    <div class="nav">
+      <button class="nav-button" onclick="showView('pointsView')">
+        📊 Punten
+      </button>
+
+      <button class="nav-button" onclick="showView('historyView')">
+        📖 Geschiedenis
+      </button>
+    </div>
+
+  </div>
+
+
+  <div id="pointsView" class="view">
+
+    <button class="back-button" onclick="showView('mainView')">
+      ← Terug
+    </button>
+
+    <h1>📊 Punten</h1>
+
+    <div class="points-card">
+      <div class="points-row">
         <span>Jij</span>
-        <span class="score-number" id="scoreYou">0</span>
+        <span class="points-value" id="youPoints">0</span>
       </div>
 
-      <div class="score-row">
+      <div class="points-row">
         <span>Partner</span>
-        <span class="score-number" id="scorePartner">0</span>
+        <span class="points-value" id="partnerPoints">0</span>
       </div>
 
-      <div class="score-row">
-        <strong>Totaal huishouden</strong>
-        <strong class="score-number" id="scoreTotal">0</strong>
+      <div class="points-row">
+        <span>Samen</span>
+        <span class="points-value" id="togetherPoints">0</span>
       </div>
     </div>
 
-    <p style="color:#777;font-size:14px;">
-      Punten zijn bedoeld als overzicht van de verdeling van het werk,
-      niet als wedstrijd.
-    </p>
-  </section>
+  </div>
 
-  <section id="historyScreen" class="screen">
-    <h2>📖 Geschiedenis</h2>
-    <div id="historyContainer"></div>
-  </section>
 
-</main>
+  <div id="historyView" class="view">
 
-<nav>
-  <button class="active" onclick="showScreen('tasksScreen', this)">🏠<br>Taken</button>
-  <button onclick="showScreen('pointsScreen', this)">📊<br>Punten</button>
-  <button onclick="showScreen('historyScreen', this)">📖<br>Geschiedenis</button>
-</nav>
+    <button class="back-button" onclick="showView('mainView')">
+      ← Terug
+    </button>
 
-<div class="modal-bg" id="modalBg">
+    <h1>📖 Geschiedenis</h1>
+
+    <div id="historyList" class="history"></div>
+
+  </div>
+
+</div>
+
+
+<div id="modalBackdrop" class="modal-backdrop">
+
   <div class="modal">
-    <h3 id="modalTitle">Taak uitvoeren</h3>
 
-    <button class="choice" onclick="completeTask('you')">
-      👤 Jij
-    </button>
+    <h2 id="modalTaskTitle">Taak</h2>
 
-    <button class="choice" onclick="completeTask('partner')">
-      👤 Partner
-    </button>
+    <div class="modal-subtitle" id="modalTaskSubtitle">
+      Wie heeft dit gedaan?
+    </div>
 
-    <button class="choice" onclick="completeTask('together')">
-      👥 Samen
-    </button>
+    <div class="person-buttons">
 
-    <button class="cancel" onclick="closeModal()">
+      <button class="person-button" onclick="completeTask('you')">
+        Jij
+      </button>
+
+      <button class="person-button" onclick="completeTask('partner')">
+        Partner
+      </button>
+
+      <button class="person-button" onclick="completeTask('together')">
+        Samen
+      </button>
+
+    </div>
+
+    <button class="cancel-button" onclick="closeModal()">
       Annuleren
     </button>
+
   </div>
+
 </div>
+
 
 <script>
 
-const tasks = [
-  {id:1, name:"Bovenverdieping stofzuigen", category:"weekly", points:3},
-  {id:2, name:"Bovenverdieping dweilen", category:"weekly", points:3},
-  {id:3, name:"Benedenverdieping dweilen", category:"weekly", points:3},
-  {id:4, name:"WC kuisen", category:"weekly", points:2},
-  {id:5, name:"Lakens vervangen", category:"weekly", points:2},
-  {id:6, name:"Douchewand kuisen", category:"weekly", points:2},
-  {id:7, name:"Spiegels kuisen", category:"weekly", points:2},
+const TASKS = [
 
-  {id:8, name:"Stof afdoen", category:"biweekly", points:3},
-  {id:9, name:"Vuilbakken uitkuisen", category:"biweekly", points:2},
+  // WEEKLY
+  {
+    id: 1,
+    title: "Bovenverdieping stofzuigen",
+    category: "weekly",
+    points: 3
+  },
+  {
+    id: 2,
+    title: "Bovenverdieping dweilen",
+    category: "weekly",
+    points: 3
+  },
+  {
+    id: 3,
+    title: "Benedenverdieping dweilen",
+    category: "weekly",
+    points: 3
+  },
+  {
+    id: 4,
+    title: "WC kuisen",
+    category: "weekly",
+    points: 2
+  },
+  {
+    id: 5,
+    title: "Lakens vervangen",
+    category: "weekly",
+    points: 2
+  },
+  {
+    id: 6,
+    title: "Douchewand kuisen",
+    category: "weekly",
+    points: 2
+  },
+  {
+    id: 7,
+    title: "Spiegels kuisen",
+    category: "weekly",
+    points: 2
+  },
 
-  {id:10, name:"Keuken deepclean", category:"monthly", points:5},
-  {id:11, name:"Ramen kuisen", category:"monthly", points:5},
-  {id:12, name:"Koelkast uitkuisen", category:"monthly", points:4},
-  {id:13, name:"Deurklinken afwassen", category:"monthly", points:2},
-  {id:14, name:"Onder bed & zetel stofzuigen", category:"monthly", points:2},
-  {id:15, name:"Droogkast & wasmachine reinigen", category:"monthly", points:2},
-  {id:16, name:"WC-bril afdoen & kuisen", category:"monthly", points:1},
-  {id:17, name:"Ontstopper in leidingen doen", category:"monthly", points:1},
+  // EVERY 2 WEEKS
+  {
+    id: 8,
+    title: "Stof afdoen",
+    category: "biweekly",
+    points: 3
+  },
+  {
+    id: 9,
+    title: "Vuilbakken uitkuisen",
+    category: "biweekly",
+    points: 2
+  },
 
-  {id:18, name:"Wasmachine opzetten", category:"when_needed", points:1},
-  {id:19, name:"Droogkast opzetten", category:"when_needed", points:1},
-  {id:20, name:"Vaatwasser uitladen", category:"when_needed", points:1},
-  {id:21, name:"Was ophangen", category:"when_needed", points:1},
-  {id:22, name:"Was opvouwen & strijken", category:"when_needed", points:2},
-  {id:23, name:"Boodschappen doen", category:"when_needed", points:3},
-  {id:24, name:"Afval buitenzetten", category:"when_needed", points:1},
-  {id:25, name:"Kleine vuilbakken WC leegmaken", category:"when_needed", points:1},
-  {id:26, name:"Glas naar glascontainer brengen", category:"when_needed", points:2}
+  // MONTHLY
+  {
+    id: 10,
+    title: "Keuken deepclean",
+    category: "monthly",
+    points: 5
+  },
+  {
+    id: 11,
+    title: "Ramen kuisen",
+    category: "monthly",
+    points: 5
+  },
+  {
+    id: 12,
+    title: "Koelkast uitkuisen",
+    category: "monthly",
+    points: 4
+  },
+  {
+    id: 13,
+    title: "Deurklinken afwassen",
+    category: "monthly",
+    points: 2
+  },
+  {
+    id: 14,
+    title: "Onder bed & zetel stofzuigen",
+    category: "monthly",
+    points: 2
+  },
+  {
+    id: 15,
+    title: "Droogkast & wasmachine reinigen",
+    category: "monthly",
+    points: 2
+  },
+  {
+    id: 16,
+    title: "WC-bril afdoen & kuisen",
+    category: "monthly",
+    points: 1
+  },
+  {
+    id: 17,
+    title: "Ontstopper in leidingen doen",
+    category: "monthly",
+    points: 1
+  },
+
+  // WHEN NEEDED
+  {
+    id: 18,
+    title: "Wasmachine opzetten",
+    category: "when_needed",
+    points: 1
+  },
+  {
+    id: 19,
+    title: "Droogkast opzetten",
+    category: "when_needed",
+    points: 1
+  },
+  {
+    id: 20,
+    title: "Vaatwasser uitladen",
+    category: "when_needed",
+    points: 1
+  },
+  {
+    id: 21,
+    title: "Was ophangen",
+    category: "when_needed",
+    points: 1
+  },
+  {
+    id: 22,
+    title: "Was opvouwen & strijken",
+    category: "when_needed",
+    points: 2
+  },
+  {
+    id: 23,
+    title: "Boodschappen doen",
+    category: "when_needed",
+    points: 3
+  },
+  {
+    id: 24,
+    title: "Afval buitenzetten",
+    category: "when_needed",
+    points: 1
+  },
+  {
+    id: 25,
+    title: "Kleine vuilbakken WC leegmaken",
+    category: "when_needed",
+    points: 1
+  },
+  {
+    id: 26,
+    title: "Glas naar glascontainer brengen",
+    category: "when_needed",
+    points: 2
+  }
+
 ];
 
-const categoryNames = {
-  weekly:"🔄 Deze week",
-  biweekly:"🔄 Deze 2 weken",
-  monthly:"📅 Deze maand",
-  when_needed:"⚡ Wanneer nodig"
+
+const CATEGORY_INFO = {
+
+  weekly: {
+    title: "🔄 Deze week",
+    singular: "taak"
+  },
+
+  biweekly: {
+    title: "🔄 Deze 2 weken",
+    singular: "taak"
+  },
+
+  monthly: {
+    title: "📅 Deze maand",
+    singular: "taak"
+  },
+
+  when_needed: {
+    title: "⚡ Wanneer nodig",
+    singular: "taak"
+  }
+
 };
 
-let completions = JSON.parse(localStorage.getItem("householdCompletions") || "[]");
+
+let completions = JSON.parse(
+  localStorage.getItem("householdCompletions") || "[]"
+);
+
 let selectedTask = null;
 
+
 function save() {
-  localStorage.setItem("householdCompletions", JSON.stringify(completions));
-}
-
-function periodKey(category, date = new Date()) {
-
-  const d = new Date(date);
-
-  if (category === "weekly") {
-    const year = d.getFullYear();
-    const first = new Date(year,0,1);
-    const week = Math.ceil((((d-first)/86400000)+first.getDay()+1)/7);
-    return year + "-w" + week;
-  }
-
-  if (category === "biweekly") {
-    const year = d.getFullYear();
-    const first = new Date(year,0,1);
-    const week = Math.ceil((((d-first)/86400000)+first.getDay()+1)/7);
-    return year + "-bw" + Math.ceil(week/2);
-  }
-
-  if (category === "monthly") {
-    return d.getFullYear() + "-" + d.getMonth();
-  }
-
-  return "when_needed";
-}
-
-function currentCompletion(task) {
-
-  const key = periodKey(task.category);
-
-  return completions.find(c =>
-    c.taskId === task.id &&
-    c.period === key &&
-    c.category !== "when_needed"
+  localStorage.setItem(
+    "householdCompletions",
+    JSON.stringify(completions)
   );
 }
 
-function lastCompletion(task) {
 
-  const list = completions.filter(c => c.taskId === task.id);
+function getPeriod(task) {
 
-  if (!list.length) return null;
+  const now = new Date();
 
-  return list.sort((a,b) =>
-    new Date(b.date) - new Date(a.date)
-  )[0];
+  if (task.category === "weekly") {
+
+    const date = new Date(
+      Date.UTC(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      )
+    );
+
+    const day = date.getUTCDay() || 7;
+
+    date.setUTCDate(
+      date.getUTCDate() + 4 - day
+    );
+
+    const yearStart = new Date(
+      Date.UTC(
+        date.getUTCFullYear(),
+        0,
+        1
+      )
+    );
+
+    const week = Math.ceil(
+      (
+        (
+          (date - yearStart) / 86400000
+        ) + 1
+      ) / 7
+    );
+
+    return `${date.getUTCFullYear()}-W${week}`;
+
+  }
+
+
+  if (task.category === "biweekly") {
+
+    const date = new Date(
+      Date.UTC(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      )
+    );
+
+    const day = date.getUTCDay() || 7;
+
+    date.setUTCDate(
+      date.getUTCDate() + 4 - day
+    );
+
+    const yearStart = new Date(
+      Date.UTC(
+        date.getUTCFullYear(),
+        0,
+        1
+      )
+    );
+
+    const week = Math.ceil(
+      (
+        (
+          (date - yearStart) / 86400000
+        ) + 1
+      ) / 7
+    );
+
+    return `${date.getUTCFullYear()}-BW${Math.ceil(week / 2)}`;
+
+  }
+
+
+  if (task.category === "monthly") {
+
+    return `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}`;
+
+  }
+
+
+  // BELANGRIJK:
+  // Wanneer nodig heeft GEEN vaste periode.
+  // Iedere uitvoering is een nieuwe uitvoering.
+  return null;
 }
+
+
+function getTaskCompletions(task) {
+
+  return completions.filter(
+    c => c.taskId === task.id
+  );
+
+}
+
+
+function getCurrentCompletion(task) {
+
+  // Wanneer nodig kan onbeperkt opnieuw gedaan worden.
+  if (task.category === "when_needed") {
+    return null;
+  }
+
+  const period = getPeriod(task);
+
+  return completions.find(
+    c =>
+      c.taskId === task.id &&
+      c.period === period
+  );
+
+}
+
+
+function getLastCompletion(task) {
+
+  const list = getTaskCompletions(task);
+
+  if (!list.length) {
+    return null;
+  }
+
+  return list
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(b.completedAt) -
+        new Date(a.completedAt)
+    )[0];
+}
+
+
+function formatDate(dateString) {
+
+  const date = new Date(dateString);
+
+  return date.toLocaleDateString(
+    "nl-BE",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    }
+  );
+}
+
+
+function formatDateTime(dateString) {
+
+  const date = new Date(dateString);
+
+  return date.toLocaleString(
+    "nl-BE",
+    {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  );
+
+}
+
+
+function personLabel(person) {
+
+  if (person === "you") {
+    return "Jij";
+  }
+
+  if (person === "partner") {
+    return "Partner";
+  }
+
+  if (person === "together") {
+    return "Samen";
+  }
+
+  return person;
+}
+
+
+function pointsForCompletion(completion) {
+
+  return completion.points || 0;
+
+}
+
+
+function getPointsTotals() {
+
+  let you = 0;
+  let partner = 0;
+  let together = 0;
+
+  completions.forEach(c => {
+
+    if (c.person === "you") {
+      you += c.points;
+    }
+
+    if (c.person === "partner") {
+      partner += c.points;
+    }
+
+    if (c.person === "together") {
+      together += c.points;
+      you += c.points;
+      partner += c.points;
+    }
+
+  });
+
+  return {
+    you,
+    partner,
+    together
+  };
+
+}
+
+
+function render() {
+
+  renderTasks();
+  renderPoints();
+  renderHistory();
+
+}
+
 
 function renderTasks() {
 
-  const container = document.getElementById("taskContainer");
+  const container =
+    document.getElementById("taskSections");
+
   container.innerHTML = "";
 
-  ["weekly","biweekly","monthly","when_needed"].forEach(category => {
 
-    let categoryTasks = tasks.filter(t => t.category === category);
+  Object.keys(CATEGORY_INFO).forEach(category => {
+
+    let tasks =
+      TASKS.filter(
+        task => task.category === category
+      );
+
+
+    // Sorteer op:
+    // 1. Nog nooit gedaan = bovenaan
+    // 2. Daarna langst geleden gedaan = bovenaan
+    tasks.sort((a, b) => {
+
+      const aLast = getLastCompletion(a);
+      const bLast = getLastCompletion(b);
+
+      if (!aLast && !bLast) {
+        return 0;
+      }
+
+      if (!aLast) {
+        return -1;
+      }
+
+      if (!bLast) {
+        return 1;
+      }
+
+      return (
+        new Date(aLast.completedAt) -
+        new Date(bLast.completedAt)
+      );
+
+    });
+
+
+    const section =
+      document.createElement("div");
+
+    section.className = "section";
+
+
+    const header =
+      document.createElement("div");
+
+    header.className = "section-header";
+
+
+    const title =
+      document.createElement("div");
+
+    title.className = "section-title";
+
+    title.textContent =
+      CATEGORY_INFO[category].title;
+
+
+    const completedCount =
+      tasks.filter(task => {
+
+        if (task.category === "when_needed") {
+          return false;
+        }
+
+        return !!getCurrentCompletion(task);
+
+      }).length;
+
+
+    const count =
+      document.createElement("div");
+
+    count.className = "section-count";
+
 
     if (category === "when_needed") {
-      categoryTasks = categoryTasks.filter(t =>
-        !completions.some(c =>
-          c.taskId === t.id &&
-          c.category === "when_needed"
-        )
-      );
+
+      count.textContent =
+        `${tasks.length} taken`;
+
+    } else {
+
+      count.textContent =
+        `${completedCount}/${tasks.length} gedaan`;
+
     }
 
-    categoryTasks.sort((a,b) => {
 
-      const ca = lastCompletion(a);
-      const cb = lastCompletion(b);
+    header.appendChild(title);
+    header.appendChild(count);
 
-      if (!ca && !cb) return 0;
-      if (!ca) return -1;
-      if (!cb) return 1;
 
-      return new Date(ca.date) - new Date(cb.date);
-    });
+    const list =
+      document.createElement("div");
 
-    if (!categoryTasks.length) return;
+    list.className = "task-list";
 
-    const section = document.createElement("div");
-    section.className = "category";
 
-    const completedCount = tasks
-      .filter(t => t.category === category)
-      .filter(t => currentCompletion(t))
-      .length;
+    tasks.forEach(task => {
 
-    const totalCount = tasks.filter(t => t.category === category).length;
+      const currentCompletion =
+        getCurrentCompletion(task);
 
-    section.innerHTML = `
-      <div class="category-title">
-        <h2>${categoryNames[category]}</h2>
-        ${
-          category !== "when_needed"
-          ? `<span class="progress">${completedCount}/${totalCount} gedaan</span>`
-          : ""
-        }
-      </div>
-    `;
+      const lastCompletion =
+        getLastCompletion(task);
 
-    categoryTasks.forEach(task => {
 
-      const done = currentCompletion(task);
+      const element =
+        document.createElement("div");
 
-      const card = document.createElement("div");
-      card.className = "task" + (done ? " done" : "");
+      element.className = "task";
 
-      card.innerHTML = `
-        <div>
-          <div class="task-name">
-            ${done ? '<span class="done-mark">✓</span>' : ''}
-            ${task.name}
+
+      if (currentCompletion) {
+        element.classList.add("completed");
+      }
+
+
+      let metaText =
+        `${task.points} ${task.points === 1 ? "punt" : "punten"}`;
+
+
+      if (currentCompletion) {
+
+        metaText =
+          `Gedaan door ${personLabel(
+            currentCompletion.person
+          )} · ${task.points} ${
+            task.points === 1 ? "punt" : "punten"
+          }`;
+
+      } else if (lastCompletion) {
+
+        metaText =
+          `Laatst gedaan: ${formatDate(
+            lastCompletion.completedAt
+          )} · ${task.points} ${
+            task.points === 1 ? "punt" : "punten"
+          }`;
+
+      }
+
+
+      element.innerHTML = `
+        <div class="task-info">
+          <div class="task-title">
+            ${escapeHtml(task.title)}
           </div>
-          <div class="task-info">
-            ${done ? done.label : "Nog niet gedaan"}
+          <div class="task-meta">
+            ${escapeHtml(metaText)}
           </div>
         </div>
-        <div class="points">${task.points} p</div>
+
+        <div class="task-points">
+          ${task.points} pt
+        </div>
       `;
 
-      card.onclick = () => {
 
-        if (done) {
-          const ok = confirm(
-            "Deze taak is al uitgevoerd.\n\nWil je deze uitvoering ongedaan maken?"
-          );
+      element.onclick = () => {
 
-          if (ok) undoCompletion(done.id);
+        // Gewone terugkerende taak die deze periode al gedaan is:
+        // klik = mogelijkheid om ongedaan te maken.
+        if (
+          task.category !== "when_needed" &&
+          currentCompletion
+        ) {
 
-        } else {
-          openModal(task);
+          const answer =
+            confirm(
+              `"${task.title}" is al gedaan in deze periode.\n\nWil je deze registratie ongedaan maken?`
+            );
+
+          if (answer) {
+
+            undoCompletion(
+              currentCompletion.id
+            );
+
+          }
+
+          return;
         }
+
+
+        // Wanneer nodig:
+        // altijd een nieuwe uitvoering registreren.
+        openModal(task);
+
       };
 
-      section.appendChild(card);
+
+      list.appendChild(element);
+
     });
 
+
+    section.appendChild(header);
+    section.appendChild(list);
+
     container.appendChild(section);
+
   });
+
 }
+
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
 
 function openModal(task) {
+
   selectedTask = task;
-  document.getElementById("modalTitle").textContent =
-    task.name + " — " + task.points + " punten";
-  document.getElementById("modalBg").classList.add("show");
+
+  document.getElementById(
+    "modalTaskTitle"
+  ).textContent = task.title;
+
+
+  document.getElementById(
+    "modalTaskSubtitle"
+  ).textContent =
+    `${task.points} ${
+      task.points === 1 ? "punt" : "punten"
+    } · Wie heeft dit gedaan?`;
+
+
+  document
+    .getElementById("modalBackdrop")
+    .classList.add("show");
+
 }
+
 
 function closeModal() {
+
   selectedTask = null;
-  document.getElementById("modalBg").classList.remove("show");
+
+  document
+    .getElementById("modalBackdrop")
+    .classList.remove("show");
+
 }
 
-function completeTask(who) {
 
-  if (!selectedTask) return;
+function completeTask(person) {
 
-  const task = selectedTask;
-
-  if (task.category !== "when_needed") {
-
-    const already = currentCompletion(task);
-
-    if (already) {
-      closeModal();
-      return;
-    }
+  if (!selectedTask) {
+    return;
   }
 
-  let label = "";
 
-  if (who === "you") label = "Jij";
-  if (who === "partner") label = "Partner";
-  if (who === "together") label = "Samen";
+  const task =
+    selectedTask;
+
+
+  // Bij gewone taken mag er maximaal één registratie
+  // per periode bestaan.
+  if (task.category !== "when_needed") {
+
+    const existing =
+      getCurrentCompletion(task);
+
+    if (existing) {
+
+      alert(
+        "Deze taak is al gedaan in deze periode."
+      );
+
+      closeModal();
+      return;
+
+    }
+
+  }
+
 
   const completion = {
-    id: Date.now().toString(),
+
+    id:
+      Date.now().toString() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2, 9),
+
     taskId: task.id,
-    category: task.category,
-    period: periodKey(task.category),
-    date: new Date().toISOString(),
-    who: who,
-    label: label,
-    pointsYou: who === "you" || who === "together" ? task.points : 0,
-    pointsPartner: who === "partner" || who === "together" ? task.points : 0
+
+    person: person,
+
+    points: task.points,
+
+    period:
+      getPeriod(task),
+
+    completedAt:
+      new Date().toISOString()
+
   };
+
 
   completions.push(completion);
 
   save();
+
   closeModal();
-  renderTasks();
-  renderPoints();
-  renderHistory();
+
+  render();
+
 }
+
 
 function undoCompletion(id) {
 
-  completions = completions.filter(c => c.id !== id);
+  const index =
+    completions.findIndex(
+      c => c.id === id
+    );
 
-  save();
-  renderTasks();
-  renderPoints();
-  renderHistory();
-}
 
-function renderPoints() {
-
-  let you = 0;
-  let partner = 0;
-
-  completions.forEach(c => {
-    you += c.pointsYou || 0;
-    partner += c.pointsPartner || 0;
-  });
-
-  document.getElementById("scoreYou").textContent = you;
-  document.getElementById("scorePartner").textContent = partner;
-  document.getElementById("scoreTotal").textContent = you + partner;
-}
-
-function renderHistory() {
-
-  const container = document.getElementById("historyContainer");
-
-  if (!completions.length) {
-    container.innerHTML = `
-      <div class="empty">
-        Nog geen uitgevoerde taken.
-      </div>
-    `;
+  if (index === -1) {
     return;
   }
 
-  const sorted = [...completions].sort(
-    (a,b) => new Date(b.date) - new Date(a.date)
-  );
+
+  const completion =
+    completions[index];
+
+  const task =
+    TASKS.find(
+      t => t.id === completion.taskId
+    );
+
+
+  const answer =
+    confirm(
+      `Wil je "${task ? task.title : "deze taak"}" echt ongedaan maken?`
+    );
+
+
+  if (!answer) {
+    return;
+  }
+
+
+  completions.splice(index, 1);
+
+  save();
+
+  render();
+
+}
+
+
+function renderPoints() {
+
+  const totals =
+    getPointsTotals();
+
+
+  document.getElementById(
+    "youPoints"
+  ).textContent = totals.you;
+
+
+  document.getElementById(
+    "partnerPoints"
+  ).textContent = totals.partner;
+
+
+  document.getElementById(
+    "togetherPoints"
+  ).textContent = totals.together;
+
+}
+
+
+function renderHistory() {
+
+  const container =
+    document.getElementById("historyList");
+
 
   container.innerHTML = "";
 
-  sorted.forEach(c => {
 
-    const task = tasks.find(t => t.id === c.taskId);
-    if (!task) return;
+  if (!completions.length) {
 
-    const date = new Date(c.date).toLocaleString("nl-BE", {
-      day:"2-digit",
-      month:"2-digit",
-      year:"numeric",
-      hour:"2-digit",
-      minute:"2-digit"
-    });
+    container.innerHTML =
+      `<div class="empty">
+        Nog geen uitgevoerde taken.
+      </div>`;
 
-    const item = document.createElement("div");
-    item.className = "history-item";
+    return;
 
-    item.innerHTML = `
-      <div class="history-title">${task.name}</div>
-      <div class="history-info">
-        ${date} · ${c.label} · ${task.points} punten
+  }
+
+
+  const sorted =
+    completions
+      .slice()
+      .sort(
+        (a, b) =>
+          new Date(b.completedAt) -
+          new Date(a.completedAt)
+      );
+
+
+  sorted.forEach(completion => {
+
+    const task =
+      TASKS.find(
+        t => t.id === completion.taskId
+      );
+
+
+    if (!task) {
+      return;
+    }
+
+
+    const item =
+      document.createElement("div");
+
+    item.className =
+      "history-item";
+
+
+    const main =
+      document.createElement("div");
+
+    main.className =
+      "history-main";
+
+
+    const left =
+      document.createElement("div");
+
+
+    left.innerHTML = `
+      <div class="history-task">
+        ${escapeHtml(task.title)}
       </div>
-      <button class="undo" onclick="undoCompletion('${c.id}')">
-        Ongedaan maken
-      </button>
+
+      <div class="history-details">
+        ${formatDateTime(completion.completedAt)}
+        · ${personLabel(completion.person)}
+      </div>
     `;
 
+
+    const right =
+      document.createElement("div");
+
+    right.className =
+      "history-points";
+
+
+    if (completion.person === "together") {
+
+      right.textContent =
+        `+${completion.points} elk`;
+
+    } else {
+
+      right.textContent =
+        `+${completion.points}`;
+
+    }
+
+
+    main.appendChild(left);
+    main.appendChild(right);
+
+
+    const undo =
+      document.createElement("button");
+
+    undo.className =
+      "undo-button";
+
+    undo.textContent =
+      "↩ Ongedaan maken";
+
+
+    undo.onclick = () => {
+
+      undoCompletion(
+        completion.id
+      );
+
+    };
+
+
+    item.appendChild(main);
+    item.appendChild(undo);
+
+
     container.appendChild(item);
+
   });
+
 }
 
-function showScreen(id, button) {
 
-  document.querySelectorAll(".screen")
-    .forEach(s => s.classList.remove("active"));
+function showView(viewId) {
 
-  document.getElementById(id).classList.add("active");
+  document
+    .querySelectorAll(".view")
+    .forEach(view => {
+      view.classList.remove("active");
+    });
 
-  document.querySelectorAll("nav button")
-    .forEach(b => b.classList.remove("active"));
 
-  button.classList.add("active");
+  document
+    .getElementById(viewId)
+    .classList.add("active");
 
-  if (id === "pointsScreen") renderPoints();
-  if (id === "historyScreen") renderHistory();
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+
+  render();
+
 }
 
-renderTasks();
-renderPoints();
-renderHistory();
+
+// Klik naast het venster sluit het.
+document
+  .getElementById("modalBackdrop")
+  .addEventListener("click", event => {
+
+    if (
+      event.target.id ===
+      "modalBackdrop"
+    ) {
+
+      closeModal();
+
+    }
+
+  });
+
+
+// Eerste keer laden.
+render();
 
 </script>
 

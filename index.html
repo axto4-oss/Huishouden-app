@@ -127,25 +127,86 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.07);
     }
 
+    /* PUNTEN */
     .points-card {
       margin-top: 12px;
       background: white;
       border-radius: 16px;
-      padding: 18px;
+      padding: 20px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.07);
     }
 
-    .points-row {
+    .points-names {
       display: flex;
       justify-content: space-between;
-      padding: 8px 0;
-      font-size: 16px;
+      align-items: flex-end;
+      gap: 20px;
+      margin-bottom: 13px;
     }
 
-    .points-value {
-      font-weight: 700;
+    .person-score {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
     }
 
+    .person-score.right {
+      text-align: right;
+    }
+
+    .person-name {
+      font-size: 14px;
+      color: #70757d;
+    }
+
+    .person-number {
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .balance-bar {
+      position: relative;
+      width: 100%;
+      height: 18px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #e7e9ed;
+    }
+
+    .balance-left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      background: #8fa8c4;
+      transition: width 0.35s ease;
+    }
+
+    .balance-right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      background: #c4b29a;
+      transition: width 0.35s ease;
+    }
+
+    .balance-empty {
+      position: absolute;
+      inset: 0;
+      background: #e7e9ed;
+    }
+
+    .balance-description {
+      margin-top: 11px;
+      text-align: center;
+      color: #7a7f87;
+      font-size: 13px;
+    }
+
+    /* GESCHIEDENIS */
     .history {
       margin-top: 14px;
     }
@@ -198,6 +259,7 @@
       text-align: center;
     }
 
+    /* MODAL */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -218,18 +280,6 @@
       background: white;
       border-radius: 22px 22px 0 0;
       padding: 24px 18px 28px;
-      animation: slideUp 0.18s ease-out;
-    }
-
-    @keyframes slideUp {
-      from {
-        transform: translateY(30px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
     }
 
     .modal h2 {
@@ -257,10 +307,6 @@
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-    }
-
-    .person-button:active {
-      transform: scale(0.98);
     }
 
     .cancel-button {
@@ -292,25 +338,6 @@
       color: #555;
     }
 
-    .total-box {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
-    }
-
-    .total-number {
-      font-size: 34px;
-      font-weight: 800;
-    }
-
-    .total-label {
-      color: #70757d;
-      margin-top: 3px;
-    }
-
     @media (min-width: 700px) {
       .modal-backdrop {
         align-items: center;
@@ -327,16 +354,20 @@
 
 <div class="app">
 
+  <!-- HOOFDSCHERM -->
   <div id="mainView" class="view active">
 
     <header>
       <h1>🏠 Huishouden</h1>
-      <div class="subtitle">Samen overzicht houden over het huishouden</div>
+      <div class="subtitle">
+        Samen overzicht houden over het huishouden
+      </div>
     </header>
 
     <div id="taskSections"></div>
 
     <div class="nav">
+
       <button class="nav-button" onclick="showView('pointsView')">
         📊 Punten
       </button>
@@ -344,11 +375,13 @@
       <button class="nav-button" onclick="showView('historyView')">
         📖 Geschiedenis
       </button>
+
     </div>
 
   </div>
 
 
+  <!-- PUNTEN -->
   <div id="pointsView" class="view">
 
     <button class="back-button" onclick="showView('mainView')">
@@ -358,25 +391,53 @@
     <h1>📊 Punten</h1>
 
     <div class="points-card">
-      <div class="points-row">
-        <span>Jij</span>
-        <span class="points-value" id="youPoints">0</span>
+
+      <div class="points-names">
+
+        <div class="person-score">
+          <div class="person-name">Jij</div>
+          <div class="person-number" id="youPoints">0</div>
+        </div>
+
+        <div class="person-score right">
+          <div class="person-name">Partner</div>
+          <div class="person-number" id="partnerPoints">0</div>
+        </div>
+
       </div>
 
-      <div class="points-row">
-        <span>Partner</span>
-        <span class="points-value" id="partnerPoints">0</span>
+      <div class="balance-bar">
+
+        <div
+          id="balanceEmpty"
+          class="balance-empty"
+        ></div>
+
+        <div
+          id="balanceLeft"
+          class="balance-left"
+        ></div>
+
+        <div
+          id="balanceRight"
+          class="balance-right"
+        ></div>
+
       </div>
 
-      <div class="points-row">
-        <span>Samen</span>
-        <span class="points-value" id="togetherPoints">0</span>
+      <div
+        id="balanceDescription"
+        class="balance-description"
+      >
+        Nog geen punten
       </div>
+
     </div>
 
   </div>
 
 
+  <!-- GESCHIEDENIS -->
   <div id="historyView" class="view">
 
     <button class="back-button" onclick="showView('mainView')">
@@ -392,33 +453,49 @@
 </div>
 
 
+<!-- MODAL -->
 <div id="modalBackdrop" class="modal-backdrop">
 
   <div class="modal">
 
     <h2 id="modalTaskTitle">Taak</h2>
 
-    <div class="modal-subtitle" id="modalTaskSubtitle">
+    <div
+      class="modal-subtitle"
+      id="modalTaskSubtitle"
+    >
       Wie heeft dit gedaan?
     </div>
 
     <div class="person-buttons">
 
-      <button class="person-button" onclick="completeTask('you')">
+      <button
+        class="person-button"
+        onclick="completeTask('you')"
+      >
         Jij
       </button>
 
-      <button class="person-button" onclick="completeTask('partner')">
+      <button
+        class="person-button"
+        onclick="completeTask('partner')"
+      >
         Partner
       </button>
 
-      <button class="person-button" onclick="completeTask('together')">
+      <button
+        class="person-button"
+        onclick="completeTask('together')"
+      >
         Samen
       </button>
 
     </div>
 
-    <button class="cancel-button" onclick="closeModal()">
+    <button
+      class="cancel-button"
+      onclick="closeModal()"
+    >
       Annuleren
     </button>
 
@@ -431,7 +508,7 @@
 
 const TASKS = [
 
-  // WEEKLY
+  // WEKELIJKS
   {
     id: 1,
     title: "Bovenverdieping stofzuigen",
@@ -475,7 +552,7 @@ const TASKS = [
     points: 2
   },
 
-  // EVERY 2 WEEKS
+  // OM DE 2 WEKEN
   {
     id: 8,
     title: "Stof afdoen",
@@ -489,7 +566,7 @@ const TASKS = [
     points: 2
   },
 
-  // MONTHLY
+  // MAANDELIJKS
   {
     id: 10,
     title: "Keuken deepclean",
@@ -539,7 +616,7 @@ const TASKS = [
     points: 1
   },
 
-  // WHEN NEEDED
+  // WANNEER NODIG
   {
     id: 18,
     title: "Wasmachine opzetten",
@@ -601,23 +678,19 @@ const TASKS = [
 const CATEGORY_INFO = {
 
   weekly: {
-    title: "🔄 Deze week",
-    singular: "taak"
+    title: "🔄 Deze week"
   },
 
   biweekly: {
-    title: "🔄 Deze 2 weken",
-    singular: "taak"
+    title: "🔄 Deze 2 weken"
   },
 
   monthly: {
-    title: "📅 Deze maand",
-    singular: "taak"
+    title: "📅 Deze maand"
   },
 
   when_needed: {
-    title: "⚡ Wanneer nodig",
-    singular: "taak"
+    title: "⚡ Wanneer nodig"
   }
 
 };
@@ -630,13 +703,23 @@ let completions = JSON.parse(
 let selectedTask = null;
 
 
+/* -------------------------
+   OPSLAAN
+------------------------- */
+
 function save() {
+
   localStorage.setItem(
     "householdCompletions",
     JSON.stringify(completions)
   );
+
 }
 
+
+/* -------------------------
+   PERIODES
+------------------------- */
 
 function getPeriod(task) {
 
@@ -724,13 +807,19 @@ function getPeriod(task) {
 
   }
 
+  /*
+    Wanneer nodig heeft geen vaste periode.
+    Iedere uitvoering is een aparte registratie.
+  */
 
-  // BELANGRIJK:
-  // Wanneer nodig heeft GEEN vaste periode.
-  // Iedere uitvoering is een nieuwe uitvoering.
   return null;
+
 }
 
+
+/* -------------------------
+   UITVOERINGEN
+------------------------- */
 
 function getTaskCompletions(task) {
 
@@ -743,7 +832,10 @@ function getTaskCompletions(task) {
 
 function getCurrentCompletion(task) {
 
-  // Wanneer nodig kan onbeperkt opnieuw gedaan worden.
+  /*
+    Wanneer nodig kan onbeperkt opnieuw.
+  */
+
   if (task.category === "when_needed") {
     return null;
   }
@@ -761,7 +853,8 @@ function getCurrentCompletion(task) {
 
 function getLastCompletion(task) {
 
-  const list = getTaskCompletions(task);
+  const list =
+    getTaskCompletions(task);
 
   if (!list.length) {
     return null;
@@ -774,14 +867,19 @@ function getLastCompletion(task) {
         new Date(b.completedAt) -
         new Date(a.completedAt)
     )[0];
+
 }
 
 
+/* -------------------------
+   DATUM
+------------------------- */
+
 function formatDate(dateString) {
 
-  const date = new Date(dateString);
-
-  return date.toLocaleDateString(
+  return new Date(
+    dateString
+  ).toLocaleDateString(
     "nl-BE",
     {
       day: "2-digit",
@@ -789,14 +887,15 @@ function formatDate(dateString) {
       year: "numeric"
     }
   );
+
 }
 
 
 function formatDateTime(dateString) {
 
-  const date = new Date(dateString);
-
-  return date.toLocaleString(
+  return new Date(
+    dateString
+  ).toLocaleString(
     "nl-BE",
     {
       day: "2-digit",
@@ -809,6 +908,10 @@ function formatDateTime(dateString) {
 
 }
 
+
+/* -------------------------
+   PERSOON
+------------------------- */
 
 function personLabel(person) {
 
@@ -825,48 +928,58 @@ function personLabel(person) {
   }
 
   return person;
-}
-
-
-function pointsForCompletion(completion) {
-
-  return completion.points || 0;
 
 }
 
+
+/* -------------------------
+   PUNTEN
+------------------------- */
 
 function getPointsTotals() {
 
   let you = 0;
   let partner = 0;
-  let together = 0;
 
   completions.forEach(c => {
 
     if (c.person === "you") {
+
       you += c.points;
+
     }
 
     if (c.person === "partner") {
+
       partner += c.points;
+
     }
 
     if (c.person === "together") {
-      together += c.points;
+
+      /*
+        Samen = volledige punten
+        voor beide personen.
+      */
+
       you += c.points;
       partner += c.points;
+
     }
 
   });
 
   return {
     you,
-    partner,
-    together
+    partner
   };
 
 }
 
+
+/* -------------------------
+   RENDER
+------------------------- */
 
 function render() {
 
@@ -877,220 +990,274 @@ function render() {
 }
 
 
+/* -------------------------
+   TAKEN
+------------------------- */
+
 function renderTasks() {
 
   const container =
-    document.getElementById("taskSections");
+    document.getElementById(
+      "taskSections"
+    );
 
   container.innerHTML = "";
 
 
-  Object.keys(CATEGORY_INFO).forEach(category => {
+  Object.keys(CATEGORY_INFO)
+    .forEach(category => {
 
-    let tasks =
-      TASKS.filter(
-        task => task.category === category
-      );
-
-
-    // Sorteer op:
-    // 1. Nog nooit gedaan = bovenaan
-    // 2. Daarna langst geleden gedaan = bovenaan
-    tasks.sort((a, b) => {
-
-      const aLast = getLastCompletion(a);
-      const bLast = getLastCompletion(b);
-
-      if (!aLast && !bLast) {
-        return 0;
-      }
-
-      if (!aLast) {
-        return -1;
-      }
-
-      if (!bLast) {
-        return 1;
-      }
-
-      return (
-        new Date(aLast.completedAt) -
-        new Date(bLast.completedAt)
-      );
-
-    });
+      let tasks =
+        TASKS.filter(
+          task =>
+            task.category === category
+        );
 
 
-    const section =
-      document.createElement("div");
+      /*
+        Nooit gedaan bovenaan.
+        Daarna langst geleden bovenaan.
+      */
 
-    section.className = "section";
+      tasks.sort((a, b) => {
 
+        const aLast =
+          getLastCompletion(a);
 
-    const header =
-      document.createElement("div");
+        const bLast =
+          getLastCompletion(b);
 
-    header.className = "section-header";
-
-
-    const title =
-      document.createElement("div");
-
-    title.className = "section-title";
-
-    title.textContent =
-      CATEGORY_INFO[category].title;
-
-
-    const completedCount =
-      tasks.filter(task => {
-
-        if (task.category === "when_needed") {
-          return false;
+        if (!aLast && !bLast) {
+          return 0;
         }
 
-        return !!getCurrentCompletion(task);
+        if (!aLast) {
+          return -1;
+        }
 
-      }).length;
+        if (!bLast) {
+          return 1;
+        }
 
+        return (
+          new Date(aLast.completedAt) -
+          new Date(bLast.completedAt)
+        );
 
-    const count =
-      document.createElement("div");
-
-    count.className = "section-count";
-
-
-    if (category === "when_needed") {
-
-      count.textContent =
-        `${tasks.length} taken`;
-
-    } else {
-
-      count.textContent =
-        `${completedCount}/${tasks.length} gedaan`;
-
-    }
+      });
 
 
-    header.appendChild(title);
-    header.appendChild(count);
-
-
-    const list =
-      document.createElement("div");
-
-    list.className = "task-list";
-
-
-    tasks.forEach(task => {
-
-      const currentCompletion =
-        getCurrentCompletion(task);
-
-      const lastCompletion =
-        getLastCompletion(task);
-
-
-      const element =
+      const section =
         document.createElement("div");
 
-      element.className = "task";
+      section.className = "section";
 
 
-      if (currentCompletion) {
-        element.classList.add("completed");
+      const header =
+        document.createElement("div");
+
+      header.className =
+        "section-header";
+
+
+      const title =
+        document.createElement("div");
+
+      title.className =
+        "section-title";
+
+      title.textContent =
+        CATEGORY_INFO[category].title;
+
+
+      const completedCount =
+        tasks.filter(task => {
+
+          if (
+            task.category ===
+            "when_needed"
+          ) {
+            return false;
+          }
+
+          return !!getCurrentCompletion(
+            task
+          );
+
+        }).length;
+
+
+      const count =
+        document.createElement("div");
+
+      count.className =
+        "section-count";
+
+
+      if (
+        category ===
+        "when_needed"
+      ) {
+
+        count.textContent =
+          `${tasks.length} taken`;
+
+      } else {
+
+        count.textContent =
+          `${completedCount}/${tasks.length} gedaan`;
+
       }
 
 
-      let metaText =
-        `${task.points} ${task.points === 1 ? "punt" : "punten"}`;
+      header.appendChild(title);
+      header.appendChild(count);
 
 
-      if (currentCompletion) {
+      const list =
+        document.createElement("div");
 
-        metaText =
-          `Gedaan door ${personLabel(
-            currentCompletion.person
-          )} · ${task.points} ${
-            task.points === 1 ? "punt" : "punten"
+      list.className =
+        "task-list";
+
+
+      tasks.forEach(task => {
+
+        const currentCompletion =
+          getCurrentCompletion(task);
+
+        const lastCompletion =
+          getLastCompletion(task);
+
+
+        const element =
+          document.createElement("div");
+
+        element.className = "task";
+
+
+        if (currentCompletion) {
+
+          element.classList.add(
+            "completed"
+          );
+
+        }
+
+
+        let metaText =
+          `${task.points} ${
+            task.points === 1
+              ? "punt"
+              : "punten"
           }`;
 
-      } else if (lastCompletion) {
 
-        metaText =
-          `Laatst gedaan: ${formatDate(
-            lastCompletion.completedAt
-          )} · ${task.points} ${
-            task.points === 1 ? "punt" : "punten"
-          }`;
+        if (currentCompletion) {
 
-      }
+          metaText =
+            `Gedaan door ${
+              personLabel(
+                currentCompletion.person
+              )
+            } · ${task.points} ${
+              task.points === 1
+                ? "punt"
+                : "punten"
+            }`;
+
+        } else if (lastCompletion) {
+
+          metaText =
+            `Laatst gedaan: ${
+              formatDate(
+                lastCompletion.completedAt
+              )
+            } · ${task.points} ${
+              task.points === 1
+                ? "punt"
+                : "punten"
+            }`;
+
+        }
 
 
-      element.innerHTML = `
-        <div class="task-info">
-          <div class="task-title">
-            ${escapeHtml(task.title)}
+        element.innerHTML = `
+
+          <div class="task-info">
+
+            <div class="task-title">
+              ${escapeHtml(
+                task.title
+              )}
+            </div>
+
+            <div class="task-meta">
+              ${escapeHtml(
+                metaText
+              )}
+            </div>
+
           </div>
-          <div class="task-meta">
-            ${escapeHtml(metaText)}
+
+          <div class="task-points">
+            ${task.points} pt
           </div>
-        </div>
 
-        <div class="task-points">
-          ${task.points} pt
-        </div>
-      `;
+        `;
 
 
-      element.onclick = () => {
+        element.onclick = () => {
 
-        // Gewone terugkerende taak die deze periode al gedaan is:
-        // klik = mogelijkheid om ongedaan te maken.
-        if (
-          task.category !== "when_needed" &&
-          currentCompletion
-        ) {
+          /*
+            BELANGRIJK:
+            Een reeds uitgevoerde terugkerende taak
+            kan NIET meer vanaf de hoofdpagina
+            geannuleerd worden.
 
-          const answer =
-            confirm(
-              `"${task.title}" is al gedaan in deze periode.\n\nWil je deze registratie ongedaan maken?`
-            );
+            Annuleren kan uitsluitend via
+            Geschiedenis.
+          */
 
-          if (answer) {
+          if (
+            task.category !==
+              "when_needed" &&
+            currentCompletion
+          ) {
 
-            undoCompletion(
-              currentCompletion.id
-            );
+            return;
 
           }
 
-          return;
-        }
+
+          /*
+            Wanneer nodig:
+            altijd een nieuwe uitvoering.
+          */
+
+          openModal(task);
+
+        };
 
 
-        // Wanneer nodig:
-        // altijd een nieuwe uitvoering registreren.
-        openModal(task);
+        list.appendChild(element);
 
-      };
+      });
 
 
-      list.appendChild(element);
+      section.appendChild(header);
+      section.appendChild(list);
+
+      container.appendChild(section);
 
     });
 
-
-    section.appendChild(header);
-    section.appendChild(list);
-
-    container.appendChild(section);
-
-  });
-
 }
 
+
+/* -------------------------
+   HTML VEILIG MAKEN
+------------------------- */
 
 function escapeHtml(text) {
 
@@ -1104,25 +1271,35 @@ function escapeHtml(text) {
 }
 
 
+/* -------------------------
+   MODAL
+------------------------- */
+
 function openModal(task) {
 
   selectedTask = task;
 
+
   document.getElementById(
     "modalTaskTitle"
-  ).textContent = task.title;
+  ).textContent =
+    task.title;
 
 
   document.getElementById(
     "modalTaskSubtitle"
   ).textContent =
     `${task.points} ${
-      task.points === 1 ? "punt" : "punten"
+      task.points === 1
+        ? "punt"
+        : "punten"
     } · Wie heeft dit gedaan?`;
 
 
   document
-    .getElementById("modalBackdrop")
+    .getElementById(
+      "modalBackdrop"
+    )
     .classList.add("show");
 
 }
@@ -1133,11 +1310,17 @@ function closeModal() {
   selectedTask = null;
 
   document
-    .getElementById("modalBackdrop")
+    .getElementById(
+      "modalBackdrop"
+    )
     .classList.remove("show");
 
 }
 
+
+/* -------------------------
+   TAAK UITVOEREN
+------------------------- */
 
 function completeTask(person) {
 
@@ -1150,20 +1333,24 @@ function completeTask(person) {
     selectedTask;
 
 
-  // Bij gewone taken mag er maximaal één registratie
-  // per periode bestaan.
-  if (task.category !== "when_needed") {
+  /*
+    Normale terugkerende taken:
+    maximaal één keer per periode.
+  */
+
+  if (
+    task.category !==
+    "when_needed"
+  ) {
 
     const existing =
       getCurrentCompletion(task);
 
+
     if (existing) {
 
-      alert(
-        "Deze taak is al gedaan in deze periode."
-      );
-
       closeModal();
+
       return;
 
     }
@@ -1180,11 +1367,14 @@ function completeTask(person) {
         .toString(36)
         .substring(2, 9),
 
-    taskId: task.id,
+    taskId:
+      task.id,
 
-    person: person,
+    person:
+      person,
 
-    points: task.points,
+    points:
+      task.points,
 
     period:
       getPeriod(task),
@@ -1195,7 +1385,9 @@ function completeTask(person) {
   };
 
 
-  completions.push(completion);
+  completions.push(
+    completion
+  );
 
   save();
 
@@ -1205,6 +1397,11 @@ function completeTask(person) {
 
 }
 
+
+/* -------------------------
+   ANNULEREN
+   ALLEEN VIA GESCHIEDENIS
+------------------------- */
 
 function undoCompletion(id) {
 
@@ -1222,15 +1419,18 @@ function undoCompletion(id) {
   const completion =
     completions[index];
 
+
   const task =
     TASKS.find(
-      t => t.id === completion.taskId
+      t =>
+        t.id ===
+        completion.taskId
     );
 
 
   const answer =
     confirm(
-      `Wil je "${task ? task.title : "deze taak"}" echt ongedaan maken?`
+      `Wil je "${task ? task.title : "deze taak"}" echt ongedaan maken?\n\nDe punten worden ook teruggedraaid.`
     );
 
 
@@ -1239,7 +1439,10 @@ function undoCompletion(id) {
   }
 
 
-  completions.splice(index, 1);
+  completions.splice(
+    index,
+    1
+  );
 
   save();
 
@@ -1247,6 +1450,10 @@ function undoCompletion(id) {
 
 }
 
+
+/* -------------------------
+   PUNTENPAGINA
+------------------------- */
 
 function renderPoints() {
 
@@ -1256,25 +1463,136 @@ function renderPoints() {
 
   document.getElementById(
     "youPoints"
-  ).textContent = totals.you;
+  ).textContent =
+    totals.you;
 
 
   document.getElementById(
     "partnerPoints"
-  ).textContent = totals.partner;
+  ).textContent =
+    totals.partner;
 
 
-  document.getElementById(
-    "togetherPoints"
-  ).textContent = totals.together;
+  const left =
+    document.getElementById(
+      "balanceLeft"
+    );
+
+  const right =
+    document.getElementById(
+      "balanceRight"
+    );
+
+  const empty =
+    document.getElementById(
+      "balanceEmpty"
+    );
+
+  const description =
+    document.getElementById(
+      "balanceDescription"
+    );
+
+
+  const total =
+    totals.you +
+    totals.partner;
+
+
+  /*
+    Geen punten:
+    grijze balk.
+  */
+
+  if (total === 0) {
+
+    left.style.width = "0%";
+    right.style.width = "0%";
+    empty.style.display = "block";
+
+    description.textContent =
+      "Nog geen punten";
+
+    return;
+
+  }
+
+
+  empty.style.display =
+    "none";
+
+
+  const youPercentage =
+    (
+      totals.you /
+      total
+    ) * 100;
+
+
+  const partnerPercentage =
+    (
+      totals.partner /
+      total
+    ) * 100;
+
+
+  /*
+    De balk bestaat uit twee
+    ingekleurde delen die elkaar
+    in het midden ontmoeten.
+  */
+
+  left.style.width =
+    `${youPercentage}%`;
+
+  right.style.width =
+    `${partnerPercentage}%`;
+
+
+  if (
+    totals.you ===
+    totals.partner
+  ) {
+
+    description.textContent =
+      "Gelijk verdeeld";
+
+  } else if (
+    totals.you >
+    totals.partner
+  ) {
+
+    description.textContent =
+      `Jij ${Math.round(
+        youPercentage
+      )}% · Partner ${Math.round(
+        partnerPercentage
+      )}%`;
+
+  } else {
+
+    description.textContent =
+      `Jij ${Math.round(
+        youPercentage
+      )}% · Partner ${Math.round(
+        partnerPercentage
+      )}%`;
+
+  }
 
 }
 
 
+/* -------------------------
+   GESCHIEDENIS
+------------------------- */
+
 function renderHistory() {
 
   const container =
-    document.getElementById("historyList");
+    document.getElementById(
+      "historyList"
+    );
 
 
   container.innerHTML = "";
@@ -1283,9 +1601,11 @@ function renderHistory() {
   if (!completions.length) {
 
     container.innerHTML =
-      `<div class="empty">
-        Nog geen uitgevoerde taken.
-      </div>`;
+      `
+        <div class="empty">
+          Nog geen uitgevoerde taken.
+        </div>
+      `;
 
     return;
 
@@ -1297,114 +1617,159 @@ function renderHistory() {
       .slice()
       .sort(
         (a, b) =>
-          new Date(b.completedAt) -
-          new Date(a.completedAt)
+          new Date(
+            b.completedAt
+          ) -
+          new Date(
+            a.completedAt
+          )
       );
 
 
-  sorted.forEach(completion => {
+  sorted.forEach(
+    completion => {
 
-    const task =
-      TASKS.find(
-        t => t.id === completion.taskId
+      const task =
+        TASKS.find(
+          t =>
+            t.id ===
+            completion.taskId
+        );
+
+
+      if (!task) {
+        return;
+      }
+
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+      item.className =
+        "history-item";
+
+
+      const main =
+        document.createElement(
+          "div"
+        );
+
+      main.className =
+        "history-main";
+
+
+      const left =
+        document.createElement(
+          "div"
+        );
+
+
+      left.innerHTML = `
+
+        <div class="history-task">
+          ${escapeHtml(
+            task.title
+          )}
+        </div>
+
+        <div class="history-details">
+          ${formatDateTime(
+            completion.completedAt
+          )}
+          · ${personLabel(
+            completion.person
+          )}
+        </div>
+
+      `;
+
+
+      const right =
+        document.createElement(
+          "div"
+        );
+
+      right.className =
+        "history-points";
+
+
+      if (
+        completion.person ===
+        "together"
+      ) {
+
+        right.textContent =
+          `+${completion.points} elk`;
+
+      } else {
+
+        right.textContent =
+          `+${completion.points}`;
+
+      }
+
+
+      main.appendChild(left);
+      main.appendChild(right);
+
+
+      /*
+        De enige plek waar een
+        registratie ongedaan kan
+        worden gemaakt.
+      */
+
+      const undo =
+        document.createElement(
+          "button"
+        );
+
+      undo.className =
+        "undo-button";
+
+      undo.textContent =
+        "↩ Ongedaan maken";
+
+
+      undo.onclick = () => {
+
+        undoCompletion(
+          completion.id
+        );
+
+      };
+
+
+      item.appendChild(main);
+      item.appendChild(undo);
+
+
+      container.appendChild(
+        item
       );
 
-
-    if (!task) {
-      return;
     }
-
-
-    const item =
-      document.createElement("div");
-
-    item.className =
-      "history-item";
-
-
-    const main =
-      document.createElement("div");
-
-    main.className =
-      "history-main";
-
-
-    const left =
-      document.createElement("div");
-
-
-    left.innerHTML = `
-      <div class="history-task">
-        ${escapeHtml(task.title)}
-      </div>
-
-      <div class="history-details">
-        ${formatDateTime(completion.completedAt)}
-        · ${personLabel(completion.person)}
-      </div>
-    `;
-
-
-    const right =
-      document.createElement("div");
-
-    right.className =
-      "history-points";
-
-
-    if (completion.person === "together") {
-
-      right.textContent =
-        `+${completion.points} elk`;
-
-    } else {
-
-      right.textContent =
-        `+${completion.points}`;
-
-    }
-
-
-    main.appendChild(left);
-    main.appendChild(right);
-
-
-    const undo =
-      document.createElement("button");
-
-    undo.className =
-      "undo-button";
-
-    undo.textContent =
-      "↩ Ongedaan maken";
-
-
-    undo.onclick = () => {
-
-      undoCompletion(
-        completion.id
-      );
-
-    };
-
-
-    item.appendChild(main);
-    item.appendChild(undo);
-
-
-    container.appendChild(item);
-
-  });
+  );
 
 }
 
+
+/* -------------------------
+   NAVIGATIE
+------------------------- */
 
 function showView(viewId) {
 
   document
     .querySelectorAll(".view")
     .forEach(view => {
-      view.classList.remove("active");
+
+      view.classList.remove(
+        "active"
+      );
+
     });
 
 
@@ -1424,24 +1789,35 @@ function showView(viewId) {
 }
 
 
-// Klik naast het venster sluit het.
+/* -------------------------
+   MODAL SLUITEN
+------------------------- */
+
 document
-  .getElementById("modalBackdrop")
-  .addEventListener("click", event => {
+  .getElementById(
+    "modalBackdrop"
+  )
+  .addEventListener(
+    "click",
+    event => {
 
-    if (
-      event.target.id ===
-      "modalBackdrop"
-    ) {
+      if (
+        event.target.id ===
+        "modalBackdrop"
+      ) {
 
-      closeModal();
+        closeModal();
+
+      }
 
     }
+  );
 
-  });
 
+/* -------------------------
+   START
+------------------------- */
 
-// Eerste keer laden.
 render();
 
 </script>

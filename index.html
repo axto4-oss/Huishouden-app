@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huishouden</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f6f8;
+    color: #202124;
+  }
+
+  header {
+    background: white;
+    padding: 22px 18px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 25px;
+  }
+
+  header p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 14px;
+  }
+
+  main {
+    max-width: 700px;
+    margin: auto;
+    padding: 16px;
+    padding-bottom: 90px;
+  }
+
+  .category {
+    margin-bottom: 22px;
+  }
+
+  .category-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 9px;
+  }
+
+  .category-title h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .progress {
+    font-size: 13px;
+    color: #6b7280;
+  }
+
+  .task {
+    background: white;
+    border-radius: 13px;
+    padding: 15px;
+    margin-bottom: 9px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    cursor: pointer;
+    transition: .15s;
+  }
+
+  .task:hover {
+    transform: translateY(-1px);
+  }
+
+  .task.done {
+    opacity: .55;
+  }
+
+  .task-name {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .task-info {
+    margin-top: 4px;
+    color: #6b7280;
+    font-size: 13px;
+  }
+
+  .points {
+    min-width: 42px;
+    text-align: center;
+    background: #eef0f3;
+    border-radius: 20px;
+    padding: 6px 9px;
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+  .done-mark {
+    margin-right: 8px;
+  }
+
+  nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+  }
+
+  nav button {
+    border: 0;
+    background: none;
+    padding: 13px 20px;
+    color: #666;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  nav button.active {
+    color: #111;
+    font-weight: bold;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .score-card {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+
+  .score-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+  }
+
+  .score-number {
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .history-item {
+    background: white;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+
+  .history-title {
+    font-weight: bold;
+  }
+
+  .history-info {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 5px;
+  }
+
+  .empty {
+    text-align: center;
+    color: #777;
+    padding: 30px 10px;
+  }
+
+  .modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    z-index: 20;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .modal-bg.show {
+    display: flex;
+  }
+
+  .modal {
+    background: white;
+    width: 100%;
+    max-width: 700px;
+    border-radius: 20px 20px 0 0;
+    padding: 22px;
+  }
+
+  .modal h3 {
+    margin-top: 0;
+  }
+
+  .choice {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 6px 0;
+    font-size: 16px;
+    cursor: pointer;
+    background: #f0f1f3;
+  }
+
+  .choice:hover {
+    background: #e4e6e9;
+  }
+
+  .cancel {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    padding: 14px;
+    margin-top: 5px;
+    cursor: pointer;
+    color: #666;
+  }
+
+  .undo {
+    margin-top: 10px;
+    border: 0;
+    background: #f0f1f3;
+    border-radius: 9px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🏠 Huishouden</h1>
+  <p>Overzicht van jullie huishoudtaken</p>
+</header>
+
+<main>
+
+  <section id="tasksScreen" class="screen active">
+    <div id="taskContainer"></div>
+  </section>
+
+  <section id="pointsScreen" class="screen">
+    <h2>📊 Punten</h2>
+
+    <div class="score-card">
+      <div class="score-row">
+        <span>Jij</span>
+        <span class="score-number" id="scoreYou">0</span>
+      </div>
+
+      <div class="score-row">
+        <span>Partner</span>
+        <span class="score-number" id="scorePartner">0</span>
+      </div>
+
+      <div class="score-row">
+        <strong>Totaal huishouden</strong>
+        <strong class="score-number" id="scoreTotal">0</strong>
+      </div>
+    </div>
+
+    <p style="color:#777;font-size:14px;">
+      Punten zijn bedoeld als overzicht van de verdeling van het werk,
+      niet als wedstrijd.
+    </p>
+  </section>
+
+  <section id="historyScreen" class="screen">
+    <h2>📖 Geschiedenis</h2>
+    <div id="historyContainer"></div>
+  </section>
+
+</main>
+
+<nav>
+  <button class="active" onclick="showScreen('tasksScreen', this)">🏠<br>Taken</button>
+  <button onclick="showScreen('pointsScreen', this)">📊<br>Punten</button>
+  <button onclick="showScreen('historyScreen', this)">📖<br>Geschiedenis</button>
+</nav>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3 id="modalTitle">Taak uitvoeren</h3>
+
+    <button class="choice" onclick="completeTask('you')">
+      👤 Jij
+    </button>
+
+    <button class="choice" onclick="completeTask('partner')">
+      👤 Partner
+    </button>
+
+    <button class="choice" onclick="completeTask('together')">
+      👥 Samen
+    </button>
+
+    <button class="cancel" onclick="closeModal()">
+      Annuleren
+    </button>
+  </div>
+</div>
+
+<script>
+
+const tasks = [
+  {id:1, name:"Bovenverdieping stofzuigen", category:"weekly", points:3},
+  {id:2, name:"Bovenverdieping dweilen", category:"weekly", points:3},
+  {id:3, name:"Benedenverdieping dweilen", category:"weekly", points:3},
+  {id:4, name:"WC kuisen", category:"weekly", points:2},
+  {id:5, name:"Lakens vervangen", category:"weekly", points:2},
+  {id:6, name:"Douchewand kuisen", category:"weekly", points:2},
+  {id:7, name:"Spiegels kuisen", category:"weekly", points:2},
+
+  {id:8, name:"Stof afdoen", category:"biweekly", points:3},
+  {id:9, name:"Vuilbakken uitkuisen", category:"biweekly", points:2},
+
+  {id:10, name:"Keuken deepclean", category:"monthly", points:5},
+  {id:11, name:"Ramen kuisen", category:"monthly", points:5},
+  {id:12, name:"Koelkast uitkuisen", category:"monthly", points:4},
+  {id:13, name:"Deurklinken afwassen", category:"monthly", points:2},
+  {id:14, name:"Onder bed & zetel stofzuigen", category:"monthly", points:2},
+  {id:15, name:"Droogkast & wasmachine reinigen", category:"monthly", points:2},
+  {id:16, name:"WC-bril afdoen & kuisen", category:"monthly", points:1},
+  {id:17, name:"Ontstopper in leidingen doen", category:"monthly", points:1},
+
+  {id:18, name:"Wasmachine opzetten", category:"when_needed", points:1},
+  {id:19, name:"Droogkast opzetten", category:"when_needed", points:1},
+  {id:20, name:"Vaatwasser uitladen", category:"when_needed", points:1},
+  {id:21, name:"Was ophangen", category:"when_needed", points:1},
+  {id:22, name:"Was opvouwen & strijken", category:"when_needed", points:2},
+  {id:23, name:"Boodschappen doen", category:"when_needed", points:3},
+  {id:24, name:"Afval buitenzetten", category:"when_needed", points:1},
+  {id:25, name:"Kleine vuilbakken WC leegmaken", category:"when_needed", points:1},
+  {id:26, name:"Glas naar glascontainer brengen", category:"when_needed", points:2}
+];
+
+const categoryNames = {
+  weekly:"🔄 Deze week",
+  biweekly:"🔄 Deze 2 weken",
+  monthly:"📅 Deze maand",
+  when_needed:"⚡ Wanneer nodig"
+};
+
+let completions = JSON.parse(localStorage.getItem("householdCompletions") || "[]");
+let selectedTask = null;
+
+function save() {
+  localStorage.setItem("householdCompletions", JSON.stringify(completions));
+}
+
+function periodKey(category, date = new Date()) {
+
+  const d = new Date(date);
+
+  if (category === "weekly") {
+    const year = d.getFullYear();
+    const first = new Date(year,0,1);
+    const week = Math.ceil((((d-first)/86400000)+first.getDay()+1)/7);
+    return year + "-w" + week;
+  }
+
+  if (category === "biweekly") {
+    const year = d.getFullYear();
+    const first = new Date(year,0,1);
+    const week = Math.ceil((((d-first)/86400000)+first.getDay()+1)/7);
+    return year + "-bw" + Math.ceil(week/2);
+  }
+
+  if (category === "monthly") {
+    return d.getFullYear() + "-" + d.getMonth();
+  }
+
+  return "when_needed";
+}
+
+function currentCompletion(task) {
+
+  const key = periodKey(task.category);
+
+  return completions.find(c =>
+    c.taskId === task.id &&
+    c.period === key &&
+    c.category !== "when_needed"
+  );
+}
+
+function lastCompletion(task) {
+
+  const list = completions.filter(c => c.taskId === task.id);
+
+  if (!list.length) return null;
+
+  return list.sort((a,b) =>
+    new Date(b.date) - new Date(a.date)
+  )[0];
+}
+
+function renderTasks() {
+
+  const container = document.getElementById("taskContainer");
+  container.innerHTML = "";
+
+  ["weekly","biweekly","monthly","when_needed"].forEach(category => {
+
+    let categoryTasks = tasks.filter(t => t.category === category);
+
+    if (category === "when_needed") {
+      categoryTasks = categoryTasks.filter(t =>
+        !completions.some(c =>
+          c.taskId === t.id &&
+          c.category === "when_needed"
+        )
+      );
+    }
+
+    categoryTasks.sort((a,b) => {
+
+      const ca = lastCompletion(a);
+      const cb = lastCompletion(b);
+
+      if (!ca && !cb) return 0;
+      if (!ca) return -1;
+      if (!cb) return 1;
+
+      return new Date(ca.date) - new Date(cb.date);
+    });
+
+    if (!categoryTasks.length) return;
+
+    const section = document.createElement("div");
+    section.className = "category";
+
+    const completedCount = tasks
+      .filter(t => t.category === category)
+      .filter(t => currentCompletion(t))
+      .length;
+
+    const totalCount = tasks.filter(t => t.category === category).length;
+
+    section.innerHTML = `
+      <div class="category-title">
+        <h2>${categoryNames[category]}</h2>
+        ${
+          category !== "when_needed"
+          ? `<span class="progress">${completedCount}/${totalCount} gedaan</span>`
+          : ""
+        }
+      </div>
+    `;
+
+    categoryTasks.forEach(task => {
+
+      const done = currentCompletion(task);
+
+      const card = document.createElement("div");
+      card.className = "task" + (done ? " done" : "");
+
+      card.innerHTML = `
+        <div>
+          <div class="task-name">
+            ${done ? '<span class="done-mark">✓</span>' : ''}
+            ${task.name}
+          </div>
+          <div class="task-info">
+            ${done ? done.label : "Nog niet gedaan"}
+          </div>
+        </div>
+        <div class="points">${task.points} p</div>
+      `;
+
+      card.onclick = () => {
+
+        if (done) {
+          const ok = confirm(
+            "Deze taak is al uitgevoerd.\n\nWil je deze uitvoering ongedaan maken?"
+          );
+
+          if (ok) undoCompletion(done.id);
+
+        } else {
+          openModal(task);
+        }
+      };
+
+      section.appendChild(card);
+    });
+
+    container.appendChild(section);
+  });
+}
+
+function openModal(task) {
+  selectedTask = task;
+  document.getElementById("modalTitle").textContent =
+    task.name + " — " + task.points + " punten";
+  document.getElementById("modalBg").classList.add("show");
+}
+
+function closeModal() {
+  selectedTask = null;
+  document.getElementById("modalBg").classList.remove("show");
+}
+
+function completeTask(who) {
+
+  if (!selectedTask) return;
+
+  const task = selectedTask;
+
+  if (task.category !== "when_needed") {
+
+    const already = currentCompletion(task);
+
+    if (already) {
+      closeModal();
+      return;
+    }
+  }
+
+  let label = "";
+
+  if (who === "you") label = "Jij";
+  if (who === "partner") label = "Partner";
+  if (who === "together") label = "Samen";
+
+  const completion = {
+    id: Date.now().toString(),
+    taskId: task.id,
+    category: task.category,
+    period: periodKey(task.category),
+    date: new Date().toISOString(),
+    who: who,
+    label: label,
+    pointsYou: who === "you" || who === "together" ? task.points : 0,
+    pointsPartner: who === "partner" || who === "together" ? task.points : 0
+  };
+
+  completions.push(completion);
+
+  save();
+  closeModal();
+  renderTasks();
+  renderPoints();
+  renderHistory();
+}
+
+function undoCompletion(id) {
+
+  completions = completions.filter(c => c.id !== id);
+
+  save();
+  renderTasks();
+  renderPoints();
+  renderHistory();
+}
+
+function renderPoints() {
+
+  let you = 0;
+  let partner = 0;
+
+  completions.forEach(c => {
+    you += c.pointsYou || 0;
+    partner += c.pointsPartner || 0;
+  });
+
+  document.getElementById("scoreYou").textContent = you;
+  document.getElementById("scorePartner").textContent = partner;
+  document.getElementById("scoreTotal").textContent = you + partner;
+}
+
+function renderHistory() {
+
+  const container = document.getElementById("historyContainer");
+
+  if (!completions.length) {
+    container.innerHTML = `
+      <div class="empty">
+        Nog geen uitgevoerde taken.
+      </div>
+    `;
+    return;
+  }
+
+  const sorted = [...completions].sort(
+    (a,b) => new Date(b.date) - new Date(a.date)
+  );
+
+  container.innerHTML = "";
+
+  sorted.forEach(c => {
+
+    const task = tasks.find(t => t.id === c.taskId);
+    if (!task) return;
+
+    const date = new Date(c.date).toLocaleString("nl-BE", {
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+
+    const item = document.createElement("div");
+    item.className = "history-item";
+
+    item.innerHTML = `
+      <div class="history-title">${task.name}</div>
+      <div class="history-info">
+        ${date} · ${c.label} · ${task.points} punten
+      </div>
+      <button class="undo" onclick="undoCompletion('${c.id}')">
+        Ongedaan maken
+      </button>
+    `;
+
+    container.appendChild(item);
+  });
+}
+
+function showScreen(id, button) {
+
+  document.querySelectorAll(".screen")
+    .forEach(s => s.classList.remove("active"));
+
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll("nav button")
+    .forEach(b => b.classList.remove("active"));
+
+  button.classList.add("active");
+
+  if (id === "pointsScreen") renderPoints();
+  if (id === "historyScreen") renderHistory();
+}
+
+renderTasks();
+renderPoints();
+renderHistory();
+
+</script>
+
+</body>
+</html>

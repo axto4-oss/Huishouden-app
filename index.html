@@ -3,775 +3,886 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f5f6f8">
+<meta name="theme-color" content="#eef4f0">
 <title>Huishouden</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-  box-sizing: border-box;
+:root{
+  --bg:#eef4f0;
+  --bg2:#f7faf8;
+  --surface:#ffffff;
+  --surface-soft:#f5f8f6;
+  --primary:#3f6f5a;
+  --primary-dark:#315845;
+  --primary-soft:#e5f0ea;
+  --accent:#e5b85c;
+  --text:#26342d;
+  --muted:#748078;
+  --border:#dfe8e2;
+  --danger:#c45c5c;
+  --danger-soft:#fff0f0;
+  --success:#4c8a69;
+  --shadow:0 8px 28px rgba(42,65,52,.08);
+  --shadow-small:0 3px 12px rgba(42,65,52,.07);
+  --radius-lg:22px;
+  --radius-md:16px;
+  --radius-sm:12px;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-  background: #f5f6f8;
-  color: #202124;
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:linear-gradient(180deg,var(--bg2) 0,var(--bg) 100%);
+  color:var(--text);
 }
 
-body {
-  min-height: 100vh;
+body{min-height:100vh}
+
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+.hidden{display:none!important}
+
+/* AUTH */
+
+#authScreen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
 }
 
-button,
-input,
-select {
-  font: inherit;
+.auth-card{
+  width:100%;
+  max-width:430px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:30px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
 }
 
-button {
-  cursor: pointer;
+.auth-card:before{
+  content:"🏠";
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:62px;
+  height:62px;
+  border-radius:20px;
+  background:var(--primary-soft);
+  font-size:31px;
+  margin-bottom:18px;
 }
 
-.hidden {
-  display: none !important;
+.auth-title{
+  margin:0 0 7px;
+  font-size:30px;
+  font-weight:850;
+  letter-spacing:-.7px;
 }
 
-/* =========================================================
-   AUTH
-========================================================= */
-
-#authScreen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+.auth-subtitle{
+  margin:0 0 24px;
+  color:var(--muted);
+  line-height:1.5;
 }
 
-.auth-card {
-  width: 100%;
-  max-width: 420px;
-  background: white;
-  border-radius: 24px;
-  padding: 28px;
-  box-shadow: 0 10px 35px rgba(0,0,0,.08);
+.auth-mode{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+  background:var(--surface-soft);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:5px;
+  margin-bottom:20px;
 }
 
-.auth-title {
-  margin: 0 0 8px;
-  font-size: 30px;
-  font-weight: 800;
+.auth-mode button{
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  padding:10px;
+  color:var(--muted);
+  font-weight:700;
 }
 
-.auth-subtitle {
-  margin: 0 0 24px;
-  color: #6b7280;
+.auth-mode button.active{
+  background:var(--surface);
+  color:var(--primary-dark);
+  box-shadow:var(--shadow-small);
 }
 
-.auth-mode {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  background: #f1f3f5;
-  border-radius: 12px;
-  padding: 4px;
-  margin-bottom: 20px;
+.auth-field{margin-bottom:15px}
+
+.auth-field label,
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:750;
+  margin-bottom:7px;
+  color:#506058;
 }
 
-.auth-mode button {
-  border: 0;
-  border-radius: 9px;
-  background: transparent;
-  padding: 10px;
-  color: #666;
+.auth-field input,
+.field input,
+.field select{
+  width:100%;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 13px;
+  outline:none;
+  background:#fff;
+  color:var(--text);
+  transition:.18s;
 }
 
-.auth-mode button.active {
-  background: white;
-  color: #111;
-  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+.auth-field input:focus,
+.field input:focus,
+.field select:focus{
+  border-color:#80a895;
+  box-shadow:0 0 0 4px rgba(63,111,90,.10);
 }
 
-.auth-field {
-  margin-bottom: 15px;
+.auth-submit{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:14px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:800;
+  box-shadow:0 5px 14px rgba(63,111,90,.22);
 }
 
-.auth-field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 7px;
+.auth-submit:hover{background:var(--primary-dark)}
+
+.auth-message{
+  margin-top:15px;
+  border-radius:11px;
+  padding:11px 13px;
+  font-size:14px;
 }
 
-.auth-field input {
-  width: 100%;
-  border: 1px solid #d8dce2;
-  border-radius: 12px;
-  padding: 13px 14px;
-  outline: none;
+.auth-error{background:#fff0f0;color:#a33}
+.auth-info{background:#edf5ff;color:#285b89}
+
+/* LOADING */
+
+#loadingScreen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  font-weight:650;
 }
 
-.auth-field input:focus {
-  border-color: #7b61ff;
+/* APP */
+
+#app{min-height:100vh}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(247,250,248,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
 }
 
-.auth-submit {
-  width: 100%;
-  border: 0;
-  border-radius: 13px;
-  padding: 14px;
-  background: #202124;
-  color: white;
-  font-weight: 700;
+.topbar-inner{
+  max-width:920px;
+  margin:auto;
+  min-height:76px;
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
 
-.auth-message {
-  margin-top: 15px;
-  border-radius: 10px;
-  padding: 11px 13px;
-  font-size: 14px;
+.brand{min-width:0}
+
+.brand-title{
+  font-size:21px;
+  font-weight:850;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  letter-spacing:-.3px;
 }
 
-.auth-error {
-  background: #fff0f0;
-  color: #a40000;
+.brand-title:before{
+  content:"🏡 ";
 }
 
-.auth-info {
-  background: #eef5ff;
-  color: #24558c;
+.brand-subtitle{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:2px;
 }
 
-/* =========================================================
-   LOADING
-========================================================= */
-
-#loadingScreen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
+.sync-status{
+  font-size:11px;
+  color:var(--success);
+  margin-top:3px;
+  font-weight:600;
 }
 
-/* =========================================================
-   APP
-========================================================= */
-
-#app {
-  min-height: 100vh;
+.menu-button{
+  width:45px;
+  height:45px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--surface);
+  box-shadow:var(--shadow-small);
+  color:var(--primary-dark);
+  font-size:21px;
 }
 
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(245,246,248,.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #e4e6e9;
+.menu-button:hover{
+  background:var(--primary-soft);
 }
 
-.topbar-inner {
-  max-width: 900px;
-  margin: auto;
-  min-height: 72px;
-  padding: 12px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+/* CONTENT */
+
+.main-container{
+  max-width:920px;
+  margin:0 auto;
+  padding:18px;
 }
 
-.brand {
-  min-width: 0;
+.tabs{
+  display:flex;
+  gap:9px;
+  overflow-x:auto;
+  padding:2px 2px 14px;
+  scrollbar-width:none;
 }
 
-.brand-title {
-  font-size: 20px;
-  font-weight: 800;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.tabs::-webkit-scrollbar{display:none}
+
+.tab-button{
+  flex:0 0 auto;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.88);
+  border-radius:16px;
+  padding:11px 16px;
+  color:#607068;
+  font-weight:750;
+  box-shadow:0 2px 7px rgba(42,65,52,.035);
+  transition:.18s;
 }
 
-.brand-subtitle {
-  color: #777;
-  font-size: 12px;
-  margin-top: 2px;
+.tab-button:hover{
+  transform:translateY(-1px);
+  border-color:#bfd2c6;
 }
 
-.menu-button {
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 13px;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,.06);
-  font-size: 22px;
+.tab-button.active{
+  background:var(--primary);
+  color:white;
+  border-color:var(--primary);
+  box-shadow:0 5px 14px rgba(63,111,90,.20);
 }
 
-.sync-status {
-  font-size: 11px;
-  color: #777;
-  margin-top: 2px;
+.tab-view{display:none}
+.tab-view.active{display:block}
+
+.section-card,
+.settings-section{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:19px;
+  margin-bottom:14px;
+  box-shadow:var(--shadow);
 }
 
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.main-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 18px;
+.tab-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:15px;
 }
 
-.tabs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 12px;
-}
-
-.tab-button {
-  flex: 0 0 auto;
-  border: 1px solid #e0e3e7;
-  background: white;
-  border-radius: 14px;
-  padding: 11px 15px;
-  color: #555;
-  font-weight: 700;
-}
-
-.tab-button.active {
-  background: #202124;
-  color: white;
-  border-color: #202124;
-}
-
-.tab-view {
-  display: none;
-}
-
-.tab-view.active {
-  display: block;
-}
-
-.section-card {
-  background: white;
-  border-radius: 20px;
-  padding: 18px;
-  margin-bottom: 14px;
-  box-shadow: 0 3px 14px rgba(0,0,0,.045);
-}
-
-.tab-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.tab-heading h2 {
-  margin: 0;
-  font-size: 21px;
+.tab-heading h2{
+  margin:0;
+  font-size:21px;
+  letter-spacing:-.3px;
 }
 
 .add-task-button,
-.add-frequency-button {
-  border: 0;
-  border-radius: 12px;
-  background: #202124;
-  color: white;
-  padding: 11px 14px;
-  font-weight: 700;
+.add-frequency-button{
+  border:0;
+  border-radius:12px;
+  background:var(--primary);
+  color:#fff;
+  padding:10px 13px;
+  font-weight:750;
+  box-shadow:0 4px 10px rgba(63,111,90,.15);
 }
 
-.task-list {
-  display: grid;
-  gap: 9px;
+.add-task-button:hover,
+.add-frequency-button:hover{
+  background:var(--primary-dark);
 }
 
-.task-card {
-  border: 1px solid #e4e6e9;
-  border-radius: 15px;
-  padding: 13px;
-  display: flex;
-  align-items: center;
-  gap: 11px;
+.task-list{
+  display:grid;
+  gap:9px;
 }
 
-.task-main {
-  min-width: 0;
-  flex: 1;
+.task-card{
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:13px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  background:#fbfdfc;
+  transition:.18s;
 }
 
-.task-title {
-  font-weight: 700;
-  word-break: break-word;
+.task-card:hover{
+  border-color:#c9dacf;
+  box-shadow:var(--shadow-small);
 }
 
-.task-meta {
-  margin-top: 4px;
-  font-size: 12px;
-  color: #777;
+.task-main{
+  min-width:0;
+  flex:1;
 }
 
-.task-actions {
-  display: flex;
-  gap: 6px;
+.task-title{
+  font-weight:750;
+  word-break:break-word;
 }
 
-.small-button {
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 9px;
-  padding: 7px 9px;
+.task-meta{
+  margin-top:5px;
+  font-size:12px;
+  color:var(--muted);
 }
 
-.complete-button {
-  border: 0;
-  background: #202124;
-  color: white;
-  border-radius: 10px;
-  padding: 9px 11px;
-  font-weight: 700;
+.task-actions{
+  display:flex;
+  gap:6px;
+  align-items:center;
 }
 
-.empty-state {
-  padding: 28px 10px;
-  text-align: center;
-  color: #777;
-  line-height: 1.5;
+.small-button{
+  min-width:38px;
+  height:38px;
+  border:1px solid var(--border);
+  background:#fff;
+  color:var(--text);
+  border-radius:10px;
+  padding:7px 9px;
 }
 
-/* =========================================================
-   SCREENS
-========================================================= */
+.small-button:hover{background:var(--primary-soft)}
 
-.secondary-screen {
-  display: none;
+.complete-button{
+  border:0;
+  background:var(--primary);
+  color:white;
+  border-radius:10px;
+  padding:9px 12px;
+  font-weight:750;
 }
 
-.secondary-screen.active {
-  display: block;
+.complete-button:hover{background:var(--primary-dark)}
+
+.empty-state{
+  padding:28px 10px;
+  text-align:center;
+  color:var(--muted);
+  line-height:1.5;
 }
+
+/* SCREENS */
 
-.screen-title {
-  margin: 0 0 18px;
-  font-size: 25px;
+.secondary-screen{display:none}
+.secondary-screen.active{display:block}
+
+.screen-title{
+  margin:0 0 18px;
+  font-size:26px;
+  letter-spacing:-.5px;
 }
+
+.screen-title:before{margin-right:7px}
+
+#pointsScreen .screen-title:before{content:"⭐"}
+#historyScreen .screen-title:before{content:"📜"}
+#settingsScreen .screen-title:before{content:"⚙️"}
 
-/* =========================================================
-   POINTS
-========================================================= */
+/* POINTS */
 
-.points-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+.points-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
-.points-card {
-  background: white;
-  border-radius: 18px;
-  padding: 20px;
-  text-align: center;
+.points-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:22px;
+  text-align:center;
+  box-shadow:var(--shadow);
 }
 
-.points-name {
-  color: #777;
-  font-size: 13px;
+.points-card:first-child{
+  background:linear-gradient(145deg,#fff,#f1f7f3);
 }
 
-.points-number {
-  font-size: 34px;
-  font-weight: 800;
-  margin-top: 5px;
+.points-card:nth-child(2){
+  background:linear-gradient(145deg,#fff,#faf5e8);
 }
 
-/* =========================================================
-   HISTORY
-========================================================= */
+.points-name{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:650;
+}
 
-.history-list {
-  display: grid;
-  gap: 9px;
+.points-number{
+  font-size:36px;
+  font-weight:850;
+  margin-top:5px;
+  color:var(--primary-dark);
 }
+
+/* HISTORY */
+
+.history-list{display:grid;gap:9px}
 
-.history-item {
-  background: white;
-  border-radius: 15px;
-  padding: 14px;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
+.history-item{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  box-shadow:var(--shadow-small);
 }
 
-.history-title {
-  font-weight: 700;
+.history-title{font-weight:750}
+
+.history-meta{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
 }
 
-.history-meta {
-  color: #777;
-  font-size: 12px;
-  margin-top: 4px;
+.history-points{
+  font-weight:850;
+  white-space:nowrap;
+  color:var(--primary-dark);
 }
 
-.history-points {
-  font-weight: 800;
-  white-space: nowrap;
+/* SETTINGS */
+
+.settings-section h3{
+  margin:0 0 16px;
+  font-size:18px;
 }
+
+.settings-section h3:first-letter{font-size:20px}
 
-/* =========================================================
-   SETTINGS
-========================================================= */
+.field{margin-bottom:13px}
 
-.settings-section {
-  background: white;
-  border-radius: 20px;
-  padding: 18px;
-  margin-bottom: 14px;
+.tab-settings{
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:15px;
+  margin-top:14px;
 }
 
-.settings-section h3 {
-  margin: 0 0 15px;
+.tab-settings-header{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:12px;
 }
 
-.field {
-  margin-bottom: 13px;
+.tab-settings-header h4{
+  margin:0;
+  font-size:17px;
 }
 
-.field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 6px;
+.switch-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 0;
+  border-top:1px solid #edf1ee;
 }
 
-.field input,
-.field select {
-  width: 100%;
-  border: 1px solid #d8dce2;
-  border-radius: 11px;
-  padding: 10px 11px;
-  background: white;
+.switch-row:first-of-type{border-top:0}
+
+.switch-label{
+  font-weight:700;
+  color:#44534b;
 }
 
-.tab-settings {
-  border: 1px solid #e4e6e9;
-  border-radius: 17px;
-  padding: 15px;
-  margin-top: 14px;
+.switch{
+  position:relative;
+  width:48px;
+  height:28px;
 }
 
-.tab-settings-header {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 12px;
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
 }
 
-.tab-settings-header h4 {
-  margin: 0;
-  font-size: 17px;
+.slider{
+  position:absolute;
+  inset:0;
+  background:#d4ddd7;
+  border-radius:30px;
+  transition:.2s;
 }
 
-.switch-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 11px 0;
-  border-top: 1px solid #eee;
+.slider:before{
+  content:"";
+  position:absolute;
+  width:22px;
+  height:22px;
+  left:3px;
+  top:3px;
+  border-radius:50%;
+  background:white;
+  transition:.2s;
+  box-shadow:0 1px 3px rgba(0,0,0,.18);
 }
 
-.switch-row:first-of-type {
-  border-top: 0;
+.switch input:checked + .slider{
+  background:var(--primary);
 }
 
-.switch-label {
-  font-weight: 650;
+.switch input:checked + .slider:before{
+  transform:translateX(20px);
 }
+
+/* ICON PICKER */
 
-.switch {
-  position: relative;
-  width: 48px;
-  height: 28px;
+.icon-picker{
+  display:grid;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  gap:7px;
+  margin-top:8px;
 }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+.icon-option{
+  aspect-ratio:1;
+  min-width:0;
+  border:1px solid var(--border);
+  background:var(--surface-soft);
+  border-radius:12px;
+  font-size:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  transition:.15s;
 }
 
-.slider {
-  position: absolute;
-  inset: 0;
-  background: #d5d8dd;
-  border-radius: 30px;
-  transition: .2s;
+.icon-option:hover{
+  transform:translateY(-1px);
+  background:var(--primary-soft);
+  border-color:#b8d0c0;
 }
 
-.slider:before {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  left: 3px;
-  top: 3px;
-  border-radius: 50%;
-  background: white;
-  transition: .2s;
-  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+.icon-option.selected{
+  background:var(--primary-soft);
+  border:2px solid var(--primary);
+  box-shadow:0 3px 9px rgba(63,111,90,.15);
 }
 
-.switch input:checked + .slider {
-  background: #202124;
+.selected-icon-preview{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
 }
 
-.switch input:checked + .slider:before {
-  transform: translateX(20px);
+.selected-icon{
+  width:46px;
+  height:46px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:var(--primary-soft);
+  font-size:26px;
 }
 
-.frequency-wrapper {
-  margin-top: 12px;
+.selected-icon-text{
+  color:var(--muted);
+  font-size:12px;
 }
 
-.frequency-row {
-  border: 1px solid #e3e5e8;
-  border-radius: 13px;
-  padding: 12px;
-  margin-bottom: 9px;
+.frequency-wrapper{margin-top:12px}
+
+.frequency-row{
+  border:1px solid var(--border);
+  background:#fbfdfc;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:9px;
 }
 
-.frequency-grid {
-  display: grid;
-  grid-template-columns: minmax(0,2fr) 90px 130px 40px;
-  gap: 8px;
-  align-items: end;
+.frequency-grid{
+  display:grid;
+  grid-template-columns:minmax(0,2fr) 90px 130px 40px;
+  gap:8px;
+  align-items:end;
 }
 
-.frequency-remove {
-  width: 38px;
-  height: 38px;
-  border: 0;
-  border-radius: 10px;
-  background: #fff0f0;
-  color: #b00020;
-  font-size: 20px;
+.frequency-remove{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:10px;
+  background:var(--danger-soft);
+  color:var(--danger);
+  font-size:19px;
 }
 
-.frequency-example {
-  color: #777;
-  font-size: 11px;
-  margin-top: 8px;
+.frequency-remove:hover{background:#ffe2e2}
+
+.frequency-example{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:8px;
 }
 
-.save-settings-button {
-  width: 100%;
-  border: 0;
-  border-radius: 13px;
-  padding: 14px;
-  background: #202124;
-  color: white;
-  font-weight: 800;
+.save-settings-button{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:14px;
+  background:var(--primary);
+  color:white;
+  font-weight:850;
+  box-shadow:0 5px 14px rgba(63,111,90,.18);
 }
 
-/* =========================================================
-   MENU
-========================================================= */
+.save-settings-button:hover{background:var(--primary-dark)}
 
-#menuOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.32);
-  z-index: 100;
-  display: none;
-  align-items: flex-start;
-  justify-content: flex-end;
-}
+/* MENU */
 
-#menuOverlay.show {
-  display: flex;
+#menuOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(34,48,40,.30);
+  backdrop-filter:blur(3px);
+  z-index:100;
+  display:none;
+  align-items:flex-start;
+  justify-content:flex-end;
 }
 
-.menu-panel {
-  width: min(340px, 90vw);
-  min-height: 100vh;
-  background: white;
-  padding: 22px;
-  box-shadow: -8px 0 30px rgba(0,0,0,.12);
+#menuOverlay.show{display:flex}
+
+.menu-panel{
+  width:min(350px,91vw);
+  min-height:100vh;
+  background:var(--surface);
+  padding:22px;
+  box-shadow:-10px 0 35px rgba(0,0,0,.13);
 }
 
-.menu-user {
-  border-bottom: 1px solid #eee;
-  padding-bottom: 18px;
-  margin-bottom: 12px;
+.menu-user{
+  border-bottom:1px solid var(--border);
+  padding-bottom:18px;
+  margin-bottom:13px;
 }
 
-.menu-user-name {
-  font-weight: 800;
+.menu-user-name{
+  font-weight:850;
+  font-size:17px;
 }
 
-.menu-user-email {
-  color: #777;
-  font-size: 12px;
-  margin-top: 4px;
+.menu-user-email{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
 }
 
-.menu-item {
-  width: 100%;
-  text-align: left;
-  border: 0;
-  background: transparent;
-  border-radius: 11px;
-  padding: 13px;
-  margin-bottom: 4px;
-  font-weight: 650;
+.menu-item{
+  width:100%;
+  text-align:left;
+  border:0;
+  background:transparent;
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:4px;
+  font-weight:700;
+  color:var(--text);
+  font-size:15px;
 }
 
-.menu-item:hover {
-  background: #f3f4f6;
+.menu-item:hover{
+  background:var(--primary-soft);
+  color:var(--primary-dark);
 }
 
-.menu-close {
-  float: right;
-  border: 0;
-  background: transparent;
-  font-size: 24px;
+.menu-close{
+  float:right;
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:11px;
+  background:var(--surface-soft);
+  color:var(--muted);
+  font-size:23px;
 }
 
-/* =========================================================
-   MODALS
-========================================================= */
+/* MODALS */
 
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(0,0,0,.35);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 18px;
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(34,48,40,.34);
+  backdrop-filter:blur(3px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
 }
 
-.modal.show {
-  display: flex;
-}
+.modal.show{display:flex}
 
-.modal-card {
-  width: 100%;
-  max-width: 460px;
-  background: white;
-  border-radius: 22px;
-  padding: 20px;
-  max-height: 90vh;
-  overflow: auto;
+.modal-card{
+  width:100%;
+  max-width:460px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:21px;
+  max-height:90vh;
+  overflow:auto;
+  box-shadow:0 18px 50px rgba(28,43,35,.18);
 }
 
-.modal-card h3 {
-  margin: 0 0 18px;
+.modal-card h3{
+  margin:0 0 18px;
+  font-size:21px;
 }
 
-.modal-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-top: 18px;
+.modal-actions{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  margin-top:18px;
 }
 
-.modal-actions button {
-  border: 0;
-  border-radius: 11px;
-  padding: 10px 14px;
-  font-weight: 700;
+.modal-actions button{
+  border:0;
+  border-radius:11px;
+  padding:10px 14px;
+  font-weight:750;
 }
+
+.modal-cancel{background:#edf1ef;color:#526058}
+.modal-save{background:var(--primary);color:white}
+.modal-save:hover{background:var(--primary-dark)}
 
-.modal-cancel {
-  background: #eef0f2;
+/* TOAST */
+
+#toast{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  transform:translateX(-50%) translateY(20px);
+  background:#304239;
+  color:white;
+  padding:12px 16px;
+  border-radius:13px;
+  font-size:13px;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+  z-index:500;
+  box-shadow:0 7px 20px rgba(0,0,0,.16);
 }
 
-.modal-save {
-  background: #202124;
-  color: white;
+#toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
 }
 
-/* =========================================================
-   TOAST
-========================================================= */
+/* RESPONSIVE */
 
-#toast {
-  position: fixed;
-  left: 50%;
-  bottom: 22px;
-  transform: translateX(-50%) translateY(20px);
-  background: #202124;
-  color: white;
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-size: 13px;
-  opacity: 0;
-  pointer-events: none;
-  transition: .2s;
-  z-index: 500;
-}
+@media(max-width:650px){
+  .main-container{padding:12px}
 
-#toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+  .topbar-inner{padding:11px 13px}
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+  .section-card,
+  .settings-section{padding:15px}
 
-@media (max-width: 650px) {
-  .main-container {
-    padding: 12px;
+  .tab-heading{
+    align-items:flex-start;
+    flex-direction:column;
   }
 
-  .frequency-grid {
-    grid-template-columns: 1fr 1fr;
+  .add-task-button{width:100%}
+
+  .frequency-grid{
+    grid-template-columns:1fr 1fr;
   }
 
-  .frequency-grid .field:first-child {
-    grid-column: 1 / -1;
+  .frequency-grid .field:first-child{
+    grid-column:1/-1;
   }
 
-  .frequency-remove {
-    width: 100%;
+  .frequency-remove{width:100%}
+
+  .task-card{align-items:flex-start}
+
+  .task-actions{
+    flex-direction:column;
   }
 
-  .task-card {
-    align-items: flex-start;
-  }
+  .complete-button{white-space:nowrap}
 
-  .task-actions {
-    flex-direction: column;
+  .points-grid{grid-template-columns:1fr}
+
+  .icon-picker{
+    grid-template-columns:repeat(6,minmax(0,1fr));
+  }
+}
+
+@media(max-width:390px){
+  .icon-picker{
+    grid-template-columns:repeat(5,minmax(0,1fr));
   }
 }
 </style>
 </head>
 
 <body>
-
-<!-- =======================================================
-     AUTH
-======================================================= -->
 
 <section id="authScreen">
   <div class="auth-card">
@@ -781,99 +892,49 @@ button {
     </p>
 
     <div class="auth-mode">
-      <button id="loginModeButton" class="active" type="button">
-        Inloggen
-      </button>
-      <button id="signupModeButton" type="button">
-        Account maken
-      </button>
+      <button id="loginModeButton" class="active" type="button">Inloggen</button>
+      <button id="signupModeButton" type="button">Account maken</button>
     </div>
 
     <div class="auth-field">
       <label for="authEmail">E-mailadres</label>
-      <input
-        id="authEmail"
-        type="email"
-        autocomplete="email"
-        placeholder="naam@email.com"
-      >
+      <input id="authEmail" type="email" autocomplete="email" placeholder="naam@email.com">
     </div>
 
     <div class="auth-field">
       <label for="authPassword">Wachtwoord</label>
-      <input
-        id="authPassword"
-        type="password"
-        autocomplete="current-password"
-        placeholder="Minimaal 6 tekens"
-      >
+      <input id="authPassword" type="password" autocomplete="current-password" placeholder="Minimaal 6 tekens">
     </div>
 
-    <button id="authSubmit" class="auth-submit" type="button">
-      Inloggen
-    </button>
+    <button id="authSubmit" class="auth-submit" type="button">Inloggen</button>
 
     <div id="authError" class="auth-message auth-error hidden"></div>
     <div id="authInfo" class="auth-message auth-info hidden"></div>
   </div>
 </section>
 
-
-<!-- =======================================================
-     LOADING
-======================================================= -->
-
-<section id="loadingScreen">
-  Gegevens laden…
-</section>
-
-
-<!-- =======================================================
-     APP
-======================================================= -->
+<section id="loadingScreen">Gegevens laden…</section>
 
 <div id="app" class="hidden">
 
   <header class="topbar">
     <div class="topbar-inner">
-
       <div class="brand">
-        <div id="appTitle" class="brand-title">
-          Huishouden
-        </div>
-
-        <div id="appSubtitle" class="brand-subtitle">
-          Taken overzicht
-        </div>
-
-        <div id="syncStatus" class="sync-status">
-          Verbinden…
-        </div>
+        <div id="appTitle" class="brand-title">Huishouden</div>
+        <div id="appSubtitle" class="brand-subtitle">Taken overzicht</div>
+        <div id="syncStatus" class="sync-status">Verbinden…</div>
       </div>
 
-      <button
-        class="menu-button"
-        type="button"
-        onclick="openMenu()"
-        aria-label="Menu"
-      >
-        ☰
-      </button>
-
+      <button class="menu-button" type="button" onclick="openMenu()" aria-label="Menu">☰</button>
     </div>
   </header>
 
-
   <main id="mainScreen">
     <div class="main-container">
-
       <div id="tabs" class="tabs"></div>
-
       <div id="tabViews"></div>
-
     </div>
   </main>
-
 
   <section id="pointsScreen" class="secondary-screen">
     <div class="main-container">
@@ -882,7 +943,6 @@ button {
     </div>
   </section>
 
-
   <section id="historyScreen" class="secondary-screen">
     <div class="main-container">
       <h1 class="screen-title">Geschiedenis</h1>
@@ -890,116 +950,38 @@ button {
     </div>
   </section>
 
-
   <section id="settingsScreen" class="secondary-screen">
     <div class="main-container">
       <h1 class="screen-title">Instellingen</h1>
       <div id="settingsContent"></div>
     </div>
   </section>
-
 </div>
 
-
-<!-- =======================================================
-     MENU
-======================================================= -->
-
-<div
-  id="menuOverlay"
-  onclick="handleMenuBackground(event)"
->
-
+<div id="menuOverlay" onclick="handleMenuBackground(event)">
   <div class="menu-panel">
-
-    <button
-      class="menu-close"
-      type="button"
-      onclick="closeMenu()"
-    >
-      ×
-    </button>
+    <button class="menu-close" type="button" onclick="closeMenu()">×</button>
 
     <div class="menu-user">
-      <div
-        id="menuUserName"
-        class="menu-user-name"
-      >
-        Gebruiker
-      </div>
-
-      <div
-        id="menuUserEmail"
-        class="menu-user-email"
-      ></div>
+      <div id="menuUserName" class="menu-user-name">Gebruiker</div>
+      <div id="menuUserEmail" class="menu-user-email"></div>
     </div>
 
-    <button
-      class="menu-item"
-      type="button"
-      onclick="showMainScreen()"
-    >
-      🏠 Taken
-    </button>
-
-    <button
-      class="menu-item"
-      type="button"
-      onclick="openPoints()"
-    >
-      ⭐ Punten
-    </button>
-
-    <button
-      class="menu-item"
-      type="button"
-      onclick="openHistory()"
-    >
-      📜 Geschiedenis
-    </button>
-
-    <button
-      class="menu-item"
-      type="button"
-      onclick="openSettings()"
-    >
-      ⚙️ Instellingen
-    </button>
-
-    <button
-      class="menu-item"
-      type="button"
-      onclick="signOut()"
-    >
-      🚪 Uitloggen
-    </button>
-
+    <button class="menu-item" type="button" onclick="showMainScreen()">🏠 &nbsp; Taken</button>
+    <button class="menu-item" type="button" onclick="openPoints()">⭐ &nbsp; Punten</button>
+    <button class="menu-item" type="button" onclick="openHistory()">📜 &nbsp; Geschiedenis</button>
+    <button class="menu-item" type="button" onclick="openSettings()">⚙️ &nbsp; Instellingen</button>
+    <button class="menu-item" type="button" onclick="signOut()">🚪 &nbsp; Uitloggen</button>
   </div>
-
 </div>
 
-
-<!-- =======================================================
-     COMPLETION MODAL
-======================================================= -->
-
 <div id="completionModal" class="modal">
-
   <div class="modal-card">
-
     <h3>Taak afronden</h3>
-
     <div id="completionTaskTitle"></div>
 
-    <div
-      id="completionPersonField"
-      class="field"
-      style="margin-top:18px"
-    >
-      <label for="completionPerson">
-        Wie heeft de taak gedaan?
-      </label>
-
+    <div id="completionPersonField" class="field" style="margin-top:18px">
+      <label for="completionPerson">Wie heeft de taak gedaan?</label>
       <select id="completionPerson">
         <option value="you">Jij</option>
         <option value="partner">Partner</option>
@@ -1008,106 +990,39 @@ button {
     </div>
 
     <div class="modal-actions">
-
-      <button
-        class="modal-cancel"
-        type="button"
-        onclick="closeCompletionModal()"
-      >
-        Annuleren
-      </button>
-
-      <button
-        class="modal-save"
-        type="button"
-        onclick="confirmCompletion()"
-      >
-        Afronden
-      </button>
-
+      <button class="modal-cancel" type="button" onclick="closeCompletionModal()">Annuleren</button>
+      <button class="modal-save" type="button" onclick="confirmCompletion()">Afronden</button>
     </div>
-
   </div>
-
 </div>
 
-
-<!-- =======================================================
-     TASK EDITOR
-======================================================= -->
-
 <div id="taskEditorModal" class="modal">
-
   <div class="modal-card">
-
-    <h3 id="taskEditorTitle">
-      Taak toevoegen
-    </h3>
+    <h3 id="taskEditorTitle">Taak toevoegen</h3>
 
     <div class="field">
       <label for="taskTitleInput">Taak</label>
-      <input
-        id="taskTitleInput"
-        type="text"
-        placeholder="Bijvoorbeeld keuken opruimen"
-      >
+      <input id="taskTitleInput" type="text" placeholder="Bijvoorbeeld keuken opruimen">
     </div>
 
-    <div
-      id="taskFrequencyField"
-      class="field"
-    >
-      <label for="taskFrequencyInput">
-        Frequentie
-      </label>
-
+    <div id="taskFrequencyField" class="field">
+      <label for="taskFrequencyInput">Frequentie</label>
       <select id="taskFrequencyInput"></select>
     </div>
 
-    <div
-      id="taskPointsField"
-      class="field"
-    >
-      <label for="taskPointsInput">
-        Punten
-      </label>
-
-      <input
-        id="taskPointsInput"
-        type="number"
-        min="0"
-        max="999"
-        step="1"
-      >
+    <div id="taskPointsField" class="field">
+      <label for="taskPointsInput">Punten</label>
+      <input id="taskPointsInput" type="number" min="0" max="999" step="1">
     </div>
 
     <div class="modal-actions">
-
-      <button
-        class="modal-cancel"
-        type="button"
-        onclick="closeTaskEditor()"
-      >
-        Annuleren
-      </button>
-
-      <button
-        class="modal-save"
-        type="button"
-        onclick="saveTaskFromEditor()"
-      >
-        Opslaan
-      </button>
-
+      <button class="modal-cancel" type="button" onclick="closeTaskEditor()">Annuleren</button>
+      <button class="modal-save" type="button" onclick="saveTaskFromEditor()">Opslaan</button>
     </div>
-
   </div>
-
 </div>
 
-
 <div id="toast"></div>
-
 
 <script>
 /* =========================================================
@@ -1136,6 +1051,15 @@ const STORAGE_KEYS = {
   subtitle: "huishouden_subtitle"
 };
 
+const ICON_OPTIONS = [
+  "🏠","🏡","🧹","🧽","🧺","🧼","🍽️","🍳",
+  "🛒","🥕","🧊","🛏️","🚿","🚽","🛋️","🪴",
+  "🌿","🌳","🐶","🐱","🐾","⭐","❤️","💙",
+  "💚","💛","💜","📌","📋","📝","📦","🔧",
+  "🛠️","🧰","💡","🎯","🎮","📚","🎵","🚗",
+  "🚲","🏃","🎨","☀️","🌙","☕","🎉","❤️‍🔥"
+];
+
 
 /* =========================================================
    STATE
@@ -1143,26 +1067,16 @@ const STORAGE_KEYS = {
 
 let currentUser = null;
 let householdId = null;
-
 let config = createDefaultConfig();
 let completions = [];
-
 let currentTabId = null;
 let selectedTask = null;
-
 let editingTaskId = null;
 let editorTabId = null;
-
 let realtimeChannel = null;
 let refreshTimer = null;
-
 let loadingData = false;
 let startInProgress = false;
-
-/*
-  Tijdens een eigen write willen we voorkomen dat een realtime
-  event de lokale UI meteen terugzet naar een oudere toestand.
-*/
 let localWriteDepth = 0;
 let realtimeIgnoreUntil = 0;
 
@@ -1182,9 +1096,7 @@ function createId() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
     /[xy]/g,
     character => {
-      const random =
-        Math.random() * 16 | 0;
-
+      const random = Math.random() * 16 | 0;
       const value =
         character === "x"
           ? random
@@ -1195,67 +1107,46 @@ function createId() {
   );
 }
 
-
 function escapeHtml(value) {
   return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
-
 function showToast(message) {
-  const toast =
-    document.getElementById("toast");
+  const toast = document.getElementById("toast");
 
   toast.textContent = message;
   toast.classList.add("show");
 
-  clearTimeout(
-    showToast.timer
-  );
+  clearTimeout(showToast.timer);
 
-  showToast.timer =
-    setTimeout(
-      () => {
-        toast.classList.remove("show");
-      },
-      2600
-    );
+  showToast.timer = setTimeout(
+    () => toast.classList.remove("show"),
+    2600
+  );
 }
 
-
 function setSyncStatus(message) {
-  const element =
-    document.getElementById("syncStatus");
+  const element = document.getElementById("syncStatus");
 
   if (element) {
     element.textContent = message;
   }
 }
 
-
 function beginLocalWrite() {
   localWriteDepth++;
-
-  realtimeIgnoreUntil =
-    Date.now() + 1200;
+  realtimeIgnoreUntil = Date.now() + 1200;
 }
-
 
 function endLocalWrite() {
-  localWriteDepth =
-    Math.max(
-      0,
-      localWriteDepth - 1
-    );
-
-  realtimeIgnoreUntil =
-    Date.now() + 500;
+  localWriteDepth = Math.max(0, localWriteDepth - 1);
+  realtimeIgnoreUntil = Date.now() + 500;
 }
-
 
 function shouldIgnoreRealtime() {
   return (
@@ -1264,10 +1155,7 @@ function shouldIgnoreRealtime() {
   );
 }
 
-
-async function withLocalWrite(
-  callback
-) {
+async function withLocalWrite(callback) {
   beginLocalWrite();
 
   try {
@@ -1286,10 +1174,8 @@ function createDefaultConfig() {
   return {
     appName: "Huishouden",
     appSubtitle: "Taken overzicht",
-
     youName: "Jij",
     partnerName: "Partner",
-
     startDate: "",
 
     tabs: [
@@ -1299,7 +1185,6 @@ function createDefaultConfig() {
         icon: "🏠",
         pointsEnabled: true,
         frequencyEnabled: true,
-
         frequencies: [
           {
             id: createId(),
@@ -1320,10 +1205,8 @@ function createDefaultConfig() {
             interval: 1
           }
         ],
-
         tasks: []
       },
-
       {
         id: createId(),
         name: "Extra",
@@ -1333,7 +1216,6 @@ function createDefaultConfig() {
         frequencies: [],
         tasks: []
       },
-
       {
         id: createId(),
         name: "Overig",
@@ -1354,9 +1236,7 @@ function createDefaultConfig() {
 
 function normalizeFrequency(frequency) {
   return {
-    id:
-      frequency?.id ||
-      createId(),
+    id: frequency?.id || createId(),
 
     name:
       frequency?.name ||
@@ -1369,105 +1249,59 @@ function normalizeFrequency(frequency) {
         )
       ),
 
-    unit:
-      frequency?.unit ||
-      "weeks",
+    unit: frequency?.unit || "weeks",
 
-    interval:
-      Math.max(
-        1,
-        Number(
-          frequency?.interval ??
-          frequency?.amount ??
-          1
-        )
+    interval: Math.max(
+      1,
+      Number(
+        frequency?.interval ??
+        frequency?.amount ??
+        1
       )
+    )
   };
 }
 
-
 function normalizeTask(task) {
   return {
-    id:
-      task?.id ||
-      createId(),
-
-    title:
-      task?.title ||
-      "Nieuwe taak",
+    id: task?.id || createId(),
+    title: task?.title || "Nieuwe taak",
 
     frequencyId:
       task?.frequencyId ??
       task?.frequency_id ??
       null,
 
-    points:
-      Math.max(
-        0,
-        Number(
-          task?.points || 0
-        )
-      )
+    points: Math.max(
+      0,
+      Number(task?.points || 0)
+    )
   };
 }
 
-
 function normalizeConfig(input) {
-  const source =
-    input ||
-    createDefaultConfig();
+  const source = input || createDefaultConfig();
 
   return {
-    appName:
-      source.appName ||
-      "Huishouden",
+    appName: source.appName || "Huishouden",
+    appSubtitle: source.appSubtitle || "Taken overzicht",
+    youName: source.youName || "Jij",
+    partnerName: source.partnerName || "Partner",
+    startDate: source.startDate || "",
 
-    appSubtitle:
-      source.appSubtitle ||
-      "Taken overzicht",
+    tabs: (source.tabs || []).map(tab => ({
+      id: tab.id || createId(),
+      name: tab.name || "Tab",
+      icon: tab.icon || "📌",
+      pointsEnabled: tab.pointsEnabled !== false,
+      frequencyEnabled: tab.frequencyEnabled === true,
 
-    youName:
-      source.youName ||
-      "Jij",
+      frequencies:
+        (tab.frequencies || []).map(normalizeFrequency),
 
-    partnerName:
-      source.partnerName ||
-      "Partner",
-
-    startDate:
-      source.startDate ||
-      "",
-
-    tabs:
-      (source.tabs || []).map(
-        tab => ({
-          id:
-            tab.id ||
-            createId(),
-
-          name:
-            tab.name ||
-            "Tab",
-
-          icon:
-            tab.icon ||
-            "📌",
-
-          pointsEnabled:
-            tab.pointsEnabled !== false,
-
-          frequencyEnabled:
-            tab.frequencyEnabled === true,
-
-          frequencies:
-            (tab.frequencies || [])
-              .map(normalizeFrequency),
-
-          tasks:
-            (tab.tasks || [])
-              .map(normalizeTask)
-        })
-      )
+      tasks:
+        (tab.tasks || []).map(normalizeTask)
+    }))
   };
 }
 
@@ -1483,34 +1317,20 @@ function saveLocalCache() {
       JSON.stringify(config)
     );
   } catch (error) {
-    console.warn(
-      "Local cache opslaan mislukt:",
-      error
-    );
+    console.warn("Local cache opslaan mislukt:", error);
   }
 }
-
 
 function loadLocalConfig() {
   try {
     const raw =
-      localStorage.getItem(
-        STORAGE_KEYS.config
-      );
+      localStorage.getItem(STORAGE_KEYS.config);
 
-    if (!raw) {
-      return null;
-    }
+    if (!raw) return null;
 
-    return normalizeConfig(
-      JSON.parse(raw)
-    );
+    return normalizeConfig(JSON.parse(raw));
   } catch (error) {
-    console.warn(
-      "Local cache lezen mislukt:",
-      error
-    );
-
+    console.warn("Local cache lezen mislukt:", error);
     return null;
   }
 }
@@ -1520,15 +1340,8 @@ function loadLocalConfig() {
    FREQUENCIES
 ========================================================= */
 
-function makeFrequencyName(
-  unit,
-  interval
-) {
-  const number =
-    Math.max(
-      1,
-      Number(interval) || 1
-    );
+function makeFrequencyName(unit, interval) {
+  const number = Math.max(1, Number(interval) || 1);
 
   if (unit === "days") {
     return number === 1
@@ -1547,10 +1360,7 @@ function makeFrequencyName(
     : `Elke ${number} weken`;
 }
 
-
-function getFrequencyLabel(
-  frequency
-) {
+function getFrequencyLabel(frequency) {
   return (
     frequency?.name ||
     makeFrequencyName(
@@ -1560,54 +1370,27 @@ function getFrequencyLabel(
   );
 }
 
+function getFrequencyById(frequencyId) {
+  if (!frequencyId) return null;
 
-function getFrequencyById(
-  frequencyId
-) {
-  if (!frequencyId) {
-    return null;
-  }
-
-  for (
-    const tab of config.tabs
-  ) {
+  for (const tab of config.tabs) {
     const frequency =
       tab.frequencies.find(
-        item =>
-          item.id ===
-          frequencyId
+        item => item.id === frequencyId
       );
 
-    if (frequency) {
-      return frequency;
-    }
+    if (frequency) return frequency;
   }
 
   return null;
 }
 
-
-/*
-  Belangrijk:
-  de Supabase-tabel frequencies heeft géén tab_id.
-  Daarom behandelen we frequenties als household-brede
-  frequenties. Elke tab die frequenties gebruikt krijgt
-  dezelfde lijst te zien.
-
-  Dit voorkomt dat de ene browser een frequentie wel ziet
-  en de andere browser niet.
-*/
-function applyHouseholdFrequencies(
-  frequencyRows
-) {
+function applyHouseholdFrequencies(frequencyRows) {
   const normalized =
     (frequencyRows || [])
-      .filter(
-        row =>
-          row.enabled !== false
-      )
+      .filter(row => row.enabled !== false)
       .sort(
-        (a, b) =>
+        (a,b) =>
           Number(a.position || 0) -
           Number(b.position || 0)
       )
@@ -1621,20 +1404,14 @@ function applyHouseholdFrequencies(
           })
       );
 
-  config.tabs.forEach(
-    tab => {
-      if (tab.frequencyEnabled) {
-        tab.frequencies =
-          normalized.map(
-            frequency => ({
-              ...frequency
-            })
-          );
-      } else {
-        tab.frequencies = [];
-      }
+  config.tabs.forEach(tab => {
+    if (tab.frequencyEnabled) {
+      tab.frequencies =
+        normalized.map(frequency => ({...frequency}));
+    } else {
+      tab.frequencies = [];
     }
-  );
+  });
 }
 
 
@@ -1643,20 +1420,14 @@ function applyHouseholdFrequencies(
 ========================================================= */
 
 function getTodayKey() {
-  const date =
-    new Date();
+  const date = new Date();
 
   return [
     date.getFullYear(),
-    String(
-      date.getMonth() + 1
-    ).padStart(2, "0"),
-    String(
-      date.getDate()
-    ).padStart(2, "0")
+    String(date.getMonth() + 1).padStart(2,"0"),
+    String(date.getDate()).padStart(2,"0")
   ].join("-");
 }
-
 
 function getWeekKey(date = new Date()) {
   const d =
@@ -1666,63 +1437,38 @@ function getWeekKey(date = new Date()) {
       date.getDate()
     );
 
-  const day =
-    d.getDay() || 7;
+  const day = d.getDay() || 7;
 
-  d.setDate(
-    d.getDate() -
-    day +
-    1
-  );
+  d.setDate(d.getDate() - day + 1);
 
-  const year =
-    d.getFullYear();
+  const year = d.getFullYear();
 
   const month =
-    String(
-      d.getMonth() + 1
-    ).padStart(2, "0");
+    String(d.getMonth() + 1).padStart(2,"0");
 
   const dayNumber =
-    String(
-      d.getDate()
-    ).padStart(2, "0");
+    String(d.getDate()).padStart(2,"0");
 
   return `${year}-W${month}-${dayNumber}`;
 }
-
 
 function getPeriodKey() {
   return getWeekKey();
 }
 
+function getDateFromCompletion(completion) {
+  if (!completion?.completedAt) return "";
 
-function getDateFromCompletion(
-  completion
-) {
-  if (!completion?.completedAt) {
-    return "";
-  }
+  const date = new Date(completion.completedAt);
 
-  const date =
-    new Date(
-      completion.completedAt
-    );
-
-  if (
-    Number.isNaN(
-      date.getTime()
-    )
-  ) {
-    return "";
-  }
+  if (Number.isNaN(date.getTime())) return "";
 
   return date.toLocaleDateString(
     "nl-BE",
     {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric"
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric"
     }
   );
 }
@@ -1732,16 +1478,11 @@ function getDateFromCompletion(
    COMPLETION / STATUS
 ========================================================= */
 
-function findTabIdForTask(
-  taskId
-) {
-  for (
-    const tab of config.tabs
-  ) {
+function findTabIdForTask(taskId) {
+  for (const tab of config.tabs) {
     if (
       tab.tasks.some(
-        task =>
-          task.id === taskId
+        task => task.id === taskId
       )
     ) {
       return tab.id;
@@ -1751,54 +1492,34 @@ function findTabIdForTask(
   return null;
 }
 
-
-function getTaskById(
-  taskId
-) {
-  for (
-    const tab of config.tabs
-  ) {
+function getTaskById(taskId) {
+  for (const tab of config.tabs) {
     const task =
       tab.tasks.find(
-        item =>
-          item.id === taskId
+        item => item.id === taskId
       );
 
-    if (task) {
-      return {
-        tab,
-        task
-      };
-    }
+    if (task) return {tab,task};
   }
 
   return null;
 }
 
-
-function getCompletionsForTask(
-  taskId
-) {
+function getCompletionsForTask(taskId) {
   return completions.filter(
-    completion =>
-      completion.taskId ===
-      taskId
+    completion => completion.taskId === taskId
   );
 }
 
-
-function isTaskCompletedToday(
-  taskId
-) {
-  const today =
-    getTodayKey();
+function isTaskCompletedToday(taskId) {
+  const today = getTodayKey();
 
   return completions.some(
     completion =>
       completion.taskId === taskId &&
       String(
         completion.completedAt || ""
-      ).slice(0, 10) === today
+      ).slice(0,10) === today
   );
 }
 
@@ -1811,41 +1532,25 @@ function getPointsTotals() {
   let you = 0;
   let partner = 0;
 
-  completions.forEach(
-    completion => {
-      const points =
-        Number(
-          completion.points || 0
-        );
+  completions.forEach(completion => {
+    const points =
+      Number(completion.points || 0);
 
-      if (
-        completion.person ===
-        "you"
-      ) {
-        you += points;
-      }
-
-      if (
-        completion.person ===
-        "partner"
-      ) {
-        partner += points;
-      }
-
-      if (
-        completion.person ===
-        "together"
-      ) {
-        you += points;
-        partner += points;
-      }
+    if (completion.person === "you") {
+      you += points;
     }
-  );
 
-  return {
-    you,
-    partner
-  };
+    if (completion.person === "partner") {
+      partner += points;
+    }
+
+    if (completion.person === "together") {
+      you += points;
+      partner += points;
+    }
+  });
+
+  return {you,partner};
 }
 
 
@@ -1854,28 +1559,18 @@ function getPointsTotals() {
 ========================================================= */
 
 async function findHouseholdForCurrentUser() {
-  if (!currentUser) {
-    return null;
-  }
+  if (!currentUser) return null;
 
   const result =
     await supabaseClient
       .from("household_members")
       .select("household_id")
-      .eq(
-        "user_id",
-        currentUser.id
-      )
+      .eq("user_id",currentUser.id)
       .limit(1);
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 
-  if (
-    result.data &&
-    result.data.length
-  ) {
+  if (result.data && result.data.length) {
     return result.data[0].household_id;
   }
 
@@ -1883,20 +1578,12 @@ async function findHouseholdForCurrentUser() {
     await supabaseClient
       .from("household_user_access")
       .select("household_id")
-      .eq(
-        "user_id",
-        currentUser.id
-      )
+      .eq("user_id",currentUser.id)
       .limit(1);
 
-  if (accessResult.error) {
-    throw accessResult.error;
-  }
+  if (accessResult.error) throw accessResult.error;
 
-  return (
-    accessResult.data?.[0]?.household_id ||
-    null
-  );
+  return accessResult.data?.[0]?.household_id || null;
 }
 
 
@@ -1912,26 +1599,21 @@ function rebuildConfigFromRows(
   tasks
 ) {
   const current =
-    config ||
-    createDefaultConfig();
+    config || createDefaultConfig();
 
-  const household =
-    households?.[0];
-
-  const setting =
-    settings?.[0];
+  const household = households?.[0];
+  const setting = settings?.[0];
 
   const tabRows =
     (tabs || [])
       .slice()
       .sort(
-        (a, b) =>
+        (a,b) =>
           Number(a.position || 0) -
           Number(b.position || 0)
       );
 
-  const taskRows =
-    tasks || [];
+  const taskRows = tasks || [];
 
   const result = {
     appName:
@@ -1959,70 +1641,50 @@ function rebuildConfigFromRows(
       "",
 
     tabs:
-      tabRows.map(
-        tabRow => {
-          const oldTab =
-            current.tabs.find(
-              tab =>
-                tab.id ===
-                tabRow.id
-            );
+      tabRows.map(tabRow => {
+        const oldTab =
+          current.tabs.find(
+            tab => tab.id === tabRow.id
+          );
 
-          return {
-            id:
-              tabRow.id,
+        return {
+          id:tabRow.id,
 
-            name:
-              tabRow.name ||
-              oldTab?.name ||
-              "Tab",
+          name:
+            tabRow.name ||
+            oldTab?.name ||
+            "Tab",
 
-            icon:
-              tabRow.icon ||
-              oldTab?.icon ||
-              "📌",
+          icon:
+            tabRow.icon ||
+            oldTab?.icon ||
+            "📌",
 
-            pointsEnabled:
-              tabRow.use_points !== false,
+          pointsEnabled:
+            tabRow.use_points !== false,
 
-            frequencyEnabled:
-              tabRow.use_frequency === true,
+          frequencyEnabled:
+            tabRow.use_frequency === true,
 
-            frequencies:
-              [],
+          frequencies:[],
 
-            tasks:
-              taskRows
-                .filter(
-                  task =>
-                    task.tab_id ===
-                    tabRow.id
-                )
-                .map(
-                  task => ({
-                    id:
-                      task.id,
-
-                    title:
-                      task.title,
-
-                    frequencyId:
-                      task.frequency_id,
-
-                    points:
-                      Number(
-                        task.points || 0
-                      )
-                  })
-                )
-          };
-        }
-      )
+          tasks:
+            taskRows
+              .filter(
+                task =>
+                  task.tab_id === tabRow.id
+              )
+              .map(task => ({
+                id:task.id,
+                title:task.title,
+                frequencyId:task.frequency_id,
+                points:Number(task.points || 0)
+              }))
+        };
+      })
   };
 
-  return normalizeConfig(
-    result
-  );
+  return normalizeConfig(result);
 }
 
 
@@ -2031,19 +1693,12 @@ function rebuildConfigFromRows(
 ========================================================= */
 
 async function loadHouseholdData() {
-  if (
-    loadingData ||
-    !currentUser
-  ) {
-    return;
-  }
+  if (loadingData || !currentUser) return;
 
   loadingData = true;
 
   try {
-    setSyncStatus(
-      "Gegevens laden…"
-    );
+    setSyncStatus("Gegevens laden…");
 
     householdId =
       await findHouseholdForCurrentUser();
@@ -2061,74 +1716,40 @@ async function loadHouseholdData() {
       frequenciesResult,
       tasksResult,
       completionsResult
-    ] =
-      await Promise.all([
-        supabaseClient
-          .from("households")
-          .select("*")
-          .eq(
-            "id",
-            householdId
-          ),
+    ] = await Promise.all([
+      supabaseClient
+        .from("households")
+        .select("*")
+        .eq("id",householdId),
 
-        supabaseClient
-          .from("household_settings")
-          .select("*")
-          .eq(
-            "household_id",
-            householdId
-          ),
+      supabaseClient
+        .from("household_settings")
+        .select("*")
+        .eq("household_id",householdId),
 
-        supabaseClient
-          .from("tabs")
-          .select("*")
-          .eq(
-            "household_id",
-            householdId
-          )
-          .order(
-            "position",
-            {
-              ascending: true
-            }
-          ),
+      supabaseClient
+        .from("tabs")
+        .select("*")
+        .eq("household_id",householdId)
+        .order("position",{ascending:true}),
 
-        supabaseClient
-          .from("frequencies")
-          .select("*")
-          .eq(
-            "household_id",
-            householdId
-          )
-          .order(
-            "position",
-            {
-              ascending: true
-            }
-          ),
+      supabaseClient
+        .from("frequencies")
+        .select("*")
+        .eq("household_id",householdId)
+        .order("position",{ascending:true}),
 
-        supabaseClient
-          .from("tasks")
-          .select("*")
-          .eq(
-            "household_id",
-            householdId
-          ),
+      supabaseClient
+        .from("tasks")
+        .select("*")
+        .eq("household_id",householdId),
 
-        supabaseClient
-          .from("completions")
-          .select("*")
-          .eq(
-            "household_id",
-            householdId
-          )
-          .order(
-            "completed_at",
-            {
-              ascending: false
-            }
-          )
-      ]);
+      supabaseClient
+        .from("completions")
+        .select("*")
+        .eq("household_id",householdId)
+        .order("completed_at",{ascending:false})
+    ]);
 
     const results = [
       householdResult,
@@ -2140,39 +1761,21 @@ async function loadHouseholdData() {
     ];
 
     const failed =
-      results.find(
-        result =>
-          result.error
-      );
+      results.find(result => result.error);
 
-    if (failed) {
-      throw failed.error;
-    }
+    if (failed) throw failed.error;
 
-    /*
-      Als de database nog helemaal leeg is, migreren we de
-      lokale configuratie één keer.
-    */
     const hasTabs =
       (tabsResult.data || []).length > 0;
 
     if (!hasTabs) {
-      const local =
-        loadLocalConfig();
+      const local = loadLocalConfig();
 
-      if (
-        local &&
-        local.tabs?.length
-      ) {
-        config =
-          local;
+      if (local && local.tabs?.length) {
+        config = local;
 
         await migrateLocalData();
 
-        /*
-          Na migratie opnieuw laden zodat de database
-          de definitieve bron is.
-        */
         loadingData = false;
 
         return await loadHouseholdData();
@@ -2188,19 +1791,13 @@ async function loadHouseholdData() {
         tasksResult.data
       );
 
-    /*
-      Frequenties zijn household-breed omdat de bestaande
-      tabel geen tab_id bevat.
-    */
     applyHouseholdFrequencies(
       frequenciesResult.data
     );
 
     completions =
       (completionsResult.data || [])
-        .map(
-          mapCompletionFromDb
-        );
+        .map(mapCompletionFromDb);
 
     const storedSubtitle =
       localStorage.getItem(
@@ -2208,19 +1805,15 @@ async function loadHouseholdData() {
       );
 
     if (storedSubtitle) {
-      config.appSubtitle =
-        storedSubtitle;
+      config.appSubtitle = storedSubtitle;
     }
 
     currentTabId =
-      config.tabs[0]?.id ||
-      null;
+      config.tabs[0]?.id || null;
 
     saveLocalCache();
 
-    setSyncStatus(
-      "Gesynchroniseerd"
-    );
+    setSyncStatus("Gesynchroniseerd");
 
   } finally {
     loadingData = false;
@@ -2233,88 +1826,59 @@ async function loadHouseholdData() {
 ========================================================= */
 
 async function migrateLocalData() {
-  if (
-    !householdId
-  ) {
-    return;
-  }
+  if (!householdId) return;
 
   const local =
-    config ||
-    createDefaultConfig();
+    config || createDefaultConfig();
 
-  await withLocalWrite(
-    async () => {
-
-      for (
-        let index = 0;
-        index < local.tabs.length;
-        index++
-      ) {
-        await saveTabToDb(
-          local.tabs[index],
-          index
-        );
-      }
-
-      /*
-        Frequenties zijn household-breed.
-        Dubbele IDs worden maar één keer opgeslagen.
-      */
-      const frequencies =
-        new Map();
-
-      local.tabs.forEach(
-        tab => {
-          (tab.frequencies || [])
-            .forEach(
-              frequency => {
-                frequencies.set(
-                  frequency.id,
-                  frequency
-                );
-              }
-            );
-        }
+  await withLocalWrite(async () => {
+    for (
+      let index = 0;
+      index < local.tabs.length;
+      index++
+    ) {
+      await saveTabToDb(
+        local.tabs[index],
+        index
       );
+    }
 
-      let frequencyIndex = 0;
+    const frequencies = new Map();
 
-      for (
-        const frequency of frequencies.values()
-      ) {
-        await saveFrequencyToDb(
-          null,
-          frequency,
-          frequencyIndex++
-        );
-      }
-
-      for (
-        const tab of local.tabs
-      ) {
-        for (
-          const task of tab.tasks
-        ) {
-          await saveTaskToDb(
-            tab,
-            task
+    local.tabs.forEach(tab => {
+      (tab.frequencies || []).forEach(
+        frequency => {
+          frequencies.set(
+            frequency.id,
+            frequency
           );
         }
-      }
+      );
+    });
 
-      await saveHouseholdName();
-      await saveHouseholdSettings();
+    let frequencyIndex = 0;
 
-      for (
-        const completion of completions
-      ) {
-        await saveCompletionToDb(
-          completion
-        );
+    for (const frequency of frequencies.values()) {
+      await saveFrequencyToDb(
+        null,
+        frequency,
+        frequencyIndex++
+      );
+    }
+
+    for (const tab of local.tabs) {
+      for (const task of tab.tasks) {
+        await saveTaskToDb(tab,task);
       }
     }
-  );
+
+    await saveHouseholdName();
+    await saveHouseholdSettings();
+
+    for (const completion of completions) {
+      await saveCompletionToDb(completion);
+    }
+  });
 }
 
 
@@ -2326,20 +1890,11 @@ async function saveHouseholdName() {
   const result =
     await supabaseClient
       .from("households")
-      .update({
-        name:
-          config.appName
-      })
-      .eq(
-        "id",
-        householdId
-      );
+      .update({name:config.appName})
+      .eq("id",householdId);
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 }
-
 
 async function saveHouseholdSettings() {
   const result =
@@ -2347,86 +1902,40 @@ async function saveHouseholdSettings() {
       .from("household_settings")
       .upsert(
         {
-          household_id:
-            householdId,
-
-          start_date:
-            config.startDate ||
-            null,
-
-          you_name:
-            config.youName,
-
-          partner_name:
-            config.partnerName,
-
-          updated_at:
-            new Date().toISOString()
+          household_id:householdId,
+          start_date:config.startDate || null,
+          you_name:config.youName,
+          partner_name:config.partnerName,
+          updated_at:new Date().toISOString()
         },
-        {
-          onConflict:
-            "household_id"
-        }
+        {onConflict:"household_id"}
       );
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 }
 
-
-async function saveTabToDb(
-  tab,
-  position
-) {
+async function saveTabToDb(tab,position) {
   const result =
     await supabaseClient
       .from("tabs")
       .upsert(
         {
-          id:
-            tab.id,
-
-          household_id:
-            householdId,
-
-          name:
-            tab.name,
-
-          icon:
-            tab.icon,
-
-          position:
-            position,
-
-          enabled:
-            true,
-
-          use_points:
-            !!tab.pointsEnabled,
-
-          use_frequency:
-            !!tab.frequencyEnabled,
-
-          updated_at:
-            new Date().toISOString()
+          id:tab.id,
+          household_id:householdId,
+          name:tab.name,
+          icon:tab.icon,
+          position,
+          enabled:true,
+          use_points:!!tab.pointsEnabled,
+          use_frequency:!!tab.frequencyEnabled,
+          updated_at:new Date().toISOString()
         },
-        {
-          onConflict:
-            "id"
-        }
+        {onConflict:"id"}
       );
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 }
 
-
-/*
-  De tabel frequencies heeft geen tab_id.
-  Daarom wordt tab bewust niet naar Supabase geschreven.
-*/
 async function saveFrequencyToDb(
   tab,
   frequency,
@@ -2437,134 +1946,64 @@ async function saveFrequencyToDb(
       .from("frequencies")
       .upsert(
         {
-          id:
-            frequency.id,
-
-          household_id:
-            householdId,
-
-          name:
-            frequency.name,
-
-          amount:
-            Number(
-              frequency.interval || 1
-            ),
-
-          unit:
-            frequency.unit,
-
-          position:
-            position,
-
-          enabled:
-            true,
-
-          updated_at:
-            new Date().toISOString()
+          id:frequency.id,
+          household_id:householdId,
+          name:frequency.name,
+          amount:Number(frequency.interval || 1),
+          unit:frequency.unit,
+          position,
+          enabled:true,
+          updated_at:new Date().toISOString()
         },
-        {
-          onConflict:
-            "id"
-        }
+        {onConflict:"id"}
       );
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 }
 
-
-async function saveTaskToDb(
-  tab,
-  task
-) {
+async function saveTaskToDb(tab,task) {
   const result =
     await supabaseClient
       .from("tasks")
       .upsert(
         {
-          id:
-            task.id,
-
-          household_id:
-            householdId,
-
-          tab_id:
-            tab.id,
-
-          title:
-            task.title,
-
+          id:task.id,
+          household_id:householdId,
+          tab_id:tab.id,
+          title:task.title,
           frequency_id:
             tab.frequencyEnabled
-              ? (
-                  task.frequencyId ||
-                  null
-                )
+              ? task.frequencyId || null
               : null,
-
-          points:
-            Number(
-              task.points || 0
-            ),
-
-          enabled:
-            true
+          points:Number(task.points || 0),
+          enabled:true
         },
-        {
-          onConflict:
-            "id"
-        }
+        {onConflict:"id"}
       );
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 }
 
-
-async function deleteTaskFromDb(
-  taskId
-) {
+async function deleteTaskFromDb(taskId) {
   const result =
     await supabaseClient
       .from("tasks")
       .delete()
-      .eq(
-        "id",
-        taskId
-      )
-      .eq(
-        "household_id",
-        householdId
-      );
+      .eq("id",taskId)
+      .eq("household_id",householdId);
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 }
 
-
-async function deleteFrequencyFromDb(
-  frequencyId
-) {
+async function deleteFrequencyFromDb(frequencyId) {
   const result =
     await supabaseClient
       .from("frequencies")
       .delete()
-      .eq(
-        "id",
-        frequencyId
-      )
-      .eq(
-        "household_id",
-        householdId
-      );
+      .eq("id",frequencyId)
+      .eq("household_id",householdId);
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 }
 
 
@@ -2572,110 +2011,50 @@ async function deleteFrequencyFromDb(
    COMPLETIONS
 ========================================================= */
 
-function mapCompletionFromDb(
-  row
-) {
+function mapCompletionFromDb(row) {
   return {
-    id:
-      row.id,
-
-    householdId:
-      row.household_id,
-
-    taskId:
-      row.task_id,
-
-    taskTitle:
-      row.task_title,
-
-    userId:
-      row.user_id,
-
-    person:
-      row.person_type,
-
-    personName:
-      row.person_name,
-
-    points:
-      Number(
-        row.points || 0
-      ),
-
-    periodKey:
-      row.period_key,
-
-    completedAt:
-      row.completed_at
+    id:row.id,
+    householdId:row.household_id,
+    taskId:row.task_id,
+    taskTitle:row.task_title,
+    userId:row.user_id,
+    person:row.person_type,
+    personName:row.person_name,
+    points:Number(row.points || 0),
+    periodKey:row.period_key,
+    completedAt:row.completed_at
   };
 }
 
-
-async function saveCompletionToDb(
-  completion
-) {
+async function saveCompletionToDb(completion) {
   const result =
     await supabaseClient
       .from("completions")
       .insert({
-        id:
-          completion.id,
-
-        household_id:
-          householdId,
-
-        task_id:
-          completion.taskId,
-
-        task_title:
-          completion.taskTitle,
-
-        user_id:
-          currentUser.id,
-
-        person_name:
-          completion.personName,
-
-        person_type:
-          completion.person,
-
-        points:
-          Number(
-            completion.points || 0
-          ),
-
-        period_key:
-          completion.periodKey,
-
-        completed_at:
-          completion.completedAt
+        id:completion.id,
+        household_id:householdId,
+        task_id:completion.taskId,
+        task_title:completion.taskTitle,
+        user_id:currentUser.id,
+        person_name:completion.personName,
+        person_type:completion.person,
+        points:Number(completion.points || 0),
+        period_key:completion.periodKey,
+        completed_at:completion.completedAt
       });
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 }
 
-
-async function deleteCompletionFromDb(
-  completionId
-) {
+async function deleteCompletionFromDb(completionId) {
   const result =
     await supabaseClient
       .from("completions")
       .delete()
-      .eq(
-        "id",
-        completionId
-      )
-      .eq(
-        "household_id",
-        householdId
-      );
+      .eq("id",completionId)
+      .eq("household_id",householdId);
 
-  if (result.error) {
-    throw result.error;
-  }
+  if (result.error) throw result.error;
 }
 
 
@@ -2689,244 +2068,142 @@ function render() {
   renderTabViews();
 }
 
-
 function renderHeader() {
-  document.getElementById(
-    "appTitle"
-  ).textContent =
+  document.getElementById("appTitle").textContent =
     config.appName;
 
-  document.getElementById(
-    "appSubtitle"
-  ).textContent =
+  document.getElementById("appSubtitle").textContent =
     config.appSubtitle;
 }
 
-
 function renderTabs() {
   const container =
-    document.getElementById(
-      "tabs"
-    );
+    document.getElementById("tabs");
 
   container.innerHTML = "";
 
-  config.tabs.forEach(
-    tab => {
-      const button =
-        document.createElement(
-          "button"
-        );
+  config.tabs.forEach(tab => {
+    const button =
+      document.createElement("button");
 
-      button.type = "button";
+    button.type = "button";
 
-      button.className =
-        "tab-button" +
-        (
-          tab.id === currentTabId
-            ? " active"
-            : ""
-        );
+    button.className =
+      "tab-button" +
+      (tab.id === currentTabId ? " active" : "");
 
-      button.textContent =
-        `${tab.icon} ${tab.name}`;
+    button.textContent =
+      `${tab.icon} ${tab.name}`;
 
-      button.onclick =
-        () => {
-          currentTabId =
-            tab.id;
+    button.onclick = () => {
+      currentTabId = tab.id;
+      render();
+    };
 
-          render();
-        };
-
-      container.appendChild(
-        button
-      );
-    }
-  );
+    container.appendChild(button);
+  });
 }
-
 
 function renderTabViews() {
   const container =
-    document.getElementById(
-      "tabViews"
-    );
+    document.getElementById("tabViews");
 
   container.innerHTML = "";
 
-  config.tabs.forEach(
-    tab => {
+  config.tabs.forEach(tab => {
+    const view =
+      document.createElement("div");
 
-      const view =
-        document.createElement(
-          "div"
-        );
+    view.className =
+      "tab-view" +
+      (tab.id === currentTabId ? " active" : "");
 
-      view.className =
-        "tab-view" +
-        (
-          tab.id === currentTabId
-            ? " active"
-            : ""
-        );
+    const card =
+      document.createElement("div");
 
-      const card =
-        document.createElement(
-          "div"
-        );
+    card.className = "section-card";
 
-      card.className =
-        "section-card";
+    const heading =
+      document.createElement("div");
 
-      const heading =
-        document.createElement(
-          "div"
-        );
+    heading.className = "tab-heading";
 
-      heading.className =
-        "tab-heading";
+    const title =
+      document.createElement("h2");
 
-      const title =
-        document.createElement(
-          "h2"
-        );
+    title.textContent =
+      `${tab.icon} ${tab.name}`;
 
-      title.textContent =
-        `${tab.icon} ${tab.name}`;
+    const addButton =
+      document.createElement("button");
 
-      const addButton =
-        document.createElement(
-          "button"
-        );
+    addButton.type = "button";
+    addButton.className = "add-task-button";
+    addButton.textContent = "＋ Taak toevoegen";
 
-      addButton.type =
-        "button";
+    addButton.onclick =
+      () => openTaskEditor(tab.id);
 
-      addButton.className =
-        "add-task-button";
+    heading.appendChild(title);
+    heading.appendChild(addButton);
+    card.appendChild(heading);
 
-      addButton.textContent =
-        "＋ Taak toevoegen";
+    const list =
+      document.createElement("div");
 
-      addButton.onclick =
-        () =>
-          openTaskEditor(
-            tab.id
-          );
+    list.className = "task-list";
 
-      heading.appendChild(
-        title
-      );
+    if (tab.tasks.length === 0) {
+      const empty =
+        document.createElement("div");
 
-      heading.appendChild(
-        addButton
-      );
-
-      card.appendChild(
-        heading
-      );
-
-      const list =
-        document.createElement(
-          "div"
-        );
-
-      list.className =
-        "task-list";
+      empty.className = "empty-state";
 
       if (
-        tab.tasks.length === 0
+        tab.frequencyEnabled &&
+        tab.frequencies.length === 0
       ) {
-
-        const empty =
-          document.createElement(
-            "div"
-          );
-
-        empty.className =
-          "empty-state";
-
-        if (
-          tab.frequencyEnabled &&
-          tab.frequencies.length === 0
-        ) {
-          empty.textContent =
-            "Er zijn nog geen taken. Voeg eerst een frequentie toe via Instellingen.";
-        } else {
-          empty.textContent =
-            "Er zijn nog geen taken. Voeg hierboven een taak toe.";
-        }
-
-        list.appendChild(
-          empty
-        );
-
+        empty.textContent =
+          "Er zijn nog geen taken. Voeg eerst een frequentie toe via Instellingen.";
       } else {
-
-        tab.tasks.forEach(
-          task => {
-            list.appendChild(
-              createTaskElement(
-                tab,
-                task
-              )
-            );
-          }
-        );
-
+        empty.textContent =
+          "Er zijn nog geen taken. Voeg hierboven een taak toe.";
       }
 
-      card.appendChild(
-        list
-      );
+      list.appendChild(empty);
 
-      view.appendChild(
-        card
-      );
-
-      container.appendChild(
-        view
-      );
+    } else {
+      tab.tasks.forEach(task => {
+        list.appendChild(
+          createTaskElement(tab,task)
+        );
+      });
     }
-  );
+
+    card.appendChild(list);
+    view.appendChild(card);
+    container.appendChild(view);
+  });
 }
 
-
-function createTaskElement(
-  tab,
-  task
-) {
+function createTaskElement(tab,task) {
   const card =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
-  card.className =
-    "task-card";
+  card.className = "task-card";
 
   const main =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
-  main.className =
-    "task-main";
+  main.className = "task-main";
 
   const title =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
-  title.className =
-    "task-title";
+  title.className = "task-title";
+  title.textContent = task.title;
 
-  title.textContent =
-    task.title;
-
-  main.appendChild(
-    title
-  );
+  main.appendChild(title);
 
   const metaParts = [];
 
@@ -2935,22 +2212,16 @@ function createTaskElement(
     task.frequencyId
   ) {
     const frequency =
-      getFrequencyById(
-        task.frequencyId
-      );
+      getFrequencyById(task.frequencyId);
 
     if (frequency) {
       metaParts.push(
-        getFrequencyLabel(
-          frequency
-        )
+        getFrequencyLabel(frequency)
       );
     }
   }
 
-  if (
-    tab.pointsEnabled
-  ) {
+  if (tab.pointsEnabled) {
     metaParts.push(
       `${Number(task.points || 0)} punten`
     );
@@ -2958,118 +2229,61 @@ function createTaskElement(
 
   if (metaParts.length) {
     const meta =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
-    meta.className =
-      "task-meta";
+    meta.className = "task-meta";
+    meta.textContent = metaParts.join(" · ");
 
-    meta.textContent =
-      metaParts.join(
-        " · "
-      );
-
-    main.appendChild(
-      meta
-    );
+    main.appendChild(meta);
   }
 
   const actions =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
-  actions.className =
-    "task-actions";
+  actions.className = "task-actions";
 
   const edit =
-    document.createElement(
-      "button"
-    );
+    document.createElement("button");
 
   edit.type = "button";
   edit.className = "small-button";
   edit.textContent = "✏️";
-
-  edit.title =
-    "Taak aanpassen";
+  edit.title = "Taak aanpassen";
 
   edit.onclick =
-    () =>
-      openTaskEditor(
-        tab.id,
-        task.id
-      );
+    () => openTaskEditor(tab.id,task.id);
 
   const deleteButton =
-    document.createElement(
-      "button"
-    );
+    document.createElement("button");
 
-  deleteButton.type =
-    "button";
-
-  deleteButton.className =
-    "small-button";
-
-  deleteButton.textContent =
-    "🗑️";
-
-  deleteButton.title =
-    "Taak verwijderen";
+  deleteButton.type = "button";
+  deleteButton.className = "small-button";
+  deleteButton.textContent = "🗑️";
+  deleteButton.title = "Taak verwijderen";
 
   deleteButton.onclick =
-    () =>
-      deleteTask(
-        tab,
-        task
-      );
+    () => deleteTask(tab,task);
 
   const complete =
-    document.createElement(
-      "button"
-    );
+    document.createElement("button");
 
-  complete.type =
-    "button";
-
-  complete.className =
-    "complete-button";
+  complete.type = "button";
+  complete.className = "complete-button";
 
   complete.textContent =
-    isTaskCompletedToday(
-      task.id
-    )
+    isTaskCompletedToday(task.id)
       ? "✓ Klaar"
       : "Klaar";
 
   complete.onclick =
-    () =>
-      openCompletionModal(
-        tab,
-        task
-      );
+    () => openCompletionModal(tab,task);
 
-  actions.appendChild(
-    edit
-  );
+  actions.appendChild(edit);
+  actions.appendChild(deleteButton);
+  actions.appendChild(complete);
 
-  actions.appendChild(
-    deleteButton
-  );
-
-  actions.appendChild(
-    complete
-  );
-
-  card.appendChild(
-    main
-  );
-
-  card.appendChild(
-    actions
-  );
+  card.appendChild(main);
+  card.appendChild(actions);
 
   return card;
 }
@@ -3079,273 +2293,164 @@ function createTaskElement(
    TASK EDITOR
 ========================================================= */
 
-function openTaskEditor(
-  tabId,
-  taskId = null
-) {
+function openTaskEditor(tabId,taskId = null) {
   const tab =
-    config.tabs.find(
-      item =>
-        item.id === tabId
-    );
+    config.tabs.find(item => item.id === tabId);
 
-  if (!tab) {
-    return;
-  }
+  if (!tab) return;
 
-  editorTabId =
-    tabId;
-
-  editingTaskId =
-    taskId;
+  editorTabId = tabId;
+  editingTaskId = taskId;
 
   const task =
     taskId
-      ? tab.tasks.find(
-          item =>
-            item.id === taskId
-        )
+      ? tab.tasks.find(item => item.id === taskId)
       : null;
 
-  document.getElementById(
-    "taskEditorTitle"
-  ).textContent =
-    task
-      ? "Taak aanpassen"
-      : "Taak toevoegen";
+  document.getElementById("taskEditorTitle").textContent =
+    task ? "Taak aanpassen" : "Taak toevoegen";
 
-  document.getElementById(
-    "taskTitleInput"
-  ).value =
-    task?.title ||
-    "";
+  document.getElementById("taskTitleInput").value =
+    task?.title || "";
 
-  document.getElementById(
-    "taskPointsInput"
-  ).value =
-    task?.points ??
-    0;
+  document.getElementById("taskPointsInput").value =
+    task?.points ?? 0;
 
   const frequencyInput =
-    document.getElementById(
-      "taskFrequencyInput"
-    );
+    document.getElementById("taskFrequencyInput");
 
-  frequencyInput.innerHTML =
-    "";
+  frequencyInput.innerHTML = "";
 
   const frequencies =
     tab.frequencies || [];
 
-  frequencies.forEach(
-    frequency => {
-      const option =
-        document.createElement(
-          "option"
-        );
+  frequencies.forEach(frequency => {
+    const option =
+      document.createElement("option");
 
-      option.value =
-        frequency.id;
+    option.value = frequency.id;
+    option.textContent =
+      getFrequencyLabel(frequency);
 
-      option.textContent =
-        getFrequencyLabel(
-          frequency
-        );
-
-      if (
-        task?.frequencyId ===
-        frequency.id
-      ) {
-        option.selected =
-          true;
-      }
-
-      frequencyInput.appendChild(
-        option
-      );
+    if (task?.frequencyId === frequency.id) {
+      option.selected = true;
     }
-  );
 
-  const frequencyField =
-    document.getElementById(
-      "taskFrequencyField"
-    );
+    frequencyInput.appendChild(option);
+  });
 
-  frequencyField.style.display =
-    tab.frequencyEnabled &&
-    frequencies.length
+  document.getElementById(
+    "taskFrequencyField"
+  ).style.display =
+    tab.frequencyEnabled && frequencies.length
       ? "block"
       : "none";
 
-  const pointsField =
-    document.getElementById(
-      "taskPointsField"
-    );
-
-  pointsField.style.display =
+  document.getElementById(
+    "taskPointsField"
+  ).style.display =
     tab.pointsEnabled
       ? "block"
       : "none";
 
   document
-    .getElementById(
-      "taskEditorModal"
-    )
-    .classList.add(
-      "show"
-    );
+    .getElementById("taskEditorModal")
+    .classList.add("show");
 
   setTimeout(
     () =>
       document
-        .getElementById(
-          "taskTitleInput"
-        )
+        .getElementById("taskTitleInput")
         .focus(),
     50
   );
 }
 
-
 function closeTaskEditor() {
   document
-    .getElementById(
-      "taskEditorModal"
-    )
-    .classList.remove(
-      "show"
-    );
+    .getElementById("taskEditorModal")
+    .classList.remove("show");
 
-  editingTaskId =
-    null;
-
-  editorTabId =
-    null;
+  editingTaskId = null;
+  editorTabId = null;
 }
-
 
 async function saveTaskFromEditor() {
   const tab =
     config.tabs.find(
-      item =>
-        item.id ===
-        editorTabId
+      item => item.id === editorTabId
     );
 
-  if (!tab) {
-    return;
-  }
+  if (!tab) return;
 
   const title =
-    document.getElementById(
-      "taskTitleInput"
-    ).value.trim();
+    document
+      .getElementById("taskTitleInput")
+      .value.trim();
 
   if (!title) {
-    showToast(
-      "Vul eerst een taaknaam in."
-    );
-
+    showToast("Vul eerst een taaknaam in.");
     return;
   }
 
   let points =
     Number(
-      document.getElementById(
-        "taskPointsInput"
-      ).value
+      document.getElementById("taskPointsInput").value
     );
 
-  if (
-    !Number.isFinite(points) ||
-    points < 0
-  ) {
+  if (!Number.isFinite(points) || points < 0) {
     points = 0;
   }
 
-  points =
-    Math.floor(points);
+  points = Math.floor(points);
 
   const frequencyInput =
-    document.getElementById(
-      "taskFrequencyInput"
-    );
+    document.getElementById("taskFrequencyInput");
 
   const frequencyId =
     tab.frequencyEnabled
-      ? (
-          frequencyInput.value ||
-          null
-        )
+      ? frequencyInput.value || null
       : null;
 
   const oldTask =
     editingTaskId
       ? tab.tasks.find(
-          task =>
-            task.id ===
-            editingTaskId
+          task => task.id === editingTaskId
         )
       : null;
 
   const newTask = {
-    id:
-      editingTaskId ||
-      createId(),
-
+    id:editingTaskId || createId(),
     title,
-
     frequencyId,
-
     points
   };
 
   try {
+    setSyncStatus("Taak opslaan…");
 
-    setSyncStatus(
-      "Taak opslaan…"
-    );
+    await withLocalWrite(async () => {
+      await saveTaskToDb(tab,newTask);
 
-    await withLocalWrite(
-      async () => {
-        await saveTaskToDb(
-          tab,
-          newTask
-        );
-
-        if (oldTask) {
-
-          const index =
-            tab.tasks.findIndex(
-              task =>
-                task.id ===
-                oldTask.id
-            );
-
-          if (index >= 0) {
-            tab.tasks[index] =
-              newTask;
-          }
-
-        } else {
-
-          tab.tasks.push(
-            newTask
+      if (oldTask) {
+        const index =
+          tab.tasks.findIndex(
+            task => task.id === oldTask.id
           );
 
+        if (index >= 0) {
+          tab.tasks[index] = newTask;
         }
+      } else {
+        tab.tasks.push(newTask);
       }
-    );
+    });
 
     saveLocalCache();
-
     closeTaskEditor();
-
     render();
 
-    setSyncStatus(
-      "Gesynchroniseerd"
-    );
+    setSyncStatus("Gesynchroniseerd");
 
     showToast(
       oldTask
@@ -3354,27 +2459,14 @@ async function saveTaskFromEditor() {
     );
 
   } catch (error) {
+    console.error("Taak opslaan:",error);
 
-    console.error(
-      "Taak opslaan:",
-      error
-    );
-
-    setSyncStatus(
-      "Synchronisatiefout"
-    );
-
-    showToast(
-      "Taak opslaan mislukt."
-    );
+    setSyncStatus("Synchronisatiefout");
+    showToast("Taak opslaan mislukt.");
   }
 }
 
-
-async function deleteTask(
-  tab,
-  task
-) {
+async function deleteTask(tab,task) {
   if (
     !confirm(
       `Taak "${task.title}" verwijderen?`
@@ -3383,38 +2475,25 @@ async function deleteTask(
     return;
   }
 
-  const oldTasks =
-    [...tab.tasks];
+  const oldTasks = [...tab.tasks];
 
   try {
+    await withLocalWrite(async () => {
+      await deleteTaskFromDb(task.id);
 
-    await withLocalWrite(
-      async () => {
-        await deleteTaskFromDb(
-          task.id
+      tab.tasks =
+        tab.tasks.filter(
+          item => item.id !== task.id
         );
-
-        tab.tasks =
-          tab.tasks.filter(
-            item =>
-              item.id !==
-              task.id
-          );
-      }
-    );
+    });
 
     saveLocalCache();
-
     render();
 
-    showToast(
-      "Taak verwijderd."
-    );
+    showToast("Taak verwijderd.");
 
   } catch (error) {
-
-    tab.tasks =
-      oldTasks;
+    tab.tasks = oldTasks;
 
     console.error(
       "Taak verwijderen:",
@@ -3432,59 +2511,34 @@ async function deleteTask(
    COMPLETION MODAL
 ========================================================= */
 
-function openCompletionModal(
-  tab,
-  task
-) {
-  selectedTask = {
-    tab,
-    task
-  };
+function openCompletionModal(tab,task) {
+  selectedTask = {tab,task};
 
   document.getElementById(
     "completionTaskTitle"
-  ).textContent =
-    task.title;
+  ).textContent = task.title;
 
   document.getElementById(
     "completionPerson"
-  ).value =
-    "you";
+  ).value = "you";
 
   document
-    .getElementById(
-      "completionModal"
-    )
-    .classList.add(
-      "show"
-    );
+    .getElementById("completionModal")
+    .classList.add("show");
 }
-
 
 function closeCompletionModal() {
   document
-    .getElementById(
-      "completionModal"
-    )
-    .classList.remove(
-      "show"
-    );
+    .getElementById("completionModal")
+    .classList.remove("show");
 
-  selectedTask =
-    null;
+  selectedTask = null;
 }
 
-
 async function confirmCompletion() {
-  if (!selectedTask) {
-    return;
-  }
+  if (!selectedTask) return;
 
-  const {
-    tab,
-    task
-  } =
-    selectedTask;
+  const {tab,task} = selectedTask;
 
   const person =
     document.getElementById(
@@ -3500,64 +2554,36 @@ async function confirmCompletion() {
 
   const points =
     tab.pointsEnabled
-      ? Number(
-          task.points || 0
-        )
+      ? Number(task.points || 0)
       : 0;
 
   const now =
     new Date().toISOString();
 
   const completion = {
-    id:
-      createId(),
-
-    taskId:
-      task.id,
-
-    taskTitle:
-      task.title,
-
+    id:createId(),
+    taskId:task.id,
+    taskTitle:task.title,
     person,
-
     personName,
-
     points,
-
-    periodKey:
-      getPeriodKey(),
-
-    completedAt:
-      now
+    periodKey:getPeriodKey(),
+    completedAt:now
   };
 
   try {
-
-    await withLocalWrite(
-      async () => {
-
-        await saveCompletionToDb(
-          completion
-        );
-
-        completions.unshift(
-          completion
-        );
-      }
-    );
+    await withLocalWrite(async () => {
+      await saveCompletionToDb(completion);
+      completions.unshift(completion);
+    });
 
     saveLocalCache();
-
     closeCompletionModal();
-
     render();
 
-    showToast(
-      "Taak afgerond."
-    );
+    showToast("Taak afgerond.");
 
   } catch (error) {
-
     console.error(
       "Completion opslaan:",
       error
@@ -3571,17 +2597,14 @@ async function confirmCompletion() {
 
 
 /* =========================================================
-   POINTS SCREEN
+   POINTS
 ========================================================= */
 
 function renderPoints() {
   const container =
-    document.getElementById(
-      "pointsContent"
-    );
+    document.getElementById("pointsContent");
 
-  const totals =
-    getPointsTotals();
+  const totals = getPointsTotals();
 
   container.innerHTML = `
     <div class="points-grid">
@@ -3613,17 +2636,11 @@ function renderPoints() {
 
 function renderHistory() {
   const container =
-    document.getElementById(
-      "historyContent"
-    );
+    document.getElementById("historyContent");
 
-  container.innerHTML =
-    "";
+  container.innerHTML = "";
 
-  if (
-    completions.length === 0
-  ) {
-
+  if (completions.length === 0) {
     container.innerHTML = `
       <div class="section-card empty-state">
         Er zijn nog geen afgeronde taken.
@@ -3634,87 +2651,132 @@ function renderHistory() {
   }
 
   const list =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
-  list.className =
-    "history-list";
+  list.className = "history-list";
 
-  completions.forEach(
-    completion => {
+  completions.forEach(completion => {
+    const item =
+      document.createElement("div");
 
-      const item =
-        document.createElement(
-          "div"
-        );
+    item.className = "history-item";
 
-      item.className =
-        "history-item";
+    const left =
+      document.createElement("div");
 
-      const left =
-        document.createElement(
-          "div"
-        );
+    const title =
+      document.createElement("div");
 
-      const title =
-        document.createElement(
-          "div"
-        );
+    title.className = "history-title";
+    title.textContent =
+      completion.taskTitle;
 
-      title.className =
-        "history-title";
+    const meta =
+      document.createElement("div");
 
-      title.textContent =
-        completion.taskTitle;
+    meta.className = "history-meta";
 
-      const meta =
-        document.createElement(
-          "div"
-        );
+    meta.textContent =
+      `${completion.personName || ""} · ${getDateFromCompletion(completion)}`;
 
-      meta.className =
-        "history-meta";
+    left.appendChild(title);
+    left.appendChild(meta);
 
-      meta.textContent =
-        `${completion.personName || ""} · ${getDateFromCompletion(completion)}`;
+    const right =
+      document.createElement("div");
 
-      left.appendChild(
-        title
-      );
+    right.className = "history-points";
 
-      left.appendChild(
-        meta
-      );
+    right.textContent =
+      `${Number(completion.points || 0)} p`;
 
-      const right =
-        document.createElement(
-          "div"
-        );
+    item.appendChild(left);
+    item.appendChild(right);
 
-      right.className =
-        "history-points";
+    list.appendChild(item);
+  });
 
-      right.textContent =
-        `${Number(completion.points || 0)} p`;
+  container.appendChild(list);
+}
 
-      item.appendChild(
-        left
-      );
 
-      item.appendChild(
-        right
-      );
+/* =========================================================
+   ICON PICKER
+========================================================= */
 
-      list.appendChild(
-        item
-      );
-    }
-  );
+function createIconPicker(tab,index) {
+  const wrapper =
+    document.createElement("div");
 
-  container.appendChild(
-    list
-  );
+  const preview =
+    document.createElement("div");
+
+  preview.className =
+    "selected-icon-preview";
+
+  const previewIcon =
+    document.createElement("div");
+
+  previewIcon.className =
+    "selected-icon";
+
+  previewIcon.textContent =
+    tab.icon || "📌";
+
+  const previewText =
+    document.createElement("div");
+
+  previewText.className =
+    "selected-icon-text";
+
+  previewText.textContent =
+    "Gekozen icoon";
+
+  preview.appendChild(previewIcon);
+  preview.appendChild(previewText);
+
+  wrapper.appendChild(preview);
+
+  const picker =
+    document.createElement("div");
+
+  picker.className = "icon-picker";
+
+  ICON_OPTIONS.forEach(icon => {
+    const button =
+      document.createElement("button");
+
+    button.type = "button";
+    button.className =
+      "icon-option" +
+      (tab.icon === icon ? " selected" : "");
+
+    button.textContent = icon;
+    button.title = `Gebruik ${icon}`;
+
+    button.onclick = () => {
+      tab.icon = icon;
+
+      previewIcon.textContent = icon;
+
+      picker
+        .querySelectorAll(".icon-option")
+        .forEach(item => {
+          item.classList.remove("selected");
+        });
+
+      button.classList.add("selected");
+
+      renderTabs();
+      renderTabViews();
+    };
+
+    picker.appendChild(button);
+  });
+
+  wrapper.appendChild(picker);
+
+  return wrapper;
 }
 
 
@@ -3724,23 +2786,18 @@ function renderHistory() {
 
 function renderSettings() {
   const container =
-    document.getElementById(
-      "settingsContent"
-    );
+    document.getElementById("settingsContent");
 
-  container.innerHTML =
-    "";
+  container.innerHTML = "";
 
   const general =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
   general.className =
     "settings-section";
 
   general.innerHTML = `
-    <h3>Algemeen</h3>
+    <h3>🏡 Algemeen</h3>
 
     <div class="field">
       <label for="settingsAppName">
@@ -3794,289 +2851,218 @@ function renderSettings() {
     </div>
   `;
 
-  container.appendChild(
-    general
-  );
+  container.appendChild(general);
 
+  config.tabs.forEach((tab,index) => {
+    const section =
+      document.createElement("div");
 
-  config.tabs.forEach(
-    (tab, index) => {
+    section.className =
+      "settings-section";
 
-      const section =
-        document.createElement(
-          "div"
-        );
+    section.innerHTML = `
+      <h3>
+        ${escapeHtml(tab.icon)} Tab ${index + 1}
+      </h3>
 
-      section.className =
-        "settings-section";
-
-      section.innerHTML = `
-        <h3>
-          ${escapeHtml(tab.icon)} Tab ${index + 1}
-        </h3>
-
-        <div class="field">
-          <label for="tabName${index}">
-            Naam
-          </label>
-
-          <input
-            id="tabName${index}"
-            value="${escapeHtml(tab.name)}"
-          >
-        </div>
-
-        <div class="field">
-          <label for="tabIcon${index}">
-            Icoon
-          </label>
-
-          <input
-            id="tabIcon${index}"
-            value="${escapeHtml(tab.icon)}"
-            maxlength="4"
-          >
-        </div>
-      `;
-
-      const pointsRow =
-        document.createElement(
-          "div"
-        );
-
-      pointsRow.className =
-        "switch-row";
-
-      pointsRow.innerHTML = `
-        <span class="switch-label">
-          Punten gebruiken
-        </span>
-
-        <label class="switch">
-          <input
-            id="pointsSwitch${index}"
-            type="checkbox"
-            ${tab.pointsEnabled ? "checked" : ""}
-          >
-          <span class="slider"></span>
+      <div class="field">
+        <label for="tabName${index}">
+          Naam
         </label>
-      `;
 
-      section.appendChild(
-        pointsRow
-      );
+        <input
+          id="tabName${index}"
+          value="${escapeHtml(tab.name)}"
+        >
+      </div>
 
-
-      const frequencyRow =
-        document.createElement(
-          "div"
-        );
-
-      frequencyRow.className =
-        "switch-row";
-
-      frequencyRow.innerHTML = `
-        <span class="switch-label">
-          Frequenties gebruiken
-        </span>
-
-        <label class="switch">
-          <input
-            id="frequencySwitch${index}"
-            type="checkbox"
-            ${tab.frequencyEnabled ? "checked" : ""}
-          >
-          <span class="slider"></span>
+      <div class="field">
+        <label>
+          Icoon
         </label>
-      `;
+      </div>
+    `;
 
-      section.appendChild(
-        frequencyRow
-      );
+    const iconField =
+      document.createElement("div");
 
+    iconField.className = "field";
 
-      const frequencyContainer =
-        document.createElement(
-          "div"
-        );
-
-      frequencyContainer.id =
-        `frequencySettings${index}`;
-
-      section.appendChild(
-        frequencyContainer
-      );
-
-      container.appendChild(
-        section
-      );
-
-      renderFrequencySettings(
-        tab,
-        frequencyContainer
-      );
-
-
-      document.getElementById(
-        `pointsSwitch${index}`
-      ).onchange =
-        async event => {
-
-          const previous =
-            tab.pointsEnabled;
-
-          tab.pointsEnabled =
-            event.target.checked;
-
-          try {
-
-            await withLocalWrite(
-              () =>
-                saveTabToDb(
-                  tab,
-                  index
-                )
-            );
-
-            saveLocalCache();
-
-            renderTabViews();
-
-          } catch (error) {
-
-            tab.pointsEnabled =
-              previous;
-
-            event.target.checked =
-              previous;
-
-            console.error(
-              error
-            );
-
-            showToast(
-              "Punteninstelling opslaan mislukt."
-            );
-          }
-        };
-
-
-      document.getElementById(
-        `frequencySwitch${index}`
-      ).onchange =
-        async event => {
-
-          const previous =
-            tab.frequencyEnabled;
-
-          const previousFrequencies =
-            tab.frequencies;
-
-          const enabled =
-            event.target.checked;
-
-          tab.frequencyEnabled =
-            enabled;
-
-          /*
-            Bij aanzetten gebruiken we de bestaande
-            household-frequenties uit config.
-          */
-          if (
-            enabled &&
-            tab.frequencies.length === 0
-          ) {
-
-            const allFrequencies =
-              getAllUniqueFrequencies();
-
-            tab.frequencies =
-              allFrequencies.map(
-                frequency => ({
-                  ...frequency
-                })
-              );
-          }
-
-          if (!enabled) {
-            /*
-              Frequenties verdwijnen niet uit Supabase.
-              Ze worden alleen voor deze tab niet gebruikt.
-            */
-          }
-
-          try {
-
-            await withLocalWrite(
-              () =>
-                saveTabToDb(
-                  tab,
-                  index
-                )
-            );
-
-            saveLocalCache();
-
-            renderSettings();
-            renderTabViews();
-
-          } catch (error) {
-
-            tab.frequencyEnabled =
-              previous;
-
-            tab.frequencies =
-              previousFrequencies;
-
-            event.target.checked =
-              previous;
-
-            console.error(
-              error
-            );
-
-            showToast(
-              "Frequentie-instelling opslaan mislukt."
-            );
-          }
-        };
-
-
-      document.getElementById(
-        `tabIcon${index}`
-      ).oninput =
-        event => {
-          tab.icon =
-            event.target.value ||
-            "📌";
-
-          renderTabs();
-          renderTabViews();
-        };
-    }
-  );
-
-
-  const saveButton =
-    document.createElement(
-      "button"
+    iconField.appendChild(
+      createIconPicker(tab,index)
     );
 
-  saveButton.type =
-    "button";
+    section.appendChild(iconField);
 
+    const pointsRow =
+      document.createElement("div");
+
+    pointsRow.className =
+      "switch-row";
+
+    pointsRow.innerHTML = `
+      <span class="switch-label">
+        ⭐ Punten gebruiken
+      </span>
+
+      <label class="switch">
+        <input
+          id="pointsSwitch${index}"
+          type="checkbox"
+          ${tab.pointsEnabled ? "checked" : ""}
+        >
+        <span class="slider"></span>
+      </label>
+    `;
+
+    section.appendChild(pointsRow);
+
+    const frequencyRow =
+      document.createElement("div");
+
+    frequencyRow.className =
+      "switch-row";
+
+    frequencyRow.innerHTML = `
+      <span class="switch-label">
+        🔄 Frequenties gebruiken
+      </span>
+
+      <label class="switch">
+        <input
+          id="frequencySwitch${index}"
+          type="checkbox"
+          ${tab.frequencyEnabled ? "checked" : ""}
+        >
+        <span class="slider"></span>
+      </label>
+    `;
+
+    section.appendChild(frequencyRow);
+
+    const frequencyContainer =
+      document.createElement("div");
+
+    frequencyContainer.id =
+      `frequencySettings${index}`;
+
+    section.appendChild(frequencyContainer);
+    container.appendChild(section);
+
+    renderFrequencySettings(
+      tab,
+      frequencyContainer
+    );
+
+    document.getElementById(
+      `pointsSwitch${index}`
+    ).onchange =
+      async event => {
+        const previous =
+          tab.pointsEnabled;
+
+        tab.pointsEnabled =
+          event.target.checked;
+
+        try {
+          await withLocalWrite(
+            () =>
+              saveTabToDb(
+                tab,
+                index
+              )
+          );
+
+          saveLocalCache();
+          renderTabViews();
+
+        } catch (error) {
+          tab.pointsEnabled = previous;
+          event.target.checked = previous;
+
+          console.error(error);
+
+          showToast(
+            "Punteninstelling opslaan mislukt."
+          );
+        }
+      };
+
+    document.getElementById(
+      `frequencySwitch${index}`
+    ).onchange =
+      async event => {
+        const previous =
+          tab.frequencyEnabled;
+
+        const previousFrequencies =
+          tab.frequencies;
+
+        const enabled =
+          event.target.checked;
+
+        tab.frequencyEnabled = enabled;
+
+        if (
+          enabled &&
+          tab.frequencies.length === 0
+        ) {
+          const allFrequencies =
+            getAllUniqueFrequencies();
+
+          tab.frequencies =
+            allFrequencies.map(
+              frequency => ({...frequency})
+            );
+        }
+
+        try {
+          await withLocalWrite(
+            () =>
+              saveTabToDb(
+                tab,
+                index
+              )
+          );
+
+          saveLocalCache();
+
+          renderSettings();
+          renderTabViews();
+
+        } catch (error) {
+          tab.frequencyEnabled =
+            previous;
+
+          tab.frequencies =
+            previousFrequencies;
+
+          event.target.checked =
+            previous;
+
+          console.error(error);
+
+          showToast(
+            "Frequentie-instelling opslaan mislukt."
+          );
+        }
+      };
+  });
+
+  const saveButton =
+    document.createElement("button");
+
+  saveButton.type = "button";
   saveButton.className =
     "save-settings-button";
 
   saveButton.textContent =
-    "Instellingen opslaan";
+    "💾 Instellingen opslaan";
 
   saveButton.onclick =
     saveAllSettings;
 
-  container.appendChild(
-    saveButton
-  );
+  container.appendChild(saveButton);
 }
 
 
@@ -4085,34 +3071,22 @@ function renderSettings() {
 ========================================================= */
 
 function getAllUniqueFrequencies() {
-  const map =
-    new Map();
+  const map = new Map();
 
-  config.tabs.forEach(
-    tab => {
-      (tab.frequencies || [])
-        .forEach(
-          frequency => {
-            if (
-              !map.has(
-                frequency.id
-              )
-            ) {
-              map.set(
-                frequency.id,
-                {
-                  ...frequency
-                }
-              );
-            }
-          }
-        );
-    }
-  );
+  config.tabs.forEach(tab => {
+    (tab.frequencies || []).forEach(
+      frequency => {
+        if (!map.has(frequency.id)) {
+          map.set(
+            frequency.id,
+            {...frequency}
+          );
+        }
+      }
+    );
+  });
 
-  return [
-    ...map.values()
-  ];
+  return [...map.values()];
 }
 
 
@@ -4124,99 +3098,63 @@ function renderFrequencySettings(
   tab,
   container
 ) {
-  container.innerHTML =
-    "";
+  container.innerHTML = "";
 
-  if (
-    !tab.frequencyEnabled
-  ) {
+  if (!tab.frequencyEnabled) {
     return;
   }
 
   const wrapper =
-    document.createElement(
-      "div"
-    );
+    document.createElement("div");
 
   wrapper.className =
     "frequency-wrapper";
 
-  if (
-    tab.frequencies.length === 0
-  ) {
-
+  if (tab.frequencies.length === 0) {
     const empty =
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
-    empty.className =
-      "empty-state";
-
+    empty.className = "empty-state";
     empty.textContent =
       "Nog geen frequenties.";
 
-    wrapper.appendChild(
-      empty
-    );
+    wrapper.appendChild(empty);
   }
 
-
   tab.frequencies.forEach(
-    (
-      frequency,
-      frequencyIndex
-    ) => {
-
+    (frequency,frequencyIndex) => {
       const row =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
-      row.className =
-        "frequency-row";
+      row.className = "frequency-row";
 
       const grid =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       grid.className =
         "frequency-grid";
 
-
       /* Naam */
 
       const nameField =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
-      nameField.className =
-        "field";
+      nameField.className = "field";
 
       const nameLabel =
-        document.createElement(
-          "label"
-        );
+        document.createElement("label");
 
-      nameLabel.textContent =
-        "Naam";
+      nameLabel.textContent = "Naam";
 
       const nameInput =
-        document.createElement(
-          "input"
-        );
+        document.createElement("input");
 
-      nameInput.type =
-        "text";
-
+      nameInput.type = "text";
       nameInput.value =
         frequency.name;
 
       nameInput.onchange =
         async () => {
-
           const oldName =
             frequency.name;
 
@@ -4228,7 +3166,6 @@ function renderFrequencySettings(
             );
 
           try {
-
             await withLocalWrite(
               () =>
                 saveFrequencyToDb(
@@ -4248,13 +3185,10 @@ function renderFrequencySettings(
             renderTabViews();
 
           } catch (error) {
-
             frequency.name =
               oldName;
 
-            console.error(
-              error
-            );
+            console.error(error);
 
             showToast(
               "Frequentie opslaan mislukt."
@@ -4262,56 +3196,35 @@ function renderFrequencySettings(
           }
         };
 
-      nameField.appendChild(
-        nameLabel
-      );
-
-      nameField.appendChild(
-        nameInput
-      );
-
+      nameField.appendChild(nameLabel);
+      nameField.appendChild(nameInput);
 
       /* Interval */
 
       const intervalField =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       intervalField.className =
         "field";
 
       const intervalLabel =
-        document.createElement(
-          "label"
-        );
+        document.createElement("label");
 
       intervalLabel.textContent =
         "Aantal";
 
       const intervalInput =
-        document.createElement(
-          "input"
-        );
+        document.createElement("input");
 
-      intervalInput.type =
-        "number";
-
-      intervalInput.min =
-        "1";
-
-      intervalInput.max =
-        "999";
-
-      intervalInput.step =
-        "1";
-
+      intervalInput.type = "number";
+      intervalInput.min = "1";
+      intervalInput.max = "999";
+      intervalInput.step = "1";
       intervalInput.value =
         frequency.interval;
 
       intervalInput.onchange =
         async () => {
-
           const oldInterval =
             frequency.interval;
 
@@ -4332,14 +3245,11 @@ function renderFrequencySettings(
             value = 1;
           }
 
-          if (
-            value > 999
-          ) {
+          if (value > 999) {
             value = 999;
           }
 
-          frequency.interval =
-            value;
+          frequency.interval = value;
 
           if (
             !oldName ||
@@ -4353,7 +3263,6 @@ function renderFrequencySettings(
           }
 
           try {
-
             await withLocalWrite(
               () =>
                 saveFrequencyToDb(
@@ -4373,16 +3282,13 @@ function renderFrequencySettings(
             renderTabViews();
 
           } catch (error) {
-
             frequency.interval =
               oldInterval;
 
             frequency.name =
               oldName;
 
-            console.error(
-              error
-            );
+            console.error(error);
 
             showToast(
               "Frequentie opslaan mislukt."
@@ -4398,70 +3304,45 @@ function renderFrequencySettings(
         intervalInput
       );
 
-
       /* Unit */
 
       const unitField =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
-      unitField.className =
-        "field";
+      unitField.className = "field";
 
       const unitLabel =
-        document.createElement(
-          "label"
-        );
+        document.createElement("label");
 
       unitLabel.textContent =
         "Eenheid";
 
       const unitSelect =
-        document.createElement(
-          "select"
-        );
+        document.createElement("select");
 
       [
-        {
-          value: "days",
-          label: "Dagen"
-        },
-        {
-          value: "weeks",
-          label: "Weken"
-        },
-        {
-          value: "months",
-          label: "Maanden"
-        }
-      ].forEach(
-        optionData => {
+        {value:"days",label:"Dagen"},
+        {value:"weeks",label:"Weken"},
+        {value:"months",label:"Maanden"}
+      ].forEach(optionData => {
+        const option =
+          document.createElement("option");
 
-          const option =
-            document.createElement(
-              "option"
-            );
+        option.value =
+          optionData.value;
 
-          option.value =
-            optionData.value;
+        option.textContent =
+          optionData.label;
 
-          option.textContent =
-            optionData.label;
+        option.selected =
+          frequency.unit ===
+          optionData.value;
 
-          option.selected =
-            frequency.unit ===
-            optionData.value;
-
-          unitSelect.appendChild(
-            option
-          );
-        }
-      );
+        unitSelect.appendChild(option);
+      });
 
       unitSelect.onchange =
         async () => {
-
           const oldUnit =
             frequency.unit;
 
@@ -4483,7 +3364,6 @@ function renderFrequencySettings(
           }
 
           try {
-
             await withLocalWrite(
               () =>
                 saveFrequencyToDb(
@@ -4503,16 +3383,13 @@ function renderFrequencySettings(
             renderTabViews();
 
           } catch (error) {
-
             frequency.unit =
               oldUnit;
 
             frequency.name =
               oldName;
 
-            console.error(
-              error
-            );
+            console.error(error);
 
             showToast(
               "Frequentie opslaan mislukt."
@@ -4520,25 +3397,15 @@ function renderFrequencySettings(
           }
         };
 
-      unitField.appendChild(
-        unitLabel
-      );
-
-      unitField.appendChild(
-        unitSelect
-      );
-
+      unitField.appendChild(unitLabel);
+      unitField.appendChild(unitSelect);
 
       /* Remove */
 
       const removeButton =
-        document.createElement(
-          "button"
-        );
+        document.createElement("button");
 
-      removeButton.type =
-        "button";
-
+      removeButton.type = "button";
       removeButton.className =
         "frequency-remove";
 
@@ -4550,7 +3417,6 @@ function renderFrequencySettings(
 
       removeButton.onclick =
         async () => {
-
           const used =
             config.tabs.some(
               currentTab =>
@@ -4562,7 +3428,6 @@ function renderFrequencySettings(
             );
 
           if (used) {
-
             alert(
               "Deze frequentie wordt nog gebruikt door één of meerdere taken. Pas eerst die taken aan."
             );
@@ -4579,7 +3444,6 @@ function renderFrequencySettings(
           }
 
           try {
-
             await withLocalWrite(
               async () => {
                 await deleteFrequencyFromDb(
@@ -4609,10 +3473,7 @@ function renderFrequencySettings(
             );
 
           } catch (error) {
-
-            console.error(
-              error
-            );
+            console.error(error);
 
             showToast(
               "Frequentie verwijderen mislukt."
@@ -4620,32 +3481,15 @@ function renderFrequencySettings(
           }
         };
 
+      grid.appendChild(nameField);
+      grid.appendChild(intervalField);
+      grid.appendChild(unitField);
+      grid.appendChild(removeButton);
 
-      grid.appendChild(
-        nameField
-      );
-
-      grid.appendChild(
-        intervalField
-      );
-
-      grid.appendChild(
-        unitField
-      );
-
-      grid.appendChild(
-        removeButton
-      );
-
-      row.appendChild(
-        grid
-      );
-
+      row.appendChild(grid);
 
       const example =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
 
       example.className =
         "frequency-example";
@@ -4656,27 +3500,16 @@ function renderFrequencySettings(
           frequency.interval
         ).toLowerCase()}`;
 
-      row.appendChild(
-        example
-      );
+      row.appendChild(example);
 
-      wrapper.appendChild(
-        row
-      );
+      wrapper.appendChild(row);
     }
   );
 
-
-  /* Add */
-
   const addButton =
-    document.createElement(
-      "button"
-    );
+    document.createElement("button");
 
-  addButton.type =
-    "button";
-
+  addButton.type = "button";
   addButton.className =
     "add-frequency-button";
 
@@ -4685,40 +3518,26 @@ function renderFrequencySettings(
 
   addButton.onclick =
     async () => {
-
       const frequency = {
-        id:
-          createId(),
-
-        name:
-          "Elke 1 week",
-
-        unit:
-          "weeks",
-
-        interval:
-          1
+        id:createId(),
+        name:"Elke 1 week",
+        unit:"weeks",
+        interval:1
       };
 
       try {
-
         setSyncStatus(
           "Frequentie opslaan…"
         );
 
         await withLocalWrite(
           async () => {
-
             await saveFrequencyToDb(
               tab,
               frequency,
               getAllUniqueFrequencies().length
             );
 
-            /*
-              De nieuwe frequentie wordt aan alle tabs
-              met frequenties toegevoegd.
-            */
             config.tabs.forEach(
               currentTab => {
                 if (
@@ -4747,7 +3566,6 @@ function renderFrequencySettings(
         );
 
       } catch (error) {
-
         console.error(
           "Frequentie toevoegen:",
           error
@@ -4763,46 +3581,32 @@ function renderFrequencySettings(
       }
     };
 
-  wrapper.appendChild(
-    addButton
-  );
-
-  container.appendChild(
-    wrapper
-  );
+  wrapper.appendChild(addButton);
+  container.appendChild(wrapper);
 }
 
-
-/*
-  Zorgt ervoor dat een aangepaste household-frequentie
-  overal in het lokale config-object dezelfde waarde heeft.
-*/
 function syncFrequencyEverywhere(
   changedFrequency
 ) {
-  config.tabs.forEach(
-    tab => {
+  config.tabs.forEach(tab => {
+    const frequency =
+      tab.frequencies.find(
+        item =>
+          item.id ===
+          changedFrequency.id
+      );
 
-      const frequency =
-        tab.frequencies.find(
-          item =>
-            item.id ===
-            changedFrequency.id
-        );
+    if (frequency) {
+      frequency.name =
+        changedFrequency.name;
 
-      if (frequency) {
+      frequency.unit =
+        changedFrequency.unit;
 
-        frequency.name =
-          changedFrequency.name;
-
-        frequency.unit =
-          changedFrequency.unit;
-
-        frequency.interval =
-          changedFrequency.interval;
-      }
+      frequency.interval =
+        changedFrequency.interval;
     }
-  );
+  });
 }
 
 
@@ -4837,59 +3641,43 @@ async function saveAllSettings() {
     ).value;
 
   config.appName =
-    appName ||
-    "Huishouden";
+    appName || "Huishouden";
 
   config.appSubtitle =
-    subtitle ||
-    "Taken overzicht";
+    subtitle || "Taken overzicht";
 
   config.youName =
-    youName ||
-    "Jij";
+    youName || "Jij";
 
   config.partnerName =
-    partnerName ||
-    "Partner";
+    partnerName || "Partner";
 
   config.startDate =
-    startDate ||
-    "";
+    startDate || "";
 
+  config.tabs.forEach((tab,index) => {
+    const nameInput =
+      document.getElementById(
+        `tabName${index}`
+      );
 
-  config.tabs.forEach(
-    (
-      tab,
-      index
-    ) => {
-
-      const nameInput =
-        document.getElementById(
-          `tabName${index}`
-        );
-
-      if (nameInput) {
-        tab.name =
-          nameInput.value.trim() ||
-          `Tab ${index + 1}`;
-      }
-
-      const iconInput =
-        document.getElementById(
-          `tabIcon${index}`
-        );
-
-      if (iconInput) {
-        tab.icon =
-          iconInput.value.trim() ||
-          "📌";
-      }
+    if (nameInput) {
+      tab.name =
+        nameInput.value.trim() ||
+        `Tab ${index + 1}`;
     }
-  );
 
+    /*
+      Het icoon komt nu uit de picker en staat
+      rechtstreeks op tab.icon. Er is geen apart
+      tekstveld meer nodig.
+    */
+    if (!tab.icon) {
+      tab.icon = "📌";
+    }
+  });
 
   try {
-
     setSyncStatus(
       "Instellingen opslaan…"
     );
@@ -4901,9 +3689,7 @@ async function saveAllSettings() {
 
     await withLocalWrite(
       async () => {
-
         await saveHouseholdName();
-
         await saveHouseholdSettings();
 
         for (
@@ -4911,16 +3697,12 @@ async function saveAllSettings() {
           index < config.tabs.length;
           index++
         ) {
-
           await saveTabToDb(
             config.tabs[index],
             index
           );
         }
 
-        /*
-          Frequenties één keer per household opslaan.
-        */
         const frequencies =
           getAllUniqueFrequencies();
 
@@ -4929,7 +3711,6 @@ async function saveAllSettings() {
           index < frequencies.length;
           index++
         ) {
-
           await saveFrequencyToDb(
             null,
             frequencies[index],
@@ -4940,11 +3721,9 @@ async function saveAllSettings() {
         for (
           const tab of config.tabs
         ) {
-
           for (
             const task of tab.tasks
           ) {
-
             await saveTaskToDb(
               tab,
               task
@@ -4955,7 +3734,6 @@ async function saveAllSettings() {
     );
 
     saveLocalCache();
-
     render();
 
     setSyncStatus(
@@ -4967,7 +3745,6 @@ async function saveAllSettings() {
     );
 
   } catch (error) {
-
     console.error(
       "Instellingen opslaan:",
       error
@@ -4990,29 +3767,17 @@ async function saveAllSettings() {
 
 function openMenu() {
   document
-    .getElementById(
-      "menuOverlay"
-    )
-    .classList.add(
-      "show"
-    );
+    .getElementById("menuOverlay")
+    .classList.add("show");
 }
-
 
 function closeMenu() {
   document
-    .getElementById(
-      "menuOverlay"
-    )
-    .classList.remove(
-      "show"
-    );
+    .getElementById("menuOverlay")
+    .classList.remove("show");
 }
 
-
-function handleMenuBackground(
-  event
-) {
+function handleMenuBackground(event) {
   if (
     event.target.id ===
     "menuOverlay"
@@ -5021,143 +3786,111 @@ function handleMenuBackground(
   }
 }
 
-
 function openPoints() {
   closeMenu();
 
   document.getElementById(
     "mainScreen"
-  ).style.display =
-    "none";
+  ).style.display = "none";
 
   document.getElementById(
     "historyScreen"
-  ).classList.remove(
-    "active"
-  );
+  ).classList.remove("active");
 
   document.getElementById(
     "settingsScreen"
-  ).classList.remove(
-    "active"
-  );
+  ).classList.remove("active");
 
   document.getElementById(
     "pointsScreen"
-  ).classList.add(
-    "active"
-  );
+  ).classList.add("active");
 
   renderPoints();
 
   window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    top:0,
+    behavior:"smooth"
   });
 }
-
 
 function openHistory() {
   closeMenu();
 
   document.getElementById(
     "mainScreen"
-  ).style.display =
-    "none";
+  ).style.display = "none";
 
   document.getElementById(
     "pointsScreen"
-  ).classList.remove(
-    "active"
-  );
+  ).classList.remove("active");
 
   document.getElementById(
     "settingsScreen"
-  ).classList.remove(
-    "active"
-  );
+  ).classList.remove("active");
 
   document.getElementById(
     "historyScreen"
-  ).classList.add(
-    "active"
-  );
+  ).classList.add("active");
 
   renderHistory();
 
   window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    top:0,
+    behavior:"smooth"
   });
 }
-
 
 function openSettings() {
   closeMenu();
 
   document.getElementById(
     "mainScreen"
-  ).style.display =
-    "none";
+  ).style.display = "none";
 
   document.getElementById(
     "pointsScreen"
-  ).classList.remove(
-    "active"
-  );
+  ).classList.remove("active");
 
   document.getElementById(
     "historyScreen"
-  ).classList.remove(
-    "active"
-  );
+  ).classList.remove("active");
 
   document.getElementById(
     "settingsScreen"
-  ).classList.add(
-    "active"
-  );
+  ).classList.add("active");
 
   renderSettings();
 
   window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    top:0,
+    behavior:"smooth"
   });
 }
-
 
 function showMainScreen() {
   closeMenu();
 
   document.getElementById(
     "pointsScreen"
-  ).classList.remove(
-    "active"
-  );
+  ).classList.remove("active");
 
   document.getElementById(
     "historyScreen"
-  ).classList.remove(
-    "active"
-  );
+  ).classList.remove("active");
 
   document.getElementById(
     "settingsScreen"
-  ).classList.remove(
-    "active"
-  );
+  ).classList.remove("active");
 
   document.getElementById(
     "mainScreen"
-  ).style.display =
-    "block";
+  ).style.display = "block";
 
   render();
 
   window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    top:0,
+    behavior:"smooth"
   });
 }
 
@@ -5167,17 +3900,14 @@ function showMainScreen() {
 ========================================================= */
 
 function setupRealtime() {
-  if (!householdId) {
-    return;
-  }
+  if (!householdId) return;
 
   if (realtimeChannel) {
     supabaseClient.removeChannel(
       realtimeChannel
     );
 
-    realtimeChannel =
-      null;
+    realtimeChannel = null;
   }
 
   realtimeChannel =
@@ -5189,11 +3919,10 @@ function setupRealtime() {
       .on(
         "postgres_changes",
         {
-          event: "*",
-          schema: "public",
-          table: "households",
-          filter:
-            `id=eq.${householdId}`
+          event:"*",
+          schema:"public",
+          table:"households",
+          filter:`id=eq.${householdId}`
         },
         () =>
           scheduleRealtimeRefresh(
@@ -5204,11 +3933,10 @@ function setupRealtime() {
       .on(
         "postgres_changes",
         {
-          event: "*",
-          schema: "public",
-          table: "household_settings",
-          filter:
-            `household_id=eq.${householdId}`
+          event:"*",
+          schema:"public",
+          table:"household_settings",
+          filter:`household_id=eq.${householdId}`
         },
         () =>
           scheduleRealtimeRefresh(
@@ -5219,11 +3947,10 @@ function setupRealtime() {
       .on(
         "postgres_changes",
         {
-          event: "*",
-          schema: "public",
-          table: "tabs",
-          filter:
-            `household_id=eq.${householdId}`
+          event:"*",
+          schema:"public",
+          table:"tabs",
+          filter:`household_id=eq.${householdId}`
         },
         () =>
           scheduleRealtimeRefresh(
@@ -5234,11 +3961,10 @@ function setupRealtime() {
       .on(
         "postgres_changes",
         {
-          event: "*",
-          schema: "public",
-          table: "frequencies",
-          filter:
-            `household_id=eq.${householdId}`
+          event:"*",
+          schema:"public",
+          table:"frequencies",
+          filter:`household_id=eq.${householdId}`
         },
         () =>
           scheduleRealtimeRefresh(
@@ -5249,11 +3975,10 @@ function setupRealtime() {
       .on(
         "postgres_changes",
         {
-          event: "*",
-          schema: "public",
-          table: "tasks",
-          filter:
-            `household_id=eq.${householdId}`
+          event:"*",
+          schema:"public",
+          table:"tasks",
+          filter:`household_id=eq.${householdId}`
         },
         () =>
           scheduleRealtimeRefresh(
@@ -5264,11 +3989,10 @@ function setupRealtime() {
       .on(
         "postgres_changes",
         {
-          event: "*",
-          schema: "public",
-          table: "completions",
-          filter:
-            `household_id=eq.${householdId}`
+          event:"*",
+          schema:"public",
+          table:"completions",
+          filter:`household_id=eq.${householdId}`
         },
         () =>
           scheduleRealtimeRefresh(
@@ -5276,51 +4000,33 @@ function setupRealtime() {
           )
       )
 
-      .subscribe(
-        status => {
-
-          if (
-            status ===
-            "SUBSCRIBED"
-          ) {
-            setSyncStatus(
-              "Live synchronisatie"
-            );
-          }
-
-          if (
-            status ===
-            "CHANNEL_ERROR"
-          ) {
-            setSyncStatus(
-              "Realtime fout"
-            );
-          }
-
-          if (
-            status ===
-            "TIMED_OUT"
-          ) {
-            setSyncStatus(
-              "Realtime opnieuw verbinden…"
-            );
-          }
+      .subscribe(status => {
+        if (status === "SUBSCRIBED") {
+          setSyncStatus(
+            "Live synchronisatie"
+          );
         }
-      );
+
+        if (status === "CHANNEL_ERROR") {
+          setSyncStatus(
+            "Realtime fout"
+          );
+        }
+
+        if (status === "TIMED_OUT") {
+          setSyncStatus(
+            "Realtime opnieuw verbinden…"
+          );
+        }
+      });
 }
 
-
-function scheduleRealtimeRefresh(
-  reason
-) {
-  clearTimeout(
-    refreshTimer
-  );
+function scheduleRealtimeRefresh(reason) {
+  clearTimeout(refreshTimer);
 
   refreshTimer =
     setTimeout(
       async () => {
-
         if (
           shouldIgnoreRealtime() ||
           loadingData
@@ -5329,13 +4035,10 @@ function scheduleRealtimeRefresh(
         }
 
         try {
-
           await loadHouseholdData();
-
           render();
 
         } catch (error) {
-
           console.error(
             `Realtime refresh (${reason}):`,
             error
@@ -5355,29 +4058,20 @@ function scheduleRealtimeRefresh(
    AUTH
 ========================================================= */
 
-let authMode =
-  "login";
+let authMode = "login";
 
-
-function setAuthMode(
-  mode
-) {
-  authMode =
-    mode;
+function setAuthMode(mode) {
+  authMode = mode;
 
   document
-    .getElementById(
-      "loginModeButton"
-    )
+    .getElementById("loginModeButton")
     .classList.toggle(
       "active",
       mode === "login"
     );
 
   document
-    .getElementById(
-      "signupModeButton"
-    )
+    .getElementById("signupModeButton")
     .classList.toggle(
       "active",
       mode === "signup"
@@ -5393,67 +4087,39 @@ function setAuthMode(
   hideAuthMessages();
 }
 
-
 function hideAuthMessages() {
   document
-    .getElementById(
-      "authError"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("authError")
+    .classList.add("hidden");
 
   document
-    .getElementById(
-      "authInfo"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("authInfo")
+    .classList.add("hidden");
 }
 
-
-function showAuthError(
-  message
-) {
+function showAuthError(message) {
   const element =
-    document.getElementById(
-      "authError"
-    );
+    document.getElementById("authError");
 
-  element.textContent =
-    message;
-
-  element.classList.remove(
-    "hidden"
-  );
+  element.textContent = message;
+  element.classList.remove("hidden");
 }
 
-
-function showAuthInfo(
-  message
-) {
+function showAuthInfo(message) {
   const element =
-    document.getElementById(
-      "authInfo"
-    );
+    document.getElementById("authInfo");
 
-  element.textContent =
-    message;
-
-  element.classList.remove(
-    "hidden"
-  );
+  element.textContent = message;
+  element.classList.remove("hidden");
 }
-
 
 async function handleAuthSubmit() {
   hideAuthMessages();
 
   const email =
-    document.getElementById(
-      "authEmail"
-    ).value.trim();
+    document
+      .getElementById("authEmail")
+      .value.trim();
 
   const password =
     document.getElementById(
@@ -5468,9 +4134,7 @@ async function handleAuthSubmit() {
     return;
   }
 
-  if (
-    password.length < 6
-  ) {
+  if (password.length < 6) {
     showAuthError(
       "Het wachtwoord moet minstens 6 tekens bevatten."
     );
@@ -5483,19 +4147,11 @@ async function handleAuthSubmit() {
       "authSubmit"
     );
 
-  button.disabled =
-    true;
-
-  button.textContent =
-    "Even wachten…";
+  button.disabled = true;
+  button.textContent = "Even wachten…";
 
   try {
-
-    if (
-      authMode ===
-      "login"
-    ) {
-
+    if (authMode === "login") {
       const result =
         await supabaseClient.auth.signInWithPassword({
           email,
@@ -5507,7 +4163,6 @@ async function handleAuthSubmit() {
       }
 
     } else {
-
       const result =
         await supabaseClient.auth.signUp({
           email,
@@ -5518,10 +4173,7 @@ async function handleAuthSubmit() {
         throw result.error;
       }
 
-      if (
-        !result.data.session
-      ) {
-
+      if (!result.data.session) {
         showAuthInfo(
           "Je account is aangemaakt. Controleer je e-mail om je account te bevestigen en log daarna in."
         );
@@ -5531,21 +4183,14 @@ async function handleAuthSubmit() {
     }
 
   } catch (error) {
-
-    console.error(
-      error
-    );
+    console.error(error);
 
     showAuthError(
-      translateAuthError(
-        error
-      )
+      translateAuthError(error)
     );
 
   } finally {
-
-    button.disabled =
-      false;
+    button.disabled = false;
 
     button.textContent =
       authMode === "login"
@@ -5554,10 +4199,7 @@ async function handleAuthSubmit() {
   }
 }
 
-
-function translateAuthError(
-  error
-) {
+function translateAuthError(error) {
   const message =
     String(
       error?.message ||
@@ -5598,10 +4240,8 @@ function translateAuthError(
   );
 }
 
-
 async function signOut() {
   closeMenu();
-
   await supabaseClient.auth.signOut();
 }
 
@@ -5610,13 +4250,7 @@ async function signOut() {
    APP START
 ========================================================= */
 
-async function startForUser(
-  user
-) {
-  /*
-    Voorkomt dat getSession() en onAuthStateChange()
-    tegelijk twee keer dezelfde volledige laadactie starten.
-  */
+async function startForUser(user) {
   if (
     startInProgress &&
     currentUser?.id === user.id
@@ -5624,94 +4258,58 @@ async function startForUser(
     return;
   }
 
-  startInProgress =
-    true;
-
-  currentUser =
-    user;
+  startInProgress = true;
+  currentUser = user;
 
   try {
+    document
+      .getElementById("loadingScreen")
+      .classList.remove("hidden");
 
     document
-      .getElementById(
-        "loadingScreen"
-      )
-      .classList.remove(
-        "hidden"
-      );
-
-    document
-      .getElementById(
-        "authScreen"
-      )
-      .classList.add(
-        "hidden"
-      );
+      .getElementById("authScreen")
+      .classList.add("hidden");
 
     await loadHouseholdData();
 
     document
-      .getElementById(
-        "app"
-      )
-      .classList.remove(
-        "hidden"
-      );
+      .getElementById("app")
+      .classList.remove("hidden");
 
     document
-      .getElementById(
-        "loadingScreen"
-      )
-      .classList.add(
-        "hidden"
-      );
+      .getElementById("loadingScreen")
+      .classList.add("hidden");
 
     document.getElementById(
       "menuUserEmail"
     ).textContent =
-      currentUser.email ||
-      "";
+      currentUser.email || "";
 
     document.getElementById(
       "menuUserName"
     ).textContent =
-      config.youName ||
-      "Gebruiker";
+      config.youName || "Gebruiker";
 
     setupRealtime();
-
     render();
 
   } catch (error) {
-
     console.error(
       "Start app:",
       error
     );
 
     document
-      .getElementById(
-        "loadingScreen"
-      )
-      .classList.add(
-        "hidden"
-      );
+      .getElementById("loadingScreen")
+      .classList.add("hidden");
 
     document
-      .getElementById(
-        "app"
-      )
-      .classList.add(
-        "hidden"
-      );
+      .getElementById("app")
+      .classList.add("hidden");
 
     document
-      .getElementById(
-        "authScreen"
-      )
-      .classList.remove(
-        "hidden"
-      );
+      .getElementById("authScreen")
+      .classList.remove("hidden");
 
     showAuthError(
       error.message ||
@@ -5719,9 +4317,7 @@ async function startForUser(
     );
 
   } finally {
-
-    startInProgress =
-      false;
+    startInProgress = false;
   }
 }
 
@@ -5731,69 +4327,35 @@ async function startForUser(
 ========================================================= */
 
 supabaseClient.auth.onAuthStateChange(
-  async (
-    event,
-    session
-  ) => {
+  async (event,session) => {
+    if (event === "SIGNED_OUT") {
+      currentUser = null;
+      householdId = null;
+      startInProgress = false;
 
-    if (
-      event ===
-      "SIGNED_OUT"
-    ) {
+      if (realtimeChannel) {
+        await supabaseClient.removeChannel(
+          realtimeChannel
+        );
 
-      currentUser =
-        null;
-
-      householdId =
-        null;
-
-      startInProgress =
-        false;
-
-      if (
-        realtimeChannel
-      ) {
-
-        await supabaseClient
-          .removeChannel(
-            realtimeChannel
-          );
-
-        realtimeChannel =
-          null;
+        realtimeChannel = null;
       }
 
       document
-        .getElementById(
-          "app"
-        )
-        .classList.add(
-          "hidden"
-        );
+        .getElementById("app")
+        .classList.add("hidden");
 
       document
-        .getElementById(
-          "loadingScreen"
-        )
-        .classList.add(
-          "hidden"
-        );
+        .getElementById("loadingScreen")
+        .classList.add("hidden");
 
       document
-        .getElementById(
-          "authScreen"
-        )
-        .classList.remove(
-          "hidden"
-        );
+        .getElementById("authScreen")
+        .classList.remove("hidden");
 
       return;
     }
 
-    /*
-      INITIAL_SESSION wordt al door init() verwerkt.
-      We hoeven hier alleen nieuwe sessies te starten.
-    */
     if (
       event !== "INITIAL_SESSION" &&
       session?.user
@@ -5811,13 +4373,10 @@ supabaseClient.auth.onAuthStateChange(
 ========================================================= */
 
 document
-  .getElementById(
-    "completionModal"
-  )
+  .getElementById("completionModal")
   .addEventListener(
     "click",
     event => {
-
       if (
         event.target.id ===
         "completionModal"
@@ -5827,15 +4386,11 @@ document
     }
   );
 
-
 document
-  .getElementById(
-    "taskEditorModal"
-  )
+  .getElementById("taskEditorModal")
   .addEventListener(
     "click",
     event => {
-
       if (
         event.target.id ===
         "taskEditorModal"
@@ -5851,49 +4406,32 @@ document
 ========================================================= */
 
 document
-  .getElementById(
-    "loginModeButton"
-  )
+  .getElementById("loginModeButton")
   .addEventListener(
     "click",
-    () =>
-      setAuthMode("login")
+    () => setAuthMode("login")
   );
 
-
 document
-  .getElementById(
-    "signupModeButton"
-  )
+  .getElementById("signupModeButton")
   .addEventListener(
     "click",
-    () =>
-      setAuthMode("signup")
+    () => setAuthMode("signup")
   );
 
-
 document
-  .getElementById(
-    "authSubmit"
-  )
+  .getElementById("authSubmit")
   .addEventListener(
     "click",
     handleAuthSubmit
   );
 
-
 document
-  .getElementById(
-    "authPassword"
-  )
+  .getElementById("authPassword")
   .addEventListener(
     "keydown",
     event => {
-
-      if (
-        event.key ===
-        "Enter"
-      ) {
+      if (event.key === "Enter") {
         handleAuthSubmit();
       }
     }
@@ -5905,72 +4443,44 @@ document
 ========================================================= */
 
 (async function init() {
-
   try {
-
     const result =
       await supabaseClient.auth.getSession();
 
-    if (
-      result.error
-    ) {
+    if (result.error) {
       throw result.error;
     }
 
-    if (
-      result.data.session?.user
-    ) {
-
+    if (result.data.session?.user) {
       await startForUser(
         result.data.session.user
       );
 
     } else {
+      document
+        .getElementById("loadingScreen")
+        .classList.add("hidden");
 
       document
-        .getElementById(
-          "loadingScreen"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-      document
-        .getElementById(
-          "authScreen"
-        )
-        .classList.remove(
-          "hidden"
-        );
+        .getElementById("authScreen")
+        .classList.remove("hidden");
     }
 
   } catch (error) {
-
-    console.error(
-      error
-    );
+    console.error(error);
 
     document
-      .getElementById(
-        "loadingScreen"
-      )
-      .classList.add(
-        "hidden"
-      );
+      .getElementById("loadingScreen")
+      .classList.add("hidden");
 
     document
-      .getElementById(
-        "authScreen"
-      )
-      .classList.remove(
-        "hidden"
-      );
+      .getElementById("authScreen")
+      .classList.remove("hidden");
 
     showAuthError(
       "Verbinden met Supabase is mislukt."
     );
   }
-
 })();
 </script>
 

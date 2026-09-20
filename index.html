@@ -467,6 +467,93 @@ button:disabled{opacity:.55;cursor:not-allowed}
   color:var(--primary-dark);
 }
 
+/* POINTS DISTRIBUTION */
+
+.points-distribution{
+  margin-top:14px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.points-distribution-title{
+  font-size:15px;
+  font-weight:800;
+  margin-bottom:13px;
+}
+
+.points-distribution-bar{
+  width:100%;
+  height:22px;
+  display:flex;
+  overflow:hidden;
+  border-radius:999px;
+  background:#edf1ee;
+  border:1px solid var(--border);
+}
+
+.points-bar-you{
+  height:100%;
+  background:var(--primary);
+  transition:width:.35s ease;
+  min-width:0;
+}
+
+.points-bar-partner{
+  height:100%;
+  background:var(--accent);
+  transition:width:.35s ease;
+  min-width:0;
+}
+
+.points-distribution-labels{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:12px;
+}
+
+.points-distribution-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+
+.points-distribution-label:last-child{
+  justify-content:flex-end;
+  text-align:right;
+}
+
+.points-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  flex:0 0 auto;
+}
+
+.points-dot-you{
+  background:var(--primary);
+}
+
+.points-dot-partner{
+  background:var(--accent);
+}
+
+.points-distribution-name{
+  font-size:12px;
+  color:var(--muted);
+  font-weight:700;
+}
+
+.points-distribution-percent{
+  font-size:14px;
+  font-weight:850;
+  color:var(--text);
+}
+
 /* HISTORY */
 
 .history-list{display:grid;gap:9px}
@@ -478,11 +565,20 @@ button:disabled{opacity:.55;cursor:not-allowed}
   padding:14px;
   display:flex;
   justify-content:space-between;
+  align-items:center;
   gap:12px;
   box-shadow:var(--shadow-small);
 }
 
-.history-title{font-weight:750}
+.history-left{
+  min-width:0;
+  flex:1;
+}
+
+.history-title{
+  font-weight:750;
+  word-break:break-word;
+}
 
 .history-meta{
   color:var(--muted);
@@ -490,10 +586,34 @@ button:disabled{opacity:.55;cursor:not-allowed}
   margin-top:4px;
 }
 
+.history-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+}
+
 .history-points{
   font-weight:850;
   white-space:nowrap;
   color:var(--primary-dark);
+}
+
+.history-delete{
+  width:38px;
+  height:38px;
+  border:1px solid #f0d2d2;
+  border-radius:10px;
+  background:var(--danger-soft);
+  color:var(--danger);
+  font-size:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.history-delete:hover{
+  background:#ffe2e2;
 }
 
 /* SETTINGS */
@@ -871,6 +991,15 @@ button:disabled{opacity:.55;cursor:not-allowed}
 
   .icon-picker{
     grid-template-columns:repeat(6,minmax(0,1fr));
+  }
+
+  .history-item{
+    align-items:flex-start;
+  }
+
+  .history-actions{
+    flex-direction:column;
+    align-items:flex-end;
   }
 }
 
@@ -2597,6 +2726,65 @@ async function confirmCompletion() {
 
 
 /* =========================================================
+   DELETE HISTORY / COMPLETION
+========================================================= */
+
+async function deleteHistoryCompletion(completion) {
+  if (!completion?.id) return;
+
+  const confirmed =
+    confirm(
+      `Deze afgeronde taak uit de geschiedenis verwijderen?\n\n"${completion.taskTitle}"`
+    );
+
+  if (!confirmed) return;
+
+  const previousCompletions = [...completions];
+
+  try {
+    setSyncStatus("Geschiedenis aanpassen…");
+
+    await withLocalWrite(async () => {
+      await deleteCompletionFromDb(
+        completion.id
+      );
+
+      completions =
+        completions.filter(
+          item =>
+            item.id !== completion.id
+        );
+    });
+
+    saveLocalCache();
+
+    renderHistory();
+    renderPoints();
+
+    setSyncStatus("Gesynchroniseerd");
+
+    showToast(
+      "Geschiedenisitem verwijderd."
+    );
+
+  } catch (error) {
+    completions = previousCompletions;
+
+    console.error(
+      "Geschiedenis verwijderen:",
+      error
+    );
+
+    setSyncStatus("Synchronisatiefout");
+
+    showToast(
+      "Geschiedenisitem verwijderen mislukt."
+    );
+  }
+}
+
+
+/* =========================================================
    POINTS
 ========================================================= */
 
@@ -2605,6 +2793,21 @@ function renderPoints() {
     document.getElementById("pointsContent");
 
   const totals = getPointsTotals();
+
+  const total =
+    totals.you + totals.partner;
+
+  const youPercentage =
+    total > 0
+      ? Math.round(
+          (totals.you / total) * 100
+        )
+      : 50;
+
+  const partnerPercentage =
+    total > 0
+      ? 100 - youPercentage
+      : 50;
 
   container.innerHTML = `
     <div class="points-grid">
@@ -2623,6 +2826,57 @@ function renderPoints() {
         </div>
         <div class="points-number">
           ${totals.partner}
+        </div>
+      </div>
+    </div>
+
+    <div class="points-distribution">
+      <div class="points-distribution-title">
+        Puntenverdeling
+      </div>
+
+      <div
+        class="points-distribution-bar"
+        aria-label="Puntenverdeling"
+      >
+        <div
+          class="points-bar-you"
+          style="width:${youPercentage}%"
+        ></div>
+
+        <div
+          class="points-bar-partner"
+          style="width:${partnerPercentage}%"
+        ></div>
+      </div>
+
+      <div class="points-distribution-labels">
+        <div class="points-distribution-label">
+          <span class="points-dot points-dot-you"></span>
+
+          <div>
+            <div class="points-distribution-name">
+              ${escapeHtml(config.youName)}
+            </div>
+
+            <div class="points-distribution-percent">
+              ${youPercentage}%
+            </div>
+          </div>
+        </div>
+
+        <div class="points-distribution-label">
+          <div>
+            <div class="points-distribution-name">
+              ${escapeHtml(config.partnerName)}
+            </div>
+
+            <div class="points-distribution-percent">
+              ${partnerPercentage}%
+            </div>
+          </div>
+
+          <span class="points-dot points-dot-partner"></span>
         </div>
       </div>
     </div>
@@ -2664,6 +2918,8 @@ function renderHistory() {
     const left =
       document.createElement("div");
 
+    left.className = "history-left";
+
     const title =
       document.createElement("div");
 
@@ -2685,10 +2941,41 @@ function renderHistory() {
     const right =
       document.createElement("div");
 
-    right.className = "history-points";
+    right.className = "history-actions";
 
-    right.textContent =
+    const points =
+      document.createElement("div");
+
+    points.className = "history-points";
+
+    points.textContent =
       `${Number(completion.points || 0)} p`;
+
+    const deleteButton =
+      document.createElement("button");
+
+    deleteButton.type = "button";
+    deleteButton.className =
+      "history-delete";
+
+    deleteButton.textContent =
+      "🗑️";
+
+    deleteButton.title =
+      "Uit geschiedenis verwijderen";
+
+    deleteButton.setAttribute(
+      "aria-label",
+      "Uit geschiedenis verwijderen"
+    );
+
+    deleteButton.onclick =
+      () => deleteHistoryCompletion(
+        completion
+      );
+
+    right.appendChild(points);
+    right.appendChild(deleteButton);
 
     item.appendChild(left);
     item.appendChild(right);
@@ -3134,8 +3421,6 @@ function renderFrequencySettings(
       grid.className =
         "frequency-grid";
 
-      /* Naam */
-
       const nameField =
         document.createElement("div");
 
@@ -3198,8 +3483,6 @@ function renderFrequencySettings(
 
       nameField.appendChild(nameLabel);
       nameField.appendChild(nameInput);
-
-      /* Interval */
 
       const intervalField =
         document.createElement("div");
@@ -3304,8 +3587,6 @@ function renderFrequencySettings(
         intervalInput
       );
 
-      /* Unit */
-
       const unitField =
         document.createElement("div");
 
@@ -3399,8 +3680,6 @@ function renderFrequencySettings(
 
       unitField.appendChild(unitLabel);
       unitField.appendChild(unitSelect);
-
-      /* Remove */
 
       const removeButton =
         document.createElement("button");
@@ -3667,11 +3946,6 @@ async function saveAllSettings() {
         `Tab ${index + 1}`;
     }
 
-    /*
-      Het icoon komt nu uit de picker en staat
-      rechtstreeks op tab.icon. Er is geen apart
-      tekstveld meer nodig.
-    */
     if (!tab.icon) {
       tab.icon = "📌";
     }

@@ -13,25 +13,23 @@
   box-sizing: border-box;
 }
 
-:root {
-  --bg: #f5f6f8;
-  --card: #ffffff;
-  --text: #202124;
-  --muted: #73777f;
-  --border: #e4e6ea;
-  --accent: #4f7cff;
-  --accent-dark: #3c67dc;
-  --green: #2e9b62;
-  --red: #dc5757;
-  --gray: #b8bcc4;
-  --shadow: 0 2px 12px rgba(0,0,0,.06);
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  background: #f5f6f8;
+  color: #202124;
 }
 
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   min-height: 100vh;
 }
 
@@ -50,7 +48,7 @@ button {
 }
 
 /* =========================================================
-   LOGIN
+   AUTH
 ========================================================= */
 
 #authScreen {
@@ -63,87 +61,108 @@ button {
 
 .auth-card {
   width: 100%;
-  max-width: 430px;
-  background: var(--card);
-  border: 1px solid var(--border);
+  max-width: 420px;
+  background: white;
   border-radius: 24px;
   padding: 28px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 35px rgba(0,0,0,.08);
 }
 
-.auth-logo {
-  text-align: center;
-  font-size: 52px;
-  margin-bottom: 10px;
-}
-
-.auth-card h1 {
-  text-align: center;
+.auth-title {
   margin: 0 0 8px;
-  font-size: 28px;
+  font-size: 30px;
+  font-weight: 800;
 }
 
 .auth-subtitle {
-  text-align: center;
-  color: var(--muted);
-  margin-bottom: 24px;
+  margin: 0 0 24px;
+  color: #6b7280;
 }
 
 .auth-mode {
-  display: flex;
-  gap: 8px;
-  background: #f1f2f5;
-  padding: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background: #f1f3f5;
   border-radius: 12px;
+  padding: 4px;
   margin-bottom: 20px;
 }
 
 .auth-mode button {
-  flex: 1;
   border: 0;
+  border-radius: 9px;
   background: transparent;
   padding: 10px;
-  border-radius: 9px;
-  color: var(--muted);
+  color: #666;
 }
 
 .auth-mode button.active {
   background: white;
-  color: var(--text);
-  box-shadow: 0 1px 5px rgba(0,0,0,.08);
+  color: #111;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
 }
 
-.auth-error {
-  background: #fff0f0;
-  color: #a33;
-  border-radius: 10px;
-  padding: 11px 13px;
-  margin-bottom: 14px;
-  font-size: 14px;
+.auth-field {
+  margin-bottom: 15px;
 }
 
-.auth-info {
-  background: #eef4ff;
-  color: #3d5f9d;
-  border-radius: 10px;
-  padding: 11px 13px;
-  margin-bottom: 14px;
-  font-size: 14px;
+.auth-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.auth-field input {
+  width: 100%;
+  border: 1px solid #d8dce2;
+  border-radius: 12px;
+  padding: 13px 14px;
+  outline: none;
+}
+
+.auth-field input:focus {
+  border-color: #7b61ff;
 }
 
 .auth-submit {
   width: 100%;
   border: 0;
-  background: var(--accent);
+  border-radius: 13px;
+  padding: 14px;
+  background: #202124;
   color: white;
-  padding: 13px;
-  border-radius: 12px;
   font-weight: 700;
-  margin-top: 8px;
 }
 
-.auth-submit:hover {
-  background: var(--accent-dark);
+.auth-message {
+  margin-top: 15px;
+  border-radius: 10px;
+  padding: 11px 13px;
+  font-size: 14px;
+}
+
+.auth-error {
+  background: #fff0f0;
+  color: #a40000;
+}
+
+.auth-info {
+  background: #eef5ff;
+  color: #24558c;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+#loadingScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
 }
 
 /* =========================================================
@@ -160,7 +179,7 @@ button {
   z-index: 20;
   background: rgba(245,246,248,.94);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #e4e6e9;
 }
 
 .topbar-inner {
@@ -170,172 +189,133 @@ button {
   padding: 12px 18px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-.topbar-title {
-  flex: 1;
+.brand {
   min-width: 0;
 }
 
-.topbar-title h1 {
-  margin: 0;
-  font-size: 21px;
-  line-height: 1.2;
+.brand-title {
+  font-size: 20px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.topbar-title div {
-  color: var(--muted);
-  font-size: 13px;
-  margin-top: 3px;
+.brand-subtitle {
+  color: #777;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.menu-button {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 13px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  font-size: 22px;
 }
 
 .sync-status {
   font-size: 11px;
-  color: var(--muted);
-  white-space: nowrap;
+  color: #777;
+  margin-top: 2px;
 }
 
-.menu-button {
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 12px;
-  font-size: 22px;
-}
+/* =========================================================
+   CONTENT
+========================================================= */
 
-.screen {
+.main-container {
   max-width: 900px;
-  margin: auto;
+  margin: 0 auto;
   padding: 18px;
-}
-
-#mainScreen {
-  display: block;
 }
 
 .tabs {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding-bottom: 10px;
-  margin-bottom: 8px;
+  padding-bottom: 12px;
 }
 
 .tab-button {
-  border: 1px solid var(--border);
+  flex: 0 0 auto;
+  border: 1px solid #e0e3e7;
   background: white;
-  border-radius: 13px;
-  padding: 10px 14px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  white-space: nowrap;
-  color: var(--muted);
-}
-
-.tab-button.active {
-  background: var(--text);
-  border-color: var(--text);
-  color: white;
-}
-
-.tab-icon {
-  font-size: 18px;
-}
-
-.view header h1 {
-  margin: 15px 0 3px;
-  font-size: 25px;
-}
-
-.subtitle {
-  color: var(--muted);
-  font-size: 14px;
-  margin-bottom: 14px;
-}
-
-.add-button,
-.add-frequency-button,
-.save-settings-button {
-  border: 0;
-  background: var(--accent);
-  color: white;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 11px 15px;
+  color: #555;
   font-weight: 700;
 }
 
-.add-button {
-  width: 100%;
-  margin-bottom: 18px;
+.tab-button.active {
+  background: #202124;
+  color: white;
+  border-color: #202124;
 }
 
-.section {
-  margin-bottom: 22px;
+.tab-view {
+  display: none;
 }
 
-.section-header {
+.tab-view.active {
+  display: block;
+}
+
+.section-card {
+  background: white;
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 14px rgba(0,0,0,.045);
+}
+
+.tab-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 18px 2px 9px;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
-.section-title {
-  font-weight: 750;
+.tab-heading h2 {
+  margin: 0;
+  font-size: 21px;
 }
 
-.section-count {
-  color: var(--muted);
-  font-size: 13px;
+.add-task-button,
+.add-frequency-button {
+  border: 0;
+  border-radius: 12px;
+  background: #202124;
+  color: white;
+  padding: 11px 14px;
+  font-weight: 700;
 }
 
 .task-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  gap: 9px;
 }
 
-.task {
+.task-card {
+  border: 1px solid #e4e6e9;
+  border-radius: 15px;
+  padding: 13px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  padding: 13px 14px;
-  box-shadow: var(--shadow);
-  transition: transform .1s ease;
+  gap: 11px;
 }
 
-.task:active {
-  transform: scale(.995);
-}
-
-.status-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  flex: 0 0 12px;
-}
-
-.status-dot.green {
-  background: var(--green);
-}
-
-.status-dot.red {
-  background: var(--red);
-}
-
-.status-dot.gray {
-  background: var(--gray);
-}
-
-.task-info {
-  flex: 1;
+.task-main {
   min-width: 0;
+  flex: 1;
 }
 
 .task-title {
@@ -344,44 +324,41 @@ button {
 }
 
 .task-meta {
-  color: var(--muted);
-  font-size: 12px;
   margin-top: 4px;
+  font-size: 12px;
+  color: #777;
 }
 
 .task-actions {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
-.task-points {
-  color: var(--accent-dark);
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.edit-button {
-  width: 34px;
-  height: 34px;
-  border: 0;
-  background: #f0f1f4;
-  border-radius: 10px;
-  font-size: 20px;
-}
-
-.empty {
-  padding: 20px;
-  text-align: center;
-  color: var(--muted);
+.small-button {
+  border: 1px solid #ddd;
   background: white;
-  border: 1px dashed var(--border);
-  border-radius: 14px;
+  border-radius: 9px;
+  padding: 7px 9px;
+}
+
+.complete-button {
+  border: 0;
+  background: #202124;
+  color: white;
+  border-radius: 10px;
+  padding: 9px 11px;
+  font-weight: 700;
+}
+
+.empty-state {
+  padding: 28px 10px;
+  text-align: center;
+  color: #777;
+  line-height: 1.5;
 }
 
 /* =========================================================
-   OTHER SCREENS
+   SCREENS
 ========================================================= */
 
 .secondary-screen {
@@ -392,95 +369,37 @@ button {
   display: block;
 }
 
-.secondary-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.secondary-header h2 {
-  margin: 0;
-}
-
-.back-button {
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 10px;
-  padding: 8px 11px;
+.screen-title {
+  margin: 0 0 18px;
+  font-size: 25px;
 }
 
 /* =========================================================
    POINTS
 ========================================================= */
 
-.points-card,
-.settings-card,
-.history-item {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  box-shadow: var(--shadow);
+.points-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .points-card {
-  padding: 22px;
-  margin-bottom: 16px;
-}
-
-.points-names {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.point-person {
-  flex: 1;
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
   text-align: center;
 }
 
-.point-person-name {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.point-number {
-  font-size: 42px;
-  font-weight: 800;
-  margin-top: 4px;
-}
-
-.balance {
-  display: flex;
-  height: 18px;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #eceef2;
-  margin: 22px 0 10px;
-}
-
-.balance-left,
-.balance-right {
-  width: 0;
-  transition: width .25s ease;
-}
-
-.balance-left {
-  background: #5d82ed;
-}
-
-.balance-right {
-  background: #d07a9b;
-}
-
-.balance-empty {
-  display: none;
-}
-
-.balance-description {
-  text-align: center;
-  color: var(--muted);
+.points-name {
+  color: #777;
   font-size: 13px;
+}
+
+.points-number {
+  font-size: 34px;
+  font-weight: 800;
+  margin-top: 5px;
 }
 
 /* =========================================================
@@ -488,139 +407,108 @@ button {
 ========================================================= */
 
 .history-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 9px;
 }
 
 .history-item {
+  background: white;
+  border-radius: 15px;
   padding: 14px;
-}
-
-.history-main {
   display: flex;
-  gap: 15px;
-  align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
-.history-task {
+.history-title {
   font-weight: 700;
 }
 
-.history-details {
-  color: var(--muted);
+.history-meta {
+  color: #777;
   font-size: 12px;
   margin-top: 4px;
 }
 
 .history-points {
+  font-weight: 800;
   white-space: nowrap;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.undo-button {
-  border: 0;
-  background: #f1f2f5;
-  border-radius: 9px;
-  padding: 8px 10px;
-  margin-top: 11px;
-  font-size: 12px;
 }
 
 /* =========================================================
    SETTINGS
 ========================================================= */
 
-.settings-card {
+.settings-section {
+  background: white;
+  border-radius: 20px;
   padding: 18px;
   margin-bottom: 14px;
 }
 
-.settings-card h3 {
-  margin: 0 0 5px;
-}
-
-.settings-description,
-.info-box {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.5;
+.settings-section h3 {
+  margin: 0 0 15px;
 }
 
 .field {
-  margin-top: 14px;
+  margin-bottom: 13px;
 }
 
 .field label {
   display: block;
-  font-size: 12px;
-  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
   margin-bottom: 6px;
 }
 
 .field input,
 .field select {
   width: 100%;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 10px;
+  border: 1px solid #d8dce2;
+  border-radius: 11px;
   padding: 10px 11px;
-  outline: none;
+  background: white;
 }
 
-.field input:focus,
-.field select:focus {
-  border-color: var(--accent);
-}
-
-.info-box {
-  background: #f4f6fa;
-  padding: 11px;
-  border-radius: 10px;
+.tab-settings {
+  border: 1px solid #e4e6e9;
+  border-radius: 17px;
+  padding: 15px;
   margin-top: 14px;
 }
 
-.tab-settings-title {
+.tab-settings-header {
   display: flex;
   align-items: center;
   gap: 9px;
-  font-weight: 750;
-  margin-bottom: 5px;
+  margin-bottom: 12px;
 }
 
-.tab-settings-icon {
-  font-size: 25px;
+.tab-settings-header h4 {
+  margin: 0;
+  font-size: 17px;
 }
 
 .switch-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 15px;
-  margin-top: 18px;
+  padding: 11px 0;
+  border-top: 1px solid #eee;
 }
 
-.switch-text {
-  flex: 1;
+.switch-row:first-of-type {
+  border-top: 0;
 }
 
-.switch-title {
+.switch-label {
   font-weight: 650;
-}
-
-.switch-description {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 3px;
 }
 
 .switch {
   position: relative;
   width: 48px;
   height: 28px;
-  flex: 0 0 48px;
 }
 
 .switch input {
@@ -632,8 +520,8 @@ button {
 .slider {
   position: absolute;
   inset: 0;
-  border-radius: 20px;
-  background: #d2d5db;
+  background: #d5d8dd;
+  border-radius: 30px;
   transition: .2s;
 }
 
@@ -644,99 +532,126 @@ button {
   height: 22px;
   left: 3px;
   top: 3px;
-  background: white;
   border-radius: 50%;
+  background: white;
   transition: .2s;
   box-shadow: 0 1px 3px rgba(0,0,0,.2);
 }
 
 .switch input:checked + .slider {
-  background: var(--accent);
+  background: #202124;
 }
 
 .switch input:checked + .slider:before {
   transform: translateX(20px);
 }
 
-.icon-picker {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.icon-option {
-  width: 38px;
-  height: 38px;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 9px;
-  font-size: 19px;
-}
-
-.icon-option.selected {
-  border-color: var(--accent);
-  background: #edf2ff;
-}
-
-.custom-icon-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.custom-icon-row input {
-  flex: 1;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 9px;
-}
-
-.icon-preview {
-  width: 43px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.frequency-wrapper {
+  margin-top: 12px;
 }
 
 .frequency-row {
-  border-top: 1px solid var(--border);
-  padding-top: 13px;
-  margin-top: 13px;
+  border: 1px solid #e3e5e8;
+  border-radius: 13px;
+  padding: 12px;
+  margin-bottom: 9px;
 }
 
 .frequency-grid {
   display: grid;
-  grid-template-columns: minmax(0,2fr) 90px 120px 38px;
+  grid-template-columns: minmax(0,2fr) 90px 130px 40px;
   gap: 8px;
   align-items: end;
 }
 
 .frequency-remove {
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border: 0;
+  border-radius: 10px;
   background: #fff0f0;
-  color: #a33;
-  border-radius: 9px;
-  font-size: 22px;
+  color: #b00020;
+  font-size: 20px;
 }
 
 .frequency-example {
-  color: var(--muted);
+  color: #777;
   font-size: 11px;
-  margin-top: 6px;
-}
-
-.add-frequency-button {
-  margin-top: 15px;
-  background: #eef2ff;
-  color: var(--accent-dark);
+  margin-top: 8px;
 }
 
 .save-settings-button {
   width: 100%;
-  margin: 5px 0 30px;
+  border: 0;
+  border-radius: 13px;
+  padding: 14px;
+  background: #202124;
+  color: white;
+  font-weight: 800;
+}
+
+/* =========================================================
+   MENU
+========================================================= */
+
+#menuOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.32);
+  z-index: 100;
+  display: none;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+#menuOverlay.show {
+  display: flex;
+}
+
+.menu-panel {
+  width: min(340px, 90vw);
+  min-height: 100vh;
+  background: white;
+  padding: 22px;
+  box-shadow: -8px 0 30px rgba(0,0,0,.12);
+}
+
+.menu-user {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 18px;
+  margin-bottom: 12px;
+}
+
+.menu-user-name {
+  font-weight: 800;
+}
+
+.menu-user-email {
+  color: #777;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.menu-item {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  border-radius: 11px;
+  padding: 13px;
+  margin-bottom: 4px;
+  font-weight: 650;
+}
+
+.menu-item:hover {
+  background: #f3f4f6;
+}
+
+.menu-close {
+  float: right;
+  border: 0;
+  background: transparent;
+  font-size: 24px;
 }
 
 /* =========================================================
@@ -746,207 +661,107 @@ button {
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.38);
-  z-index: 100;
+  z-index: 200;
+  background: rgba(0,0,0,.35);
   display: none;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  padding: 15px;
+  padding: 18px;
 }
 
 .modal.show {
   display: flex;
 }
 
-.modal-content {
+.modal-card {
   width: 100%;
-  max-width: 500px;
+  max-width: 460px;
   background: white;
   border-radius: 22px;
-  padding: 22px;
-  box-shadow: 0 12px 50px rgba(0,0,0,.2);
+  padding: 20px;
+  max-height: 90vh;
+  overflow: auto;
 }
 
-.modal-content h2 {
-  margin: 0;
+.modal-card h3 {
+  margin: 0 0 18px;
 }
 
-.modal-subtitle {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 6px 0 18px;
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 18px;
 }
 
-.completion-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 9px;
-}
-
-.completion-buttons button {
+.modal-actions button {
   border: 0;
-  border-radius: 13px;
-  padding: 14px;
-  background: #eef2ff;
-  color: #3459bc;
+  border-radius: 11px;
+  padding: 10px 14px;
   font-weight: 700;
-}
-
-.completion-buttons .together-button {
-  grid-column: 1 / -1;
-  background: #edf7f1;
-  color: #28784f;
 }
 
 .modal-cancel {
-  width: 100%;
-  border: 1px solid var(--border);
-  background: white;
-  border-radius: 11px;
-  padding: 11px;
-  margin-top: 10px;
-}
-
-.delete-button {
-  width: 100%;
-  border: 0;
-  background: #fff0f0;
-  color: #a33;
-  border-radius: 11px;
-  padding: 11px;
-  margin-top: 10px;
+  background: #eef0f2;
 }
 
 .modal-save {
-  width: 100%;
-  border: 0;
-  background: var(--accent);
+  background: #202124;
   color: white;
-  border-radius: 11px;
-  padding: 12px;
-  margin-top: 15px;
-  font-weight: 700;
 }
 
 /* =========================================================
-   MENU
+   TOAST
 ========================================================= */
 
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.35);
-  z-index: 90;
-  display: none;
-}
-
-.menu-overlay.show {
-  display: block;
-}
-
-.menu-panel {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: min(320px, calc(100% - 20px));
-  background: white;
-  border-radius: 18px;
-  box-shadow: 0 10px 40px rgba(0,0,0,.2);
-  padding: 10px;
-}
-
-.menu-panel button {
-  width: 100%;
-  text-align: left;
-  border: 0;
-  background: white;
-  border-radius: 11px;
-  padding: 13px;
-}
-
-.menu-panel button:hover {
-  background: #f3f4f7;
-}
-
-.menu-user {
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 5px;
-}
-
-.menu-user-name {
-  font-weight: 700;
-}
-
-.menu-user-email {
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 3px;
-}
-
-/* =========================================================
-   TOAST / LOADING
-========================================================= */
-
-.loading-screen {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.loading-spinner {
-  width: 35px;
-  height: 35px;
-  border: 3px solid #dfe2e7;
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin .8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.toast {
+#toast {
   position: fixed;
   left: 50%;
-  bottom: 20px;
-  transform: translateX(-50%);
-  z-index: 300;
-  background: #22252a;
+  bottom: 22px;
+  transform: translateX(-50%) translateY(20px);
+  background: #202124;
   color: white;
+  padding: 12px 16px;
   border-radius: 12px;
-  padding: 11px 15px;
   font-size: 13px;
-  box-shadow: 0 6px 25px rgba(0,0,0,.2);
-  display: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: .2s;
+  z-index: 500;
 }
 
-.toast.show {
-  display: block;
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media (max-width: 650px) {
+  .main-container {
+    padding: 12px;
+  }
+
   .frequency-grid {
-    grid-template-columns: 1fr 80px;
+    grid-template-columns: 1fr 1fr;
   }
 
-  .frequency-grid .unit-field {
-    grid-column: 1 / 2;
+  .frequency-grid .field:first-child {
+    grid-column: 1 / -1;
   }
 
-  .frequency-grid .frequency-remove {
-    grid-column: 2 / 3;
+  .frequency-remove {
+    width: 100%;
   }
 
-  .sync-status {
-    display: none;
+  .task-card {
+    align-items: flex-start;
+  }
+
+  .task-actions {
+    flex-direction: column;
   }
 }
 </style>
@@ -955,16 +770,15 @@ button {
 <body>
 
 <!-- =======================================================
-     LOGIN
-======================================================== -->
+     AUTH
+======================================================= -->
 
-<div id="authScreen" class="hidden">
+<section id="authScreen">
   <div class="auth-card">
-    <div class="auth-logo">🏠</div>
-    <h1>Huishouden</h1>
-    <div class="auth-subtitle">
-      Log in om jullie huishouden samen te beheren.
-    </div>
+    <h1 class="auth-title">Huishouden</h1>
+    <p class="auth-subtitle">
+      Taken, punten en afspraken op één plek.
+    </p>
 
     <div class="auth-mode">
       <button id="loginModeButton" class="active" type="button">
@@ -975,52 +789,66 @@ button {
       </button>
     </div>
 
-    <div id="authError" class="auth-error hidden"></div>
-    <div id="authInfo" class="auth-info hidden"></div>
-
-    <div class="field">
+    <div class="auth-field">
       <label for="authEmail">E-mailadres</label>
-      <input id="authEmail" type="email" autocomplete="email">
+      <input
+        id="authEmail"
+        type="email"
+        autocomplete="email"
+        placeholder="naam@email.com"
+      >
     </div>
 
-    <div class="field">
+    <div class="auth-field">
       <label for="authPassword">Wachtwoord</label>
-      <input id="authPassword" type="password" autocomplete="current-password">
+      <input
+        id="authPassword"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Minimaal 6 tekens"
+      >
     </div>
 
     <button id="authSubmit" class="auth-submit" type="button">
       Inloggen
     </button>
+
+    <div id="authError" class="auth-message auth-error hidden"></div>
+    <div id="authInfo" class="auth-message auth-info hidden"></div>
   </div>
-</div>
+</section>
 
 
 <!-- =======================================================
      LOADING
-======================================================== -->
+======================================================= -->
 
-<div id="loadingScreen" class="loading-screen">
-  <div class="loading-spinner"></div>
-  <div>Huishouden laden…</div>
-</div>
+<section id="loadingScreen">
+  Gegevens laden…
+</section>
 
 
 <!-- =======================================================
      APP
-======================================================== -->
+======================================================= -->
 
 <div id="app" class="hidden">
 
-  <div class="topbar">
+  <header class="topbar">
     <div class="topbar-inner">
 
-      <div class="topbar-title">
-        <h1 id="appTitle">Huishouden</h1>
-        <div id="appSubtitle">Taken overzicht</div>
-      </div>
+      <div class="brand">
+        <div id="appTitle" class="brand-title">
+          Huishouden
+        </div>
 
-      <div id="syncStatus" class="sync-status">
-        Verbinden…
+        <div id="appSubtitle" class="brand-subtitle">
+          Taken overzicht
+        </div>
+
+        <div id="syncStatus" class="sync-status">
+          Verbinden…
+        </div>
       </div>
 
       <button
@@ -1033,213 +861,168 @@ button {
       </button>
 
     </div>
-  </div>
+  </header>
 
 
-  <!-- MAIN -->
+  <main id="mainScreen">
+    <div class="main-container">
 
-  <main id="mainScreen" class="screen">
+      <div id="tabs" class="tabs"></div>
 
-    <div id="tabs" class="tabs"></div>
+      <div id="tabViews"></div>
 
-    <div id="tabViews"></div>
-
+    </div>
   </main>
 
 
-  <!-- POINTS -->
-
-  <section id="pointsScreen" class="screen secondary-screen">
-
-    <div class="secondary-header">
-      <button class="back-button" onclick="showMainScreen()">←</button>
-      <h2>Punten</h2>
+  <section id="pointsScreen" class="secondary-screen">
+    <div class="main-container">
+      <h1 class="screen-title">Punten</h1>
+      <div id="pointsContent"></div>
     </div>
-
-    <div class="points-card">
-
-      <div class="points-names">
-
-        <div class="point-person">
-          <div id="youNameLabel" class="point-person-name">Jij</div>
-          <div id="youPoints" class="point-number">0</div>
-        </div>
-
-        <div class="point-person">
-          <div id="partnerNameLabel" class="point-person-name">Partner</div>
-          <div id="partnerPoints" class="point-number">0</div>
-        </div>
-
-      </div>
-
-      <div class="balance">
-        <div id="balanceLeft" class="balance-left"></div>
-        <div id="balanceRight" class="balance-right"></div>
-      </div>
-
-      <div id="balanceEmpty" class="balance-empty">
-        Nog geen punten
-      </div>
-
-      <div id="balanceDescription" class="balance-description">
-        Nog geen punten
-      </div>
-
-    </div>
-
   </section>
 
 
-  <!-- HISTORY -->
-
-  <section id="historyScreen" class="screen secondary-screen">
-
-    <div class="secondary-header">
-      <button class="back-button" onclick="showMainScreen()">←</button>
-      <h2>Geschiedenis</h2>
+  <section id="historyScreen" class="secondary-screen">
+    <div class="main-container">
+      <h1 class="screen-title">Geschiedenis</h1>
+      <div id="historyContent"></div>
     </div>
-
-    <div id="historyList" class="history-list"></div>
-
   </section>
 
 
-  <!-- SETTINGS -->
-
-  <section id="settingsScreen" class="screen secondary-screen">
-
-    <div class="secondary-header">
-      <button class="back-button" onclick="showMainScreen()">←</button>
-      <h2>Instellingen</h2>
+  <section id="settingsScreen" class="secondary-screen">
+    <div class="main-container">
+      <h1 class="screen-title">Instellingen</h1>
+      <div id="settingsContent"></div>
     </div>
-
-    <div id="settingsContent"></div>
-
   </section>
 
+</div>
 
-  <!-- MENU -->
 
-  <div
-    id="menuOverlay"
-    class="menu-overlay"
-    onclick="handleMenuBackground(event)"
-  >
+<!-- =======================================================
+     MENU
+======================================================= -->
 
-    <div class="menu-panel">
+<div
+  id="menuOverlay"
+  onclick="handleMenuBackground(event)"
+>
 
-      <div class="menu-user">
-        <div id="menuUserName" class="menu-user-name"></div>
-        <div id="menuUserEmail" class="menu-user-email"></div>
+  <div class="menu-panel">
+
+    <button
+      class="menu-close"
+      type="button"
+      onclick="closeMenu()"
+    >
+      ×
+    </button>
+
+    <div class="menu-user">
+      <div
+        id="menuUserName"
+        class="menu-user-name"
+      >
+        Gebruiker
       </div>
 
-      <button onclick="openPoints()">🏆 Punten</button>
-      <button onclick="openHistory()">📜 Geschiedenis</button>
-      <button onclick="openSettings()">⚙️ Instellingen</button>
-      <button onclick="signOut()">🚪 Uitloggen</button>
-
+      <div
+        id="menuUserEmail"
+        class="menu-user-email"
+      ></div>
     </div>
+
+    <button
+      class="menu-item"
+      type="button"
+      onclick="showMainScreen()"
+    >
+      🏠 Taken
+    </button>
+
+    <button
+      class="menu-item"
+      type="button"
+      onclick="openPoints()"
+    >
+      ⭐ Punten
+    </button>
+
+    <button
+      class="menu-item"
+      type="button"
+      onclick="openHistory()"
+    >
+      📜 Geschiedenis
+    </button>
+
+    <button
+      class="menu-item"
+      type="button"
+      onclick="openSettings()"
+    >
+      ⚙️ Instellingen
+    </button>
+
+    <button
+      class="menu-item"
+      type="button"
+      onclick="signOut()"
+    >
+      🚪 Uitloggen
+    </button>
 
   </div>
 
+</div>
 
-  <!-- COMPLETION MODAL -->
 
-  <div id="completionModal" class="modal">
+<!-- =======================================================
+     COMPLETION MODAL
+======================================================= -->
 
-    <div class="modal-content">
+<div id="completionModal" class="modal">
 
-      <h2 id="completionTitle">Taak</h2>
+  <div class="modal-card">
 
-      <div id="completionSubtitle" class="modal-subtitle">
-        Wie heeft dit gedaan?
-      </div>
+    <h3>Taak afronden</h3>
 
-      <div class="completion-buttons">
+    <div id="completionTaskTitle"></div>
 
-        <button id="youButton" onclick="completeTask('you')">
-          Jij
-        </button>
+    <div
+      id="completionPersonField"
+      class="field"
+      style="margin-top:18px"
+    >
+      <label for="completionPerson">
+        Wie heeft de taak gedaan?
+      </label>
 
-        <button id="partnerButton" onclick="completeTask('partner')">
-          Partner
-        </button>
+      <select id="completionPerson">
+        <option value="you">Jij</option>
+        <option value="partner">Partner</option>
+        <option value="together">Samen</option>
+      </select>
+    </div>
 
-        <button
-          class="together-button"
-          onclick="completeTask('together')"
-        >
-          Samen
-        </button>
-
-      </div>
+    <div class="modal-actions">
 
       <button
         class="modal-cancel"
+        type="button"
         onclick="closeCompletionModal()"
       >
         Annuleren
       </button>
 
-    </div>
-
-  </div>
-
-
-  <!-- TASK EDITOR -->
-
-  <div id="taskEditorModal" class="modal">
-
-    <div class="modal-content">
-
-      <h2 id="editorTitle">Taak toevoegen</h2>
-
-      <div id="editorSubtitle" class="modal-subtitle">
-        Kies de instellingen van deze taak.
-      </div>
-
-      <div class="field">
-        <label for="taskTitleInput">Naam van taak</label>
-        <input id="taskTitleInput" type="text" maxlength="100">
-      </div>
-
-      <div id="taskFrequencyField" class="field">
-        <label for="taskFrequencyInput">Frequentie</label>
-        <select id="taskFrequencyInput"></select>
-      </div>
-
-      <div id="taskPointsField" class="field">
-        <label for="taskPointsInput">Punten</label>
-        <input
-          id="taskPointsInput"
-          type="number"
-          min="0"
-          max="9999"
-          step="1"
-          value="1"
-        >
-      </div>
-
       <button
         class="modal-save"
-        onclick="saveTaskFromEditor()"
+        type="button"
+        onclick="confirmCompletion()"
       >
-        Opslaan
-      </button>
-
-      <button
-        id="deleteTaskButton"
-        class="delete-button"
-        onclick="deleteTaskFromEditor()"
-      >
-        Taak verwijderen
-      </button>
-
-      <button
-        class="modal-cancel"
-        onclick="closeTaskEditor()"
-      >
-        Annuleren
+        Afronden
       </button>
 
     </div>
@@ -1249,7 +1032,81 @@ button {
 </div>
 
 
-<div id="toast" class="toast"></div>
+<!-- =======================================================
+     TASK EDITOR
+======================================================= -->
+
+<div id="taskEditorModal" class="modal">
+
+  <div class="modal-card">
+
+    <h3 id="taskEditorTitle">
+      Taak toevoegen
+    </h3>
+
+    <div class="field">
+      <label for="taskTitleInput">Taak</label>
+      <input
+        id="taskTitleInput"
+        type="text"
+        placeholder="Bijvoorbeeld keuken opruimen"
+      >
+    </div>
+
+    <div
+      id="taskFrequencyField"
+      class="field"
+    >
+      <label for="taskFrequencyInput">
+        Frequentie
+      </label>
+
+      <select id="taskFrequencyInput"></select>
+    </div>
+
+    <div
+      id="taskPointsField"
+      class="field"
+    >
+      <label for="taskPointsInput">
+        Punten
+      </label>
+
+      <input
+        id="taskPointsInput"
+        type="number"
+        min="0"
+        max="999"
+        step="1"
+      >
+    </div>
+
+    <div class="modal-actions">
+
+      <button
+        class="modal-cancel"
+        type="button"
+        onclick="closeTaskEditor()"
+      >
+        Annuleren
+      </button>
+
+      <button
+        class="modal-save"
+        type="button"
+        onclick="saveTaskFromEditor()"
+      >
+        Opslaan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div id="toast"></div>
 
 
 <script>
@@ -1271,25 +1128,13 @@ const supabaseClient =
 
 
 /* =========================================================
-   LOCAL CACHE
+   CONSTANTS
 ========================================================= */
 
 const STORAGE_KEYS = {
-  config: "householdCustomTemplateV5",
-  completions: "householdCustomCompletionsV5",
-  subtitle: "householdAppSubtitleV1"
+  config: "huishouden_config",
+  subtitle: "huishouden_subtitle"
 };
-
-
-/* =========================================================
-   ICONS
-========================================================= */
-
-const ICONS = [
-  "🏠","⭐","📌","🧹","🛁","🚿","🧺","🍽️","🍳","🛒",
-  "🧽","🧼","🗑️","♻️","🌱","🌿","🐶","🐱","👶","🛏️",
-  "🚽","🧹","🔧","🪴","📦","💡","🚗","🧰","❤️","📅"
-];
 
 
 /* =========================================================
@@ -1304,12 +1149,22 @@ let completions = [];
 
 let currentTabId = null;
 let selectedTask = null;
+
 let editingTaskId = null;
 let editorTabId = null;
 
 let realtimeChannel = null;
-let suppressRealtime = false;
+let refreshTimer = null;
+
 let loadingData = false;
+let startInProgress = false;
+
+/*
+  Tijdens een eigen write willen we voorkomen dat een realtime
+  event de lokale UI meteen terugzet naar een oudere toestand.
+*/
+let localWriteDepth = 0;
+let realtimeIgnoreUntil = 0;
 
 
 /* =========================================================
@@ -1324,19 +1179,16 @@ function createId() {
     return window.crypto.randomUUID();
   }
 
-  return (
-    "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
-  ).replace(
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
     /[xy]/g,
     character => {
-
       const random =
         Math.random() * 16 | 0;
 
       const value =
         character === "x"
           ? random
-          : (random & 0x3 | 0x8);
+          : (random & 0x3) | 0x8;
 
       return value.toString(16);
     }
@@ -1344,65 +1196,85 @@ function createId() {
 }
 
 
-function showToast(message) {
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
 
+
+function showToast(message) {
   const toast =
     document.getElementById("toast");
 
-  toast.textContent =
-    message;
-
+  toast.textContent = message;
   toast.classList.add("show");
 
   clearTimeout(
-    showToast.timeout
+    showToast.timer
   );
 
-  showToast.timeout =
+  showToast.timer =
     setTimeout(
       () => {
         toast.classList.remove("show");
       },
-      2800
+      2600
     );
-
 }
 
 
-function setSyncStatus(text) {
-
+function setSyncStatus(message) {
   const element =
     document.getElementById("syncStatus");
 
   if (element) {
-    element.textContent =
-      text;
+    element.textContent = message;
   }
-
 }
 
 
-function escapeHtml(text) {
+function beginLocalWrite() {
+  localWriteDepth++;
 
-  const div =
-    document.createElement("div");
-
-  div.textContent =
-    String(text ?? "");
-
-  return div.innerHTML;
-
+  realtimeIgnoreUntil =
+    Date.now() + 1200;
 }
 
 
-function escapeAttribute(text) {
+function endLocalWrite() {
+  localWriteDepth =
+    Math.max(
+      0,
+      localWriteDepth - 1
+    );
 
-  return String(text ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  realtimeIgnoreUntil =
+    Date.now() + 500;
+}
 
+
+function shouldIgnoreRealtime() {
+  return (
+    localWriteDepth > 0 ||
+    Date.now() < realtimeIgnoreUntil
+  );
+}
+
+
+async function withLocalWrite(
+  callback
+) {
+  beginLocalWrite();
+
+  try {
+    return await callback();
+  } finally {
+    endLocalWrite();
+  }
 }
 
 
@@ -1411,22 +1283,23 @@ function escapeAttribute(text) {
 ========================================================= */
 
 function createDefaultConfig() {
-
   return {
     appName: "Huishouden",
     appSubtitle: "Taken overzicht",
 
     youName: "Jij",
     partnerName: "Partner",
+
     startDate: "",
 
     tabs: [
       {
         id: createId(),
-        name: "Tab 1",
+        name: "Huis",
         icon: "🏠",
         pointsEnabled: true,
         frequencyEnabled: true,
+
         frequencies: [
           {
             id: createId(),
@@ -1447,12 +1320,13 @@ function createDefaultConfig() {
             interval: 1
           }
         ],
+
         tasks: []
       },
 
       {
         id: createId(),
-        name: "Tab 2",
+        name: "Extra",
         icon: "⭐",
         pointsEnabled: true,
         frequencyEnabled: false,
@@ -1462,7 +1336,7 @@ function createDefaultConfig() {
 
       {
         id: createId(),
-        name: "Tab 3",
+        name: "Overig",
         icon: "📌",
         pointsEnabled: false,
         frequencyEnabled: false,
@@ -1471,7 +1345,6 @@ function createDefaultConfig() {
       }
     ]
   };
-
 }
 
 
@@ -1480,27 +1353,6 @@ function createDefaultConfig() {
 ========================================================= */
 
 function normalizeFrequency(frequency) {
-
-  const unit =
-    ["days","weeks","months"].includes(
-      frequency?.unit
-    )
-      ? frequency.unit
-      : "weeks";
-
-  const interval =
-    Math.max(
-      1,
-      Math.min(
-        999,
-        Math.floor(
-          Number(
-            frequency?.interval
-          ) || 1
-        )
-      )
-    );
-
   return {
     id:
       frequency?.id ||
@@ -1509,19 +1361,32 @@ function normalizeFrequency(frequency) {
     name:
       frequency?.name ||
       makeFrequencyName(
-        unit,
-        interval
+        frequency?.unit || "weeks",
+        Number(
+          frequency?.interval ??
+          frequency?.amount ??
+          1
+        )
       ),
 
-    unit,
-    interval
-  };
+    unit:
+      frequency?.unit ||
+      "weeks",
 
+    interval:
+      Math.max(
+        1,
+        Number(
+          frequency?.interval ??
+          frequency?.amount ??
+          1
+        )
+      )
+  };
 }
 
 
 function normalizeTask(task) {
-
   return {
     id:
       task?.id ||
@@ -1532,39 +1397,27 @@ function normalizeTask(task) {
       "Nieuwe taak",
 
     frequencyId:
-      task?.frequencyId ||
+      task?.frequencyId ??
+      task?.frequency_id ??
       null,
 
     points:
       Math.max(
         0,
         Number(
-          task?.points
-        ) || 0
+          task?.points || 0
+        )
       )
   };
-
 }
 
 
 function normalizeConfig(input) {
-
-  const defaults =
+  const source =
+    input ||
     createDefaultConfig();
 
-  const source =
-    input &&
-    typeof input === "object"
-      ? input
-      : {};
-
-  const tabs =
-    Array.isArray(source.tabs)
-      ? source.tabs
-      : defaults.tabs;
-
   return {
-
     appName:
       source.appName ||
       "Huishouden",
@@ -1586,77 +1439,60 @@ function normalizeConfig(input) {
       "",
 
     tabs:
-      tabs.map(
-        (tab, index) => {
+      (source.tabs || []).map(
+        tab => ({
+          id:
+            tab.id ||
+            createId(),
 
-          const defaultTab =
-            defaults.tabs[index] ||
-            {
-              id: createId(),
-              name: `Tab ${index + 1}`,
-              icon: "📌",
-              pointsEnabled: false,
-              frequencyEnabled: false,
-              frequencies: [],
-              tasks: []
-            };
+          name:
+            tab.name ||
+            "Tab",
 
-          return {
+          icon:
+            tab.icon ||
+            "📌",
 
-            id:
-              tab?.id ||
-              defaultTab.id,
+          pointsEnabled:
+            tab.pointsEnabled !== false,
 
-            name:
-              tab?.name ||
-              `Tab ${index + 1}`,
+          frequencyEnabled:
+            tab.frequencyEnabled === true,
 
-            icon:
-              tab?.icon ||
-              defaultTab.icon,
+          frequencies:
+            (tab.frequencies || [])
+              .map(normalizeFrequency),
 
-            pointsEnabled:
-              tab?.pointsEnabled !== false,
-
-            frequencyEnabled:
-              tab?.frequencyEnabled === true,
-
-            frequencies:
-              Array.isArray(
-                tab?.frequencies
-              )
-                ? tab.frequencies.map(
-                    normalizeFrequency
-                  )
-                : [],
-
-            tasks:
-              Array.isArray(
-                tab?.tasks
-              )
-                ? tab.tasks.map(
-                    normalizeTask
-                  )
-                : []
-
-          };
-
-        }
+          tasks:
+            (tab.tasks || [])
+              .map(normalizeTask)
+        })
       )
-
   };
-
 }
 
 
 /* =========================================================
-   LOCAL STORAGE
+   LOCAL CACHE
 ========================================================= */
 
-function loadLocalConfig() {
-
+function saveLocalCache() {
   try {
+    localStorage.setItem(
+      STORAGE_KEYS.config,
+      JSON.stringify(config)
+    );
+  } catch (error) {
+    console.warn(
+      "Local cache opslaan mislukt:",
+      error
+    );
+  }
+}
 
+
+function loadLocalConfig() {
+  try {
     const raw =
       localStorage.getItem(
         STORAGE_KEYS.config
@@ -1669,180 +1505,14 @@ function loadLocalConfig() {
     return normalizeConfig(
       JSON.parse(raw)
     );
-
   } catch (error) {
-
-    console.error(
-      "Local config laden mislukt:",
+    console.warn(
+      "Local cache lezen mislukt:",
       error
     );
 
     return null;
-
   }
-
-}
-
-
-function loadLocalCompletions() {
-
-  try {
-
-    const raw =
-      localStorage.getItem(
-        STORAGE_KEYS.completions
-      );
-
-    if (!raw) {
-      return [];
-    }
-
-    const list =
-      JSON.parse(raw);
-
-    return Array.isArray(list)
-      ? list
-      : [];
-
-  } catch (error) {
-
-    console.error(
-      "Lokale completions laden mislukt:",
-      error
-    );
-
-    return [];
-
-  }
-
-}
-
-
-function saveLocalCache() {
-
-  try {
-
-    localStorage.setItem(
-      STORAGE_KEYS.config,
-      JSON.stringify(config)
-    );
-
-    localStorage.setItem(
-      STORAGE_KEYS.completions,
-      JSON.stringify(completions)
-    );
-
-  } catch (error) {
-
-    console.warn(
-      "Lokale cache opslaan mislukt:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   DATE HELPERS
-========================================================= */
-
-function dateOnly(date) {
-
-  const result =
-    new Date(date);
-
-  result.setHours(
-    0,
-    0,
-    0,
-    0
-  );
-
-  return result;
-
-}
-
-
-function getStartDate() {
-
-  if (
-    config.startDate
-  ) {
-
-    const date =
-      new Date(
-        config.startDate +
-        "T00:00:00"
-      );
-
-    if (
-      !Number.isNaN(
-        date.getTime()
-      )
-    ) {
-
-      return dateOnly(
-        date
-      );
-
-    }
-
-  }
-
-  return dateOnly(
-    new Date()
-  );
-
-}
-
-
-function addDays(
-  date,
-  days
-) {
-
-  const result =
-    new Date(date);
-
-  result.setDate(
-    result.getDate() +
-    days
-  );
-
-  return result;
-
-}
-
-
-function addMonths(
-  date,
-  months
-) {
-
-  const result =
-    new Date(date);
-
-  result.setMonth(
-    result.getMonth() +
-    months
-  );
-
-  return result;
-
-}
-
-
-function isBeforeStartDate(
-  date
-) {
-
-  return dateOnly(
-    date
-  ) <
-  getStartDate();
-
 }
 
 
@@ -1850,528 +1520,204 @@ function isBeforeStartDate(
    FREQUENCIES
 ========================================================= */
 
-function getFrequency(
-  tab,
-  task
-) {
-
-  if (
-    !tab ||
-    !task ||
-    !task.frequencyId
-  ) {
-
-    return null;
-
-  }
-
-  return (
-    tab.frequencies.find(
-      frequency =>
-        frequency.id ===
-        task.frequencyId
-    ) ||
-    null
-  );
-
-}
-
-
 function makeFrequencyName(
   unit,
   interval
 ) {
+  const number =
+    Math.max(
+      1,
+      Number(interval) || 1
+    );
 
-  const amount =
-    Number(interval) || 1;
-
-  if (
-    unit === "days"
-  ) {
-
-    return `Elke ${amount} ${
-      amount === 1
-        ? "dag"
-        : "dagen"
-    }`;
-
+  if (unit === "days") {
+    return number === 1
+      ? "Elke dag"
+      : `Elke ${number} dagen`;
   }
 
-  if (
-    unit === "months"
-  ) {
-
-    return `Elke ${amount} ${
-      amount === 1
-        ? "maand"
-        : "maanden"
-    }`;
-
+  if (unit === "months") {
+    return number === 1
+      ? "Elke maand"
+      : `Elke ${number} maanden`;
   }
 
-  return `Elke ${amount} ${
-    amount === 1
-      ? "week"
-      : "weken"
-  }`;
-
+  return number === 1
+    ? "Elke week"
+    : `Elke ${number} weken`;
 }
 
 
 function getFrequencyLabel(
   frequency
 ) {
-
-  if (!frequency) {
-    return "Geen frequentie";
-  }
-
   return (
-    frequency.name ||
+    frequency?.name ||
     makeFrequencyName(
-      frequency.unit,
-      frequency.interval
+      frequency?.unit,
+      frequency?.interval
     )
   );
-
 }
 
 
-/* =========================================================
-   PERIOD
-========================================================= */
-
-function getPeriodInfo(
-  tab,
-  task,
-  date = new Date()
+function getFrequencyById(
+  frequencyId
 ) {
-
-  const frequency =
-    getFrequency(
-      tab,
-      task
-    );
-
-  if (!frequency) {
+  if (!frequencyId) {
     return null;
   }
 
-  const current =
-    dateOnly(date);
-
-  const startAnchor =
-    getStartDate();
-
-  if (
-    current <
-    startAnchor
+  for (
+    const tab of config.tabs
   ) {
-
-    return null;
-
-  }
-
-
-  if (
-    frequency.unit ===
-    "days"
-  ) {
-
-    const diff =
-      Math.floor(
-        (
-          current -
-          startAnchor
-        ) /
-        86400000
+    const frequency =
+      tab.frequencies.find(
+        item =>
+          item.id ===
+          frequencyId
       );
 
-    const block =
-      Math.floor(
-        diff /
-        frequency.interval
-      );
-
-    const start =
-      addDays(
-        startAnchor,
-        block *
-        frequency.interval
-      );
-
-    const end =
-      addDays(
-        start,
-        frequency.interval - 1
-      );
-
-    end.setHours(
-      23,
-      59,
-      59,
-      999
-    );
-
-    return {
-      start,
-      end,
-      key:
-        start
-          .toISOString()
-          .slice(0, 10)
-    };
-
-  }
-
-
-  if (
-    frequency.unit ===
-    "weeks"
-  ) {
-
-    const intervalDays =
-      frequency.interval *
-      7;
-
-    const diff =
-      Math.floor(
-        (
-          current -
-          startAnchor
-        ) /
-        86400000
-      );
-
-    const block =
-      Math.floor(
-        diff /
-        intervalDays
-      );
-
-    const start =
-      addDays(
-        startAnchor,
-        block *
-        intervalDays
-      );
-
-    const end =
-      addDays(
-        start,
-        intervalDays - 1
-      );
-
-    end.setHours(
-      23,
-      59,
-      59,
-      999
-    );
-
-    return {
-      start,
-      end,
-      key:
-        start
-          .toISOString()
-          .slice(0, 10)
-    };
-
-  }
-
-
-  if (
-    frequency.unit ===
-    "months"
-  ) {
-
-    let cursor =
-      new Date(
-        startAnchor
-      );
-
-    let block = 0;
-
-    while (
-      addMonths(
-        cursor,
-        frequency.interval
-      ) <= current
-    ) {
-
-      cursor =
-        addMonths(
-          cursor,
-          frequency.interval
-        );
-
-      block++;
-
-      if (
-        block > 10000
-      ) {
-        break;
-      }
-
+    if (frequency) {
+      return frequency;
     }
-
-    const start =
-      cursor;
-
-    const next =
-      addMonths(
-        start,
-        frequency.interval
-      );
-
-    const end =
-      addDays(
-        next,
-        -1
-      );
-
-    end.setHours(
-      23,
-      59,
-      59,
-      999
-    );
-
-    return {
-      start,
-      end,
-      key:
-        start
-          .toISOString()
-          .slice(0, 10)
-    };
-
   }
 
   return null;
-
 }
 
 
-function getPeriodKey(
-  tab,
-  task,
-  date = new Date()
+/*
+  Belangrijk:
+  de Supabase-tabel frequencies heeft géén tab_id.
+  Daarom behandelen we frequenties als household-brede
+  frequenties. Elke tab die frequenties gebruikt krijgt
+  dezelfde lijst te zien.
+
+  Dit voorkomt dat de ene browser een frequentie wel ziet
+  en de andere browser niet.
+*/
+function applyHouseholdFrequencies(
+  frequencyRows
 ) {
-
-  const info =
-    getPeriodInfo(
-      tab,
-      task,
-      date
-    );
-
-  return info
-    ? info.key
-    : null;
-
-}
-
-
-/* =========================================================
-   COMPLETIONS
-========================================================= */
-
-function getTaskCompletions(
-  task
-) {
-
-  return completions.filter(
-    completion =>
-      completion.taskId ===
-      task.id
-  );
-
-}
-
-
-function getCurrentCompletion(
-  tab,
-  task
-) {
-
-  const period =
-    getPeriodKey(
-      tab,
-      task
-    );
-
-  if (!period) {
-    return null;
-  }
-
-  return (
-    completions.find(
-      completion =>
-        completion.taskId ===
-          task.id &&
-        completion.tabId ===
-          tab.id &&
-        completion.period ===
-          period
-    ) ||
-    null
-  );
-
-}
-
-
-function getLastCompletion(
-  tab,
-  task
-) {
-
-  const list =
-    getTaskCompletions(
-      task
-    )
+  const normalized =
+    (frequencyRows || [])
       .filter(
-        completion =>
-          completion.tabId ===
-          tab.id
+        row =>
+          row.enabled !== false
+      )
+      .sort(
+        (a, b) =>
+          Number(a.position || 0) -
+          Number(b.position || 0)
+      )
+      .map(
+        row =>
+          normalizeFrequency({
+            id: row.id,
+            name: row.name,
+            amount: row.amount,
+            unit: row.unit
+          })
       );
 
-  if (!list.length) {
-    return null;
-  }
-
-  return list
-    .slice()
-    .sort(
-      (a, b) =>
-        new Date(
-          b.completedAt
-        ) -
-        new Date(
-          a.completedAt
-        )
-    )[0];
-
+  config.tabs.forEach(
+    tab => {
+      if (tab.frequencyEnabled) {
+        tab.frequencies =
+          normalized.map(
+            frequency => ({
+              ...frequency
+            })
+          );
+      } else {
+        tab.frequencies = [];
+      }
+    }
+  );
 }
 
 
 /* =========================================================
-   STATUS
+   DATE / PERIOD
 ========================================================= */
 
-function isOverdue(
-  tab,
-  task
-) {
-
-  if (
-    !tab.frequencyEnabled
-  ) {
-    return false;
-  }
-
-  const frequency =
-    getFrequency(
-      tab,
-      task
-    );
-
-  if (!frequency) {
-    return false;
-  }
-
-  const now =
+function getTodayKey() {
+  const date =
     new Date();
 
-  if (
-    isBeforeStartDate(
-      now
-    )
-  ) {
-    return false;
-  }
+  return [
+    date.getFullYear(),
+    String(
+      date.getMonth() + 1
+    ).padStart(2, "0"),
+    String(
+      date.getDate()
+    ).padStart(2, "0")
+  ].join("-");
+}
 
-  const current =
-    getPeriodInfo(
-      tab,
-      task,
-      now
+
+function getWeekKey(date = new Date()) {
+  const d =
+    new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
     );
 
-  if (!current) {
-    return false;
-  }
+  const day =
+    d.getDay() || 7;
 
-  if (
-    getCurrentCompletion(
-      tab,
-      task
-    )
-  ) {
-    return false;
-  }
+  d.setDate(
+    d.getDate() -
+    day +
+    1
+  );
 
-  /*
-    De huidige periode is nog bezig.
-    Dus niet rood.
-  */
+  const year =
+    d.getFullYear();
 
-  if (
-    now <=
-    current.end
-  ) {
-    return false;
-  }
+  const month =
+    String(
+      d.getMonth() + 1
+    ).padStart(2, "0");
 
-  return true;
+  const dayNumber =
+    String(
+      d.getDate()
+    ).padStart(2, "0");
 
+  return `${year}-W${month}-${dayNumber}`;
 }
 
 
-function getTaskStatus(
-  tab,
-  task
-) {
-
-  if (
-    getCurrentCompletion(
-      tab,
-      task
-    )
-  ) {
-    return "green";
-  }
-
-  if (
-    isOverdue(
-      tab,
-      task
-    )
-  ) {
-    return "red";
-  }
-
-  return "gray";
-
+function getPeriodKey() {
+  return getWeekKey();
 }
 
 
-/* =========================================================
-   DATE DISPLAY
-========================================================= */
-
-function formatDate(
-  dateString
+function getDateFromCompletion(
+  completion
 ) {
-
-  if (!dateString) {
+  if (!completion?.completedAt) {
     return "";
   }
 
-  return new Date(
-    dateString
-  ).toLocaleDateString(
+  const date =
+    new Date(
+      completion.completedAt
+    );
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+    return "";
+  }
+
+  return date.toLocaleDateString(
     "nl-BE",
     {
       day: "2-digit",
@@ -2379,64 +1725,81 @@ function formatDate(
       year: "numeric"
     }
   );
-
-}
-
-
-function formatDateTime(
-  dateString
-) {
-
-  if (!dateString) {
-    return "";
-  }
-
-  return new Date(
-    dateString
-  ).toLocaleString(
-    "nl-BE",
-    {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
-    }
-  );
-
 }
 
 
 /* =========================================================
-   PERSON
+   COMPLETION / STATUS
 ========================================================= */
 
-function personLabel(
-  person
+function findTabIdForTask(
+  taskId
 ) {
-
-  if (
-    person === "you"
+  for (
+    const tab of config.tabs
   ) {
-    return config.youName ||
-      "Jij";
+    if (
+      tab.tasks.some(
+        task =>
+          task.id === taskId
+      )
+    ) {
+      return tab.id;
+    }
   }
 
-  if (
-    person === "partner"
+  return null;
+}
+
+
+function getTaskById(
+  taskId
+) {
+  for (
+    const tab of config.tabs
   ) {
-    return config.partnerName ||
-      "Partner";
+    const task =
+      tab.tasks.find(
+        item =>
+          item.id === taskId
+      );
+
+    if (task) {
+      return {
+        tab,
+        task
+      };
+    }
   }
 
-  if (
-    person === "together"
-  ) {
-    return "Samen";
-  }
+  return null;
+}
 
-  return person;
 
+function getCompletionsForTask(
+  taskId
+) {
+  return completions.filter(
+    completion =>
+      completion.taskId ===
+      taskId
+  );
+}
+
+
+function isTaskCompletedToday(
+  taskId
+) {
+  const today =
+    getTodayKey();
+
+  return completions.some(
+    completion =>
+      completion.taskId === taskId &&
+      String(
+        completion.completedAt || ""
+      ).slice(0, 10) === today
+  );
 }
 
 
@@ -2445,17 +1808,14 @@ function personLabel(
 ========================================================= */
 
 function getPointsTotals() {
-
   let you = 0;
   let partner = 0;
 
   completions.forEach(
     completion => {
-
       const points =
         Number(
-          completion.points ||
-          0
+          completion.points || 0
         );
 
       if (
@@ -2479,7 +1839,6 @@ function getPointsTotals() {
         you += points;
         partner += points;
       }
-
     }
   );
 
@@ -2487,12 +1846,62 @@ function getPointsTotals() {
     you,
     partner
   };
-
 }
 
 
 /* =========================================================
-   DATABASE → APP
+   DATABASE: FIND HOUSEHOLD
+========================================================= */
+
+async function findHouseholdForCurrentUser() {
+  if (!currentUser) {
+    return null;
+  }
+
+  const result =
+    await supabaseClient
+      .from("household_members")
+      .select("household_id")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .limit(1);
+
+  if (result.error) {
+    throw result.error;
+  }
+
+  if (
+    result.data &&
+    result.data.length
+  ) {
+    return result.data[0].household_id;
+  }
+
+  const accessResult =
+    await supabaseClient
+      .from("household_user_access")
+      .select("household_id")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .limit(1);
+
+  if (accessResult.error) {
+    throw accessResult.error;
+  }
+
+  return (
+    accessResult.data?.[0]?.household_id ||
+    null
+  );
+}
+
+
+/* =========================================================
+   DATABASE: REBUILD
 ========================================================= */
 
 function rebuildConfigFromRows(
@@ -2502,9 +1911,9 @@ function rebuildConfigFromRows(
   frequencies,
   tasks
 ) {
-
   const current =
-    config || createDefaultConfig();
+    config ||
+    createDefaultConfig();
 
   const household =
     households?.[0];
@@ -2521,24 +1930,15 @@ function rebuildConfigFromRows(
           Number(b.position || 0)
       );
 
-  const frequencyRows =
-    frequencies || [];
-
   const taskRows =
     tasks || [];
 
   const result = {
-
     appName:
       household?.name ||
       current.appName ||
       "Huishouden",
 
-    /*
-      Er is in household_settings geen
-      subtitle-kolom. Daarom blijft deze
-      waarde lokaal per browser.
-    */
     appSubtitle:
       current.appSubtitle ||
       "Taken overzicht",
@@ -2561,116 +1961,25 @@ function rebuildConfigFromRows(
     tabs:
       tabRows.map(
         tabRow => {
-
-          const tabFrequencies =
-            frequencyRows
-              .filter(
-                frequency =>
-                  frequency.position !== undefined &&
-                  frequency.position !== null
-              )
-              .filter(
-                frequency =>
-                  frequency._tabId ===
-                  tabRow.id
-              );
-
-          /*
-            Frequencies hebben geen tab_id in
-            het schema. Ze zijn gekoppeld aan
-            household_id. Om de bestaande app-
-            structuur te behouden, gebruiken we
-            de tab-indeling zoals die uit lokale
-            data wordt overgenomen als die
-            beschikbaar is. Nieuwe frequenties
-            worden aan de actieve tab gekoppeld
-            via een lokale mapping.
-
-            Voor bestaande data zoeken we daarom
-            eerst op frequency-id.
-          */
-
           const oldTab =
             current.tabs.find(
-              t =>
-                t.id ===
+              tab =>
+                tab.id ===
                 tabRow.id
             );
 
-          const oldFrequencies =
-            oldTab?.frequencies ||
-            [];
-
-          const frequenciesForTab =
-            oldFrequencies
-              .map(
-                oldFrequency => {
-
-                  const dbFrequency =
-                    frequencyRows.find(
-                      frequency =>
-                        frequency.id ===
-                        oldFrequency.id
-                    );
-
-                  if (
-                    !dbFrequency
-                  ) {
-                    return oldFrequency;
-                  }
-
-                  return {
-                    id:
-                      dbFrequency.id,
-
-                    name:
-                      dbFrequency.name,
-
-                    unit:
-                      dbFrequency.unit,
-
-                    interval:
-                      dbFrequency.amount
-                  };
-
-                }
-              );
-
-          const tabTasks =
-            taskRows
-              .filter(
-                task =>
-                  task.tab_id ===
-                  tabRow.id
-              )
-              .map(
-                task => ({
-                  id:
-                    task.id,
-
-                  title:
-                    task.title,
-
-                  frequencyId:
-                    task.frequency_id,
-
-                  points:
-                    Number(
-                      task.points || 0
-                    )
-                })
-              );
-
           return {
-
             id:
               tabRow.id,
 
             name:
-              tabRow.name,
+              tabRow.name ||
+              oldTab?.name ||
+              "Tab",
 
             icon:
               tabRow.icon ||
+              oldTab?.icon ||
               "📌",
 
             pointsEnabled:
@@ -2680,749 +1989,340 @@ function rebuildConfigFromRows(
               tabRow.use_frequency === true,
 
             frequencies:
-              frequenciesForTab,
+              [],
 
             tasks:
-              tabTasks
+              taskRows
+                .filter(
+                  task =>
+                    task.tab_id ===
+                    tabRow.id
+                )
+                .map(
+                  task => ({
+                    id:
+                      task.id,
 
+                    title:
+                      task.title,
+
+                    frequencyId:
+                      task.frequency_id,
+
+                    points:
+                      Number(
+                        task.points || 0
+                      )
+                  })
+                )
           };
-
         }
       )
-
   };
 
   return normalizeConfig(
     result
   );
-
 }
 
 
 /* =========================================================
-   FIND HOUSEHOLD
-========================================================= */
-
-async function findHouseholdForCurrentUser() {
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("household_user_access")
-      .select(
-        "household_id"
-      )
-      .eq(
-        "user_id",
-        currentUser.id
-      );
-
-  if (error) {
-    throw error;
-  }
-
-  if (
-    data &&
-    data.length
-  ) {
-
-    return data[0].household_id;
-
-  }
-
-
-  /*
-    Tweede poging via household_members.
-    Dit werkt wanneer het account rechtstreeks
-    als lid is opgenomen.
-  */
-
-  const membership =
-    await supabaseClient
-      .from("household_members")
-      .select(
-        "household_id"
-      )
-      .eq(
-        "user_id",
-        currentUser.id
-      )
-      .limit(1);
-
-  if (
-    !membership.error &&
-    membership.data &&
-    membership.data.length
-  ) {
-
-    return membership.data[0].household_id;
-
-  }
-
-  return null;
-
-}
-
-
-/* =========================================================
-   LOAD HOUSEHOLD
+   DATABASE: LOAD
 ========================================================= */
 
 async function loadHouseholdData() {
+  if (
+    loadingData ||
+    !currentUser
+  ) {
+    return;
+  }
 
   loadingData = true;
 
-  setSyncStatus(
-    "Gegevens laden…"
-  );
-
-  householdId =
-    await findHouseholdForCurrentUser();
-
-  if (!householdId) {
-
-    loadingData = false;
-
-    throw new Error(
-      "Je account is nog niet aan een huishouden gekoppeld."
+  try {
+    setSyncStatus(
+      "Gegevens laden…"
     );
 
-  }
+    householdId =
+      await findHouseholdForCurrentUser();
 
+    if (!householdId) {
+      throw new Error(
+        "Je account is nog niet aan een huishouden gekoppeld."
+      );
+    }
 
-  const [
-    householdResult,
-    settingsResult,
-    tabsResult,
-    frequenciesResult,
-    tasksResult,
-    completionsResult
-  ] =
-    await Promise.all([
+    const [
+      householdResult,
+      settingsResult,
+      tabsResult,
+      frequenciesResult,
+      tasksResult,
+      completionsResult
+    ] =
+      await Promise.all([
+        supabaseClient
+          .from("households")
+          .select("*")
+          .eq(
+            "id",
+            householdId
+          ),
 
-      supabaseClient
-        .from("households")
-        .select("*")
-        .eq(
-          "id",
-          householdId
-        ),
+        supabaseClient
+          .from("household_settings")
+          .select("*")
+          .eq(
+            "household_id",
+            householdId
+          ),
 
-      supabaseClient
-        .from("household_settings")
-        .select("*")
-        .eq(
-          "household_id",
-          householdId
-        ),
+        supabaseClient
+          .from("tabs")
+          .select("*")
+          .eq(
+            "household_id",
+            householdId
+          )
+          .order(
+            "position",
+            {
+              ascending: true
+            }
+          ),
 
-      supabaseClient
-        .from("tabs")
-        .select("*")
-        .eq(
-          "household_id",
-          householdId
-        )
-        .order(
-          "position",
-          {
-            ascending: true
-          }
-        ),
+        supabaseClient
+          .from("frequencies")
+          .select("*")
+          .eq(
+            "household_id",
+            householdId
+          )
+          .order(
+            "position",
+            {
+              ascending: true
+            }
+          ),
 
-      supabaseClient
-        .from("frequencies")
-        .select("*")
-        .eq(
-          "household_id",
-          householdId
-        )
-        .order(
-          "position",
-          {
-            ascending: true
-          }
-        ),
+        supabaseClient
+          .from("tasks")
+          .select("*")
+          .eq(
+            "household_id",
+            householdId
+          ),
 
-      supabaseClient
-        .from("tasks")
-        .select("*")
-        .eq(
-          "household_id",
-          householdId
-        ),
+        supabaseClient
+          .from("completions")
+          .select("*")
+          .eq(
+            "household_id",
+            householdId
+          )
+          .order(
+            "completed_at",
+            {
+              ascending: false
+            }
+          )
+      ]);
 
-      supabaseClient
-        .from("completions")
-        .select("*")
-        .eq(
-          "household_id",
-          householdId
-        )
-        .order(
-          "completed_at",
-          {
-            ascending: false
-          }
-        )
+    const results = [
+      householdResult,
+      settingsResult,
+      tabsResult,
+      frequenciesResult,
+      tasksResult,
+      completionsResult
+    ];
 
-    ]);
-
-
-  const results = [
-    householdResult,
-    settingsResult,
-    tabsResult,
-    frequenciesResult,
-    tasksResult,
-    completionsResult
-  ];
-
-  const failed =
-    results.find(
-      result =>
-        result.error
-    );
-
-  if (failed) {
-    throw failed.error;
-  }
-
-
-  /*
-    Frequenties in jouw bestaande schema hebben
-    geen tab_id. Daarom bewaren we de relatie
-    frequency → tab via de taak: een frequency
-    wordt bij het laden gekoppeld aan de tab van
-    de taken die hem gebruiken.
-
-    Voor lege frequenties nemen we de lokale
-    mapping mee wanneer die beschikbaar is.
-  */
-
-  const oldConfig =
-    loadLocalConfig();
-
-  const oldTabs =
-    oldConfig?.tabs ||
-    [];
-
-  const frequencies =
-    frequenciesResult.data || [];
-
-  const enrichedFrequencies =
-    frequencies.map(
-      frequency => {
-
-        let tabId = null;
-
-        for (
-          const oldTab of oldTabs
-        ) {
-
-          if (
-            oldTab.frequencies.some(
-              f =>
-                f.id ===
-                frequency.id
-            )
-          ) {
-
-            tabId =
-              oldTab.id;
-
-            break;
-
-          }
-
-        }
-
-        return {
-          ...frequency,
-          _tabId:
-            tabId
-        };
-
-      }
-    );
-
-
-  config =
-    rebuildConfigFromRows(
-      householdResult.data,
-      settingsResult.data,
-      tabsResult.data,
-      enrichedFrequencies,
-      tasksResult.data
-    );
-
-
-  /*
-    Als Supabase nog helemaal leeg is maar er
-    lokale gegevens bestaan, proberen we éénmalig
-    de lokale app naar het huishouden te migreren.
-  */
-
-  const hasDatabaseContent =
-    (
-      (tabsResult.data || []).length > 0 ||
-      (tasksResult.data || []).length > 0 ||
-      (frequenciesResult.data || []).length > 0 ||
-      (completionsResult.data || []).length > 0
-    );
-
-  if (
-    !hasDatabaseContent &&
-    oldConfig &&
-    oldConfig.tabs.length
-  ) {
-
-    await migrateLocalData(
-      oldConfig,
-      loadLocalCompletions()
-    );
-
-    /*
-      Na migratie opnieuw laden.
-    */
-
-    return await loadHouseholdData();
-
-  }
-
-
-  completions =
-    (completionsResult.data || [])
-      .map(
-        mapCompletionFromDb
+    const failed =
+      results.find(
+        result =>
+          result.error
       );
 
-  /*
-    App subtitle bestaat niet als kolom in de
-    huidige database.
-  */
-  try {
+    if (failed) {
+      throw failed.error;
+    }
 
-    const localSubtitle =
+    /*
+      Als de database nog helemaal leeg is, migreren we de
+      lokale configuratie één keer.
+    */
+    const hasTabs =
+      (tabsResult.data || []).length > 0;
+
+    if (!hasTabs) {
+      const local =
+        loadLocalConfig();
+
+      if (
+        local &&
+        local.tabs?.length
+      ) {
+        config =
+          local;
+
+        await migrateLocalData();
+
+        /*
+          Na migratie opnieuw laden zodat de database
+          de definitieve bron is.
+        */
+        loadingData = false;
+
+        return await loadHouseholdData();
+      }
+    }
+
+    config =
+      rebuildConfigFromRows(
+        householdResult.data,
+        settingsResult.data,
+        tabsResult.data,
+        frequenciesResult.data,
+        tasksResult.data
+      );
+
+    /*
+      Frequenties zijn household-breed omdat de bestaande
+      tabel geen tab_id bevat.
+    */
+    applyHouseholdFrequencies(
+      frequenciesResult.data
+    );
+
+    completions =
+      (completionsResult.data || [])
+        .map(
+          mapCompletionFromDb
+        );
+
+    const storedSubtitle =
       localStorage.getItem(
         STORAGE_KEYS.subtitle
       );
 
-    if (localSubtitle) {
+    if (storedSubtitle) {
       config.appSubtitle =
-        localSubtitle;
+        storedSubtitle;
     }
 
-  } catch (_) {}
+    currentTabId =
+      config.tabs[0]?.id ||
+      null;
 
+    saveLocalCache();
 
-  currentTabId =
-    config.tabs[0]?.id ||
-    null;
+    setSyncStatus(
+      "Gesynchroniseerd"
+    );
 
-  saveLocalCache();
-
-  loadingData = false;
-
-  setSyncStatus(
-    "Gesynchroniseerd"
-  );
-
-}
-
-
-/* =========================================================
-   DB → COMPLETION
-========================================================= */
-
-function mapCompletionFromDb(
-  row
-) {
-
-  return {
-
-    id:
-      row.id,
-
-    tabId:
-      findTabIdForTask(
-        row.task_id
-      ),
-
-    taskId:
-      row.task_id,
-
-    taskTitle:
-      row.task_title,
-
-    person:
-      row.person_type,
-
-    points:
-      Number(
-        row.points || 0
-      ),
-
-    period:
-      row.period_key,
-
-    completedAt:
-      row.completed_at
-
-  };
-
-}
-
-
-function findTabIdForTask(
-  taskId
-) {
-
-  for (
-    const tab of config.tabs
-  ) {
-
-    if (
-      tab.tasks.some(
-        task =>
-          task.id ===
-          taskId
-      )
-    ) {
-
-      return tab.id;
-
-    }
-
+  } finally {
+    loadingData = false;
   }
-
-  return null;
-
 }
 
 
 /* =========================================================
-   LOCAL → SUPABASE MIGRATION
+   DATABASE: MIGRATION
 ========================================================= */
 
-async function migrateLocalData(
-  localConfig,
-  localCompletions
-) {
-
-  if (!householdId) {
+async function migrateLocalData() {
+  if (
+    !householdId
+  ) {
     return;
   }
 
-  setSyncStatus(
-    "Lokale gegevens importeren…"
-  );
+  const local =
+    config ||
+    createDefaultConfig();
 
-  const idMap =
-    new Map();
+  await withLocalWrite(
+    async () => {
 
-
-  /*
-    Tabs
-  */
-
-  for (
-    let index = 0;
-    index < localConfig.tabs.length;
-    index++
-  ) {
-
-    const localTab =
-      localConfig.tabs[index];
-
-    const newId =
-      isUuid(localTab.id)
-        ? localTab.id
-        : createId();
-
-    idMap.set(
-      `tab:${localTab.id}`,
-      newId
-    );
-
-    const result =
-      await supabaseClient
-        .from("tabs")
-        .upsert({
-          id: newId,
-          household_id: householdId,
-          name:
-            localTab.name,
-          icon:
-            localTab.icon,
-          position:
-            index,
-          enabled:
-            true,
-          use_points:
-            !!localTab.pointsEnabled,
-          use_frequency:
-            !!localTab.frequencyEnabled
-        });
-
-    if (result.error) {
-      throw result.error;
-    }
-
-  }
-
-
-  /*
-    Frequencies
-  */
-
-  for (
-    const localTab of localConfig.tabs
-  ) {
-
-    for (
-      let index = 0;
-      index < localTab.frequencies.length;
-      index++
-    ) {
-
-      const localFrequency =
-        localTab.frequencies[index];
-
-      const newId =
-        isUuid(localFrequency.id)
-          ? localFrequency.id
-          : createId();
-
-      idMap.set(
-        `frequency:${localFrequency.id}`,
-        newId
-      );
-
-      const result =
-        await supabaseClient
-          .from("frequencies")
-          .upsert({
-            id: newId,
-            household_id:
-              householdId,
-            name:
-              localFrequency.name,
-            amount:
-              localFrequency.interval,
-            unit:
-              localFrequency.unit,
-            position:
-              index,
-            enabled:
-              true
-          });
-
-      if (result.error) {
-        throw result.error;
+      for (
+        let index = 0;
+        index < local.tabs.length;
+        index++
+      ) {
+        await saveTabToDb(
+          local.tabs[index],
+          index
+        );
       }
 
-    }
+      /*
+        Frequenties zijn household-breed.
+        Dubbele IDs worden maar één keer opgeslagen.
+      */
+      const frequencies =
+        new Map();
 
-  }
-
-
-  /*
-    Tasks
-  */
-
-  for (
-    const localTab of localConfig.tabs
-  ) {
-
-    for (
-      const localTask of localTab.tasks
-    ) {
-
-      const newId =
-        isUuid(localTask.id)
-          ? localTask.id
-          : createId();
-
-      idMap.set(
-        `task:${localTask.id}`,
-        newId
+      local.tabs.forEach(
+        tab => {
+          (tab.frequencies || [])
+            .forEach(
+              frequency => {
+                frequencies.set(
+                  frequency.id,
+                  frequency
+                );
+              }
+            );
+        }
       );
 
-      const result =
-        await supabaseClient
-          .from("tasks")
-          .upsert({
-            id:
-              newId,
-            household_id:
-              householdId,
-            tab_id:
-              idMap.get(
-                `tab:${localTab.id}`
-              ),
-            title:
-              localTask.title,
-            frequency_id:
-              localTask.frequencyId
-                ? idMap.get(
-                    `frequency:${localTask.frequencyId}`
-                  )
-                : null,
-            points:
-              Number(
-                localTask.points || 0
-              ),
-            enabled:
-              true
-          });
+      let frequencyIndex = 0;
 
-      if (result.error) {
-        throw result.error;
-      }
-
-    }
-
-  }
-
-
-  /*
-    Settings
-  */
-
-  const settingsResult =
-    await supabaseClient
-      .from("household_settings")
-      .upsert({
-        household_id:
-          householdId,
-        start_date:
-          localConfig.startDate ||
+      for (
+        const frequency of frequencies.values()
+      ) {
+        await saveFrequencyToDb(
           null,
-        you_name:
-          localConfig.youName ||
-          "Jij",
-        partner_name:
-          localConfig.partnerName ||
-          "Partner"
-      });
+          frequency,
+          frequencyIndex++
+        );
+      }
 
-  if (settingsResult.error) {
-    throw settingsResult.error;
-  }
+      for (
+        const tab of local.tabs
+      ) {
+        for (
+          const task of tab.tasks
+        ) {
+          await saveTaskToDb(
+            tab,
+            task
+          );
+        }
+      }
 
+      await saveHouseholdName();
+      await saveHouseholdSettings();
 
-  /*
-    Household name
-  */
-
-  const householdResult =
-    await supabaseClient
-      .from("households")
-      .update({
-        name:
-          localConfig.appName ||
-          "Huishouden"
-      })
-      .eq(
-        "id",
-        householdId
-      );
-
-  if (householdResult.error) {
-    throw householdResult.error;
-  }
-
-
-  /*
-    Completions
-  */
-
-  for (
-    const completion of localCompletions
-  ) {
-
-    const taskId =
-      idMap.get(
-        `task:${completion.taskId}`
-      );
-
-    if (!taskId) {
-      continue;
+      for (
+        const completion of completions
+      ) {
+        await saveCompletionToDb(
+          completion
+        );
+      }
     }
-
-    const result =
-      await supabaseClient
-        .from("completions")
-        .upsert({
-          id:
-            isUuid(completion.id)
-              ? completion.id
-              : createId(),
-          household_id:
-            householdId,
-          task_id:
-            taskId,
-          task_title:
-            completion.taskTitle ||
-            "",
-          user_id:
-            currentUser.id,
-          person_name:
-            personLabel(
-              completion.person
-            ),
-          person_type:
-            completion.person,
-          points:
-            Number(
-              completion.points || 0
-            ),
-          period_key:
-            completion.period ||
-            null,
-          completed_at:
-            completion.completedAt ||
-            new Date().toISOString()
-        });
-
-    if (result.error) {
-      throw result.error;
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   UUID
-========================================================= */
-
-function isUuid(value) {
-
-  return (
-    typeof value === "string" &&
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
-      value
-    )
   );
-
 }
 
 
 /* =========================================================
-   SUPABASE SAVE HELPERS
+   DATABASE: SAVE HELPERS
 ========================================================= */
 
 async function saveHouseholdName() {
-
-  if (!householdId) {
-    return;
-  }
-
   const result =
     await supabaseClient
       .from("households")
@@ -3438,201 +2338,282 @@ async function saveHouseholdName() {
   if (result.error) {
     throw result.error;
   }
-
 }
 
 
 async function saveHouseholdSettings() {
-
-  if (!householdId) {
-    return;
-  }
-
   const result =
     await supabaseClient
       .from("household_settings")
-      .upsert({
-        household_id:
-          householdId,
+      .upsert(
+        {
+          household_id:
+            householdId,
 
-        start_date:
-          config.startDate ||
-          null,
+          start_date:
+            config.startDate ||
+            null,
 
-        you_name:
-          config.youName ||
-          "Jij",
+          you_name:
+            config.youName,
 
-        partner_name:
-          config.partnerName ||
-          "Partner",
+          partner_name:
+            config.partnerName,
 
-        updated_at:
-          new Date().toISOString()
-      });
+          updated_at:
+            new Date().toISOString()
+        },
+        {
+          onConflict:
+            "household_id"
+        }
+      );
 
   if (result.error) {
     throw result.error;
   }
-
 }
 
-
-/* =========================================================
-   TAB SAVE
-========================================================= */
 
 async function saveTabToDb(
   tab,
   position
 ) {
-
   const result =
     await supabaseClient
       .from("tabs")
-      .upsert({
-        id:
-          tab.id,
+      .upsert(
+        {
+          id:
+            tab.id,
 
-        household_id:
-          householdId,
+          household_id:
+            householdId,
 
-        name:
-          tab.name,
+          name:
+            tab.name,
 
-        icon:
-          tab.icon,
+          icon:
+            tab.icon,
 
-        position:
-          position,
+          position:
+            position,
 
-        enabled:
-          true,
+          enabled:
+            true,
 
-        use_points:
-          !!tab.pointsEnabled,
+          use_points:
+            !!tab.pointsEnabled,
 
-        use_frequency:
-          !!tab.frequencyEnabled,
+          use_frequency:
+            !!tab.frequencyEnabled,
 
-        updated_at:
-          new Date().toISOString()
-      });
+          updated_at:
+            new Date().toISOString()
+        },
+        {
+          onConflict:
+            "id"
+        }
+      );
 
   if (result.error) {
     throw result.error;
   }
-
 }
 
 
-/* =========================================================
-   FREQUENCY SAVE
-========================================================= */
-
+/*
+  De tabel frequencies heeft geen tab_id.
+  Daarom wordt tab bewust niet naar Supabase geschreven.
+*/
 async function saveFrequencyToDb(
   tab,
   frequency,
   position
 ) {
-
   const result =
     await supabaseClient
       .from("frequencies")
-      .upsert({
-        id:
-          frequency.id,
+      .upsert(
+        {
+          id:
+            frequency.id,
 
-        household_id:
-          householdId,
+          household_id:
+            householdId,
 
-        name:
-          frequency.name,
+          name:
+            frequency.name,
 
-        amount:
-          frequency.interval,
+          amount:
+            Number(
+              frequency.interval || 1
+            ),
 
-        unit:
-          frequency.unit,
+          unit:
+            frequency.unit,
 
-        position:
-          position,
+          position:
+            position,
 
-        enabled:
-          true,
+          enabled:
+            true,
 
-        updated_at:
-          new Date().toISOString()
-      });
+          updated_at:
+            new Date().toISOString()
+        },
+        {
+          onConflict:
+            "id"
+        }
+      );
 
   if (result.error) {
     throw result.error;
   }
-
 }
 
-
-/* =========================================================
-   TASK SAVE
-========================================================= */
 
 async function saveTaskToDb(
   tab,
   task
 ) {
-
   const result =
     await supabaseClient
       .from("tasks")
-      .upsert({
-        id:
-          task.id,
+      .upsert(
+        {
+          id:
+            task.id,
 
-        household_id:
-          householdId,
+          household_id:
+            householdId,
 
-        tab_id:
-          tab.id,
+          tab_id:
+            tab.id,
 
-        title:
-          task.title,
+          title:
+            task.title,
 
-        frequency_id:
-          tab.frequencyEnabled
-            ? task.frequencyId
-            : null,
+          frequency_id:
+            tab.frequencyEnabled
+              ? (
+                  task.frequencyId ||
+                  null
+                )
+              : null,
 
-        points:
-          Number(
-            task.points || 0
-          ),
+          points:
+            Number(
+              task.points || 0
+            ),
 
-        enabled:
-          true
-      });
+          enabled:
+            true
+        },
+        {
+          onConflict:
+            "id"
+        }
+      );
 
   if (result.error) {
     throw result.error;
   }
+}
 
+
+async function deleteTaskFromDb(
+  taskId
+) {
+  const result =
+    await supabaseClient
+      .from("tasks")
+      .delete()
+      .eq(
+        "id",
+        taskId
+      )
+      .eq(
+        "household_id",
+        householdId
+      );
+
+  if (result.error) {
+    throw result.error;
+  }
+}
+
+
+async function deleteFrequencyFromDb(
+  frequencyId
+) {
+  const result =
+    await supabaseClient
+      .from("frequencies")
+      .delete()
+      .eq(
+        "id",
+        frequencyId
+      )
+      .eq(
+        "household_id",
+        householdId
+      );
+
+  if (result.error) {
+    throw result.error;
+  }
 }
 
 
 /* =========================================================
-   COMPLETION SAVE
+   COMPLETIONS
 ========================================================= */
+
+function mapCompletionFromDb(
+  row
+) {
+  return {
+    id:
+      row.id,
+
+    householdId:
+      row.household_id,
+
+    taskId:
+      row.task_id,
+
+    taskTitle:
+      row.task_title,
+
+    userId:
+      row.user_id,
+
+    person:
+      row.person_type,
+
+    personName:
+      row.person_name,
+
+    points:
+      Number(
+        row.points || 0
+      ),
+
+    periodKey:
+      row.period_key,
+
+    completedAt:
+      row.completed_at
+  };
+}
+
 
 async function saveCompletionToDb(
   completion
 ) {
-
-  const tab =
-    config.tabs.find(
-      t =>
-        t.id ===
-        completion.tabId
-    );
-
   const result =
     await supabaseClient
       .from("completions")
@@ -3653,9 +2634,7 @@ async function saveCompletionToDb(
           currentUser.id,
 
         person_name:
-          personLabel(
-            completion.person
-          ),
+          completion.personName,
 
         person_type:
           completion.person,
@@ -3666,7 +2645,7 @@ async function saveCompletionToDb(
           ),
 
         period_key:
-          completion.period,
+          completion.periodKey,
 
         completed_at:
           completion.completedAt
@@ -3675,7 +2654,28 @@ async function saveCompletionToDb(
   if (result.error) {
     throw result.error;
   }
+}
 
+
+async function deleteCompletionFromDb(
+  completionId
+) {
+  const result =
+    await supabaseClient
+      .from("completions")
+      .delete()
+      .eq(
+        "id",
+        completionId
+      )
+      .eq(
+        "household_id",
+        householdId
+      );
+
+  if (result.error) {
+    throw result.error;
+  }
 }
 
 
@@ -3684,335 +2684,147 @@ async function saveCompletionToDb(
 ========================================================= */
 
 function render() {
-
   renderHeader();
   renderTabs();
   renderTabViews();
-  renderPoints();
-  renderHistory();
-  renderSettings();
-
 }
 
 
-/* =========================================================
-   HEADER
-========================================================= */
-
 function renderHeader() {
-
   document.getElementById(
     "appTitle"
   ).textContent =
-    config.appName ||
-    "Huishouden";
+    config.appName;
 
   document.getElementById(
     "appSubtitle"
   ).textContent =
-    config.appSubtitle ||
-    "Taken overzicht";
-
+    config.appSubtitle;
 }
 
 
-/* =========================================================
-   TABS
-========================================================= */
-
 function renderTabs() {
-
   const container =
     document.getElementById(
       "tabs"
     );
 
-  container.innerHTML =
-    "";
+  container.innerHTML = "";
 
   config.tabs.forEach(
     tab => {
-
       const button =
         document.createElement(
           "button"
         );
 
+      button.type = "button";
+
       button.className =
-        "tab-button";
-
-      if (
-        tab.id ===
-        currentTabId
-      ) {
-
-        button.classList.add(
-          "active"
+        "tab-button" +
+        (
+          tab.id === currentTabId
+            ? " active"
+            : ""
         );
 
-      }
-
-      const icon =
-        document.createElement(
-          "span"
-        );
-
-      icon.className =
-        "tab-icon";
-
-      icon.textContent =
-        tab.icon;
-
-      const label =
-        document.createElement(
-          "span"
-        );
-
-      label.className =
-        "tab-label";
-
-      label.textContent =
-        tab.name;
-
-      button.appendChild(
-        icon
-      );
-
-      button.appendChild(
-        label
-      );
+      button.textContent =
+        `${tab.icon} ${tab.name}`;
 
       button.onclick =
         () => {
-
           currentTabId =
             tab.id;
 
           render();
-
         };
 
       container.appendChild(
         button
       );
-
     }
   );
-
 }
 
 
-/* =========================================================
-   TAB VIEWS
-========================================================= */
-
 function renderTabViews() {
-
   const container =
     document.getElementById(
       "tabViews"
     );
 
-  container.innerHTML =
-    "";
+  container.innerHTML = "";
 
-  const tab =
-    config.tabs.find(
-      t =>
-        t.id ===
-        currentTabId
-    ) ||
-    config.tabs[0];
+  config.tabs.forEach(
+    tab => {
 
-  if (!tab) {
-    return;
-  }
-
-  currentTabId =
-    tab.id;
-
-  const view =
-    document.createElement(
-      "div"
-    );
-
-  view.className =
-    "view active";
-
-  const header =
-    document.createElement(
-      "header"
-    );
-
-  const title =
-    document.createElement(
-      "h1"
-    );
-
-  title.textContent =
-    `${tab.icon} ${tab.name}`;
-
-  const subtitle =
-    document.createElement(
-      "div"
-    );
-
-  subtitle.className =
-    "subtitle";
-
-  subtitle.textContent =
-    tab.frequencyEnabled
-      ? "Taken met een ingesteld ritme"
-      : "Taken zonder vast tijdschema";
-
-  header.appendChild(
-    title
-  );
-
-  header.appendChild(
-    subtitle
-  );
-
-  const addButton =
-    document.createElement(
-      "button"
-    );
-
-  addButton.className =
-    "add-button";
-
-  addButton.textContent =
-    "＋ Taak toevoegen";
-
-  addButton.onclick =
-    () =>
-      openTaskEditor(
-        tab.id
-      );
-
-  view.appendChild(
-    header
-  );
-
-  view.appendChild(
-    addButton
-  );
-
-  if (
-    tab.frequencyEnabled
-  ) {
-
-    renderRecurringTab(
-      tab,
-      view
-    );
-
-  } else {
-
-    renderNormalTab(
-      tab,
-      view
-    );
-
-  }
-
-  container.appendChild(
-    view
-  );
-
-}
-
-
-/* =========================================================
-   RECURRING TAB
-========================================================= */
-
-function renderRecurringTab(
-  tab,
-  container
-) {
-
-  if (
-    !tab.frequencies.length
-  ) {
-
-    container.innerHTML +=
-      `
-      <div class="empty">
-        Er zijn nog geen frequenties ingesteld.
-        Voeg eerst een frequentie toe via Instellingen.
-      </div>
-      `;
-
-    return;
-
-  }
-
-  tab.frequencies.forEach(
-    frequency => {
-
-      const section =
+      const view =
         document.createElement(
           "div"
         );
 
-      section.className =
-        "section";
-
-      const sectionTasks =
-        tab.tasks.filter(
-          task =>
-            task.frequencyId ===
-            frequency.id
+      view.className =
+        "tab-view" +
+        (
+          tab.id === currentTabId
+            ? " active"
+            : ""
         );
 
-      const header =
+      const card =
         document.createElement(
           "div"
         );
 
-      header.className =
-        "section-header";
+      card.className =
+        "section-card";
+
+      const heading =
+        document.createElement(
+          "div"
+        );
+
+      heading.className =
+        "tab-heading";
 
       const title =
         document.createElement(
-          "div"
+          "h2"
         );
-
-      title.className =
-        "section-title";
 
       title.textContent =
-        getFrequencyLabel(
-          frequency
-        );
+        `${tab.icon} ${tab.name}`;
 
-      const count =
+      const addButton =
         document.createElement(
-          "div"
+          "button"
         );
 
-      count.className =
-        "section-count";
+      addButton.type =
+        "button";
 
-      const completed =
-        sectionTasks.filter(
-          task =>
-            !!getCurrentCompletion(
-              tab,
-              task
-            )
-        ).length;
+      addButton.className =
+        "add-task-button";
 
-      count.textContent =
-        `${completed}/${sectionTasks.length} gedaan`;
+      addButton.textContent =
+        "＋ Taak toevoegen";
 
-      header.appendChild(
+      addButton.onclick =
+        () =>
+          openTaskEditor(
+            tab.id
+          );
+
+      heading.appendChild(
         title
       );
 
-      header.appendChild(
-        count
+      heading.appendChild(
+        addButton
+      );
+
+      card.appendChild(
+        heading
       );
 
       const list =
@@ -4023,153 +2835,83 @@ function renderRecurringTab(
       list.className =
         "task-list";
 
-      const sorted =
-        sectionTasks
-          .slice()
-          .sort(
-            (a, b) =>
-              getStatusSortValue(
-                tab,
-                a
-              ) -
-              getStatusSortValue(
-                tab,
-                b
-              )
+      if (
+        tab.tasks.length === 0
+      ) {
+
+        const empty =
+          document.createElement(
+            "div"
           );
 
-      if (!sorted.length) {
+        empty.className =
+          "empty-state";
 
-        list.innerHTML =
-          `
-          <div class="empty">
-            Nog geen taken in deze frequentie.
-          </div>
-          `;
+        if (
+          tab.frequencyEnabled &&
+          tab.frequencies.length === 0
+        ) {
+          empty.textContent =
+            "Er zijn nog geen taken. Voeg eerst een frequentie toe via Instellingen.";
+        } else {
+          empty.textContent =
+            "Er zijn nog geen taken. Voeg hierboven een taak toe.";
+        }
+
+        list.appendChild(
+          empty
+        );
 
       } else {
 
-        sorted.forEach(
+        tab.tasks.forEach(
           task => {
-
             list.appendChild(
               createTaskElement(
                 tab,
                 task
               )
             );
-
           }
         );
 
       }
 
-      section.appendChild(
-        header
-      );
-
-      section.appendChild(
+      card.appendChild(
         list
       );
 
-      container.appendChild(
-        section
+      view.appendChild(
+        card
       );
 
+      container.appendChild(
+        view
+      );
     }
   );
-
 }
 
-
-/* =========================================================
-   NORMAL TAB
-========================================================= */
-
-function renderNormalTab(
-  tab,
-  container
-) {
-
-  const list =
-    document.createElement(
-      "div"
-    );
-
-  list.className =
-    "task-list";
-
-  if (
-    !tab.tasks.length
-  ) {
-
-    list.innerHTML =
-      `
-      <div class="empty">
-        Nog geen taken toegevoegd.
-      </div>
-      `;
-
-  } else {
-
-    tab.tasks.forEach(
-      task => {
-
-        list.appendChild(
-          createTaskElement(
-            tab,
-            task
-          )
-        );
-
-      }
-    );
-
-  }
-
-  container.appendChild(
-    list
-  );
-
-}
-
-
-/* =========================================================
-   TASK ELEMENT
-========================================================= */
 
 function createTaskElement(
   tab,
   task
 ) {
-
-  const element =
+  const card =
     document.createElement(
       "div"
     );
 
-  element.className =
-    "task";
+  card.className =
+    "task-card";
 
-  const dot =
+  const main =
     document.createElement(
       "div"
     );
 
-  dot.className =
-    "status-dot " +
-    getTaskStatus(
-      tab,
-      task
-    );
-
-  const info =
-    document.createElement(
-      "div"
-    );
-
-  info.className =
-    "task-info";
+  main.className =
+    "task-main";
 
   const title =
     document.createElement(
@@ -4182,89 +2924,56 @@ function createTaskElement(
   title.textContent =
     task.title;
 
-  const meta =
-    document.createElement(
-      "div"
-    );
-
-  meta.className =
-    "task-meta";
-
-  const completion =
-    getCurrentCompletion(
-      tab,
-      task
-    );
-
-  if (completion) {
-
-    meta.textContent =
-      `Gedaan door ${personLabel(
-        completion.person
-      )} · deze periode`;
-
-  } else if (
-    tab.frequencyEnabled &&
-    isOverdue(
-      tab,
-      task
-    )
-  ) {
-
-    const period =
-      getPeriodInfo(
-        tab,
-        task
-      );
-
-    meta.textContent =
-      period
-        ? `Achterstallig sinds ${formatDate(
-            period.start
-          )}`
-        : "Achterstallig";
-
-  } else if (
-    tab.frequencyEnabled
-  ) {
-
-    const frequency =
-      getFrequency(
-        tab,
-        task
-      );
-
-    meta.textContent =
-      frequency
-        ? getFrequencyLabel(
-            frequency
-          )
-        : "Geen frequentie";
-
-  } else {
-
-    const last =
-      getLastCompletion(
-        tab,
-        task
-      );
-
-    meta.textContent =
-      last
-        ? `Laatst gedaan: ${formatDate(
-            last.completedAt
-          )}`
-        : "Nog niet uitgevoerd";
-
-  }
-
-  info.appendChild(
+  main.appendChild(
     title
   );
 
-  info.appendChild(
-    meta
-  );
+  const metaParts = [];
+
+  if (
+    tab.frequencyEnabled &&
+    task.frequencyId
+  ) {
+    const frequency =
+      getFrequencyById(
+        task.frequencyId
+      );
+
+    if (frequency) {
+      metaParts.push(
+        getFrequencyLabel(
+          frequency
+        )
+      );
+    }
+  }
+
+  if (
+    tab.pointsEnabled
+  ) {
+    metaParts.push(
+      `${Number(task.points || 0)} punten`
+    );
+  }
+
+  if (metaParts.length) {
+    const meta =
+      document.createElement(
+        "div"
+      );
+
+    meta.className =
+      "task-meta";
+
+    meta.textContent =
+      metaParts.join(
+        " · "
+      );
+
+    main.appendChild(
+      meta
+    );
+  }
 
   const actions =
     document.createElement(
@@ -4274,333 +2983,95 @@ function createTaskElement(
   actions.className =
     "task-actions";
 
-  if (
-    tab.pointsEnabled
-  ) {
-
-    const points =
-      document.createElement(
-        "div"
-      );
-
-    points.className =
-      "task-points";
-
-    points.textContent =
-      `${task.points} pt`;
-
-    actions.appendChild(
-      points
-    );
-
-  }
-
   const edit =
     document.createElement(
       "button"
     );
 
-  edit.className =
-    "edit-button";
-
-  edit.textContent =
-    "⋯";
+  edit.type = "button";
+  edit.className = "small-button";
+  edit.textContent = "✏️";
 
   edit.title =
-    "Bewerken";
+    "Taak aanpassen";
 
   edit.onclick =
-    event => {
-
-      event.stopPropagation();
-
+    () =>
       openTaskEditor(
         tab.id,
         task.id
       );
 
-    };
+  const deleteButton =
+    document.createElement(
+      "button"
+    );
 
-  actions.appendChild(
-    edit
-  );
+  deleteButton.type =
+    "button";
 
-  element.appendChild(
-    dot
-  );
+  deleteButton.className =
+    "small-button";
 
-  element.appendChild(
-    info
-  );
+  deleteButton.textContent =
+    "🗑️";
 
-  element.appendChild(
-    actions
-  );
+  deleteButton.title =
+    "Taak verwijderen";
 
-  element.onclick =
-    event => {
+  deleteButton.onclick =
+    () =>
+      deleteTask(
+        tab,
+        task
+      );
 
-      if (
-        event.target.closest(
-          ".edit-button"
-        )
-      ) {
-        return;
-      }
+  const complete =
+    document.createElement(
+      "button"
+    );
 
+  complete.type =
+    "button";
+
+  complete.className =
+    "complete-button";
+
+  complete.textContent =
+    isTaskCompletedToday(
+      task.id
+    )
+      ? "✓ Klaar"
+      : "Klaar";
+
+  complete.onclick =
+    () =>
       openCompletionModal(
         tab,
         task
       );
 
-    };
-
-  return element;
-
-}
-
-
-/* =========================================================
-   SORT
-========================================================= */
-
-function getStatusSortValue(
-  tab,
-  task
-) {
-
-  const status =
-    getTaskStatus(
-      tab,
-      task
-    );
-
-  if (
-    status === "red"
-  ) {
-    return 0;
-  }
-
-  if (
-    status === "gray"
-  ) {
-    return 1;
-  }
-
-  return 2;
-
-}
-
-
-/* =========================================================
-   COMPLETION MODAL
-========================================================= */
-
-function openCompletionModal(
-  tab,
-  task
-) {
-
-  selectedTask = {
-    tabId: tab.id,
-    taskId: task.id
-  };
-
-  document.getElementById(
-    "completionTitle"
-  ).textContent =
-    task.title;
-
-  const pointsText =
-    tab.pointsEnabled
-      ? `${task.points} ${
-          task.points === 1
-            ? "punt"
-            : "punten"
-        } · `
-      : "";
-
-  document.getElementById(
-    "completionSubtitle"
-  ).textContent =
-    `${pointsText}Wie heeft dit gedaan?`;
-
-  document.getElementById(
-    "youButton"
-  ).textContent =
-    config.youName ||
-    "Jij";
-
-  document.getElementById(
-    "partnerButton"
-  ).textContent =
-    config.partnerName ||
-    "Partner";
-
-  document
-    .getElementById(
-      "completionModal"
-    )
-    .classList.add(
-      "show"
-    );
-
-}
-
-
-function closeCompletionModal() {
-
-  selectedTask =
-    null;
-
-  document
-    .getElementById(
-      "completionModal"
-    )
-    .classList.remove(
-      "show"
-    );
-
-}
-
-
-/* =========================================================
-   COMPLETE TASK
-========================================================= */
-
-async function completeTask(
-  person
-) {
-
-  if (!selectedTask) {
-    return;
-  }
-
-  const tab =
-    config.tabs.find(
-      t =>
-        t.id ===
-        selectedTask.tabId
-    );
-
-  if (!tab) {
-    return;
-  }
-
-  const task =
-    tab.tasks.find(
-      t =>
-        t.id ===
-        selectedTask.taskId
-    );
-
-  if (!task) {
-    closeCompletionModal();
-    return;
-  }
-
-  if (
-    tab.frequencyEnabled
-  ) {
-
-    const existing =
-      getCurrentCompletion(
-        tab,
-        task
-      );
-
-    if (existing) {
-
-      closeCompletionModal();
-
-      showToast(
-        "Deze taak is al gedaan voor deze periode."
-      );
-
-      return;
-
-    }
-
-  }
-
-  const points =
-    tab.pointsEnabled
-      ? Number(
-          task.points || 0
-        )
-      : 0;
-
-  const completion = {
-
-    id:
-      createId(),
-
-    tabId:
-      tab.id,
-
-    taskId:
-      task.id,
-
-    taskTitle:
-      task.title,
-
-    person,
-
-    points,
-
-    period:
-      tab.frequencyEnabled
-        ? getPeriodKey(
-            tab,
-            task
-          )
-        : null,
-
-    completedAt:
-      new Date().toISOString()
-
-  };
-
-  try {
-
-    setSyncStatus(
-      "Opslaan…"
-    );
-
-    await saveCompletionToDb(
-      completion
-    );
-
-    completions.unshift(
-      completion
-    );
-
-    saveLocalCache();
-
-    closeCompletionModal();
-
-    render();
-
-    setSyncStatus(
-      "Gesynchroniseerd"
-    );
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-    setSyncStatus(
-      "Synchronisatiefout"
-    );
-
-    showToast(
-      "Opslaan mislukt."
-    );
-
-  }
-
+  actions.appendChild(
+    edit
+  );
+
+  actions.appendChild(
+    deleteButton
+  );
+
+  actions.appendChild(
+    complete
+  );
+
+  card.appendChild(
+    main
+  );
+
+  card.appendChild(
+    actions
+  );
+
+  return card;
 }
 
 
@@ -4612,12 +3083,10 @@ function openTaskEditor(
   tabId,
   taskId = null
 ) {
-
   const tab =
     config.tabs.find(
-      t =>
-        t.id ===
-        tabId
+      item =>
+        item.id === tabId
     );
 
   if (!tab) {
@@ -4630,48 +3099,46 @@ function openTaskEditor(
   editingTaskId =
     taskId;
 
-  const titleInput =
-    document.getElementById(
-      "taskTitleInput"
-    );
+  const task =
+    taskId
+      ? tab.tasks.find(
+          item =>
+            item.id === taskId
+        )
+      : null;
+
+  document.getElementById(
+    "taskEditorTitle"
+  ).textContent =
+    task
+      ? "Taak aanpassen"
+      : "Taak toevoegen";
+
+  document.getElementById(
+    "taskTitleInput"
+  ).value =
+    task?.title ||
+    "";
+
+  document.getElementById(
+    "taskPointsInput"
+  ).value =
+    task?.points ??
+    0;
 
   const frequencyInput =
     document.getElementById(
       "taskFrequencyInput"
     );
 
-  const pointsInput =
-    document.getElementById(
-      "taskPointsInput"
-    );
-
-  const frequencyField =
-    document.getElementById(
-      "taskFrequencyField"
-    );
-
-  const pointsField =
-    document.getElementById(
-      "taskPointsField"
-    );
-
-  const deleteButton =
-    document.getElementById(
-      "deleteTaskButton"
-    );
-
-  titleInput.value =
-    "";
-
-  pointsInput.value =
-    "1";
-
   frequencyInput.innerHTML =
     "";
 
-  tab.frequencies.forEach(
-    frequency => {
+  const frequencies =
+    tab.frequencies || [];
 
+  frequencies.forEach(
+    frequency => {
       const option =
         document.createElement(
           "option"
@@ -4685,94 +3152,40 @@ function openTaskEditor(
           frequency
         );
 
+      if (
+        task?.frequencyId ===
+        frequency.id
+      ) {
+        option.selected =
+          true;
+      }
+
       frequencyInput.appendChild(
         option
       );
-
     }
   );
 
-  if (taskId) {
-
-    const task =
-      tab.tasks.find(
-        t =>
-          t.id ===
-          taskId
-      );
-
-    if (!task) {
-      return;
-    }
-
-    titleInput.value =
-      task.title;
-
-    pointsInput.value =
-      task.points;
-
-    if (
-      task.frequencyId &&
-      tab.frequencies.some(
-        f =>
-          f.id ===
-          task.frequencyId
-      )
-    ) {
-
-      frequencyInput.value =
-        task.frequencyId;
-
-    }
-
+  const frequencyField =
     document.getElementById(
-      "editorTitle"
-    ).textContent =
-      "Taak bewerken";
-
-    deleteButton.style.display =
-      "block";
-
-  } else {
-
-    document.getElementById(
-      "editorTitle"
-    ).textContent =
-      "Taak toevoegen";
-
-    deleteButton.style.display =
-      "none";
-
-    if (
-      tab.frequencies[0]
-    ) {
-
-      frequencyInput.value =
-        tab.frequencies[0].id;
-
-    }
-
-  }
+      "taskFrequencyField"
+    );
 
   frequencyField.style.display =
     tab.frequencyEnabled &&
-    tab.frequencies.length
+    frequencies.length
       ? "block"
       : "none";
+
+  const pointsField =
+    document.getElementById(
+      "taskPointsField"
+    );
 
   pointsField.style.display =
     tab.pointsEnabled
       ? "block"
       : "none";
-
-  document.getElementById(
-    "editorSubtitle"
-  ).textContent =
-    tab.frequencyEnabled
-      ? "Kies de frequentie en eventueel het aantal punten."
-      : tab.pointsEnabled
-        ? "Deze taak heeft geen vast tijdschema."
-        : "Deze taak heeft geen vast tijdschema of punten.";
 
   document
     .getElementById(
@@ -4784,21 +3197,17 @@ function openTaskEditor(
 
   setTimeout(
     () =>
-      titleInput.focus(),
+      document
+        .getElementById(
+          "taskTitleInput"
+        )
+        .focus(),
     50
   );
-
 }
 
 
 function closeTaskEditor() {
-
-  editingTaskId =
-    null;
-
-  editorTabId =
-    null;
-
   document
     .getElementById(
       "taskEditorModal"
@@ -4807,19 +3216,19 @@ function closeTaskEditor() {
       "show"
     );
 
+  editingTaskId =
+    null;
+
+  editorTabId =
+    null;
 }
 
 
-/* =========================================================
-   SAVE TASK
-========================================================= */
-
 async function saveTaskFromEditor() {
-
   const tab =
     config.tabs.find(
-      t =>
-        t.id ===
+      item =>
+        item.id ===
         editorTabId
     );
 
@@ -4828,104 +3237,104 @@ async function saveTaskFromEditor() {
   }
 
   const title =
-    document
-      .getElementById(
-        "taskTitleInput"
-      )
-      .value
-      .trim();
+    document.getElementById(
+      "taskTitleInput"
+    ).value.trim();
 
   if (!title) {
-
-    alert(
-      "Geef de taak eerst een naam."
+    showToast(
+      "Vul eerst een taaknaam in."
     );
 
     return;
-
   }
 
+  let points =
+    Number(
+      document.getElementById(
+        "taskPointsInput"
+      ).value
+    );
+
+  if (
+    !Number.isFinite(points) ||
+    points < 0
+  ) {
+    points = 0;
+  }
+
+  points =
+    Math.floor(points);
+
+  const frequencyInput =
+    document.getElementById(
+      "taskFrequencyInput"
+    );
+
   const frequencyId =
-    document
-      .getElementById(
-        "taskFrequencyInput"
-      )
-      .value ||
-      null;
-
-  const points =
-    tab.pointsEnabled
-      ? Math.max(
-          0,
-          Number(
-            document
-              .getElementById(
-                "taskPointsInput"
-              )
-              .value
-          ) || 0
+    tab.frequencyEnabled
+      ? (
+          frequencyInput.value ||
+          null
         )
-      : 0;
+      : null;
 
-  let task = null;
+  const oldTask =
+    editingTaskId
+      ? tab.tasks.find(
+          task =>
+            task.id ===
+            editingTaskId
+        )
+      : null;
+
+  const newTask = {
+    id:
+      editingTaskId ||
+      createId(),
+
+    title,
+
+    frequencyId,
+
+    points
+  };
 
   try {
 
-    if (editingTaskId) {
-
-      task =
-        tab.tasks.find(
-          t =>
-            t.id ===
-            editingTaskId
-        );
-
-      if (!task) {
-        return;
-      }
-
-      task.title =
-        title;
-
-      task.points =
-        points;
-
-      task.frequencyId =
-        tab.frequencyEnabled
-          ? frequencyId
-          : null;
-
-    } else {
-
-      task = {
-
-        id:
-          createId(),
-
-        title,
-
-        frequencyId:
-          tab.frequencyEnabled
-            ? frequencyId
-            : null,
-
-        points
-
-      };
-
-      tab.tasks.push(
-        task
-      );
-
-    }
-
     setSyncStatus(
-      "Opslaan…"
+      "Taak opslaan…"
     );
 
-    await saveTaskToDb(
-      tab,
-      task
+    await withLocalWrite(
+      async () => {
+        await saveTaskToDb(
+          tab,
+          newTask
+        );
+
+        if (oldTask) {
+
+          const index =
+            tab.tasks.findIndex(
+              task =>
+                task.id ===
+                oldTask.id
+            );
+
+          if (index >= 0) {
+            tab.tasks[index] =
+              newTask;
+          }
+
+        } else {
+
+          tab.tasks.push(
+            newTask
+          );
+
+        }
+      }
     );
 
     saveLocalCache();
@@ -4938,236 +3347,263 @@ async function saveTaskFromEditor() {
       "Gesynchroniseerd"
     );
 
+    showToast(
+      oldTask
+        ? "Taak aangepast."
+        : "Taak toegevoegd."
+    );
+
   } catch (error) {
 
     console.error(
+      "Taak opslaan:",
       error
+    );
+
+    setSyncStatus(
+      "Synchronisatiefout"
     );
 
     showToast(
       "Taak opslaan mislukt."
     );
-
   }
-
 }
 
 
-/* =========================================================
-   DELETE TASK
-========================================================= */
-
-async function deleteTaskFromEditor() {
-
-  if (!editingTaskId) {
-    return;
-  }
-
-  const tab =
-    config.tabs.find(
-      t =>
-        t.id ===
-        editorTabId
-    );
-
-  if (!tab) {
-    return;
-  }
-
-  const task =
-    tab.tasks.find(
-      t =>
-        t.id ===
-        editingTaskId
-    );
-
-  if (!task) {
-    return;
-  }
-
+async function deleteTask(
+  tab,
+  task
+) {
   if (
     !confirm(
-      `Wil je "${task.title}" verwijderen?`
+      `Taak "${task.title}" verwijderen?`
     )
   ) {
     return;
   }
 
+  const oldTasks =
+    [...tab.tasks];
+
   try {
 
-    setSyncStatus(
-      "Verwijderen…"
-    );
-
-    const result =
-      await supabaseClient
-        .from("tasks")
-        .delete()
-        .eq(
-          "id",
+    await withLocalWrite(
+      async () => {
+        await deleteTaskFromDb(
           task.id
-        )
-        .eq(
-          "household_id",
-          householdId
         );
 
-    if (result.error) {
-      throw result.error;
-    }
-
-    tab.tasks =
-      tab.tasks.filter(
-        t =>
-          t.id !==
-          editingTaskId
-      );
-
-    /*
-      Historische completions blijven bestaan.
-      Daardoor blijft de geschiedenis zichtbaar.
-    */
+        tab.tasks =
+          tab.tasks.filter(
+            item =>
+              item.id !==
+              task.id
+          );
+      }
+    );
 
     saveLocalCache();
 
-    closeTaskEditor();
-
     render();
 
-    setSyncStatus(
-      "Gesynchroniseerd"
+    showToast(
+      "Taak verwijderd."
     );
 
   } catch (error) {
 
+    tab.tasks =
+      oldTasks;
+
     console.error(
+      "Taak verwijderen:",
       error
     );
 
     showToast(
       "Taak verwijderen mislukt."
     );
-
   }
-
 }
 
 
 /* =========================================================
-   POINTS
+   COMPLETION MODAL
+========================================================= */
+
+function openCompletionModal(
+  tab,
+  task
+) {
+  selectedTask = {
+    tab,
+    task
+  };
+
+  document.getElementById(
+    "completionTaskTitle"
+  ).textContent =
+    task.title;
+
+  document.getElementById(
+    "completionPerson"
+  ).value =
+    "you";
+
+  document
+    .getElementById(
+      "completionModal"
+    )
+    .classList.add(
+      "show"
+    );
+}
+
+
+function closeCompletionModal() {
+  document
+    .getElementById(
+      "completionModal"
+    )
+    .classList.remove(
+      "show"
+    );
+
+  selectedTask =
+    null;
+}
+
+
+async function confirmCompletion() {
+  if (!selectedTask) {
+    return;
+  }
+
+  const {
+    tab,
+    task
+  } =
+    selectedTask;
+
+  const person =
+    document.getElementById(
+      "completionPerson"
+    ).value;
+
+  const personName =
+    person === "you"
+      ? config.youName
+      : person === "partner"
+        ? config.partnerName
+        : `${config.youName} + ${config.partnerName}`;
+
+  const points =
+    tab.pointsEnabled
+      ? Number(
+          task.points || 0
+        )
+      : 0;
+
+  const now =
+    new Date().toISOString();
+
+  const completion = {
+    id:
+      createId(),
+
+    taskId:
+      task.id,
+
+    taskTitle:
+      task.title,
+
+    person,
+
+    personName,
+
+    points,
+
+    periodKey:
+      getPeriodKey(),
+
+    completedAt:
+      now
+  };
+
+  try {
+
+    await withLocalWrite(
+      async () => {
+
+        await saveCompletionToDb(
+          completion
+        );
+
+        completions.unshift(
+          completion
+        );
+      }
+    );
+
+    saveLocalCache();
+
+    closeCompletionModal();
+
+    render();
+
+    showToast(
+      "Taak afgerond."
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Completion opslaan:",
+      error
+    );
+
+    showToast(
+      "Taak afronden mislukt."
+    );
+  }
+}
+
+
+/* =========================================================
+   POINTS SCREEN
 ========================================================= */
 
 function renderPoints() {
+  const container =
+    document.getElementById(
+      "pointsContent"
+    );
 
   const totals =
     getPointsTotals();
 
-  document.getElementById(
-    "youPoints"
-  ).textContent =
-    totals.you;
+  container.innerHTML = `
+    <div class="points-grid">
+      <div class="points-card">
+        <div class="points-name">
+          ${escapeHtml(config.youName)}
+        </div>
+        <div class="points-number">
+          ${totals.you}
+        </div>
+      </div>
 
-  document.getElementById(
-    "partnerPoints"
-  ).textContent =
-    totals.partner;
-
-  document.getElementById(
-    "youNameLabel"
-  ).textContent =
-    config.youName ||
-    "Jij";
-
-  document.getElementById(
-    "partnerNameLabel"
-  ).textContent =
-    config.partnerName ||
-    "Partner";
-
-  const left =
-    document.getElementById(
-      "balanceLeft"
-    );
-
-  const right =
-    document.getElementById(
-      "balanceRight"
-    );
-
-  const empty =
-    document.getElementById(
-      "balanceEmpty"
-    );
-
-  const description =
-    document.getElementById(
-      "balanceDescription"
-    );
-
-  const total =
-    totals.you +
-    totals.partner;
-
-  if (
-    total === 0
-  ) {
-
-    left.style.width =
-      "0%";
-
-    right.style.width =
-      "0%";
-
-    empty.style.display =
-      "block";
-
-    description.textContent =
-      "Nog geen punten";
-
-    return;
-
-  }
-
-  empty.style.display =
-    "none";
-
-  const youPercentage =
-    (
-      totals.you /
-      total
-    ) * 100;
-
-  const partnerPercentage =
-    (
-      totals.partner /
-      total
-    ) * 100;
-
-  left.style.width =
-    `${youPercentage}%`;
-
-  right.style.width =
-    `${partnerPercentage}%`;
-
-  if (
-    totals.you ===
-    totals.partner
-  ) {
-
-    description.textContent =
-      "Gelijk verdeeld";
-
-  } else {
-
-    description.textContent =
-      `${config.youName || "Jij"} ${Math.round(
-        youPercentage
-      )}% · ${config.partnerName || "Partner"} ${Math.round(
-        partnerPercentage
-      )}%`;
-
-  }
-
+      <div class="points-card">
+        <div class="points-name">
+          ${escapeHtml(config.partnerName)}
+        </div>
+        <div class="points-number">
+          ${totals.partner}
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 
@@ -5176,44 +3612,36 @@ function renderPoints() {
 ========================================================= */
 
 function renderHistory() {
-
   const container =
     document.getElementById(
-      "historyList"
+      "historyContent"
     );
 
   container.innerHTML =
     "";
 
   if (
-    !completions.length
+    completions.length === 0
   ) {
 
-    container.innerHTML =
-      `
-      <div class="empty">
-        Nog geen uitgevoerde taken.
+    container.innerHTML = `
+      <div class="section-card empty-state">
+        Er zijn nog geen afgeronde taken.
       </div>
-      `;
+    `;
 
     return;
-
   }
 
-  const sorted =
-    completions
-      .slice()
-      .sort(
-        (a, b) =>
-          new Date(
-            b.completedAt
-          ) -
-          new Date(
-            a.completedAt
-          )
-      );
+  const list =
+    document.createElement(
+      "div"
+    );
 
-  sorted.forEach(
+  list.className =
+    "history-list";
+
+  completions.forEach(
     completion => {
 
       const item =
@@ -5224,45 +3652,40 @@ function renderHistory() {
       item.className =
         "history-item";
 
-      const main =
-        document.createElement(
-          "div"
-        );
-
-      main.className =
-        "history-main";
-
       const left =
         document.createElement(
           "div"
         );
 
-      const taskTitle =
-        completion.taskTitle ||
-        findTaskTitle(
-          completion
-        ) ||
-        "Verwijderde taak";
+      const title =
+        document.createElement(
+          "div"
+        );
 
-      left.innerHTML =
-        `
-        <div class="history-task">
-          ${escapeHtml(
-            taskTitle
-          )}
-        </div>
+      title.className =
+        "history-title";
 
-        <div class="history-details">
-          ${formatDateTime(
-            completion.completedAt
-          )}
-          · ${escapeHtml(
-            personLabel(
-              completion.person
-            )
-          )}
-        </div>
-        `;
+      title.textContent =
+        completion.taskTitle;
+
+      const meta =
+        document.createElement(
+          "div"
+        );
+
+      meta.className =
+        "history-meta";
+
+      meta.textContent =
+        `${completion.personName || ""} · ${getDateFromCompletion(completion)}`;
+
+      left.appendChild(
+        title
+      );
+
+      left.appendChild(
+        meta
+      );
 
       const right =
         document.createElement(
@@ -5272,179 +3695,26 @@ function renderHistory() {
       right.className =
         "history-points";
 
-      if (
-        Number(
-          completion.points
-        ) === 0
-      ) {
+      right.textContent =
+        `${Number(completion.points || 0)} p`;
 
-        right.textContent =
-          "Geen punten";
-
-      } else if (
-        completion.person ===
-        "together"
-      ) {
-
-        right.textContent =
-          `+${completion.points} elk`;
-
-      } else {
-
-        right.textContent =
-          `+${completion.points}`;
-
-      }
-
-      main.appendChild(
+      item.appendChild(
         left
       );
 
-      main.appendChild(
+      item.appendChild(
         right
       );
 
-      const undo =
-        document.createElement(
-          "button"
-        );
-
-      undo.className =
-        "undo-button";
-
-      undo.textContent =
-        "↩ Ongedaan maken";
-
-      undo.onclick =
-        () =>
-          undoCompletion(
-            completion.id
-          );
-
-      item.appendChild(
-        main
-      );
-
-      item.appendChild(
-        undo
-      );
-
-      container.appendChild(
+      list.appendChild(
         item
       );
-
     }
   );
 
-}
-
-
-function findTaskTitle(
-  completion
-) {
-
-  for (
-    const tab of config.tabs
-  ) {
-
-    const task =
-      tab.tasks.find(
-        t =>
-          t.id ===
-          completion.taskId
-      );
-
-    if (task) {
-      return task.title;
-    }
-
-  }
-
-  return "";
-
-}
-
-
-async function undoCompletion(
-  id
-) {
-
-  const completion =
-    completions.find(
-      item =>
-        item.id ===
-        id
-    );
-
-  if (!completion) {
-    return;
-  }
-
-  const title =
-    completion.taskTitle ||
-    findTaskTitle(
-      completion
-    ) ||
-    "deze taak";
-
-  if (
-    !confirm(
-      `Wil je "${title}" echt ongedaan maken?\n\nDe punten worden ook teruggedraaid.`
-    )
-  ) {
-    return;
-  }
-
-  try {
-
-    setSyncStatus(
-      "Ongedaan maken…"
-    );
-
-    const result =
-      await supabaseClient
-        .from("completions")
-        .delete()
-        .eq(
-          "id",
-          id
-        )
-        .eq(
-          "household_id",
-          householdId
-        );
-
-    if (result.error) {
-      throw result.error;
-    }
-
-    completions =
-      completions.filter(
-        item =>
-          item.id !==
-          id
-      );
-
-    saveLocalCache();
-
-    render();
-
-    setSyncStatus(
-      "Gesynchroniseerd"
-    );
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-    showToast(
-      "Ongedaan maken mislukt."
-    );
-
-  }
-
+  container.appendChild(
+    list
+  );
 }
 
 
@@ -5453,15 +3723,10 @@ async function undoCompletion(
 ========================================================= */
 
 function renderSettings() {
-
   const container =
     document.getElementById(
       "settingsContent"
     );
-
-  if (!container) {
-    return;
-  }
 
   container.innerHTML =
     "";
@@ -5472,28 +3737,18 @@ function renderSettings() {
     );
 
   general.className =
-    "settings-card";
+    "settings-section";
 
-  general.innerHTML =
-    `
-    <h3>🏠 Algemene instellingen</h3>
-
-    <div class="settings-description">
-      Deze instellingen worden gedeeld met het hele huishouden.
-    </div>
+  general.innerHTML = `
+    <h3>Algemeen</h3>
 
     <div class="field">
       <label for="settingsAppName">
-        Naam van het huishouden
+        Naam huishouden
       </label>
-
       <input
         id="settingsAppName"
-        type="text"
-        maxlength="50"
-        value="${escapeAttribute(
-          config.appName
-        )}"
+        value="${escapeHtml(config.appName)}"
       >
     </div>
 
@@ -5501,14 +3756,9 @@ function renderSettings() {
       <label for="settingsSubtitle">
         Ondertitel
       </label>
-
       <input
         id="settingsSubtitle"
-        type="text"
-        maxlength="80"
-        value="${escapeAttribute(
-          config.appSubtitle
-        )}"
+        value="${escapeHtml(config.appSubtitle)}"
       >
     </div>
 
@@ -5516,14 +3766,9 @@ function renderSettings() {
       <label for="settingsYouName">
         Jouw naam
       </label>
-
       <input
         id="settingsYouName"
-        type="text"
-        maxlength="40"
-        value="${escapeAttribute(
-          config.youName
-        )}"
+        value="${escapeHtml(config.youName)}"
       >
     </div>
 
@@ -5531,14 +3776,9 @@ function renderSettings() {
       <label for="settingsPartnerName">
         Naam partner
       </label>
-
       <input
         id="settingsPartnerName"
-        type="text"
-        maxlength="40"
-        value="${escapeAttribute(
-          config.partnerName
-        )}"
+        value="${escapeHtml(config.partnerName)}"
       >
     </div>
 
@@ -5546,21 +3786,13 @@ function renderSettings() {
       <label for="settingsStartDate">
         Startdatum
       </label>
-
       <input
         id="settingsStartDate"
         type="date"
-        value="${escapeAttribute(
-          config.startDate
-        )}"
+        value="${escapeHtml(config.startDate)}"
       >
     </div>
-
-    <div class="info-box">
-      De startdatum bepaalt vanaf wanneer de ingestelde frequenties
-      beginnen te lopen.
-    </div>
-    `;
+  `;
 
   container.appendChild(
     general
@@ -5568,296 +3800,259 @@ function renderSettings() {
 
 
   config.tabs.forEach(
-    (
-      tab,
-      index
-    ) => {
+    (tab, index) => {
 
-      const card =
+      const section =
         document.createElement(
           "div"
         );
 
-      card.className =
-        "settings-card";
+      section.className =
+        "settings-section";
 
-      card.innerHTML =
-        `
-        <div class="tab-settings-title">
-
-          <span
-            class="tab-settings-icon"
-            id="settingsIconPreview${index}"
-          >
-            ${escapeHtml(
-              tab.icon
-            )}
-          </span>
-
-          <span>
-            Tab ${index + 1}
-          </span>
-
-        </div>
-
+      section.innerHTML = `
+        <h3>
+          ${escapeHtml(tab.icon)} Tab ${index + 1}
+        </h3>
 
         <div class="field">
-
-          <label>
-            Naam van tab
+          <label for="tabName${index}">
+            Naam
           </label>
 
           <input
             id="tabName${index}"
-            type="text"
-            maxlength="35"
-            value="${escapeAttribute(
-              tab.name
-            )}"
+            value="${escapeHtml(tab.name)}"
           >
-
         </div>
 
-
         <div class="field">
-
-          <label>
+          <label for="tabIcon${index}">
             Icoon
           </label>
 
-          <div
-            class="icon-picker"
-            id="iconPicker${index}"
-          ></div>
-
-          <div class="custom-icon-row">
-
-            <input
-              id="customIcon${index}"
-              type="text"
-              maxlength="4"
-              placeholder="Eigen symbool"
-            >
-
-            <div
-              class="icon-preview"
-              id="customIconPreview${index}"
-            >
-              ${escapeHtml(
-                tab.icon
-              )}
-            </div>
-
-          </div>
-
+          <input
+            id="tabIcon${index}"
+            value="${escapeHtml(tab.icon)}"
+            maxlength="4"
+          >
         </div>
+      `;
 
+      const pointsRow =
+        document.createElement(
+          "div"
+        );
 
-        <div class="switch-row">
+      pointsRow.className =
+        "switch-row";
 
-          <div class="switch-text">
+      pointsRow.innerHTML = `
+        <span class="switch-label">
+          Punten gebruiken
+        </span>
 
-            <div class="switch-title">
-              Werken met punten
-            </div>
+        <label class="switch">
+          <input
+            id="pointsSwitch${index}"
+            type="checkbox"
+            ${tab.pointsEnabled ? "checked" : ""}
+          >
+          <span class="slider"></span>
+        </label>
+      `;
 
-            <div class="switch-description">
-              Taken in deze tab kunnen punten opleveren.
-            </div>
-
-          </div>
-
-          <label class="switch">
-
-            <input
-              type="checkbox"
-              id="pointsEnabled${index}"
-              ${tab.pointsEnabled ? "checked" : ""}
-            >
-
-            <span class="slider"></span>
-
-          </label>
-
-        </div>
-
-
-        <div class="switch-row">
-
-          <div class="switch-text">
-
-            <div class="switch-title">
-              Werken met frequenties
-            </div>
-
-            <div class="switch-description">
-              Taken in deze tab kunnen volgens een vast ritme terugkomen.
-            </div>
-
-          </div>
-
-          <label class="switch">
-
-            <input
-              type="checkbox"
-              id="frequencyEnabled${index}"
-              ${tab.frequencyEnabled ? "checked" : ""}
-            >
-
-            <span class="slider"></span>
-
-          </label>
-
-        </div>
-
-
-        <div
-          id="frequencySettings${index}"
-          style="margin-top:10px;"
-        ></div>
-        `;
-
-      container.appendChild(
-        card
+      section.appendChild(
+        pointsRow
       );
 
-      renderIconPicker(
-        index,
-        tab
+
+      const frequencyRow =
+        document.createElement(
+          "div"
+        );
+
+      frequencyRow.className =
+        "switch-row";
+
+      frequencyRow.innerHTML = `
+        <span class="switch-label">
+          Frequenties gebruiken
+        </span>
+
+        <label class="switch">
+          <input
+            id="frequencySwitch${index}"
+            type="checkbox"
+            ${tab.frequencyEnabled ? "checked" : ""}
+          >
+          <span class="slider"></span>
+        </label>
+      `;
+
+      section.appendChild(
+        frequencyRow
+      );
+
+
+      const frequencyContainer =
+        document.createElement(
+          "div"
+        );
+
+      frequencyContainer.id =
+        `frequencySettings${index}`;
+
+      section.appendChild(
+        frequencyContainer
+      );
+
+      container.appendChild(
+        section
       );
 
       renderFrequencySettings(
-        index,
-        tab
+        tab,
+        frequencyContainer
       );
 
 
-      document
-        .getElementById(
-          `pointsEnabled${index}`
-        )
-        .addEventListener(
-          "change",
-          async event => {
+      document.getElementById(
+        `pointsSwitch${index}`
+      ).onchange =
+        async event => {
+
+          const previous =
+            tab.pointsEnabled;
+
+          tab.pointsEnabled =
+            event.target.checked;
+
+          try {
+
+            await withLocalWrite(
+              () =>
+                saveTabToDb(
+                  tab,
+                  index
+                )
+            );
+
+            saveLocalCache();
+
+            renderTabViews();
+
+          } catch (error) {
 
             tab.pointsEnabled =
-              event.target.checked;
+              previous;
 
-            try {
+            event.target.checked =
+              previous;
 
-              await saveTabToDb(
-                tab,
-                index
-              );
+            console.error(
+              error
+            );
 
-              saveLocalCache();
-
-            } catch (error) {
-
-              console.error(
-                error
-              );
-
-              showToast(
-                "Instelling opslaan mislukt."
-              );
-
-            }
-
+            showToast(
+              "Punteninstelling opslaan mislukt."
+            );
           }
-        );
+        };
 
 
-      document
-        .getElementById(
-          `frequencyEnabled${index}`
-        )
-        .addEventListener(
-          "change",
-          async event => {
+      document.getElementById(
+        `frequencySwitch${index}`
+      ).onchange =
+        async event => {
+
+          const previous =
+            tab.frequencyEnabled;
+
+          const previousFrequencies =
+            tab.frequencies;
+
+          const enabled =
+            event.target.checked;
+
+          tab.frequencyEnabled =
+            enabled;
+
+          /*
+            Bij aanzetten gebruiken we de bestaande
+            household-frequenties uit config.
+          */
+          if (
+            enabled &&
+            tab.frequencies.length === 0
+          ) {
+
+            const allFrequencies =
+              getAllUniqueFrequencies();
+
+            tab.frequencies =
+              allFrequencies.map(
+                frequency => ({
+                  ...frequency
+                })
+              );
+          }
+
+          if (!enabled) {
+            /*
+              Frequenties verdwijnen niet uit Supabase.
+              Ze worden alleen voor deze tab niet gebruikt.
+            */
+          }
+
+          try {
+
+            await withLocalWrite(
+              () =>
+                saveTabToDb(
+                  tab,
+                  index
+                )
+            );
+
+            saveLocalCache();
+
+            renderSettings();
+            renderTabViews();
+
+          } catch (error) {
 
             tab.frequencyEnabled =
-              event.target.checked;
+              previous;
 
-            try {
+            tab.frequencies =
+              previousFrequencies;
 
-              await saveTabToDb(
-                tab,
-                index
-              );
+            event.target.checked =
+              previous;
 
-              saveLocalCache();
+            console.error(
+              error
+            );
 
-              renderSettings();
-              renderTabViews();
-
-            } catch (error) {
-
-              console.error(
-                error
-              );
-
-              showToast(
-                "Instelling opslaan mislukt."
-              );
-
-            }
-
+            showToast(
+              "Frequentie-instelling opslaan mislukt."
+            );
           }
-        );
+        };
 
 
-      document
-        .getElementById(
-          `customIcon${index}`
-        )
-        .addEventListener(
-          "input",
-          async event => {
+      document.getElementById(
+        `tabIcon${index}`
+      ).oninput =
+        event => {
+          tab.icon =
+            event.target.value ||
+            "📌";
 
-            const value =
-              event.target.value
-                .trim();
-
-            if (!value) {
-              return;
-            }
-
-            tab.icon =
-              value;
-
-            document.getElementById(
-              `customIconPreview${index}`
-            ).textContent =
-              value;
-
-            document.getElementById(
-              `settingsIconPreview${index}`
-            ).textContent =
-              value;
-
-            try {
-
-              await saveTabToDb(
-                tab,
-                index
-              );
-
-              saveLocalCache();
-
-              renderTabs();
-
-            } catch (error) {
-
-              console.error(
-                error
-              );
-
-            }
-
-          }
-        );
-
+          renderTabs();
+          renderTabViews();
+        };
     }
   );
 
@@ -5866,6 +4061,9 @@ function renderSettings() {
     document.createElement(
       "button"
     );
+
+  saveButton.type =
+    "button";
 
   saveButton.className =
     "save-settings-button";
@@ -5879,99 +4077,42 @@ function renderSettings() {
   container.appendChild(
     saveButton
   );
-
 }
 
 
 /* =========================================================
-   ICON PICKER
+   UNIQUE FREQUENCIES
 ========================================================= */
 
-function renderIconPicker(
-  index,
-  tab
-) {
+function getAllUniqueFrequencies() {
+  const map =
+    new Map();
 
-  const container =
-    document.getElementById(
-      `iconPicker${index}`
-    );
-
-  if (!container) {
-    return;
-  }
-
-  container.innerHTML =
-    "";
-
-  ICONS.forEach(
-    icon => {
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-      button.type =
-        "button";
-
-      button.className =
-        "icon-option";
-
-      if (
-        tab.icon ===
-        icon
-      ) {
-
-        button.classList.add(
-          "selected"
-        );
-
-      }
-
-      button.textContent =
-        icon;
-
-      button.onclick =
-        async () => {
-
-          tab.icon =
-            icon;
-
-          try {
-
-            await saveTabToDb(
-              tab,
-              index
-            );
-
-            saveLocalCache();
-
-            renderSettings();
-            renderTabs();
-            renderHeader();
-
-          } catch (error) {
-
-            console.error(
-              error
-            );
-
-            showToast(
-              "Icoon opslaan mislukt."
-            );
-
+  config.tabs.forEach(
+    tab => {
+      (tab.frequencies || [])
+        .forEach(
+          frequency => {
+            if (
+              !map.has(
+                frequency.id
+              )
+            ) {
+              map.set(
+                frequency.id,
+                {
+                  ...frequency
+                }
+              );
+            }
           }
-
-        };
-
-      container.appendChild(
-        button
-      );
-
+        );
     }
   );
 
+  return [
+    ...map.values()
+  ];
 }
 
 
@@ -5980,19 +4121,9 @@ function renderIconPicker(
 ========================================================= */
 
 function renderFrequencySettings(
-  index,
-  tab
+  tab,
+  container
 ) {
-
-  const container =
-    document.getElementById(
-      `frequencySettings${index}`
-    );
-
-  if (!container) {
-    return;
-  }
-
   container.innerHTML =
     "";
 
@@ -6007,20 +4138,28 @@ function renderFrequencySettings(
       "div"
     );
 
-  const description =
-    document.createElement(
-      "div"
+  wrapper.className =
+    "frequency-wrapper";
+
+  if (
+    tab.frequencies.length === 0
+  ) {
+
+    const empty =
+      document.createElement(
+        "div"
+      );
+
+    empty.className =
+      "empty-state";
+
+    empty.textContent =
+      "Nog geen frequenties.";
+
+    wrapper.appendChild(
+      empty
     );
-
-  description.className =
-    "settings-description";
-
-  description.textContent =
-    "Hier bepaal je zelf welke frequenties beschikbaar zijn voor de taken in deze tab.";
-
-  wrapper.appendChild(
-    description
-  );
+  }
 
 
   tab.frequencies.forEach(
@@ -6045,13 +4184,16 @@ function renderFrequencySettings(
       grid.className =
         "frequency-grid";
 
+
+      /* Naam */
+
       const nameField =
         document.createElement(
           "div"
         );
 
       nameField.className =
-        "field name-field";
+        "field";
 
       const nameLabel =
         document.createElement(
@@ -6069,14 +4211,14 @@ function renderFrequencySettings(
       nameInput.type =
         "text";
 
-      nameInput.maxLength =
-        50;
-
       nameInput.value =
         frequency.name;
 
       nameInput.onchange =
         async () => {
+
+          const oldName =
+            frequency.name;
 
           frequency.name =
             nameInput.value.trim() ||
@@ -6087,17 +4229,28 @@ function renderFrequencySettings(
 
           try {
 
-            await saveFrequencyToDb(
-              tab,
-              frequency,
-              frequencyIndex
+            await withLocalWrite(
+              () =>
+                saveFrequencyToDb(
+                  tab,
+                  frequency,
+                  frequencyIndex
+                )
+            );
+
+            syncFrequencyEverywhere(
+              frequency
             );
 
             saveLocalCache();
 
+            renderSettings();
             renderTabViews();
 
           } catch (error) {
+
+            frequency.name =
+              oldName;
 
             console.error(
               error
@@ -6106,9 +4259,7 @@ function renderFrequencySettings(
             showToast(
               "Frequentie opslaan mislukt."
             );
-
           }
-
         };
 
       nameField.appendChild(
@@ -6119,6 +4270,8 @@ function renderFrequencySettings(
         nameInput
       );
 
+
+      /* Interval */
 
       const intervalField =
         document.createElement(
@@ -6159,6 +4312,12 @@ function renderFrequencySettings(
       intervalInput.onchange =
         async () => {
 
+          const oldInterval =
+            frequency.interval;
+
+          const oldName =
+            frequency.name;
+
           let value =
             Math.floor(
               Number(
@@ -6167,9 +4326,7 @@ function renderFrequencySettings(
             );
 
           if (
-            !Number.isFinite(
-              value
-            ) ||
+            !Number.isFinite(value) ||
             value < 1
           ) {
             value = 1;
@@ -6185,26 +4342,29 @@ function renderFrequencySettings(
             value;
 
           if (
-            !frequency.name ||
-            frequency.name.startsWith(
-              "Elke "
-            )
+            !oldName ||
+            oldName.startsWith("Elke ")
           ) {
-
             frequency.name =
               makeFrequencyName(
                 frequency.unit,
                 value
               );
-
           }
 
           try {
 
-            await saveFrequencyToDb(
-              tab,
-              frequency,
-              frequencyIndex
+            await withLocalWrite(
+              () =>
+                saveFrequencyToDb(
+                  tab,
+                  frequency,
+                  frequencyIndex
+                )
+            );
+
+            syncFrequencyEverywhere(
+              frequency
             );
 
             saveLocalCache();
@@ -6214,6 +4374,12 @@ function renderFrequencySettings(
 
           } catch (error) {
 
+            frequency.interval =
+              oldInterval;
+
+            frequency.name =
+              oldName;
+
             console.error(
               error
             );
@@ -6221,9 +4387,7 @@ function renderFrequencySettings(
             showToast(
               "Frequentie opslaan mislukt."
             );
-
           }
-
         };
 
       intervalField.appendChild(
@@ -6235,13 +4399,15 @@ function renderFrequencySettings(
       );
 
 
+      /* Unit */
+
       const unitField =
         document.createElement(
           "div"
         );
 
       unitField.className =
-        "field unit-field";
+        "field";
 
       const unitLabel =
         document.createElement(
@@ -6283,48 +4449,52 @@ function renderFrequencySettings(
           option.textContent =
             optionData.label;
 
-          if (
+          option.selected =
             frequency.unit ===
-            optionData.value
-          ) {
-            option.selected =
-              true;
-          }
+            optionData.value;
 
           unitSelect.appendChild(
             option
           );
-
         }
       );
 
       unitSelect.onchange =
         async () => {
 
+          const oldUnit =
+            frequency.unit;
+
+          const oldName =
+            frequency.name;
+
           frequency.unit =
             unitSelect.value;
 
           if (
-            !frequency.name ||
-            frequency.name.startsWith(
-              "Elke "
-            )
+            !oldName ||
+            oldName.startsWith("Elke ")
           ) {
-
             frequency.name =
               makeFrequencyName(
                 frequency.unit,
                 frequency.interval
               );
-
           }
 
           try {
 
-            await saveFrequencyToDb(
-              tab,
-              frequency,
-              frequencyIndex
+            await withLocalWrite(
+              () =>
+                saveFrequencyToDb(
+                  tab,
+                  frequency,
+                  frequencyIndex
+                )
+            );
+
+            syncFrequencyEverywhere(
+              frequency
             );
 
             saveLocalCache();
@@ -6334,6 +4504,12 @@ function renderFrequencySettings(
 
           } catch (error) {
 
+            frequency.unit =
+              oldUnit;
+
+            frequency.name =
+              oldName;
+
             console.error(
               error
             );
@@ -6341,9 +4517,7 @@ function renderFrequencySettings(
             showToast(
               "Frequentie opslaan mislukt."
             );
-
           }
-
         };
 
       unitField.appendChild(
@@ -6354,6 +4528,8 @@ function renderFrequencySettings(
         unitSelect
       );
 
+
+      /* Remove */
 
       const removeButton =
         document.createElement(
@@ -6376,10 +4552,13 @@ function renderFrequencySettings(
         async () => {
 
           const used =
-            tab.tasks.some(
-              task =>
-                task.frequencyId ===
-                frequency.id
+            config.tabs.some(
+              currentTab =>
+                currentTab.tasks.some(
+                  task =>
+                    task.frequencyId ===
+                    frequency.id
+                )
             );
 
           if (used) {
@@ -6389,39 +4568,45 @@ function renderFrequencySettings(
             );
 
             return;
+          }
 
+          if (
+            !confirm(
+              `Frequentie "${frequency.name}" verwijderen?`
+            )
+          ) {
+            return;
           }
 
           try {
 
-            const result =
-              await supabaseClient
-                .from("frequencies")
-                .delete()
-                .eq(
-                  "id",
+            await withLocalWrite(
+              async () => {
+                await deleteFrequencyFromDb(
                   frequency.id
-                )
-                .eq(
-                  "household_id",
-                  householdId
                 );
 
-            if (result.error) {
-              throw result.error;
-            }
-
-            tab.frequencies =
-              tab.frequencies.filter(
-                f =>
-                  f.id !==
-                  frequency.id
-              );
+                config.tabs.forEach(
+                  currentTab => {
+                    currentTab.frequencies =
+                      currentTab.frequencies.filter(
+                        item =>
+                          item.id !==
+                          frequency.id
+                      );
+                  }
+                );
+              }
+            );
 
             saveLocalCache();
 
             renderSettings();
             renderTabViews();
+
+            showToast(
+              "Frequentie verwijderd."
+            );
 
           } catch (error) {
 
@@ -6432,9 +4617,7 @@ function renderFrequencySettings(
             showToast(
               "Frequentie verwijderen mislukt."
             );
-
           }
-
         };
 
 
@@ -6468,19 +4651,10 @@ function renderFrequencySettings(
         "frequency-example";
 
       example.textContent =
-        `Technisch interval: elke ${frequency.interval} ${
-          frequency.unit === "days"
-            ? frequency.interval === 1
-              ? "dag"
-              : "dagen"
-            : frequency.unit === "weeks"
-              ? frequency.interval === 1
-                ? "week"
-                : "weken"
-              : frequency.interval === 1
-                ? "maand"
-                : "maanden"
-        }`;
+        `Technisch interval: ${makeFrequencyName(
+          frequency.unit,
+          frequency.interval
+        ).toLowerCase()}`;
 
       row.appendChild(
         example
@@ -6489,10 +4663,11 @@ function renderFrequencySettings(
       wrapper.appendChild(
         row
       );
-
     }
   );
 
+
+  /* Add */
 
   const addButton =
     document.createElement(
@@ -6512,7 +4687,6 @@ function renderFrequencySettings(
     async () => {
 
       const frequency = {
-
         id:
           createId(),
 
@@ -6524,19 +4698,39 @@ function renderFrequencySettings(
 
         interval:
           1
-
       };
 
       try {
 
-        await saveFrequencyToDb(
-          tab,
-          frequency,
-          tab.frequencies.length
+        setSyncStatus(
+          "Frequentie opslaan…"
         );
 
-        tab.frequencies.push(
-          frequency
+        await withLocalWrite(
+          async () => {
+
+            await saveFrequencyToDb(
+              tab,
+              frequency,
+              getAllUniqueFrequencies().length
+            );
+
+            /*
+              De nieuwe frequentie wordt aan alle tabs
+              met frequenties toegevoegd.
+            */
+            config.tabs.forEach(
+              currentTab => {
+                if (
+                  currentTab.frequencyEnabled
+                ) {
+                  currentTab.frequencies.push({
+                    ...frequency
+                  });
+                }
+              }
+            );
+          }
         );
 
         saveLocalCache();
@@ -6544,9 +4738,18 @@ function renderFrequencySettings(
         renderSettings();
         renderTabViews();
 
+        setSyncStatus(
+          "Gesynchroniseerd"
+        );
+
+        showToast(
+          "Frequentie toegevoegd."
+        );
+
       } catch (error) {
 
         console.error(
+          "Frequentie toevoegen:",
           error
         );
 
@@ -6554,8 +4757,10 @@ function renderFrequencySettings(
           "Frequentie toevoegen mislukt."
         );
 
+        setSyncStatus(
+          "Synchronisatiefout"
+        );
       }
-
     };
 
   wrapper.appendChild(
@@ -6565,7 +4770,39 @@ function renderFrequencySettings(
   container.appendChild(
     wrapper
   );
+}
 
+
+/*
+  Zorgt ervoor dat een aangepaste household-frequentie
+  overal in het lokale config-object dezelfde waarde heeft.
+*/
+function syncFrequencyEverywhere(
+  changedFrequency
+) {
+  config.tabs.forEach(
+    tab => {
+
+      const frequency =
+        tab.frequencies.find(
+          item =>
+            item.id ===
+            changedFrequency.id
+        );
+
+      if (frequency) {
+
+        frequency.name =
+          changedFrequency.name;
+
+        frequency.unit =
+          changedFrequency.unit;
+
+        frequency.interval =
+          changedFrequency.interval;
+      }
+    }
+  );
 }
 
 
@@ -6574,7 +4811,6 @@ function renderFrequencySettings(
 ========================================================= */
 
 async function saveAllSettings() {
-
   const appName =
     document.getElementById(
       "settingsAppName"
@@ -6633,13 +4869,21 @@ async function saveAllSettings() {
         );
 
       if (nameInput) {
-
         tab.name =
           nameInput.value.trim() ||
           `Tab ${index + 1}`;
-
       }
 
+      const iconInput =
+        document.getElementById(
+          `tabIcon${index}`
+        );
+
+      if (iconInput) {
+        tab.icon =
+          iconInput.value.trim() ||
+          "📌";
+      }
     }
   );
 
@@ -6650,68 +4894,65 @@ async function saveAllSettings() {
       "Instellingen opslaan…"
     );
 
-    /*
-      Ondertitel heeft geen kolom in de bestaande
-      Supabase-tabel en wordt daarom lokaal bewaard.
-    */
-
     localStorage.setItem(
       STORAGE_KEYS.subtitle,
       config.appSubtitle
     );
 
-    await saveHouseholdName();
-    await saveHouseholdSettings();
+    await withLocalWrite(
+      async () => {
 
-    for (
-      let index = 0;
-      index < config.tabs.length;
-      index++
-    ) {
+        await saveHouseholdName();
 
-      await saveTabToDb(
-        config.tabs[index],
-        index
-      );
+        await saveHouseholdSettings();
 
-    }
+        for (
+          let index = 0;
+          index < config.tabs.length;
+          index++
+        ) {
 
-    for (
-      const tab of config.tabs
-    ) {
+          await saveTabToDb(
+            config.tabs[index],
+            index
+          );
+        }
 
-      for (
-        let index = 0;
-        index < tab.frequencies.length;
-        index++
-      ) {
+        /*
+          Frequenties één keer per household opslaan.
+        */
+        const frequencies =
+          getAllUniqueFrequencies();
 
-        await saveFrequencyToDb(
-          tab,
-          tab.frequencies[index],
-          index
-        );
+        for (
+          let index = 0;
+          index < frequencies.length;
+          index++
+        ) {
 
+          await saveFrequencyToDb(
+            null,
+            frequencies[index],
+            index
+          );
+        }
+
+        for (
+          const tab of config.tabs
+        ) {
+
+          for (
+            const task of tab.tasks
+          ) {
+
+            await saveTaskToDb(
+              tab,
+              task
+            );
+          }
+        }
       }
-
-    }
-
-    for (
-      const tab of config.tabs
-    ) {
-
-      for (
-        const task of tab.tasks
-      ) {
-
-        await saveTaskToDb(
-          tab,
-          task
-        );
-
-      }
-
-    }
+    );
 
     saveLocalCache();
 
@@ -6721,13 +4962,14 @@ async function saveAllSettings() {
       "Gesynchroniseerd"
     );
 
-    alert(
+    showToast(
       "Instellingen opgeslagen."
     );
 
   } catch (error) {
 
     console.error(
+      "Instellingen opslaan:",
       error
     );
 
@@ -6738,9 +4980,7 @@ async function saveAllSettings() {
     alert(
       "De instellingen konden niet volledig worden opgeslagen."
     );
-
   }
-
 }
 
 
@@ -6749,7 +4989,6 @@ async function saveAllSettings() {
 ========================================================= */
 
 function openMenu() {
-
   document
     .getElementById(
       "menuOverlay"
@@ -6757,12 +4996,10 @@ function openMenu() {
     .classList.add(
       "show"
     );
-
 }
 
 
 function closeMenu() {
-
   document
     .getElementById(
       "menuOverlay"
@@ -6770,28 +5007,22 @@ function closeMenu() {
     .classList.remove(
       "show"
     );
-
 }
 
 
 function handleMenuBackground(
   event
 ) {
-
   if (
     event.target.id ===
     "menuOverlay"
   ) {
-
     closeMenu();
-
   }
-
 }
 
 
 function openPoints() {
-
   closeMenu();
 
   document.getElementById(
@@ -6823,12 +5054,10 @@ function openPoints() {
     top: 0,
     behavior: "smooth"
   });
-
 }
 
 
 function openHistory() {
-
   closeMenu();
 
   document.getElementById(
@@ -6860,12 +5089,10 @@ function openHistory() {
     top: 0,
     behavior: "smooth"
   });
-
 }
 
 
 function openSettings() {
-
   closeMenu();
 
   document.getElementById(
@@ -6897,11 +5124,11 @@ function openSettings() {
     top: 0,
     behavior: "smooth"
   });
-
 }
 
 
 function showMainScreen() {
+  closeMenu();
 
   document.getElementById(
     "pointsScreen"
@@ -6932,7 +5159,6 @@ function showMainScreen() {
     top: 0,
     behavior: "smooth"
   });
-
 }
 
 
@@ -6941,30 +5167,24 @@ function showMainScreen() {
 ========================================================= */
 
 function setupRealtime() {
-
-  if (
-    !householdId
-  ) {
+  if (!householdId) {
     return;
   }
 
-  if (
-    realtimeChannel
-  ) {
-
+  if (realtimeChannel) {
     supabaseClient.removeChannel(
       realtimeChannel
     );
 
+    realtimeChannel =
+      null;
   }
-
 
   realtimeChannel =
     supabaseClient
       .channel(
         `household-${householdId}`
       )
-
 
       .on(
         "postgres_changes",
@@ -6975,15 +5195,11 @@ function setupRealtime() {
           filter:
             `id=eq.${householdId}`
         },
-        () => {
-
-          refreshFromDatabase(
+        () =>
+          scheduleRealtimeRefresh(
             "household"
-          );
-
-        }
+          )
       )
-
 
       .on(
         "postgres_changes",
@@ -6994,15 +5210,11 @@ function setupRealtime() {
           filter:
             `household_id=eq.${householdId}`
         },
-        () => {
-
-          refreshFromDatabase(
+        () =>
+          scheduleRealtimeRefresh(
             "settings"
-          );
-
-        }
+          )
       )
-
 
       .on(
         "postgres_changes",
@@ -7013,15 +5225,11 @@ function setupRealtime() {
           filter:
             `household_id=eq.${householdId}`
         },
-        () => {
-
-          refreshFromDatabase(
+        () =>
+          scheduleRealtimeRefresh(
             "tabs"
-          );
-
-        }
+          )
       )
-
 
       .on(
         "postgres_changes",
@@ -7032,15 +5240,11 @@ function setupRealtime() {
           filter:
             `household_id=eq.${householdId}`
         },
-        () => {
-
-          refreshFromDatabase(
+        () =>
+          scheduleRealtimeRefresh(
             "frequencies"
-          );
-
-        }
+          )
       )
-
 
       .on(
         "postgres_changes",
@@ -7051,15 +5255,11 @@ function setupRealtime() {
           filter:
             `household_id=eq.${householdId}`
         },
-        () => {
-
-          refreshFromDatabase(
+        () =>
+          scheduleRealtimeRefresh(
             "tasks"
-          );
-
-        }
+          )
       )
-
 
       .on(
         "postgres_changes",
@@ -7070,15 +5270,11 @@ function setupRealtime() {
           filter:
             `household_id=eq.${householdId}`
         },
-        () => {
-
-          refreshFromDatabase(
+        () =>
+          scheduleRealtimeRefresh(
             "completions"
-          );
-
-        }
+          )
       )
-
 
       .subscribe(
         status => {
@@ -7087,42 +5283,36 @@ function setupRealtime() {
             status ===
             "SUBSCRIBED"
           ) {
-
             setSyncStatus(
               "Live synchronisatie"
             );
-
           }
 
           if (
             status ===
             "CHANNEL_ERROR"
           ) {
-
             setSyncStatus(
               "Realtime fout"
             );
-
           }
 
+          if (
+            status ===
+            "TIMED_OUT"
+          ) {
+            setSyncStatus(
+              "Realtime opnieuw verbinden…"
+            );
+          }
         }
       );
-
 }
 
 
-let refreshTimer = null;
-
-async function refreshFromDatabase(
+function scheduleRealtimeRefresh(
   reason
 ) {
-
-  /*
-    Meerdere realtime events kunnen tegelijk
-    binnenkomen. We bundelen ze kort zodat één
-    wijziging niet voor zes reloads zorgt.
-  */
-
   clearTimeout(
     refreshTimer
   );
@@ -7132,7 +5322,7 @@ async function refreshFromDatabase(
       async () => {
 
         if (
-          suppressRealtime ||
+          shouldIgnoreRealtime() ||
           loadingData
         ) {
           return;
@@ -7147,20 +5337,17 @@ async function refreshFromDatabase(
         } catch (error) {
 
           console.error(
-            "Realtime refresh:",
+            `Realtime refresh (${reason}):`,
             error
           );
 
           setSyncStatus(
             "Synchronisatiefout"
           );
-
         }
-
       },
-      180
+      250
     );
-
 }
 
 
@@ -7175,7 +5362,6 @@ let authMode =
 function setAuthMode(
   mode
 ) {
-
   authMode =
     mode;
 
@@ -7205,12 +5391,10 @@ function setAuthMode(
       : "Account maken";
 
   hideAuthMessages();
-
 }
 
 
 function hideAuthMessages() {
-
   document
     .getElementById(
       "authError"
@@ -7226,14 +5410,12 @@ function hideAuthMessages() {
     .classList.add(
       "hidden"
     );
-
 }
 
 
 function showAuthError(
   message
 ) {
-
   const element =
     document.getElementById(
       "authError"
@@ -7245,14 +5427,12 @@ function showAuthError(
   element.classList.remove(
     "hidden"
   );
-
 }
 
 
 function showAuthInfo(
   message
 ) {
-
   const element =
     document.getElementById(
       "authInfo"
@@ -7264,12 +5444,10 @@ function showAuthInfo(
   element.classList.remove(
     "hidden"
   );
-
 }
 
 
 async function handleAuthSubmit() {
-
   hideAuthMessages();
 
   const email =
@@ -7283,27 +5461,22 @@ async function handleAuthSubmit() {
     ).value;
 
   if (!email) {
-
     showAuthError(
       "Vul je e-mailadres in."
     );
 
     return;
-
   }
 
   if (
     password.length < 6
   ) {
-
     showAuthError(
       "Het wachtwoord moet minstens 6 tekens bevatten."
     );
 
     return;
-
   }
-
 
   const button =
     document.getElementById(
@@ -7315,7 +5488,6 @@ async function handleAuthSubmit() {
 
   button.textContent =
     "Even wachten…";
-
 
   try {
 
@@ -7355,9 +5527,7 @@ async function handleAuthSubmit() {
         );
 
         return;
-
       }
-
     }
 
   } catch (error) {
@@ -7381,16 +5551,13 @@ async function handleAuthSubmit() {
       authMode === "login"
         ? "Inloggen"
         : "Account maken";
-
   }
-
 }
 
 
 function translateAuthError(
   error
 ) {
-
   const message =
     String(
       error?.message ||
@@ -7398,51 +5565,44 @@ function translateAuthError(
       ""
     );
 
-  if (
-    message.toLowerCase()
-      .includes(
-        "invalid login credentials"
-      )
-  ) {
+  const lower =
+    message.toLowerCase();
 
+  if (
+    lower.includes(
+      "invalid login credentials"
+    )
+  ) {
     return "E-mailadres of wachtwoord is niet correct.";
-
   }
 
   if (
-    message.toLowerCase()
-      .includes(
-        "email not confirmed"
-      )
+    lower.includes(
+      "email not confirmed"
+    )
   ) {
-
     return "Je e-mailadres is nog niet bevestigd.";
-
   }
 
   if (
-    message.toLowerCase()
-      .includes(
-        "user already registered"
-      )
+    lower.includes(
+      "user already registered"
+    )
   ) {
-
     return "Voor dit e-mailadres bestaat al een account.";
-
   }
 
-  return message ||
-    "Er is iets misgegaan.";
-
+  return (
+    message ||
+    "Er is iets misgegaan."
+  );
 }
 
 
 async function signOut() {
-
   closeMenu();
 
   await supabaseClient.auth.signOut();
-
 }
 
 
@@ -7453,6 +5613,19 @@ async function signOut() {
 async function startForUser(
   user
 ) {
+  /*
+    Voorkomt dat getSession() en onAuthStateChange()
+    tegelijk twee keer dezelfde volledige laadactie starten.
+  */
+  if (
+    startInProgress &&
+    currentUser?.id === user.id
+  ) {
+    return;
+  }
+
+  startInProgress =
+    true;
 
   currentUser =
     user;
@@ -7512,6 +5685,7 @@ async function startForUser(
   } catch (error) {
 
     console.error(
+      "Start app:",
       error
     );
 
@@ -7544,8 +5718,11 @@ async function startForUser(
       "Je account is nog niet aan een huishouden gekoppeld."
     );
 
-  }
+  } finally {
 
+    startInProgress =
+      false;
+  }
 }
 
 
@@ -7570,6 +5747,9 @@ supabaseClient.auth.onAuthStateChange(
       householdId =
         null;
 
+      startInProgress =
+        false;
+
       if (
         realtimeChannel
       ) {
@@ -7581,7 +5761,6 @@ supabaseClient.auth.onAuthStateChange(
 
         realtimeChannel =
           null;
-
       }
 
       document
@@ -7609,37 +5788,20 @@ supabaseClient.auth.onAuthStateChange(
         );
 
       return;
-
     }
 
+    /*
+      INITIAL_SESSION wordt al door init() verwerkt.
+      We hoeven hier alleen nieuwe sessies te starten.
+    */
     if (
+      event !== "INITIAL_SESSION" &&
       session?.user
     ) {
-
       await startForUser(
         session.user
       );
-
-    } else {
-
-      document
-        .getElementById(
-          "loadingScreen"
-        )
-        .classList.add(
-          "hidden"
-        );
-
-      document
-        .getElementById(
-          "authScreen"
-        )
-        .classList.remove(
-          "hidden"
-        );
-
     }
-
   }
 );
 
@@ -7660,11 +5822,8 @@ document
         event.target.id ===
         "completionModal"
       ) {
-
         closeCompletionModal();
-
       }
-
     }
   );
 
@@ -7681,11 +5840,8 @@ document
         event.target.id ===
         "taskEditorModal"
       ) {
-
         closeTaskEditor();
-
       }
-
     }
   );
 
@@ -7738,11 +5894,8 @@ document
         event.key ===
         "Enter"
       ) {
-
         handleAuthSubmit();
-
       }
-
     }
   );
 
@@ -7789,7 +5942,6 @@ document
         .classList.remove(
           "hidden"
         );
-
     }
 
   } catch (error) {
@@ -7817,7 +5969,6 @@ document
     showAuthError(
       "Verbinden met Supabase is mislukt."
     );
-
   }
 
 })();
